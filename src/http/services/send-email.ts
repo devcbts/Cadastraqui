@@ -1,11 +1,16 @@
+import { prisma } from '@/lib/prisma';
+import { HistoryRequester } from '@prisma/client';
 import nodemailer from 'nodemailer';
 
 const sendEmail = async ({
     subject,
     to,
     text,
-    body
-}: { subject: string, to: string[] | string, text?: string, body: string }) => {
+    body,
+    deadline,
+    createdBy,
+    user_id
+}: { subject: string, to: string[] | string, text?: string, body: string,deadline?: Date, createdBy? : HistoryRequester, user_id?: string}) => {
     const transport = nodemailer.createTransport({
         // service: "godaddy",
         host: "smtpout.secureserver.net",
@@ -16,8 +21,18 @@ const sendEmail = async ({
             pass: process.env.SMTP_PASS,
         },
     })
-
-    // Envia o Email de redefinição de senha
+    const newMail = await prisma.emailsSent.create({
+        data: {
+            subject,
+            email: Array.isArray(to) ? to : [to],
+            content: body,
+            deadline,
+            createdBy,
+            user_id
+        }
+    }
+    )
+    // Envia o Email 
     const info = await transport.sendMail({
         from: process.env.SMTP_EMAIL,
         to: to,

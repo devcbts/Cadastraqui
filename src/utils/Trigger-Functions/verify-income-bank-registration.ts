@@ -104,10 +104,9 @@ export async function verifyIncomeBankRegistration(id: string) {
                 ...idField
             }
         });
-        if (hasIncome.some(income => income.isUpdated === false)) {
-            update = false;
-        }
+        if (hasIncome.some(income => income.isUpdated === false)) update = false;
 
+        if (hasIncome.length === 0) update = null;
 
 
         if (identityDetails.hasBankAccount) {

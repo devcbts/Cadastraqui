@@ -41,30 +41,20 @@ export default async function getCandidateInterestForDashboard(announcements: An
 
     for (const userInterest of allInterest) {
         const candidateInfo = userInterest.candidate || userInterest.responsible;
-        const completions = candidateInfo?.FinishedRegistration;
+        const completions = userInterest.percentage;
         if (!completions) {
             continue;
         }
-        // Check if all properties are true
-        const allCompleted =
-            completions.cadastrante &&
-            completions.grupoFamiliar &&
-            completions.moradia &&
-            completions.veiculos &&
-            completions.rendaMensal &&
-            completions.despesas &&
-            completions.saude &&
-            completions.declaracoes &&
-            completions.documentos;
+        
 
-        if (allCompleted) {
+        if (completions === 100) {
             numberOfFinishedRegistration++;
         }
 
 
 
 
-        ;
+        
     }
     // Group by announcement_id
     const distributionByAnnouncement = announcement_ids.map((announcement_id) => {

@@ -82,6 +82,7 @@ model User {
   loginHistory     LoginHistory[]    @relation("User")
   updatedAt        DateTime          @default(now()) @updatedAt
   isActive         Boolean           @default(true)
+  emailsSent       emailsSent[]
 
   @@map("users")
 }
@@ -716,10 +717,10 @@ model FinishedRegistration {
   candidate_id       String?           @unique
   legalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?           @unique
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @default(now()) @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
+  @@unique([candidate_id, legalResponsibleId])
   @@map("registration")
 }
 
@@ -825,9 +826,9 @@ model AnnouncementsSeen {
   candidate       Candidate?        @relation(fields: [candidate_id], references: [id])
   responsible_id  String?
   responsible     LegalResponsible? @relation(fields: [responsible_id], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  percentage      Int               @default(0)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @default(now()) @updatedAt
 
   @@map("announcementsSeen")
 }
@@ -1120,6 +1121,19 @@ model StudentEmail {
   updatedAt  DateTime         @default(now()) @updatedAt
 }
 
+model emailsSent {
+  id        String    @id @default(cuid())
+  email     String[]
+  subject   String
+  content   String
+  deadline  DateTime?
+  createdBy HistoryRequester @default(System)
+  user_id   String?
+  user      User?     @relation(fields: [user_id], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+}
+
 enum StudentEmailType {
   RegisterUpdate
 }
@@ -1188,23 +1202,22 @@ model AIAssistant {
   @@unique([application_id, section, member_id, table_id], name: "application_id_section_member_table")
   @@index([application_id], name: "application_id")
 }
+
 enum AIAssistantStatus {
   CONCLUSIVE
   INCONCLUSIVE
 }
 
-
 model AIFeedBack {
   id String @id @default(uuid())
-  
+
   feedback     String?
   feedbackType FeedbackType
-  problem     String?
+  problem      String?
 
-  AI_id        String @unique
-  AIAssistant  AIAssistant @relation(fields: [AI_id], references: [id])
-  createdAt    DateTime @default(now())
-
+  AI_id       String      @unique
+  AIAssistant AIAssistant @relation(fields: [AI_id], references: [id])
+  createdAt   DateTime    @default(now())
 }
 
 enum FeedbackType {
@@ -1212,7 +1225,6 @@ enum FeedbackType {
   NEGATIVE
   NEUTRAL
 }
-
 
 enum Section {
   IDENTITY

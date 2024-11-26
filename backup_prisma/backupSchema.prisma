@@ -717,6 +717,9 @@ model FoundApplicationCNPJ {
   updatedAt                 DateTime                @default(now()) @updatedAt
 }
 
+
+
+
 enum CandidateDocumentType {
   PIX
   REGISTRATO

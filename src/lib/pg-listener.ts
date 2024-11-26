@@ -60,6 +60,7 @@ const connectClient = async () => {
         await clientBackup.query('LISTEN "channel_bankaccount"');
         await clientBackup.query('LISTEN "channel_candidate_documents"')
         await clientBackup.query('LISTEN "channel_audit"');
+        await clientBackup.query('LISTEN "channel_finished_registration"')
     } catch (err) {
         console.error('Failed to connect to the database', err);
         await clientBackup.end();

@@ -37,7 +37,6 @@ export default async function getCandidatesInterest(request: FastifyRequest, rep
             include: {
                 candidate: {
                     include: {
-                        FinishedRegistration: true,
                         IdentityDetails: {
                             select: {
                                 workPhone: true,
@@ -53,7 +52,6 @@ export default async function getCandidatesInterest(request: FastifyRequest, rep
                 },
                 responsible: {
                     include: {
-                        FinishedRegistration: true,
                         IdentityDetails: {
                             select: {
                                 workPhone: true,
@@ -81,43 +79,20 @@ export default async function getCandidatesInterest(request: FastifyRequest, rep
         let numberOfFinishedRegistration = 0
         const candidateInterest = allInterest.map(userInterest => {
             const candidateInfo = userInterest.candidate || userInterest.responsible
-            const completions = candidateInfo?.FinishedRegistration
             const dataToSend = {
                 name: candidateInfo?.name,
                 email: candidateInfo?.user?.email,
                 phone: candidateInfo?.IdentityDetails?.workPhone,
             }
-            if (!completions) {
-                return { ...dataToSend, status: "Interessado", percentage: 0 };
-            }
-            // Verificar se todas as propriedades são true
-            const allCompleted = completions.cadastrante &&
-                completions.grupoFamiliar &&
-                completions.moradia &&
-                completions.veiculos &&
-                completions.rendaMensal &&
-                completions.despesas &&
-                completions.saude &&
-                completions.declaracoes &&
-                completions.documentos;
-
-            if (allCompleted) {
-                numberOfFinishedRegistration++
-            }
-
-            let totalPercentage = 0;
-
-            for (const [key, value] of Object.entries(percentages)) {
-                if (completions[key as keyof typeof completions]) {
-                    totalPercentage += value;
-                }
-            }
+           
             
-            const percentage = totalPercentage;
+            const percentage = userInterest.percentage;
             let status;
-            if (allCompleted) {
+            if (percentage === 100) {
                 status = "Completo"
-            } else {
+            } else if (percentage === 0){
+                status = "Não Iniciado"
+            }else {
                 status = "Iniciado"
             }
             //Vericficar se o candidato/usuário está inscrito

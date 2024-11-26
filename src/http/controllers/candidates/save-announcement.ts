@@ -4,7 +4,17 @@ import { prisma } from "@/lib/prisma";
 import { SelectCandidateResponsible } from "@/utils/select-candidate-responsible";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-
+const percentages = {
+    cadastrante: 20,
+    grupoFamiliar: 20,
+    moradia: 5,
+    veiculos: 5,
+    rendaMensal: 20,
+    despesas: 10,
+    saude: 5,
+    declaracoes: 15,
+    documentos: 0
+};
 export async function saveAnnouncement(request:FastifyRequest, reply: FastifyReply) {
     const requestParams = z.object({
         announcement_id: z.string(),
@@ -23,6 +33,11 @@ export async function saveAnnouncement(request:FastifyRequest, reply: FastifyRep
         if (!announcement) {
             throw new ResourceNotFoundError()
         }
+
+        if (!announcement.closeDate || announcement.closeDate < new Date()) {
+            return reply.status(406).send({message: "Announcement is closed"})
+            
+        }
         const annoucementSaved = await prisma.announcementsSeen.findMany({
             where: {announcement_id, OR:[{candidate_id: isUser.UserData.id}, {responsible_id: isUser.UserData.id}]}
         })
@@ -31,10 +46,30 @@ export async function saveAnnouncement(request:FastifyRequest, reply: FastifyRep
             return reply.status(406).send({message: "Announcement already saved"})
         }
         const idField = isUser.IsResponsible ? {responsible_id: isUser.UserData.id} : {candidate_id: isUser.UserData.id}
+        const registration = await prisma.finishedRegistration.findUnique({
+            where: {candidate_id_legalResponsibleId: {candidate_id: isUser.IsResponsible ? '':isUser.UserData.id as string  ,legalResponsibleId : !isUser.IsResponsible ? '':isUser.UserData.id as string} }
+        })
+    
+        if (!registration) {
+            return null;
+        }
+    
+      
+        
+        let totalPercentage = 0;
+    
+        for (const [key, value] of Object.entries(percentages)) {
+            if (registration[key as keyof typeof registration]) {
+                totalPercentage += value;
+            }
+        }
+        
+        const percentage = totalPercentage; 
         await prisma.announcementsSeen.create({
             data: {
                 announcement_id,
-                ...idField
+                ...idField,
+                percentage
             }
         })
     } catch (error) {
