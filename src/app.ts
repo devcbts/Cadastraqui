@@ -1,4 +1,4 @@
-require('module-alias/register');
+// require('module-alias/register');
 import fastifyCookie from '@fastify/cookie';
 import fastifyJwt from '@fastify/jwt';
 import { fastifyMultipart } from '@fastify/multipart';
@@ -39,6 +39,7 @@ export const app = fastify({
 })
 app.register(fastifyMultipart,
   {
+    // attachFieldsToBody: true
     // limits: {
     //   fileSize: 15000000,
     //   files: 10,

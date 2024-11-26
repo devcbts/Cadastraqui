@@ -16,6 +16,14 @@ export async function updateBankingInfo(
         bankName: z.string().optional(),
         accountNumber: z.string().optional(),
         accountType: AccountType.optional(),
+        balances: z.array(z.object({
+            id: z.string(),
+            initialBalance: z.number().refine(e => e > 0),
+            entryBalance: z.number().refine(e => e > 0),
+            outflowBalance: z.number().refine(e => e > 0),
+            totalBalance: z.number().refine(e => e > 0),
+            date: z.string().transform(e => new Date(e))
+        }))
     })
 
     const BankingInfoParamsSchema = z.object({
@@ -29,7 +37,8 @@ export async function updateBankingInfo(
         bankName,
         accountNumber,
         accountType,
-        agencyNumber
+        agencyNumber,
+        balances
     } = BankingInfoDataSchema.parse(request.body)
 
     try {
@@ -47,16 +56,30 @@ export async function updateBankingInfo(
         if (!bankAccount) {
             throw new ResourceNotFoundError()
         }
+        let bankInfo;
+        await prisma.$transaction(async (tsPrisma) => {
 
-        // Atualiza informações acerca do Banking Info no banco de dados
-        const bankInfo = await prisma.bankAccount.update({
-            where: { id: _id },
-            data: {
-                bankName,
-                accountNumber,
-                accountType,
-                agencyNumber,
-            },
+            // Atualiza informações acerca do Banking Info no banco de dados
+            bankInfo = await tsPrisma.bankAccount.update({
+                where: { id: _id },
+                data: {
+                    bankName,
+                    accountNumber,
+                    accountType,
+                    agencyNumber,
+                },
+            })
+            for (const e of balances) {
+                await tsPrisma.bankBalance.update({
+                    where: { id: e.id },
+                    data: {
+                        initialBalance: e.initialBalance,
+                        entryBalance: e.entryBalance,
+                        outflowBalance: e.outflowBalance,
+                        totalBalance: e.totalBalance,
+                    }
+                })
+            }
         })
 
         return reply.status(200).send({ bankInfo })

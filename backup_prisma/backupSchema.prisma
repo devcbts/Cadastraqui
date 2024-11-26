@@ -415,6 +415,7 @@ model BankAccount {
   agencyNumber       String
   accountNumber      String
   accountType        AccountType
+  balances           BankBalance[]
   familyMember_id    String?
   familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
   candidate_id       String?
@@ -426,6 +427,19 @@ model BankAccount {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+}
+
+model BankBalance {
+  id             String      @id @default(cuid())
+  initialBalance Float       @default(0)
+  outflowBalance Float       @default(0)
+  entryBalance   Float       @default(0)
+  totalBalance   Float       @default(0)
+  date           DateTime
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  bankAccount_id String
+  bankAccount    BankAccount @relation(fields: [bankAccount_id], references: [id])
 }
 
 model Expense {
@@ -695,8 +709,8 @@ model ApplicationMembersCNPJ {
   member_id      String
   application_id String
 
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @default(now()) @updatedAt
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @default(now()) @updatedAt
   FoundApplicationCNPJ FoundApplicationCNPJ[]
 
   @@unique([member_id, application_id])

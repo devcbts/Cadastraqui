@@ -1,8 +1,10 @@
 import { AnnouncementNotExists } from '@/errors/announcement-not-exists-error'
+import { APIError } from '@/errors/api-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { GetUrl } from '@/http/services/get-file'
 import { prisma } from '@/lib/prisma'
+import getFilterParams from '@/utils/get-filter-params'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -15,7 +17,6 @@ export async function getAnnouncements(
   })
 
   const { announcement_id } = announcementParamsSchema.parse(request.params)
-  console.log(request.query)
   try {
     const userId = request.user.sub
 
@@ -28,22 +29,33 @@ export async function getAnnouncements(
     // Verifica se existe o processo seletivo
     let announcement
     if (!announcement_id) {
-      const { filter } = request.query as { filter: 'scheduled' | 'subscription' | 'validation' | 'finished' }
+      const {
+        filter,
+        page,
+        search, size, type
+      } = getFilterParams(request.query,)
       const getFilter = () => {
+        let baseFilter: any[] = [
+          ((type && search)
+            ? (type === "entity" ? { entity: { socialReason: { equals: search, mode: "insensitive" } } } : { announcementName: { contains: search, mode: "insensitive" } })
+            : {})
+        ]
+
+        if (!filter) {
+          baseFilter.push({})
+        }
         const currentDate = new Date()
         if (filter === 'scheduled') {
-          return [
-            { announcementBegin: { gt: currentDate } }
-          ]
+          baseFilter.push({ announcementBegin: { gt: currentDate } })
         }
         if (filter === 'subscription') {
-          return [
+          baseFilter.push(...[
             { openDate: { lt: currentDate } },
             { closeDate: { gte: currentDate } },
-          ]
+          ])
         }
         if (filter === 'validation') {
-          return [
+          baseFilter.push(...[
             { closeDate: { lt: currentDate } },
             { announcementDate: { gte: currentDate } },
             {
@@ -52,21 +64,20 @@ export async function getAnnouncements(
                 { interview: { AND: [{ startDate: { lte: currentDate } }, { endDate: { gt: currentDate } }] } }
               ]
             }
-          ]
+          ])
         }
         if (filter === 'finished') {
-          return [
+          baseFilter.push(...[
             { closeDate: { lt: currentDate } },
             { announcementDate: { lt: currentDate } },
-          ]
+          ])
         }
         if (filter === 'validationFinished') {
-          return [
-            { interview: { endDate: { lt: currentDate } } }
-          ]
+          baseFilter.push({ interview: { endDate: { lt: currentDate } } })
         }
+        return baseFilter
       }
-      announcement = await prisma.announcement.findMany({
+      const total = await prisma.announcement.count({
         where: {
           AND: [{
             socialAssistant: {
@@ -76,9 +87,26 @@ export async function getAnnouncements(
               },
             },
           },
-          { AND: getFilter() }
+          { AND: getFilter() },
           ]
 
+        },
+      })
+
+      announcement = await prisma.announcement.findMany({
+        skip: page * size,
+        take: size,
+        where: {
+          AND: [{
+            socialAssistant: {
+              some: {
+                id: assistant.id,
+
+              },
+            },
+          },
+          { AND: getFilter() },
+          ]
         },
         include: {
           entity: true,
@@ -100,7 +128,7 @@ export async function getAnnouncements(
         }
       })
 
-      return reply.status(200).send({ announcements: response })
+      return reply.status(200).send({ announcements: response, total })
 
     } else {
       const announcement = await prisma.announcement.findUnique({
@@ -165,6 +193,9 @@ export async function getAnnouncements(
     }
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
+    }
+    if (err instanceof APIError) {
+      return reply.status(400).send({ message: err.message })
     }
 
     return reply.status(500).send({ message: err.message })

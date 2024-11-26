@@ -34,12 +34,16 @@ export default async function getCalls(request: FastifyRequest, reply: FastifyRe
             }))
             return reply.status(200).send({ call: { ...call, Messages: attachements } })
         }
+        const total = await prisma.call.count({
+            where:
+                { OR: [{ creator_id: user_id }, { replyer_id: user_id }] }
+        })
         const calls = await prisma.call.findMany({
             where: { OR: [{ creator_id: user_id }, { replyer_id: user_id }] },
 
         })
 
-        return reply.status(200).send({ calls })
+        return reply.status(200).send({ calls, total })
     } catch (error: any) {
         if (error instanceof Error) {
             return reply.status(404).send({ message: error.message })

@@ -33,7 +33,7 @@ export async function getBankingInfo(
             // Verifica se existe uma conta bancária cadastrada com o _id
             bankAccounts = await prisma.bankAccount.findMany({
                 where: { OR: [{ familyMember_id: _id }, { candidate_id: _id }, { legalResponsibleId: _id }] },
-                include: { candidate: { include: { IdentityDetails: true } }, familyMember: true, LegalResponsible: { include: { IdentityDetails: true } } }
+                include: { candidate: { include: { IdentityDetails: true } }, familyMember: true, LegalResponsible: { include: { IdentityDetails: true } }, balances: true }
             })
             // family member
             if (getCurrentMember === null) {

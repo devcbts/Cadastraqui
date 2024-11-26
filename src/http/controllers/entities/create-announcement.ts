@@ -46,11 +46,11 @@ export async function CreateAnnoucment(
     openDate: z.string().pipe(z.coerce.date()),
     closeDate: z.string().transform(v => {
       const d = new Date(`${v}T23:59:59`)
-      return d
+      return fromZonedTime(d, 'America/Sao_Paulo')
     }),
     announcementDate: z.string().transform(v => {
       const d = new Date(`${v}T23:59:59`)
-      return d
+      return fromZonedTime(d, 'America/Sao_Paulo')
     }),
     announcementBegin: z.string(),
     announcementName: z.string(),
@@ -104,6 +104,7 @@ export async function CreateAnnoucment(
     if (!entityMatrix) {
       throw new EntityNotExistsError()
     }
+
     // get current announcement linked to an entity at some year
     const currentYear = openDate.getFullYear()
     const countAnnouncement = await prisma.announcement.count({
@@ -203,6 +204,7 @@ export async function CreateAnnoucment(
     if (err instanceof announcementAlreadyExists) {
       return reply.status(409).send({ message: err.message })
     }
+    console.log(err)
     return reply.status(500).send({ message: err.message })
   }
 }

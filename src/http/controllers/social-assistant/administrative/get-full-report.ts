@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getAwsFile } from "@/lib/S3";
 import { AllEducationType, AllScholarshipsType, LevelType, } from "@prisma/client";
 import * as csvWriter from 'csv-writer';
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -70,6 +71,9 @@ export default async function getFullReport(
     const { format } = partialReportFormat.parse(request.query)
     try {
 
+        const entityInfo = await prisma.entity.findFirst({
+            where: { Announcement: { some: { id: announcement_id } } }
+        })
 
         const scholarships = await prisma.scholarshipGranted.findMany({
             where: {
@@ -112,7 +116,16 @@ export default async function getFullReport(
 
 
         if (format == 'PDF') {
-
+            const entity = {
+                socialReason: entityInfo?.socialReason,
+                address: entityInfo?.address,
+                addressNumber: entityInfo?.addressNumber,
+                city: entityInfo?.city,
+                UF: entityInfo?.UF,
+                neighborhood: entityInfo?.neighborhood,
+                CEP: entityInfo?.CEP,
+            }
+            const img = await getAwsFile(`ProfilePictures/${entityInfo?.id}`)
             const scholarshipsInfos = scholarships.map((scholarship) => {
                 return {
                     educationalCENSUSInstitutionCode: (scholarship.application.EducationLevel.entitySubsidiary ? scholarship.application.EducationLevel.entitySubsidiary.educationalInstitutionCode : scholarship.application.announcement.entity.emec),
@@ -130,7 +143,7 @@ export default async function getFullReport(
                 }
             })
 
-            return reply.status(200).send({ scholarshipsInfos })
+            return reply.status(200).send({ scholarshipsInfos, entity: { ...entity, img: img.fileUrl } })
         }
 
 

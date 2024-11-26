@@ -17,6 +17,13 @@ export async function registerBankingInfo(
         bankName: z.string(),
         accountNumber: z.string(),
         accountType: AccountType,
+        balances: z.array(z.object({
+            initialBalance: z.number().refine(e => e > 0),
+            entryBalance: z.number().refine(e => e > 0),
+            outflowBalance: z.number().refine(e => e > 0),
+            totalBalance: z.number().refine(e => e > 0),
+            date: z.string().transform(e => new Date(e))
+        }))
     })
 
     const BankingInfoParamsSchema = z.object({
@@ -30,7 +37,8 @@ export async function registerBankingInfo(
         bankName,
         accountNumber,
         accountType,
-        agencyNumber
+        agencyNumber,
+        balances
     } = BankingInfoDataSchema.parse(request.body)
 
     try {
@@ -49,39 +57,68 @@ export async function registerBankingInfo(
             : candidateOrResponsible.IsResponsible
                 ? { legalResponsibleId: candidateOrResponsible.UserData.id }
                 : { candidate_id: candidateOrResponsible.UserData.id }
+        let id;
+        let balancesId: string[] = [];
+        await prisma.$transaction(async (tsPrisma) => {
 
-        // Armazena informações acerca do Banking Info no banco de dados
-        const { id } = await prisma.bankAccount.create({
-            data: {
-                bankName,
-                accountNumber,
-                accountType,
-                agencyNumber,
-                ...idField,
-            },
-        })
-        if (id) {
-            if (familyMember) {
-                await prisma.familyMember.update({
-                    where: { id: idField.familyMember_id },
+            // Armazena informações acerca do Banking Info no banco de dados
+            const account = await tsPrisma.bankAccount.create({
+                data: {
+                    bankName,
+                    accountNumber,
+                    accountType,
+                    agencyNumber,
+                    ...idField,
+                },
+            })
+            // create BankBalance 
+            for (const e of balances) {
+                const created = await tsPrisma.bankBalance.create({
                     data: {
-                        hasBankAccount: true
-                    }
-                })
-            } else {
-                await prisma.identityDetails.update({
-                    where: candidateOrResponsible.IsResponsible ? {
-                        responsible_id: candidateOrResponsible.UserData.id
-                    } : {
-                        candidate_id: candidateOrResponsible.UserData.id
+                        bankAccount_id: account.id,
+                        initialBalance: e.initialBalance,
+                        entryBalance: e.entryBalance,
+                        outflowBalance: e.outflowBalance,
+                        totalBalance: e.totalBalance,
+                        date: e.date,
                     },
-                    data: {
-                        hasBankAccount: true
-                    }
-                })
+                });
+                balancesId.push(created.id);
             }
-        }
-        return reply.status(201).send({ id })
+            // const balances = await tsPrisma.bankBalance.createMany({
+            //     data: balance.map(e => ({
+            //         bankAccount_id: account.id,
+            //         initialBalance: e.initialBalance,
+            //         entryBalance: e.entryBalance,
+            //         outflowBalance: e.outflowBalance,
+            //         totalBalance: e.totalBalance,
+            //         date: e.date
+            //     }))
+            // })
+            id = account.id
+            if (id) {
+                if (familyMember) {
+                    await tsPrisma.familyMember.update({
+                        where: { id: idField.familyMember_id },
+                        data: {
+                            hasBankAccount: true
+                        }
+                    })
+                } else {
+                    await tsPrisma.identityDetails.update({
+                        where: candidateOrResponsible.IsResponsible ? {
+                            responsible_id: candidateOrResponsible.UserData.id
+                        } : {
+                            candidate_id: candidateOrResponsible.UserData.id
+                        },
+                        data: {
+                            hasBankAccount: true
+                        }
+                    })
+                }
+            }
+        })
+        return reply.status(201).send({ id, balancesId })
     } catch (err: any) {
         if (err instanceof ResourceNotFoundError) {
             return reply.status(404).send({ message: err.message })
