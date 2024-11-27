@@ -2,8 +2,8 @@ import { isValidCPF } from "utils/validate-cpf";
 
 const { z } = require("zod");
 
-const propertyOwnerSchema = z.object({
-    ownerName: z.string().min(1, 'Nome do proprietário obrigatório'),
+const propertyOwnerSchema = ({ ownerLabel }) => z.object({
+    ownerName: z.string().min(1, `${ownerLabel} obrigatório`),
     RG: z.string().min(1, 'RG obrigatório'),
     documentIssuing: z.string().min(1, 'Órgão emissor obrigatório'),
     ufIssuing: z.string().min(1, 'UF do órgão emissor obrigatória'),

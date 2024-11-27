@@ -12,12 +12,14 @@ const FinancialHelp = forwardRef(({ data }, ref) => {
             <IncomeFile ref={ref} data={data} label={'Declaração assinada'} required />
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <ButtonBase label={'Gerar declaração'} onClick={() => setPdf(true)} />
-                <PropertyOwner show={pdf} onClose={() => setPdf(false)} pdf={(pdfdata) =>
-                    <FinancialHelpPdf
-                        owner={pdfdata}
-                        lastIncomeHelp={data?.months?.[0]?.grossAmount}
-                        memberId={data?.member?.id}
-                    />} />
+                <PropertyOwner show={pdf}
+                    ownerLabel={'Identificação de quem presta o auxílio'}
+                    onClose={() => setPdf(false)} pdf={(pdfdata) =>
+                        <FinancialHelpPdf
+                            owner={pdfdata}
+                            lastIncomeHelp={data?.months?.[0]?.grossAmount}
+                            memberId={data?.member?.id}
+                        />} />
             </div>
         </>
     )

@@ -14,13 +14,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import propertyOwnerSchema from './schemas/property-owner-schema';
 import ReactPDF, { BlobProvider, Document, Page, PDFDownloadLink, Text, usePDF, View } from '@react-pdf/renderer';
 import HabitationDeclarationPDF from '../../../Form_Declarations/components/HabitationDeclarationPDF';
-export default function PropertyOwner({ show, onClose, pdf, onSendToEmail = null }) {
+export default function PropertyOwner({ show, onClose, pdf, onSendToEmail = null, ownerLabel }) {
     const ownerRef = useRef(null)
     const [pdfState, setPdfState] = useState(null)
     const [pdfData, setPdfData] = useState({})
     const [document, setDocument] = usePDF(pdf(null))
     const { control, watch, reset, getValues } = useControlForm({
-        schema: propertyOwnerSchema,
+        schema: propertyOwnerSchema({ ownerLabel }),
         defaultValues: {
             ownerName: '',
             RG: '',
@@ -80,7 +80,7 @@ export default function PropertyOwner({ show, onClose, pdf, onSendToEmail = null
 
                     <div className={styles.form}>
                         <fieldset disabled={pdfState === 'generating'}>
-                            <InputForm control={control} name={"ownerName"} label={'nome do proprietário'} />
+                            <InputForm control={control} name={"ownerName"} label={ownerLabel} />
                             <div className={styles.grid}>
                                 <InputForm control={control} name={"RG"} label={'RG'} />
                                 <InputForm control={control} name={"documentIssuing"} label={'órgão emissor'} />

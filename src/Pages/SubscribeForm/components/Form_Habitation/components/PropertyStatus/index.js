@@ -93,6 +93,7 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
     return (
         <div className={commonStyles.formcontainer}>
             <PropertyOwner show={ownerForm}
+                ownerLabel={'Nome do proprietário'}
                 onSendToEmail={!ownerForm ? null : handleConfirmEmailSend}
                 onClose={handlePropertyOwnerForm} pdf={(data) => {
                     if (!ownerForm) return <></>

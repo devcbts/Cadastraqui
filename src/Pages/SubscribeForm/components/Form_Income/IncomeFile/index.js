@@ -32,7 +32,7 @@ const IncomeFile = forwardRef(({ data, label, required }, ref) => {
     }, ref)
     useTutorial(INCOME_TUTORIALS.DOCUMENT[data?.incomeSource])
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'center', maxWidth: '600px', placeSelf: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'center', maxWidth: '600px', placeSelf: 'center', width: '100%' }}>
             <FormFilePicker control={control} name={"file_document"} label={label ?? 'comprovante mensal de receitas brutas'} accept={"application/pdf"} />
             <FilePreview url={watch("url_document")} file={watch("file_document")} text={'ver documento'} />
         </div>
