@@ -44,7 +44,6 @@ export default function HamburgHeader() {
                         animate={{ transform: 'translateX(0)', }}
                         exit={{ transform: 'translateX(-100%)' }}
                         transition={{ duration: .3, ease: "easeInOut" }}
-                        // style={{ height: 'calc(100% - 80px)', top: 0, left: 0, position: 'absolute', zIndex: 999, display: 'flex' }} 
                         style={{ top: '82px', left: 0, position: 'absolute', zIndex: 999, height: 'calc(100vh - 80px)', display: 'flex', }}
                         ref={ref}>
                         <SidebarSelection />

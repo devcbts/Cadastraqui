@@ -12,7 +12,7 @@ import { useRecoilState } from "recoil";
 import monthAtom from "./atoms/month-atom";
 import styles from './styles.module.scss';
 // quantity = months that user needs to fullfill in order to proceed saving information
-const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false, checkRegister = false }, ref) => {
+const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false, checkRegister = false, sideInfo = null }, ref) => {
     const { control, watch, setValue, getValues, trigger, formState: { errors } } = useControlForm({
         schema: schema,
         defaultValues: {
@@ -125,37 +125,40 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
 
                     {
                         watchMonths.map((month, index) => (
-                            <div key={index} className={styles.wrapper}>
-                                <div style={checkRegister ? { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '20px' } : {}} key={month.dateString}>
-                                    <ButtonBase
-                                        disabled={checkRegister ? month.skipMonth : false}
-                                        // label={month.dateString}
-                                        onClick={() => handleSelectMonth(month)}
-                                    >
-                                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexGrow: '1' }}>
-                                            <span style={{ flexGrow: '1' }}>{month.dateString}</span>
-                                            {month.isUpdated && <Check />}
-                                        </div>
+                            <div key={index} style={{ display: 'grid', gridTemplateColumns: !!sideInfo ? '2fr 1fr' : '1fr', gap: '12px', alignItems: 'baseline' }}>
+                                <div className={styles.wrapper}>
+                                    <div style={checkRegister ? { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '20px' } : {}} key={month.dateString}>
+                                        <ButtonBase
+                                            disabled={checkRegister ? month.skipMonth : false}
+                                            // label={month.dateString}
+                                            onClick={() => handleSelectMonth(month)}
+                                        >
+                                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexGrow: '1' }}>
+                                                <span style={{ flexGrow: '1' }}>{month.dateString}</span>
+                                                {month.isUpdated && <Check />}
+                                            </div>
 
-                                    </ButtonBase>
-                                    {(checkRegister && !viewMode) && <>
-                                        <Controller name={`months.${index}.skipMonth`} control={control} render={({ field }) => {
-                                            if (field.value) {
-                                                // value is true = month must be skipped
-                                                return <Pencil cursor={'pointer'} onClick={() => field.onChange(false)} width={20} height={20} />
-                                            } else {
-                                                // value is false = month must be registered
-                                                return <Remove cursor={'pointer'} onClick={() => field.onChange(true)} width={20} height={20} />
-                                            }
-                                        }}>
+                                        </ButtonBase>
+                                        {(checkRegister && !viewMode) && <>
+                                            <Controller name={`months.${index}.skipMonth`} control={control} render={({ field }) => {
+                                                if (field.value) {
+                                                    // value is true = month must be skipped
+                                                    return <Pencil cursor={'pointer'} onClick={() => field.onChange(false)} width={20} height={20} />
+                                                } else {
+                                                    // value is false = month must be registered
+                                                    return <Remove cursor={'pointer'} onClick={() => field.onChange(true)} width={20} height={20} />
+                                                }
+                                            }}>
 
-                                        </Controller>
-                                    </>
-                                    }
+                                            </Controller>
+                                        </>
+                                        }
+                                    </div>
+                                    {checkRegister && month.skipMonth && <>Não obteve renda</>}
+                                    {errors?.months?.[index]?.isUpdated?.message && <span className={styles.error}>{month.dateString} desatualizado</span>}
+
                                 </div>
-                                {checkRegister && month.skipMonth && <>Não obteve renda</>}
-                                {errors?.months?.[index]?.isUpdated?.message && <span className={styles.error}>{month.dateString} desatualizado</span>}
-
+                                {!!sideInfo && sideInfo(month)}
                             </div>
                         ))
                     }

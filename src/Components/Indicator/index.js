@@ -1,5 +1,5 @@
 import { useState } from "react"
-
+import { AnimatePresence, motion } from 'framer-motion'
 export default function Indicator({
     status = null,
     description
@@ -14,13 +14,24 @@ export default function Indicator({
     return (
         <div style={{
             cursor: "help", height: 20, width: 20, backgroundColor: color, borderRadius: '4px', position: 'relative',
-            boxShadow: '.8px 1.2px .5px .5px #cfcfcf'
+            boxShadow: '0px 0px 6px -2px #5C5C5C'
         }}
             onMouseEnter={handleShow}
             onMouseLeave={handleShow} >
-            {show && <div style={{ backgroundColor: '#cfcfcf', position: 'absolute', transform: "translateY(-150%)", padding: '4px', borderRadius: '4px', fontSize: '12px' }}>
-                <span>{description ?? defaultDescription}</span>
-            </div>}
+            <AnimatePresence>
+
+                {show && <motion.div
+                    initial={{ scale: 0, }}
+                    animate={{ scale: 1, }}
+                    exit={{ scale: 0 }}
+                    style={{
+                        backgroundColor: '#C5C5C5',
+                        position: 'absolute', left: '50%', transform: "translateY(-150%) translateX(-50%)",
+                        padding: '4px', borderRadius: '4px', fontSize: '12px'
+                    }}>
+                    <p>{description ?? defaultDescription}</p>
+                </motion.div>}
+            </AnimatePresence>
         </div>
     )
 }

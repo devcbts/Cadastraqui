@@ -20,7 +20,10 @@ const SelectBase = forwardRef(({ label, error, show = "none", search = true, ...
                     placeholder="Selecione"
                     isMulti={props.multiple}
                     isSearchable={search}
+
                     styles={{
+                        singleValue: (style) => ({ ...style, color: '#52525C' }),
+                        multiValue: (style) => ({ ...style, color: '#52525C' }),
                         option: (style, { isSelected, isFocused }) => ({
                             ...style,
                             backgroundColor: isFocused ? "#cfcfcf" : (
@@ -36,8 +39,11 @@ const SelectBase = forwardRef(({ label, error, show = "none", search = true, ...
                             maxHeight: '60px',
                             overflowY: 'scroll',
                             scrollbarWidth: 'none',
-                        } : { ...style, maxHeight: '35px' }),
-                        container: (style) => ({ ...style, outline: "none", paddingRight: "-2px", width: '100%', }),
+
+                        } : {
+                            ...style, maxHeight: '35px',
+                        }),
+                        container: (style) => ({ ...style, outline: "none", paddingRight: "-2px", width: '100%' }),
                         menu: (style) => ({ ...style, borderRadius: '12px', overflow: 'hidden' }),
                         control: (style) => ({
                             display: 'flex',
@@ -49,7 +55,7 @@ const SelectBase = forwardRef(({ label, error, show = "none", search = true, ...
                             ":focus-visible": {
                                 border: `1px solid ${borderStyle}`,
                                 outline: "none"
-                            },
+                            }, color: 'red',
                             // ":hover": {
                             // border: `1px solid ${borderStyle}`,
                             // outline: "none"

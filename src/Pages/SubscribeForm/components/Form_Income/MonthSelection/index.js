@@ -14,6 +14,9 @@ import useControlForm from "hooks/useControlForm";
 import MonthSelection from "Components/MonthSelection";
 import useTutorial from "hooks/useTutorial";
 import INCOME_TUTORIALS from "utils/enums/tutorials/income";
+import { ReactComponent as Help } from 'Assets/icons/question-mark.svg'
+import Tooltip from "Components/Tooltip";
+import moneyInputMask from "Components/MoneyFormInput/money-input-mask";
 // quantity = months that user needs to fullfill in order to proceed saving information
 const IncomeMonthSelection = forwardRef(({ data, render = [], viewMode }, ref) => {
     useTutorial(INCOME_TUTORIALS.MONTHS[data?.incomeSource])
@@ -27,6 +30,9 @@ const IncomeMonthSelection = forwardRef(({ data, render = [], viewMode }, ref) =
                 data={data}
                 viewMode={viewMode}
                 schema={monthSelectionSchema(data.quantity, data.incomeSource)}
+                sideInfo={viewMode ? (month) => {
+                    return <Tooltip tooltip={'Renda obtida para fins do processo seletivo'} Icon={Help}><strong>{moneyInputMask(month?.liquidAmount)}</strong></Tooltip>
+                } : null}
                 checkRegister={true}
             />
         </div>
