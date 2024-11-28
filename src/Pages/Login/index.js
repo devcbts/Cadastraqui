@@ -79,7 +79,7 @@ export default function Login() {
                                     }
                                 }}
                             >Esqueceu sua senha?</p>
-                            <ButtonBase type="submit" label={'login'} />
+                            <ButtonBase type="submit" label={'Entrar'} />
                         </form>
                         <Link to={'/registrar'} state={state}>
                             Ainda não tem uma conta? Cadastre-se

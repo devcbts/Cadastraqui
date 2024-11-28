@@ -198,7 +198,7 @@ export default function AnnouncementCourses({ entity, allCourses, data, onPageCh
                         }))}
                     />
 
-                    <ButtonBase label={'próximo'} onClick={handleSubmit} />
+                    <ButtonBase label={'próximo'} style={{ marginTop: '24px' }} onClick={handleSubmit} />
                 </div>
             </div>
         </>

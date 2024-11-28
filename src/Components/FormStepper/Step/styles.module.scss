@@ -33,7 +33,7 @@
         flex-direction: column;
         align-items: center;
         user-select: none;
-
+        
         .container {
             position: relative;
             height: 35px;
@@ -101,8 +101,7 @@
             font-size: 16px;
             font-weight: 600;
             color: $lightgrey;
-            margin-top: 8px;
-
+            margin: 8px 0px 0px 0px !important;
             @media(max-width: 600px) {
                 display: none;
             }

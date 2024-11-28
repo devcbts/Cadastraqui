@@ -21,12 +21,12 @@ export default function Indicator({
             <AnimatePresence>
 
                 {show && <motion.div
-                    initial={{ scale: 0, }}
-                    animate={{ scale: 1, }}
-                    exit={{ scale: 0 }}
+                    initial={{ scale: 0, y: '-100%' }}
+                    animate={{ scale: 1, y: '-150%' }}
+                    exit={{ scale: 0, y: '-100%' }}
                     style={{
                         backgroundColor: '#C5C5C5',
-                        position: 'absolute', left: '50%', transform: "translateY(-150%) translateX(-50%)",
+                        position: 'absolute', left: '50%', x: '-50%', y: '-150%',
                         padding: '4px', borderRadius: '4px', fontSize: '12px'
                     }}>
                     <p>{description ?? defaultDescription}</p>

@@ -5,22 +5,24 @@
     justify-content: center;
     align-items: center;
     font-size: 1rem;
-    max-height: fit-content !important;
+    max-height: 2.5rem !important;
+    min-height: 2rem !important;
     background-color: white;
     color: $primary;
     border: 2px solid $primary;
     border-radius: 8px;
-    transition: background-color .2s ease-in;
+    transition: all .2s;
     width: fit-content;
     & span{
+        font-weight: 550;
         &::first-letter{
             text-transform: uppercase;
         }
     }
     
     &:hover, &:focus-visible {
-        border: 2px solid white;
-        outline: red;
+        // border: 2px solid white;
+        // outline: white 2px solid;
         svg {
             color: white;
         }
@@ -34,7 +36,6 @@
         border-color: $error;
         background-color: $error;
         color: white;
-
         &:hover, &:focus-visible {
             color: $error;
             background-color: white;
@@ -48,12 +49,12 @@
     }
 }
 
-@media(max-width:400px) {
+@media(max-width:600px) {
 
     .button {
-        height: 30px;
-        font-size: 0.8rem;
-
+        max-height: fit-content !important;
+        font-size: 0.9rem;
+        
         svg {
             width: 25px;
             height: auto;

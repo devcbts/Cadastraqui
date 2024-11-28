@@ -11,6 +11,12 @@
    cursor: pointer;
    padding: 4px 8px;
    border-radius: 12px;
+   &[data-theme="default"]{
+
+      position: absolute !important;
+      top:50%;
+      transform: translateY(-50%) translateX(-60%);
+   }
    &[data-theme="secondary"]{
       background-color: $primary;
       .tutorial{

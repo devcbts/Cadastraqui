@@ -29,6 +29,7 @@ export default function CCSFile({
         }
         const file = getValues(`file_${fieldName}`)
         await onSend(file)
+
     }
     const watchFile = watch(`file_${fieldName}`)
 

@@ -15,7 +15,6 @@
         -webkit-user-drag: none;
         width: auto;
         height: 70px;
-
         @media(max-width:390px) {
             width: auto;
             height: 60px;
@@ -24,13 +23,35 @@
 
     .picture {
         cursor: pointer;
-
+        position: relative;
+        // height: inherit;
         .profilepicture {
             object-fit: initial;
             clip-path: circle();
-            // height: 100%;
+            height: 60px;
             width: 60px;
+            // aspect-ratio: 16/9;
         }
+        .title{
+            z-index: 999;
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            background-color: $primary;
+            color: white;
+            font-size: .8rem;
+            border-radius: 10px;
+            border: 2px solid white;
+        }
+        // &::before{
+        //     content: '';
+        //     position: absolute;
+        //     height: 64px;
+        //     width: 64px;
+        //     transform: translateX(-2px) translateY(-2px);
+        //     border-radius: 50%;
+        //     background-color: $primary;
+        // }
 
         .placeholder {
             color: $primary;

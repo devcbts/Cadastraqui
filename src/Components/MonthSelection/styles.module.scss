@@ -33,18 +33,19 @@
 .div_text {
     display: flex;
     width: 100%;
-    margin: 20px auto;
+    margin: 20px 0px;
     justify-content: center;
+    text-align: center;
+    .text {
+        text-align: justify;
+        // width: 60%;
+        color: $grey;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
 }
 
-.text {
-    text-align: justify;
-    width: 60%;
-    color: $grey;
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 20px;
-}
 
 @media(max-width: 600px) {
     .text {

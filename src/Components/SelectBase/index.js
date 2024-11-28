@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import ReactSelect from "react-select";
 import InputContainer from "Components/InputBase/InputContainer";
-
+import styles from './styles.module.scss'
 const SelectBase = forwardRef(({ label, error, show = "none", search = true, ...props }, ref) => {
     // const id = useId()
     const borderStyle = error === null ? '#CFCFCF' : (error ? "#EF3E36" : "#499468")
@@ -11,6 +11,7 @@ const SelectBase = forwardRef(({ label, error, show = "none", search = true, ...
             label={label}
             error={error}
             show={show}
+            wrapperStyle={(style) => [style, !props.multiple ? styles.wrapper : ''].join(' ')}
         >
             {(id) => (
                 <ReactSelect
