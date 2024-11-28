@@ -26,7 +26,7 @@ export default async function findAllBankAccount(candidate_id: string | null, le
                 { legalResponsibleId: candidateOrResponsible.id },
                 { familyMember_id: { in: candidateOrResponsible.FamillyMember.map(member => member.id) } }
             ]
-        }
+        },
     });
 
     return bankAccount;

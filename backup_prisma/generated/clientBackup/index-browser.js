@@ -405,6 +405,7 @@ exports.Prisma.BankAccountScalarFieldEnum = {
 
 exports.Prisma.BankBalanceScalarFieldEnum = {
   id: 'id',
+  main_id: 'main_id',
   initialBalance: 'initialBalance',
   outflowBalance: 'outflowBalance',
   entryBalance: 'entryBalance',
@@ -412,7 +413,8 @@ exports.Prisma.BankBalanceScalarFieldEnum = {
   date: 'date',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  bankAccount_id: 'bankAccount_id'
+  bankAccount_id: 'bankAccount_id',
+  application_id: 'application_id'
 };
 
 exports.Prisma.ExpenseScalarFieldEnum = {

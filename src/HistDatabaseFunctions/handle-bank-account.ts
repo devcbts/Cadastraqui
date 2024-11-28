@@ -7,7 +7,8 @@ import { createCandidateDocumentHDB } from "./Handle Documents/handle-candidate-
 
 export async function createBankAccountHDB(id: string, candidate_id: string | null, legalResponsibleId: string | null, application_id: string) {
     const bankAccount = await prisma.bankAccount.findUnique({
-        where: { id }
+        where: { id },
+       
     });
     if (!bankAccount) {
         return null;
@@ -18,9 +19,24 @@ export async function createBankAccountHDB(id: string, candidate_id: string | nu
     });
     const newFamilyMemberId = bankAccountMapping?.newId;
     const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (bankAccount.candidate_id ? { candidate_id: newFamilyMemberId } : { legalResponsibleId: newFamilyMemberId });
+    
     const createBankAccount = await historyDatabase.bankAccount.create({
         data: { main_id: id, ...bankAccountData, ...idField, application_id }
     });
+    const balances = await prisma.bankBalance.findMany({
+        where: { bankAccount_id: id }
+    })
+    const balancesWithMainId = balances.map(({ id, ...balanceData }) => ({
+        ...balanceData,
+        main_id: id,
+        bankAccount_id: createBankAccount.id,
+        application_id
+      }));
+      
+      await historyDatabase.bankBalance.createMany({
+        data: balancesWithMainId
+      });
+
     const idRoute = legalResponsibleId ? legalResponsibleId : candidate_id;
     if (!idRoute) {
         return null;
