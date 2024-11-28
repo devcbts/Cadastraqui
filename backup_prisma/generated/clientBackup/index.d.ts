@@ -17979,6 +17979,7 @@ export namespace Prisma {
 
   export type BankBalanceMinAggregateOutputType = {
     id: string | null
+    main_id: string | null
     initialBalance: number | null
     outflowBalance: number | null
     entryBalance: number | null
@@ -17987,10 +17988,12 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     bankAccount_id: string | null
+    application_id: string | null
   }
 
   export type BankBalanceMaxAggregateOutputType = {
     id: string | null
+    main_id: string | null
     initialBalance: number | null
     outflowBalance: number | null
     entryBalance: number | null
@@ -17999,10 +18002,12 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     bankAccount_id: string | null
+    application_id: string | null
   }
 
   export type BankBalanceCountAggregateOutputType = {
     id: number
+    main_id: number
     initialBalance: number
     outflowBalance: number
     entryBalance: number
@@ -18011,6 +18016,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     bankAccount_id: number
+    application_id: number
     _all: number
   }
 
@@ -18031,6 +18037,7 @@ export namespace Prisma {
 
   export type BankBalanceMinAggregateInputType = {
     id?: true
+    main_id?: true
     initialBalance?: true
     outflowBalance?: true
     entryBalance?: true
@@ -18039,10 +18046,12 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     bankAccount_id?: true
+    application_id?: true
   }
 
   export type BankBalanceMaxAggregateInputType = {
     id?: true
+    main_id?: true
     initialBalance?: true
     outflowBalance?: true
     entryBalance?: true
@@ -18051,10 +18060,12 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     bankAccount_id?: true
+    application_id?: true
   }
 
   export type BankBalanceCountAggregateInputType = {
     id?: true
+    main_id?: true
     initialBalance?: true
     outflowBalance?: true
     entryBalance?: true
@@ -18063,6 +18074,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     bankAccount_id?: true
+    application_id?: true
     _all?: true
   }
 
@@ -18154,6 +18166,7 @@ export namespace Prisma {
 
   export type BankBalanceGroupByOutputType = {
     id: string
+    main_id: string
     initialBalance: number
     outflowBalance: number
     entryBalance: number
@@ -18162,6 +18175,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     bankAccount_id: string
+    application_id: string
     _count: BankBalanceCountAggregateOutputType | null
     _avg: BankBalanceAvgAggregateOutputType | null
     _sum: BankBalanceSumAggregateOutputType | null
@@ -18185,6 +18199,7 @@ export namespace Prisma {
 
   export type BankBalanceSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    main_id?: boolean
     initialBalance?: boolean
     outflowBalance?: boolean
     entryBalance?: boolean
@@ -18193,11 +18208,13 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     bankAccount_id?: boolean
+    application_id?: boolean
     bankAccount?: boolean | BankAccountDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bankBalance"]>
 
   export type BankBalanceSelectScalar = {
     id?: boolean
+    main_id?: boolean
     initialBalance?: boolean
     outflowBalance?: boolean
     entryBalance?: boolean
@@ -18206,6 +18223,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     bankAccount_id?: boolean
+    application_id?: boolean
   }
 
   export type BankBalanceInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -18220,6 +18238,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetResult<{
       id: string
+      main_id: string
       initialBalance: number
       outflowBalance: number
       entryBalance: number
@@ -18228,6 +18247,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       bankAccount_id: string
+      application_id: string
     }, ExtArgs["result"]["bankBalance"]>
     composites: {}
   }
@@ -18624,6 +18644,7 @@ export namespace Prisma {
    */ 
   interface BankBalanceFieldRefs {
     readonly id: FieldRef<"BankBalance", 'String'>
+    readonly main_id: FieldRef<"BankBalance", 'String'>
     readonly initialBalance: FieldRef<"BankBalance", 'Float'>
     readonly outflowBalance: FieldRef<"BankBalance", 'Float'>
     readonly entryBalance: FieldRef<"BankBalance", 'Float'>
@@ -18632,6 +18653,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"BankBalance", 'DateTime'>
     readonly updatedAt: FieldRef<"BankBalance", 'DateTime'>
     readonly bankAccount_id: FieldRef<"BankBalance", 'String'>
+    readonly application_id: FieldRef<"BankBalance", 'String'>
   }
     
 
@@ -32493,6 +32515,7 @@ export namespace Prisma {
 
   export const BankBalanceScalarFieldEnum: {
     id: 'id',
+    main_id: 'main_id',
     initialBalance: 'initialBalance',
     outflowBalance: 'outflowBalance',
     entryBalance: 'entryBalance',
@@ -32500,7 +32523,8 @@ export namespace Prisma {
     date: 'date',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    bankAccount_id: 'bankAccount_id'
+    bankAccount_id: 'bankAccount_id',
+    application_id: 'application_id'
   };
 
   export type BankBalanceScalarFieldEnum = (typeof BankBalanceScalarFieldEnum)[keyof typeof BankBalanceScalarFieldEnum]
@@ -35111,6 +35135,7 @@ export namespace Prisma {
     OR?: BankBalanceWhereInput[]
     NOT?: BankBalanceWhereInput | BankBalanceWhereInput[]
     id?: StringFilter<"BankBalance"> | string
+    main_id?: StringFilter<"BankBalance"> | string
     initialBalance?: FloatFilter<"BankBalance"> | number
     outflowBalance?: FloatFilter<"BankBalance"> | number
     entryBalance?: FloatFilter<"BankBalance"> | number
@@ -35119,11 +35144,13 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"BankBalance"> | Date | string
     updatedAt?: DateTimeFilter<"BankBalance"> | Date | string
     bankAccount_id?: StringFilter<"BankBalance"> | string
+    application_id?: StringFilter<"BankBalance"> | string
     bankAccount?: XOR<BankAccountRelationFilter, BankAccountWhereInput>
   }
 
   export type BankBalanceOrderByWithRelationInput = {
     id?: SortOrder
+    main_id?: SortOrder
     initialBalance?: SortOrder
     outflowBalance?: SortOrder
     entryBalance?: SortOrder
@@ -35132,6 +35159,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     bankAccount_id?: SortOrder
+    application_id?: SortOrder
     bankAccount?: BankAccountOrderByWithRelationInput
   }
 
@@ -35140,6 +35168,7 @@ export namespace Prisma {
     AND?: BankBalanceWhereInput | BankBalanceWhereInput[]
     OR?: BankBalanceWhereInput[]
     NOT?: BankBalanceWhereInput | BankBalanceWhereInput[]
+    main_id?: StringFilter<"BankBalance"> | string
     initialBalance?: FloatFilter<"BankBalance"> | number
     outflowBalance?: FloatFilter<"BankBalance"> | number
     entryBalance?: FloatFilter<"BankBalance"> | number
@@ -35148,11 +35177,13 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"BankBalance"> | Date | string
     updatedAt?: DateTimeFilter<"BankBalance"> | Date | string
     bankAccount_id?: StringFilter<"BankBalance"> | string
+    application_id?: StringFilter<"BankBalance"> | string
     bankAccount?: XOR<BankAccountRelationFilter, BankAccountWhereInput>
   }, "id">
 
   export type BankBalanceOrderByWithAggregationInput = {
     id?: SortOrder
+    main_id?: SortOrder
     initialBalance?: SortOrder
     outflowBalance?: SortOrder
     entryBalance?: SortOrder
@@ -35161,6 +35192,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     bankAccount_id?: SortOrder
+    application_id?: SortOrder
     _count?: BankBalanceCountOrderByAggregateInput
     _avg?: BankBalanceAvgOrderByAggregateInput
     _max?: BankBalanceMaxOrderByAggregateInput
@@ -35173,6 +35205,7 @@ export namespace Prisma {
     OR?: BankBalanceScalarWhereWithAggregatesInput[]
     NOT?: BankBalanceScalarWhereWithAggregatesInput | BankBalanceScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"BankBalance"> | string
+    main_id?: StringWithAggregatesFilter<"BankBalance"> | string
     initialBalance?: FloatWithAggregatesFilter<"BankBalance"> | number
     outflowBalance?: FloatWithAggregatesFilter<"BankBalance"> | number
     entryBalance?: FloatWithAggregatesFilter<"BankBalance"> | number
@@ -35181,6 +35214,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"BankBalance"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BankBalance"> | Date | string
     bankAccount_id?: StringWithAggregatesFilter<"BankBalance"> | string
+    application_id?: StringWithAggregatesFilter<"BankBalance"> | string
   }
 
   export type ExpenseWhereInput = {
@@ -38773,6 +38807,7 @@ export namespace Prisma {
 
   export type BankBalanceCreateInput = {
     id?: string
+    main_id: string
     initialBalance?: number
     outflowBalance?: number
     entryBalance?: number
@@ -38780,11 +38815,13 @@ export namespace Prisma {
     date: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    application_id: string
     bankAccount: BankAccountCreateNestedOneWithoutBalancesInput
   }
 
   export type BankBalanceUncheckedCreateInput = {
     id?: string
+    main_id: string
     initialBalance?: number
     outflowBalance?: number
     entryBalance?: number
@@ -38793,10 +38830,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     bankAccount_id: string
+    application_id: string
   }
 
   export type BankBalanceUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
     initialBalance?: FloatFieldUpdateOperationsInput | number
     outflowBalance?: FloatFieldUpdateOperationsInput | number
     entryBalance?: FloatFieldUpdateOperationsInput | number
@@ -38804,11 +38843,13 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    application_id?: StringFieldUpdateOperationsInput | string
     bankAccount?: BankAccountUpdateOneRequiredWithoutBalancesNestedInput
   }
 
   export type BankBalanceUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
     initialBalance?: FloatFieldUpdateOperationsInput | number
     outflowBalance?: FloatFieldUpdateOperationsInput | number
     entryBalance?: FloatFieldUpdateOperationsInput | number
@@ -38817,10 +38858,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bankAccount_id?: StringFieldUpdateOperationsInput | string
+    application_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type BankBalanceCreateManyInput = {
     id?: string
+    main_id: string
     initialBalance?: number
     outflowBalance?: number
     entryBalance?: number
@@ -38829,10 +38872,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     bankAccount_id: string
+    application_id: string
   }
 
   export type BankBalanceUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
     initialBalance?: FloatFieldUpdateOperationsInput | number
     outflowBalance?: FloatFieldUpdateOperationsInput | number
     entryBalance?: FloatFieldUpdateOperationsInput | number
@@ -38840,10 +38885,12 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    application_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type BankBalanceUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
     initialBalance?: FloatFieldUpdateOperationsInput | number
     outflowBalance?: FloatFieldUpdateOperationsInput | number
     entryBalance?: FloatFieldUpdateOperationsInput | number
@@ -38852,6 +38899,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bankAccount_id?: StringFieldUpdateOperationsInput | string
+    application_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type ExpenseCreateInput = {
@@ -42283,6 +42331,7 @@ export namespace Prisma {
 
   export type BankBalanceCountOrderByAggregateInput = {
     id?: SortOrder
+    main_id?: SortOrder
     initialBalance?: SortOrder
     outflowBalance?: SortOrder
     entryBalance?: SortOrder
@@ -42291,6 +42340,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     bankAccount_id?: SortOrder
+    application_id?: SortOrder
   }
 
   export type BankBalanceAvgOrderByAggregateInput = {
@@ -42302,6 +42352,7 @@ export namespace Prisma {
 
   export type BankBalanceMaxOrderByAggregateInput = {
     id?: SortOrder
+    main_id?: SortOrder
     initialBalance?: SortOrder
     outflowBalance?: SortOrder
     entryBalance?: SortOrder
@@ -42310,10 +42361,12 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     bankAccount_id?: SortOrder
+    application_id?: SortOrder
   }
 
   export type BankBalanceMinOrderByAggregateInput = {
     id?: SortOrder
+    main_id?: SortOrder
     initialBalance?: SortOrder
     outflowBalance?: SortOrder
     entryBalance?: SortOrder
@@ -42322,6 +42375,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     bankAccount_id?: SortOrder
+    application_id?: SortOrder
   }
 
   export type BankBalanceSumOrderByAggregateInput = {
@@ -53586,6 +53640,7 @@ export namespace Prisma {
 
   export type BankBalanceCreateWithoutBankAccountInput = {
     id?: string
+    main_id: string
     initialBalance?: number
     outflowBalance?: number
     entryBalance?: number
@@ -53593,10 +53648,12 @@ export namespace Prisma {
     date: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    application_id: string
   }
 
   export type BankBalanceUncheckedCreateWithoutBankAccountInput = {
     id?: string
+    main_id: string
     initialBalance?: number
     outflowBalance?: number
     entryBalance?: number
@@ -53604,6 +53661,7 @@ export namespace Prisma {
     date: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    application_id: string
   }
 
   export type BankBalanceCreateOrConnectWithoutBankAccountInput = {
@@ -53928,6 +53986,7 @@ export namespace Prisma {
     OR?: BankBalanceScalarWhereInput[]
     NOT?: BankBalanceScalarWhereInput | BankBalanceScalarWhereInput[]
     id?: StringFilter<"BankBalance"> | string
+    main_id?: StringFilter<"BankBalance"> | string
     initialBalance?: FloatFilter<"BankBalance"> | number
     outflowBalance?: FloatFilter<"BankBalance"> | number
     entryBalance?: FloatFilter<"BankBalance"> | number
@@ -53936,6 +53995,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"BankBalance"> | Date | string
     updatedAt?: DateTimeFilter<"BankBalance"> | Date | string
     bankAccount_id?: StringFilter<"BankBalance"> | string
+    application_id?: StringFilter<"BankBalance"> | string
   }
 
   export type FamilyMemberUpsertWithoutBankAccountInput = {
@@ -63709,6 +63769,7 @@ export namespace Prisma {
 
   export type BankBalanceCreateManyBankAccountInput = {
     id?: string
+    main_id: string
     initialBalance?: number
     outflowBalance?: number
     entryBalance?: number
@@ -63716,10 +63777,12 @@ export namespace Prisma {
     date: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    application_id: string
   }
 
   export type BankBalanceUpdateWithoutBankAccountInput = {
     id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
     initialBalance?: FloatFieldUpdateOperationsInput | number
     outflowBalance?: FloatFieldUpdateOperationsInput | number
     entryBalance?: FloatFieldUpdateOperationsInput | number
@@ -63727,10 +63790,12 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    application_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type BankBalanceUncheckedUpdateWithoutBankAccountInput = {
     id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
     initialBalance?: FloatFieldUpdateOperationsInput | number
     outflowBalance?: FloatFieldUpdateOperationsInput | number
     entryBalance?: FloatFieldUpdateOperationsInput | number
@@ -63738,10 +63803,12 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    application_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type BankBalanceUncheckedUpdateManyWithoutBankAccountInput = {
     id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
     initialBalance?: FloatFieldUpdateOperationsInput | number
     outflowBalance?: FloatFieldUpdateOperationsInput | number
     entryBalance?: FloatFieldUpdateOperationsInput | number
@@ -63749,6 +63816,7 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    application_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type MedicationCreateManyFamilyMemberDiseaseInput = {
