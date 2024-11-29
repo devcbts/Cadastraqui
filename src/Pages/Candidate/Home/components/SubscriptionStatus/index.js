@@ -74,7 +74,7 @@ export default function SubscriptionStatus() {
                 <div className={styles.registerinfo}>
                     <div className={styles.registerdesc}>
                         <h1
-                            style={{ display: 'flex', alignItems: 'center', placeContent: 'center', cursor: 'pointer' }}
+                            style={{ display: 'flex', alignItems: 'center', placeContent: 'center', cursor: 'pointer', gap: '8px' }}
                             onClick={() => {
                                 setShowHelp(prev => !prev)
                             }}

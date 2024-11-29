@@ -5,16 +5,18 @@ import { ReactComponent as Arrow } from '../../../../../Assets/icons/arrow.svg';
 import { ReactComponent as Siren } from '../../../../../Assets/icons/siren.svg';
 import styles from './styles.module.scss';
 import { CardContent, CardHead, CardRoot, CardTitle } from './styles.ts';
+import BackPageTitle from 'Components/BackPageTitle';
 export default function AnnouncementView() {
     const navigate = useNavigate()
     const currentYear = new Date().getFullYear();
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <div className={styles.title}>
-                    <Arrow height={15} style={{ transform: "rotateZ(180deg)" }} onClick={() => navigate('/home')} />
-                    <h1>Editais do candidato</h1>
-                </div>
+                <BackPageTitle
+                    title={'Editais do candidato'}
+                    path={'/home'}
+                />
+
                 <CardRoot>
                     <CardHead>
                         <Siren />

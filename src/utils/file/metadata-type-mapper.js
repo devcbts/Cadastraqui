@@ -25,7 +25,9 @@ const METADATA_TYPE_MAPPER = {
     WORKCARD: 'Carteira de trabalho',
     DECLARATIONS: 'Declarações',
     PIX: 'Pix',
-    INCOMEPROOF: 'Comprovante de renda'
+    INCOMEPROOF: 'Comprovante de renda',
+    HISTORY: 'Histórico escolar',
+    ADDITIONAL_ASSISTANT: 'Documento adicional enviado pela assistente',
 }
 
 export default METADATA_TYPE_MAPPER

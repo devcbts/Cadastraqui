@@ -15,6 +15,7 @@ export default function useBankReport({ id }) {
     const [isLoading, setIsLoading] = useState(true)
     const { canEdit, service } = useSubscribeFormPermissions()
     const [data, setData] = useState([])
+    const [_needReload, _setNeedReload] = useState(false)
     useEffect(() => {
         const fetchCCSFiles = async () => {
             try {
@@ -25,7 +26,7 @@ export default function useBankReport({ id }) {
             setIsLoading(false)
         }
         fetchCCSFiles()
-    }, [id])
+    }, [id, _needReload])
 
     const handleUploadFile = async (type, file) => {
         if (!canEdit) { return }
@@ -46,6 +47,7 @@ export default function useBankReport({ id }) {
 
             await uploadService.uploadBySectionAndId({ section: type, id }, formData)
             NotificationService.success({ text: 'Documento enviado com sucesso' })
+            _setNeedReload(prev => !prev)
         } catch (err) {
             NotificationService.error({ text: 'Erro ao enviar documento, tente novamente' })
 

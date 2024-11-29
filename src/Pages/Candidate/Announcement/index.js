@@ -27,9 +27,7 @@ export default function AnnouncementCandidate() {
         <Container>
             <Header>
                 <Loader loading={isLoading} />
-                <TitlePage>
-                    <BackPageTitle title={"Editais do candidato"} path={"/home"} />
-                </TitlePage>
+                <BackPageTitle title={"Editais do candidato"} path={"/home"} />
                 <CardRoot>
                     <CardHead>
                         <Siren />
@@ -45,15 +43,16 @@ export default function AnnouncementCandidate() {
                 </CardRoot>
             </Header>
             <div>
-                <span>Editais em andamento</span>
-                <Table.Root headers={["entidade", "edital", "vagas", "ações"]}>
+                <Table.Root
+                    title={'Editais em andamento'}
+                    headers={["entidade", "edital", "vagas", "ações"]}>
                     {
                         announcements.map((item) => {
                             const { announcement } = item
                             return (
                                 <Table.Row>
                                     {/* <Table.Cell divider>Teste</Table.Cell> */}
-                                    <Table.Cell>{announcement.entity?.socialReason}</Table.Cell>
+                                    <Table.Cell align='left'>{announcement.entity?.socialReason}</Table.Cell>
                                     <Table.Cell>{announcement.announcementNumber}</Table.Cell>
                                     <Table.Cell>{announcement.verifiedScholarships}</Table.Cell>
                                     <Table.Cell>

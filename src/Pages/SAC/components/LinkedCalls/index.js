@@ -63,8 +63,11 @@ export default function LinkedCalls() {
                     { accessorKey: 'status', header: 'Status', cell: (info) => CALL_STATUS_TRANSLATION[info.getValue()] },
                     {
                         id: 'actions', header: 'Ações', cell: ({ row: { original: call } }) => {
-                            return call.status !== CALL_STATUS.CLOSED
-                                && <ButtonBase label={'finalizar'} onClick={() => handleFinishCall(call.id)} danger />
+                            return <>
+                                <ButtonBase label={'Visualizar'} onClick={() => navigate(call.id)} />
+                                {call.status !== CALL_STATUS.CLOSED
+                                    && <ButtonBase label={'finalizar'} onClick={() => handleFinishCall(call.id)} danger />}
+                            </>
                         }
 
                     },

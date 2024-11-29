@@ -115,6 +115,7 @@ export default function FormDeclarations() {
     // const [declarationData, setDeclarationData] = useState(null);
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom)
     useEffect(() => {
+        if (currentScreen !== SCREENS.OVERVIEW) { return }
         const fetchDeclaration = async () => {
             try {
                 setIsLoading(true)
@@ -133,7 +134,7 @@ export default function FormDeclarations() {
         };
         fetchDeclaration();
 
-    }, []);
+    }, [currentScreen]);
 
     const navigateToScreen = useCallback((screen, id = null) => {
         if (id) {
