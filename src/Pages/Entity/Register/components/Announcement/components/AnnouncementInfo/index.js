@@ -13,6 +13,7 @@ import InputBase from "Components/InputBase";
 import findLabel from "utils/enums/helpers/findLabel";
 import useTutorial from "hooks/useTutorial";
 import ANNOUNCEMENT_TUTORIALS from "utils/enums/tutorials/announcement";
+import { AnimatePresence, motion } from "framer-motion";
 // announcementDate - final announcement date
 // announcementBegin - announcement start date
 // openDate - subscription start
@@ -74,11 +75,21 @@ export default function AnnouncementInfo({ data, announcementType = "Scholarship
                     </div>
                     <FormCheckbox control={control} label={'haverá lista de espera?'} name={"waitingList"} />
                     <FormCheckbox control={control} label={'haverá entrevista obrigatória com o candidato?'} name={"hasInterview"} />
-                    {
-                        watch.hasInterview && (
-                            <Interview data={data?.announcementInterview} onChange={handleInterview} ref={interviewRef} />
-                        )
-                    }
+                    <AnimatePresence>
+                        {
+                            watch.hasInterview && (
+                                <motion.div
+                                    initial={{ height: 0 }}
+                                    animate={{ height: 'auto' }}
+                                    exit={{ height: 0 }}
+                                    transition={{ duration: .2 }}
+                                    style={{ overflow: 'hidden' }}
+                                >
+                                    <Interview data={data?.announcementInterview} onChange={handleInterview} ref={interviewRef} />
+                                </motion.div>
+                            )
+                        }
+                    </AnimatePresence>
                 </div>
                 <ButtonBase label={'próximo'} onClick={handleSubmit} />
             </div>

@@ -57,7 +57,9 @@ export default function Tutorial() {
                                         },
 
                                     }}
-                                    videoId={value} className={styles.player} onReady={(event) => {
+                                    videoId={value}
+                                    className={styles.player}
+                                    onReady={(event) => {
                                         event.target.playVideo()
                                     }} />
                             </motion.div>

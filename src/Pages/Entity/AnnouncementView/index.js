@@ -28,7 +28,9 @@ export default function EntityAnnouncementView() {
         fetchData()
     }, [announcementId])
     const handleLinkCopy = () => {
-        navigator.clipboard.writeText(`${process.env.REACT_APP_BASE_URL}/edital/${announcementId}`)
+        navigator.clipboard.writeText(`${process.env.REACT_APP_BASE_URL}/edital/${announcementId}`).then(_ => {
+            NotificationService.success({ text: 'Link do edital copiado', type: 'toast' })
+        })
     }
 
     return (

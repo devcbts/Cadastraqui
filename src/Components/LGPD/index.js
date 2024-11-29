@@ -22,7 +22,11 @@ export default function LGPD({ children }) {
         <>
             <div onClick={handleModal}>
                 {children ??
-                    <div className={styles.badge}>LGPD</div>
+                    <div className={styles.badge}>
+                        <span>
+                            LGPD
+                        </span>
+                    </div>
 
                 }
             </div>

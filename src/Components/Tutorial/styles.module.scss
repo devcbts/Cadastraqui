@@ -1,8 +1,9 @@
 @import '../../Assets/theme/colors.module.scss';
 .player {
    iframe {
-    height: 490px;
-    width: 740px;
+      aspect-ratio: 16/9;
+   //  height: 490px;
+   //  width: 740px;
    }
     
 }

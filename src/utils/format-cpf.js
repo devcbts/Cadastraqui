@@ -1,4 +1,7 @@
 export function formatCPF(cpf) {
+    const digits = cpf
+        ?.replace(/\D/g, '')
+    if (digits.length < 11) return cpf
     return cpf
         // Remove caracteres não numéricos
         ?.replace(/\D/g, '')
