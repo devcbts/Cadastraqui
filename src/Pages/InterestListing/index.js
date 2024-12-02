@@ -28,7 +28,7 @@ export default function InterestListing() {
         <>
             <Loader loading={isLoading} />
             <BackPageTitle path={'/home'} title={'Lista de interessados'} />
-            <div style={{ maxWidth: 'max(25%,300px)' }}>
+            <div style={{ maxWidth: 'max(25%,300px)', marginBottom: '24px' }}>
 
                 <SelectBase
                     error={null}

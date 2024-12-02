@@ -77,10 +77,10 @@ export default function AssistantHome() {
                 <Card title={'alunos aprovados'}>
                     {data?.approvedApplications}
                 </Card>
-                <Card title={'agendamentos marcados'}>
+                <Card title={'agendamentos marcados'} >
                     {data?.allInterviews}
                 </Card>
-                <Card title={'agendamentos do dia'}>
+                <Card title={'agendamentos do dia'} onClick={() => navigate('/agenda', { state: { scheduleView: 'agenda' } })}>
                     {data?.todayInterviews}
                 </Card>
             </div >
@@ -113,7 +113,7 @@ export default function AssistantHome() {
                         </BarChart>
                     </ResponsiveContainer>
                 </GraphCard>
-                <GraphCard title={'Candidatos'} style={{ cursor: 'pointer' }} onClick={() => navigate('/interessados')}>
+                <GraphCard title={'Candidatos interessados'} style={{ cursor: 'pointer' }} onClick={() => navigate('/interessados')}>
                     <ResponsiveContainer width={"100%"} minHeight={300}  >
                         <PieChart
                             style={{ cursor: 'pointer' }}

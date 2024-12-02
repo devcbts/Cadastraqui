@@ -36,11 +36,11 @@ export default function useMemberIncomeView({
                     setIncomeInfo(incomes)
                     setIncomeStatus(status)
                 }
-                {
-                    canEdit && NotificationService.warn({
-                        text: 'Importante! Precisa cadastrar suas contas bancárias e enviar os extratos mensais. Também é obrigatório enviar mensalmente o Relatório de contas e relacionamentos (CCS).'
-                    })
-                }
+                // {
+                //     canEdit && NotificationService.warn({
+                //         text: 'Importante! Precisa cadastrar suas contas bancárias e enviar os extratos mensais. Também é obrigatório enviar mensalmente o Relatório de contas e relacionamentos (CCS).'
+                //     })
+                // }
             } catch (err) {
 
             }

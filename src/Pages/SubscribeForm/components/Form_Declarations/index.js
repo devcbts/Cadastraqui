@@ -266,26 +266,22 @@ export default function FormDeclarations() {
         <div className={commonStyles.container}>
             <Loader loading={isLoading} />
             {currentScreen === SCREENS.OVERVIEW && (
-                <div>
+                <div style={{ display: 'flex', placeItems: 'center', flexDirection: 'column' }}>
                     <h1>Declarações para fins de processo seletivo CEBAS</h1>
-                    <div className={commonStyles.declarationSection}>
-                        <div className={commonStyles.declarationItem}>
-                            {data ? (
-                                Array.from([...data?.FamilyMember ?? [], data]).map(e => (
+                    {data ? (
+                        Array.from([...data?.FamilyMember ?? [], data]).map(e => (
 
-                                    <FormListItem.Root text={e.name} key={e.id}>
+                            <FormListItem.Root text={e.name} key={e.id}>
 
-                                        <FormListItem.Actions>
-                                            <FilePreview url={e.lastDeclaration} text={'ver declaração'} />
-                                            <ButtonBase label="cadastrar" onClick={() => handleNavigateToForm(e)} />
-                                        </FormListItem.Actions>
-                                    </FormListItem.Root>
-                                ))
-                            ) : (
-                                <p>Carregando...</p>
-                            )}
-                        </div>
-                    </div>
+                                <FormListItem.Actions>
+                                    <FilePreview url={e.lastDeclaration} text={'ver declaração'} />
+                                    <ButtonBase label="cadastrar" onClick={() => handleNavigateToForm(e)} />
+                                </FormListItem.Actions>
+                            </FormListItem.Root>
+                        ))
+                    ) : (
+                        <p>Carregando...</p>
+                    )}
                 </div>
             )}
             {currentScreen === SCREENS.FORM && (
