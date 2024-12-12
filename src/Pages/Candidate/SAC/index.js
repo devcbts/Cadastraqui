@@ -29,7 +29,7 @@ export default function CandidateSAC() {
             <Loader loading={isLoading} />
             <h1>SAC</h1>
             <ButtonBase
-                style={{ placeSelf: 'start' }}
+                style={{ placeSelf: 'start', margin: '24px 0px' }}
                 label={'abrir novo chamado'} onClick={() => navigate('novo')} />
 
             <DataTable

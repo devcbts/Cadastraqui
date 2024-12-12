@@ -1,24 +1,29 @@
 import Card from "Components/Card/CardRoot";
 import GraphCard from "Pages/Students/Dashboard/components/GraphCard";
+import { useNavigate } from "react-router";
 import { Bar, BarChart, Cell, Legend, Rectangle, ResponsiveContainer, Tooltip, YAxis } from "recharts";
 import toColor from "utils/number-to-color";
 
 export default function EntityCandidateInterest({ announcementInterest, candidateInterest
 }) {
+    const navigate = useNavigate()
+    const handleNavigate = () => {
+        navigate('/interessados')
+    }
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginTop: '24px' }}>
 
             <div style={{ display: 'flex', flexDirection: 'row', flexWrap: "wrap", gap: '12px' }}>
-                <Card title={'Inscritos'}>
+                <Card title={'Inscritos'} onClick={handleNavigate}>
                     {candidateInterest?.numberOfApplications}
                 </Card>
-                <Card title={'Interessados'}>
+                <Card title={'Interessados'} onClick={handleNavigate}>
                     {candidateInterest?.totalNumberOfInterested}
                 </Card>
-                <Card title={'Cadastro completo'}>
+                <Card title={'Cadastro completo'} onClick={handleNavigate}>
                     {candidateInterest?.numberOfFinishedRegistration}
                 </Card>
-                <Card title={'Cadastro incompleto'}>
+                <Card title={'Cadastro incompleto'} onClick={handleNavigate}>
                     {candidateInterest?.numberOfUnfinishedRegistration}
                 </Card>
             </div>

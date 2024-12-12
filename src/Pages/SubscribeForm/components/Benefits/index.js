@@ -50,7 +50,10 @@ const Benefits = forwardRef(({ data }, ref) => {
             <div className={styles.container}>
                 <FormCheckbox name={"CadUnico"} control={control} label={"Inscrito no cadastro único?"} />
 
-                <div className={styles.grid}>
+                <div
+                    // className={styles.grid}
+                    style={{ marginBottom: watchCad ? 24 : 0 }}
+                >
                     {watchCad &&
                         <>
                             <InputForm name={"NIS"} control={control} label={"Número de Identificação Social (NIS)"} />
@@ -62,10 +65,10 @@ const Benefits = forwardRef(({ data }, ref) => {
                             </Link>
                         </>
                     }
-                    <FormCheckbox name={"attendedPublicHighSchool"} control={control} label={"estudou em escola pública?"} />
-                    <FormCheckbox name={"benefitedFromCebasScholarship_basic"} control={control} label={"já recebeu bolsa CEBAS para educação básica?"} />
-                    <FormCheckbox name={"benefitedFromCebasScholarship_professional"} control={control} label={"já recebeu bolsa CEBAS para educação profissional?"} />
                 </div>
+                <FormCheckbox name={"attendedPublicHighSchool"} control={control} label={"estudou em escola pública?"} />
+                <FormCheckbox name={"benefitedFromCebasScholarship_basic"} control={control} label={"já recebeu bolsa CEBAS para educação básica?"} />
+                <FormCheckbox name={"benefitedFromCebasScholarship_professional"} control={control} label={"já recebeu bolsa CEBAS para educação profissional?"} />
             </div>
         </div>
     )

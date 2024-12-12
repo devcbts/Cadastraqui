@@ -4,18 +4,29 @@ import Loader from "Components/Loader";
 import SelectBase from "Components/SelectBase";
 import Table from "Components/Table";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { useSearchParams } from "react-router-dom";
 import socialAssistantService from "services/socialAssistant/socialAssistantService";
 
-export default function InterestListing() {
-    const [selectedAnnouncement, setSelectedAnnouncement] = useState(null)
+export default function InterestListing({
+    loadAnnouncements,
+    nameKey
+}) {
+    const [params, setParams] = useSearchParams()
+    const announcementId = params.get('view')
+    const [selectedAnnouncement, setSelectedAnnouncement] = useState(announcementId)
     const [announcements, setAnnouncements] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
         const fetchAnnouncements = async () => {
             setIsLoading(true)
             try {
-                const information = await socialAssistantService.getAllAnnouncements()
-                setAnnouncements(information.announcements.map(e => ({ value: e.id, label: e.name })))
+                const information = await loadAnnouncements()
+                const mapAnnoucements = information.announcements.map(e => ({ value: e.id, label: e.name ?? e[nameKey] }))
+                setAnnouncements(mapAnnoucements)
+                if (announcementId) {
+                    setSelectedAnnouncement(mapAnnoucements.find(e => e.value === announcementId))
+                }
             } catch (err) {
 
             }
@@ -33,11 +44,17 @@ export default function InterestListing() {
                 <SelectBase
                     error={null}
                     options={announcements}
+                    value={selectedAnnouncement}
                     label="Selecione um edital"
-                    onChange={(e) => setSelectedAnnouncement(e)}
+                    onChange={(e) => {
+                        setSelectedAnnouncement(e)
+                        setParams({ view: e.value })
+
+                    }}
                 />
             </div>
             <InterestCards
+                canNavigate={false}
                 announcementId={selectedAnnouncement?.value}
             >
                 {({ candidateInterest }) => {

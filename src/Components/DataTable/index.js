@@ -148,7 +148,7 @@ export default function DataTable({
                     ))}
                 </tbody>
             </table>
-                : (<strong style={{ fontSize: '20px' }}>Nenhum resultado encontrado</strong>)}
+                : (<strong style={{ fontSize: '20px', marginTop: '24px' }}>Nenhum resultado encontrado</strong>)}
             {allowPagination && <TablePagination
                 table={table}
                 pagination={pagination}

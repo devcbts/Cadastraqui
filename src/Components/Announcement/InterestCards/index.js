@@ -3,11 +3,14 @@ import { useEffect, useState } from "react";
 import entityService from "services/entity/entityService";
 import styles from './styles.module.scss'
 import IndicatorChart from "./IndicatorChart";
+import { useNavigate } from "react-router";
 // ({candidateInterest}) => Element
 export default function InterestCards({
     announcementId,
+    canNavigate = true,
     children = null
 }) {
+    const navigate = useNavigate()
     const [data, setData] = useState({
         numberOfInterested: 0,
         numberOfApplications: 0,
@@ -15,6 +18,9 @@ export default function InterestCards({
         numberOfUnfinishedRegistration: 0,
         candidateInterest: []
     })
+    const handleNavigateToInterestList = canNavigate ? () => {
+        navigate(`/interessados?view=${announcementId}`)
+    } : null
     useEffect(() => {
         const fetchInterest = async () => {
             try {
@@ -29,10 +35,10 @@ export default function InterestCards({
     return (
         <>
             <div className={styles.container}>
-                <Card title={'interessados'}>{data.numberOfInterested}</Card>
-                <Card title={'cadastro completo'}>{data.numberOfFinishedRegistration}</Card>
-                <Card title={'cadastro incompleto'}>{data.numberOfUnfinishedRegistration}</Card>
-                <Card title={'inscritos'}>{data.numberOfApplications}</Card>
+                <Card title={'interessados'} onClick={handleNavigateToInterestList}>{data.numberOfInterested}</Card>
+                <Card title={'cadastro completo'} onClick={handleNavigateToInterestList}>{data.numberOfFinishedRegistration}</Card>
+                <Card title={'cadastro incompleto'} onClick={handleNavigateToInterestList}>{data.numberOfUnfinishedRegistration}</Card>
+                <Card title={'inscritos'} onClick={handleNavigateToInterestList}>{data.numberOfApplications}</Card>
             </div>
 
             <h3>Taxa de conversão de Candidatos interessados em inscritos</h3>

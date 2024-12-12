@@ -63,6 +63,8 @@ import StudentRenewAnnouncements from "Pages/Students/Listing/components/Student
 import StudentEmails from "Pages/Students/Listing/components/StudentInformation/components/StudentsEmails";
 import InterestListing from "Pages/InterestListing";
 import CandidateAIAnalysis from "Pages/SocialAssistant/SelectionProcess/CandidateAIAnalysis";
+import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import entityService from "services/entity/entityService";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -177,7 +179,7 @@ export default function AppRoutes() {
                         </Route>
                         <Route path="renovacao" element={<EntityStudentsRenew />} />
                     </Route>
-                    <Route path="/interessados" element={<InterestListing />} />
+                    <Route path="/interessados" element={<InterestListing loadAnnouncements={socialAssistantService.getAllAnnouncements} />} />
                     <Route path="*" element={<Navigate to={'/home'} />} replace />
 
                 </Routes>
@@ -228,6 +230,7 @@ export default function AppRoutes() {
                         </Route>
                         <Route path="renovacao" element={<EntityStudentsRenew />} />
                     </Route>
+                    <Route path="interessados" element={<InterestListing loadAnnouncements={entityService.getFilteredAnnouncements} nameKey={"announcementName"} />} />
                     <Route path="*" element={<Navigate to={'/home'} replace />} />
 
                 </Routes>

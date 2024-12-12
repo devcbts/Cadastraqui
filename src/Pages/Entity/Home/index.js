@@ -6,8 +6,10 @@ import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, Rectangle, R
 import entityService from "services/entity/entityService";
 import toColor from "utils/number-to-color";
 import EntityCandidateInterest from "./EntityCandidateInterest";
+import { useNavigate } from "react-router";
 
 export default function EntityHome() {
+    const navigate = useNavigate()
     const [data, setData] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
@@ -26,7 +28,7 @@ export default function EntityHome() {
             <Loader loading={isLoading} />
             <h1>Início</h1>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', flexWrap: 'wrap', gap: '20px' }}>
-                <Card title={'editais abertos'}>
+                <Card title={'editais abertos'} onClick={() => navigate('/editais')}>
 
                     {data?.announcements}
                 </Card>
