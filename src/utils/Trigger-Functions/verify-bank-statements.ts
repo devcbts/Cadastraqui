@@ -9,23 +9,26 @@ export default async function verifyBankStatement(id: string) {
         }
     })
     let update = false
-    console.log('RODEI AQUII')
-    if (bankStatements >= 3) {
-        update = true;
-    }
+
     const bankAccount = await prisma.bankAccount.findUnique({
         where: {
             id
-        },
+        },include:{
+            balances:true
+        }
 
     })
     if (!bankAccount) {
         return
     }
+    if (bankStatements >= 3 && bankAccount.balances.length >= 3) {
+        update = true;
+    }
     if (bankAccount.isUpdated === update) {
         return
     }
 
+    
     await prisma.bankAccount.update({
         where: {
             id

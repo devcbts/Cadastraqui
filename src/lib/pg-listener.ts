@@ -388,7 +388,8 @@ clientBackup.on('notification', async (msg) => {
                     await deleteBankBalanceHDB(bankBalance.data.id)
                     
                 }
-                break
+                await verifyBankStatement(bankBalance.data.bankAccount_id)
+                break;
             }
 
             case 'channel_application': {
