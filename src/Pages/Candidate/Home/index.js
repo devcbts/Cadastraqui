@@ -49,7 +49,7 @@ export default function HomeCandidate() {
                             {formatMoney(data.familyIncome)}
                         </Card>
                         <Card title={'salário mínimo nacional'}>
-                            {formatMoney(1412)}
+                            {formatMoney(1518)}
                         </Card>
 
                     </div>
