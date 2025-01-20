@@ -72,7 +72,7 @@ export default function AdminAccountInfoView() {
                                 </Table.Row>
                                 <Table.Row>
                                     <Table.Cell>Endereço </Table.Cell>
-                                    <Table.Cell>{`${account?.details.address}, nº ${account?.details.addressNumber}. ${account?.details.city} - ${account?.details.UF}`}</Table.Cell>
+                                    <Table.Cell>{`${account?.details.address}${account?.details.addressNumber ? `, nº ${account?.details.addressNumber}` : ''}. ${account?.details.city} - ${account?.details.UF}`}</Table.Cell>
                                 </Table.Row>
                                 <Table.Row>
                                     <Table.Cell>Telefone </Table.Cell>
