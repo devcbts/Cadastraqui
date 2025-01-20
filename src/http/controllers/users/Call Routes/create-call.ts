@@ -83,8 +83,8 @@ export default async function createCall(request: FastifyRequest, reply: Fastify
                 <p>${callMessage.message}</p>
                 </body>
                 `
-            }).then(({ messageId }) => console.log('Email enviado', messageId))
-            console.log('ENVIANDO EMAIL PARA ', admins.map(e => e.email),)
+            }).then(({ messageId }) => console.log('Email enviado', messageId,))
+                .catch(err => console.log('Fail to send create call email', err))
         } catch (err) { }
         return reply.status(201).send({ call, callMessage })
     } catch (error: any) {
