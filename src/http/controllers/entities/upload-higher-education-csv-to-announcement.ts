@@ -3,11 +3,9 @@ import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
 import { AllEducationType, AllScholarshipsType, SHIFT } from "@prisma/client";
-import csv from 'csv-parser';
+import csvParser from "csv-parser";
 import { FastifyReply, FastifyRequest } from "fastify";
 import fs from 'fs';
-import { decodeStream, encodeStream } from "iconv-lite";
-import { detect } from 'jschardet';
 import pump from "pump";
 import tmp from 'tmp';
 import { EntityNotExistsErrorWithCNPJ } from '../../../errors/entity-not-exists-with-cnpj';
@@ -66,7 +64,7 @@ export default async function uploadHigherEducationCSVFileToAnnouncement(
 
         // Save the uploaded file to the temporary file
         await new Promise((resolve, reject) => {
-            pump(csvFile.file, fs.createWriteStream(tempFile.name), (err) => {
+            pump(csvFile.file, fs.createWriteStream(tempFile.name, { encoding: 'utf-8' }), (err) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -74,22 +72,22 @@ export default async function uploadHigherEducationCSVFileToAnnouncement(
                 }
             });
         });
-        const detectEncoding = (filePath: any) => {
-            return new Promise((resolve, reject) => {
-                const buffer = fs.readFileSync(filePath);
-                const detection = detect(buffer);
-                resolve(detection.encoding);
-            });
-        };
+        // const detectEncoding = (filePath: any) => {
+        //     return new Promise((resolve, reject) => {
+        //         const buffer = fs.readFileSync(filePath);
+        //         const detection = detect(buffer);
+        //         resolve(detection.encoding);
+        //     });
+        // };
 
-        const detectedEncoding = await detectEncoding(tempFile.name);
-        const encoding = detectedEncoding === 'windows-1251' ? 'latin1' : (detectedEncoding as string || 'utf8');
+        // const detectedEncoding = await detectEncoding(tempFile.name);
+        // const encoding = detectedEncoding === 'windows-1251' ? 'latin1' : (detectedEncoding as string || 'utf8');
         const results: CSVData[] = [];
         await new Promise((resolve, reject) => {
             fs.createReadStream(tempFile.name)
-                .pipe(decodeStream(encoding))
-                .pipe(encodeStream('utf8'))
-                .pipe(csv({ separator: detectedEncoding === "UTF-8" ? ',' : ';' }))
+                // .pipe(decodeStream(encoding))
+                // .pipe(encodeStream('utf8'))
+                .pipe(csvParser({ separator: ';' }))
                 .on('data', (data: CSVData) => {
                     // Process the data as needed
                     console.log(data)
@@ -109,7 +107,7 @@ export default async function uploadHigherEducationCSVFileToAnnouncement(
                 });
         });
 
-
+        console.log(results, results.length)
         const uniqueCNPJs = Array.from(new Set(results.map(result => result["CNPJ (Matriz ou Filial)"])));
 
         const entities = await Promise.all(uniqueCNPJs.map(async (cnpj) => {

@@ -6,7 +6,6 @@ import { AllEducationType, AllScholarshipsType, SHIFT } from "@prisma/client";
 import csv from 'csv-parser';
 import { FastifyReply, FastifyRequest } from "fastify";
 import fs from 'fs';
-import { decodeStream, encodeStream } from "iconv-lite";
 import { detect } from 'jschardet';
 import pump from "pump";
 import tmp from 'tmp';
@@ -65,7 +64,7 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
 
         // Save the uploaded file to the temporary file
         await new Promise((resolve, reject) => {
-            pump(csvFile.file, fs.createWriteStream(tempFile.name), (err) => {
+            pump(csvFile.file, fs.createWriteStream(tempFile.name, { encoding: 'utf-8' }), (err) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -81,13 +80,13 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
             });
         };
 
-        const detectedEncoding = 'latin1';
+        // const detectedEncoding = 'utf-8';
         // const encoding = detectedEncoding === 'windows-1251' ? 'latin1' : (detectedEncoding as string || 'utf8');
         const results: CSVData[] = [];
         await new Promise((resolve, reject) => {
             fs.createReadStream(tempFile.name)
-                .pipe(decodeStream(detectedEncoding))
-                .pipe(encodeStream('utf8'))
+                // .pipe(decodeStream(detectedEncoding))
+                // .pipe(encodeStream('utf8'))
                 .pipe(csv({
                     separator: ';'
                     // detectedEncoding === "UTF-8" ? ',' : ';'
@@ -136,6 +135,7 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
         console.log(results)
         if (results.some(e => {
             const value = parseInt(e["Número de Vagas"])
+            console.log(value)
             return isNaN(value) || value <= 0
         })) {
             throw new APIError('Não podem haver vagas iguais à zero.')
