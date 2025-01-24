@@ -40,11 +40,9 @@ export const app = fastify({
 app.register(fastifyMultipart,
   {
     // attachFieldsToBody: true
-    // limits: {
-    //   fileSize: 15000000,
-    //   files: 10,
-
-    // },
+    limits: {
+      fileSize: 1024 * 1024 * 10,
+    },
   })
 // Registre o plugin fastify-cors
 app.register(fastifyCors, {

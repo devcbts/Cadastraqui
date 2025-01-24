@@ -1,7 +1,6 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { uploadFile } from '@/http/services/upload-file'
-import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import SelectEntityOrDirector from './utils/select-entity-or-director'
