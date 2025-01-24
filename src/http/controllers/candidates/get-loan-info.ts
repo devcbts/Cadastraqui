@@ -1,10 +1,8 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
-import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { get } from 'http'
 import { z } from 'zod'
 import { getSectionDocumentsPDF } from './AWS Routes/get-pdf-documents-by-section'
 
@@ -40,10 +38,10 @@ export async function getLoanInfo(
     // Busca as informações de Loan no banco de dados
     const loans = await prisma.loan.findMany({
       where: {
-      OR: [
-        { familyMember: { id: { in: familyMemberIds } } },
-        { candidate_id: idField.candidate_id }
-      ]
+        OR: [
+          { familyMember: { id: { in: familyMemberIds } } },
+          { candidate_id: idField.candidate_id }
+        ]
       },
     })
 
@@ -55,12 +53,12 @@ export async function getLoanInfo(
         urls: Object.fromEntries(loanDocuments),
       }
     });
-    return reply.status(200).send({ loans: loansWithUrls})
+    return reply.status(200).send({ loans: loansWithUrls })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: err.message })
+    return reply.status(500).send({ message: 'Erro interno no servidor' })
   }
 }

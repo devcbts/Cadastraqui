@@ -3,7 +3,6 @@ import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { historyDatabase, prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { getSectionDocumentsPDF } from '../../candidates/AWS Routes/get-pdf-documents-by-section'
 import { getSectionDocumentsPDF_HDB } from '../AWS-routes/get-documents-by-section-HDB'
 
 export async function getFamilyMemberInfoHDB(
@@ -19,14 +18,14 @@ export async function getFamilyMemberInfoHDB(
   try {
     const user_id = request.user.sub
     const isAssistant = await prisma.socialAssistant.findUnique({
-      where: {user_id}
+      where: { user_id }
     })
     if (!isAssistant) {
       throw new NotAllowedError()
     }
 
     const familyMembers = await historyDatabase.familyMember.findMany({
-      where: {application_id},
+      where: { application_id },
     })
 
     const urls = await getSectionDocumentsPDF_HDB(application_id, 'family-member')
@@ -45,6 +44,6 @@ export async function getFamilyMemberInfoHDB(
       return reply.status(404).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: err.message })
+    return reply.status(500).send({ message: 'Erro interno no servidor' })
   }
 }

@@ -1,9 +1,6 @@
-import { NotAllowedError } from '@/errors/not-allowed-error'
-import { ResourceNotFoundError } from '@/errors/resource-not-found-error';
-import { prisma, historyDatabase } from '@/lib/prisma'
-import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible';
-import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible';
-import { FastifyReply, FastifyRequest } from 'fastify'
+import { NotAllowedError } from '@/errors/not-allowed-error';
+import { historyDatabase, prisma } from '@/lib/prisma';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 
 export async function getBasicInfoHDB(
@@ -18,19 +15,19 @@ export async function getBasicInfoHDB(
   try {
     const user_id = request.user.sub
     const isAssistant = await prisma.socialAssistant.findUnique({
-        where: {user_id}
+      where: { user_id }
     })
     if (!isAssistant) {
-        throw new NotAllowedError()
-        
+      throw new NotAllowedError()
+
     }
-    
+
     // Verifica se existe um candidato associado ao user_id
     const basicInfoCandidate = await historyDatabase.candidate.findUnique({
-        where: {application_id},
+      where: { application_id },
     })
     const basicInfoResponsible = await historyDatabase.legalResponsible.findUnique({
-        where: {application_id},
+      where: { application_id },
     })
 
     const basicInfo = basicInfoCandidate || basicInfoResponsible
@@ -40,6 +37,6 @@ export async function getBasicInfoHDB(
       return reply.status(401).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: err.message })
+    return reply.status(500).send({ message: 'Erro interno no servidor' })
   }
 }

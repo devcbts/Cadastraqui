@@ -18,7 +18,7 @@ export async function deleteSolicitation(
 
     const { application_id, id } = applicationParamsSchema.parse(request.params)
     try {
-       
+
 
         // Criar novo report no histórico da inscrição 
         // Se a solicitação for do tipo de documentos
@@ -77,6 +77,6 @@ export async function deleteSolicitation(
         }
 
 
-        return reply.status(500).send({ message: err.message })
+        return reply.status(500).send({ message: 'Erro interno no servidor' })
     }
 }

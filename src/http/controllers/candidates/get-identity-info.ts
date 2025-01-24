@@ -42,6 +42,6 @@ export async function getIdentityInfo(
       return reply.status(401).send({ message: err.message })
     }
     console.log(err)
-    return reply.status(500).send({ message: err.message })
+    return reply.status(500).send({ message: 'Erro interno no servidor' })
   }
 }

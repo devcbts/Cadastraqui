@@ -10,11 +10,11 @@ export async function seeAnnouncements(
 
 ) {
   const fetchParamsSchema = z.object({
-    entity_id : z.string(),
-    announcement_id : z.string().optional(),
+    entity_id: z.string(),
+    announcement_id: z.string().optional(),
   })
 
-  const {entity_id, announcement_id} = fetchParamsSchema.parse(request.params)
+  const { entity_id, announcement_id } = fetchParamsSchema.parse(request.params)
   try {
     const userId = request.user.sub
     const role = request.user.role
@@ -22,7 +22,7 @@ export async function seeAnnouncements(
       throw new NotAllowedError()
     }
     if (role !== 'ADMIN') {
-        throw new NotAllowedError()
+      throw new NotAllowedError()
     }
     const entity = await prisma.entity.findUnique({
       where: { id: entity_id },
@@ -33,23 +33,23 @@ export async function seeAnnouncements(
     }
 
     if (announcement_id) {
-        const announcement = await prisma.announcement.findUnique({
-            where: {id: announcement_id},
-            include: {
-                socialAssistant: true,
-                Application: true,
-                entity: true
-            }
-        })
-        return reply.status(200).send({announcement})
+      const announcement = await prisma.announcement.findUnique({
+        where: { id: announcement_id },
+        include: {
+          socialAssistant: true,
+          Application: true,
+          entity: true
+        }
+      })
+      return reply.status(200).send({ announcement })
     }
 
 
     const announcements = await prisma.announcement.findMany({
-        where: { entity_id: entity_id },
+      where: { entity_id: entity_id },
     })
 
-    return reply.status(200).send({ announcements})
+    return reply.status(200).send({ announcements })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
@@ -57,6 +57,6 @@ export async function seeAnnouncements(
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
     }
-    return reply.status(500).send({ message: err.message })
+    return reply.status(500).send({ message: 'Erro interno no servidor' })
   }
 }

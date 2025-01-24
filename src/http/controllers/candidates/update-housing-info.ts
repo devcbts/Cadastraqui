@@ -1,5 +1,4 @@
 import { ForbiddenError } from '@/errors/forbidden-error'
-import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
@@ -66,14 +65,14 @@ export async function updateHousingInfo(
   try {
     const user_id = request.user.sub
 
-    const candidateOrResponsible =await SelectCandidateResponsible(user_id)
+    const candidateOrResponsible = await SelectCandidateResponsible(user_id)
     if (!candidateOrResponsible) {
       throw new ForbiddenError()
 
     }
     const idField = candidateOrResponsible.IsResponsible ? { responsible_id: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
     const candidateHousingInfo = await prisma.housing.findUnique({
-      where: {...idField},
+      where: { ...idField },
     })
     // Analisa se o candidato não possui cadastro de moradia
     if (!candidateHousingInfo) {
@@ -90,7 +89,7 @@ export async function updateHousingInfo(
     // Armazena informações acerca da moradia no banco de dados
     await prisma.housing.update({
       data: dataToUpdate,
-      where: {...idField },
+      where: { ...idField },
     })
     const idFieldRegistration = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
     await prisma.finishedRegistration.upsert({
@@ -108,6 +107,6 @@ export async function updateHousingInfo(
       return reply.status(404).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: err.message })
+    return reply.status(500).send({ message: 'Erro interno no servidor' })
   }
 }

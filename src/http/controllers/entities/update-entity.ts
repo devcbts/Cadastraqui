@@ -14,7 +14,7 @@ export async function updateEntity(
     CEP: z.string().optional(),
     address: z.string().optional(),
     educationalInstitutionCode: z.string().optional(),
-    phone : z.string().optional(),
+    phone: z.string().optional(),
   })
 
   const updateParamsSchema = z.object({
@@ -38,6 +38,6 @@ export async function updateEntity(
       return reply.status(404).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: err.message })
+    return reply.status(500).send({ message: 'Erro interno no servidor' })
   }
 }

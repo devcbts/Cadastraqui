@@ -16,12 +16,12 @@ export async function deleteAssistant(
 
   try {
     const user_id = request.user.sub
-    
+
     const entity = await prisma.entity.findUnique({
-        where: {user_id}
+      where: { user_id }
     })
     if (!entity) {
-        throw new NotAllowedError()
+      throw new NotAllowedError()
     }
 
     const assistant = await prisma.socialAssistant.findUnique({
@@ -42,9 +42,9 @@ export async function deleteAssistant(
       return reply.status(404).send({ message: err.message })
     }
     if (err instanceof NotAllowedError) {
-        return reply.status(401).send({ message: err.message })
+      return reply.status(401).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: err.message })
+    return reply.status(500).send({ message: 'Erro interno no servidor' })
   }
 }

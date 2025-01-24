@@ -23,27 +23,27 @@ export async function deleteIncomeInfo(
         if (!IsUser) {
             throw new NotAllowedError()
         }
-       
+
         const findIncome = await prisma.familyMemberIncome.findUnique({
-            where: {id: income_id},
+            where: { id: income_id },
         })
         if (!findIncome) {
             throw new ResourceNotFoundError()
         }
         const user_owner = findIncome.candidate_id || findIncome.legalResponsibleId || findIncome.familyMember_id
-        
+
         if (user_owner !== member_id) {
             throw new ForbiddenError()
         }
-        
+
         const income = await prisma.familyMemberIncome.delete({
             where: {
-              id: income_id,
+                id: income_id,
             },
         })
-        
 
-        const deletedMonthlyIncomes =await prisma.monthlyIncome.findMany({
+
+        const deletedMonthlyIncomes = await prisma.monthlyIncome.findMany({
             where: {
                 incomeSource: income.employmentType,
                 OR: [
@@ -53,7 +53,7 @@ export async function deleteIncomeInfo(
                 ]
             }
         });
-        
+
         await prisma.monthlyIncome.deleteMany({
             where: {
                 incomeSource: income.employmentType,
@@ -64,12 +64,12 @@ export async function deleteIncomeInfo(
                 ]
             }
         });
-        return reply.status(204).send({deletedMonthlyIncomes})
+        return reply.status(204).send({ deletedMonthlyIncomes })
     } catch (err: any) {
         if (err instanceof ResourceNotFoundError) {
             return reply.status(404).send({ message: err.message })
         }
 
-        return reply.status(500).send({ message: err.message })
+        return reply.status(500).send({ message: 'Erro interno no servidor' })
     }
 }

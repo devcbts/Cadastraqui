@@ -22,22 +22,22 @@ export async function deleteHealthInfo(
         if (!IsUser) {
             throw new NotAllowedError()
         }
-       
+
         const findHealth = await prisma.familyMemberDisease.findUnique({
-            where: {id:_id},
-            include: {familyMember:true}
+            where: { id: _id },
+            include: { familyMember: true }
         })
         if (!findHealth) {
             throw new ResourceNotFoundError()
         }
         const user_owner = findHealth.candidate_id || findHealth.legalResponsibleId || findHealth.familyMember?.candidate_id || findHealth.familyMember?.legalResponsibleId
-        
+
         if (user_owner !== user_id) {
             throw new NotAllowedError()
         }
         await prisma.familyMemberDisease.delete({
             where: {
-              id: _id,
+                id: _id,
             },
         })
 
@@ -47,6 +47,6 @@ export async function deleteHealthInfo(
             return reply.status(404).send({ message: err.message })
         }
 
-        return reply.status(500).send({ message: err.message })
+        return reply.status(500).send({ message: 'Erro interno no servidor' })
     }
 }

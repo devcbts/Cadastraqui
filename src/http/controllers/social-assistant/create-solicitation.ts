@@ -56,7 +56,7 @@ export async function createSolicitation(
 
                 const application = await tsPrisma.application.findUnique({
                     where: { id: application_id },
-                    include: { 
+                    include: {
                         candidate:
                         {
                             select: {
@@ -82,7 +82,7 @@ export async function createSolicitation(
                                     }
                                 }
                             }
-                        },announcement: { include: { AssistantSchedule: { where: { assistant: { user_id: sub } } } } }
+                        }, announcement: { include: { AssistantSchedule: { where: { assistant: { user_id: sub } } } } }
                     }
                 })
                 if (!application) {
@@ -91,7 +91,7 @@ export async function createSolicitation(
                 if (application?.announcement.AssistantSchedule.length === 0) {
                     throw new Error('Reserve os horários para este edital na seção de Agenda antes de solicitar um agendamento.')
                 }
-               
+
                 const email = application.responsible?.user.email || application.candidate.user?.email
                 const name = application.responsible?.IdentityDetails?.fullName || application.candidate?.name
                 const translatedType = solicitationTypeTranslations[solicitation.type]
@@ -112,7 +112,7 @@ export async function createSolicitation(
                     user_id: application.responsible?.user_id ?? application.candidate.user_id ?? undefined
                 }).then(v => console.log('Email enviado', v))
             }
-            
+
             const dbSolicitation = await tsPrisma.requests.create({
                 data: {
                     application_id,
@@ -122,7 +122,7 @@ export async function createSolicitation(
                 },
             })
             id = dbSolicitation.id
-          
+
         })
 
         return reply.status(201).send({ id })
@@ -135,6 +135,6 @@ export async function createSolicitation(
             return reply.status(404).send({ message: err.message })
         }
 
-        return reply.status(500).send({ message: err.message })
+        return reply.status(500).send({ message: 'Erro interno no servidor' })
     }
 }
