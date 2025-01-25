@@ -3,15 +3,16 @@ import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
 import { AllEducationType, AllScholarshipsType, SHIFT } from "@prisma/client";
+import chardet from 'chardet';
 import csv from 'csv-parser';
 import { FastifyReply, FastifyRequest } from "fastify";
 import fs from 'fs';
+import { decodeStream, encodeStream } from 'iconv-lite';
 import { detect } from 'jschardet';
 import pump from "pump";
 import tmp from 'tmp';
 import { EntityNotExistsErrorWithCNPJ } from '../../../errors/entity-not-exists-with-cnpj';
 import SelectEntityOrDirector from "./utils/select-entity-or-director";
-
 interface CSVData {
     "CNPJ (Matriz ou Filial)": string;
     "Tipo de Educação": string;
@@ -80,13 +81,13 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
             });
         };
 
-        // const detectedEncoding = 'utf-8';
+        const encoding = chardet.detectFileSync(tempFile.name)
         // const encoding = detectedEncoding === 'windows-1251' ? 'latin1' : (detectedEncoding as string || 'utf8');
         const results: CSVData[] = [];
         await new Promise((resolve, reject) => {
             fs.createReadStream(tempFile.name)
-                // .pipe(decodeStream(detectedEncoding))
-                // .pipe(encodeStream('utf8'))
+                .pipe(decodeStream(encoding ?? 'utf-8'))
+                .pipe(encodeStream('utf8'))
                 .pipe(csv({
                     separator: ';'
                     // detectedEncoding === "UTF-8" ? ',' : ';'
