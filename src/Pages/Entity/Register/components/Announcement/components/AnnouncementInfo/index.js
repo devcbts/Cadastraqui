@@ -79,11 +79,10 @@ export default function AnnouncementInfo({ data, announcementType = "Scholarship
                         {
                             watch.hasInterview && (
                                 <motion.div
-                                    initial={{ height: 0 }}
-                                    animate={{ height: 'auto' }}
-                                    exit={{ height: 0 }}
+                                    initial={{ height: 0, overflow: 'visible' }}
+                                    animate={{ height: 'auto', overflow: ['hidden', 'visible'] }}
+                                    exit={{ height: 0, overflow: 'hidden' }}
                                     transition={{ duration: .2 }}
-                                    style={{ overflow: 'hidden' }}
                                 >
                                     <Interview data={data?.announcementInterview} onChange={handleInterview} ref={interviewRef} />
                                 </motion.div>
