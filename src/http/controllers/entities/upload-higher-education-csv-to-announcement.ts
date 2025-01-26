@@ -2,6 +2,7 @@ import { APIError } from "@/errors/api-error";
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
+import getDelimiter from "@/utils/get-csv-delimiter";
 import { AllEducationType, AllScholarshipsType, SHIFT } from "@prisma/client";
 import chardet from 'chardet';
 import csvParser from "csv-parser";
@@ -12,6 +13,7 @@ import pump from "pump";
 import tmp from 'tmp';
 import { EntityNotExistsErrorWithCNPJ } from '../../../errors/entity-not-exists-with-cnpj';
 import SelectEntityOrDirector from "./utils/select-entity-or-director";
+
 interface CSVData {
     "CNPJ (Matriz ou Filial)": string;
     "Tipo de Curso": string;
@@ -46,6 +48,8 @@ const scholarshipTypeMapping: { [key: string]: AllScholarshipsType } = {
     "Trabalhadores da Instituição de Ensino Superior": AllScholarshipsType.HigherEduInstitutionWorkers,
     "Pós-Graduação Stricto Sensu": AllScholarshipsType.PostgraduateStrictoSensu
 };
+
+
 export default async function uploadHigherEducationCSVFileToAnnouncement(
     request: FastifyRequest,
     reply: FastifyReply
@@ -76,14 +80,15 @@ export default async function uploadHigherEducationCSVFileToAnnouncement(
         });
 
         const encoding = chardet.detectFileSync(tempFile.name)
-
+        const separator = await getDelimiter(tempFile.name)
+        console.log(separator)
         // const encoding = detectedEncoding === 'windows-1251' ? 'latin1' : (detectedEncoding as string || 'utf8');
         const results: CSVData[] = [];
         await new Promise((resolve, reject) => {
             fs.createReadStream(tempFile.name)
                 .pipe(decodeStream(encoding ?? 'utf-8'))
                 .pipe(encodeStream('utf-8'))
-                .pipe(csvParser({ separator: ';' }))
+                .pipe(csvParser({ separator: separator }))
                 .on('data', (data: CSVData) => {
                     // Process the data as needed
                     console.log(data)
