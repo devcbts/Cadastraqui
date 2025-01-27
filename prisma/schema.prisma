@@ -177,6 +177,7 @@ model Entity {
   educationalInstitutionCode String?
   emec                       String?
   user_id                    String             @unique
+  normalizedCnpj             String?            @unique
   Announcement               Announcement[]
   EntityDirector             EntityDirector[]
   EntitySubsidiary           EntitySubsidiary[]
@@ -205,6 +206,7 @@ model EntitySubsidiary {
   educationalInstitutionCode String?
   entity_id                  String
   user_id                    String            @unique
+  normalizedCnpj             String?           @unique
   Announcement               Announcement[]
   entity                     Entity            @relation(fields: [entity_id], references: [id])
   user                       User              @relation(fields: [user_id], references: [id])
@@ -1136,16 +1138,16 @@ model StudentEmail {
 }
 
 model emailsSent {
-  id        String    @id @default(cuid())
+  id        String           @id @default(cuid())
   email     String[]
   subject   String
   content   String
   deadline  DateTime?
   createdBy HistoryRequester @default(System)
   user_id   String?
-  user      User?     @relation(fields: [user_id], references: [id])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
+  user      User?            @relation(fields: [user_id], references: [id])
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @default(now()) @updatedAt
 }
 
 enum StudentEmailType {

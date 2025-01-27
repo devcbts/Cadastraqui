@@ -1,20 +1,20 @@
 import { APIError } from "@/errors/api-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
+import getDelimiter from "@/utils/get-csv-delimiter";
 import { AllEducationType, AllScholarshipsType, EducationStyle, ROLE } from "@prisma/client";
 import { hash } from "bcryptjs";
+import chardet from 'chardet';
 import csv from 'csv-parser';
 import { FastifyReply, FastifyRequest } from "fastify";
 import fs from "fs";
 import { decodeStream, encodeStream } from "iconv-lite";
-import { detect } from "jschardet";
 import pump from "pump";
 import tmp from 'tmp';
 import { z } from "zod";
 import { SHIFT } from "../candidates/enums/Shift";
 import { normalizeString } from "../entities/utils/normalize-string";
 import SelectEntityOrDirector from "../entities/utils/select-entity-or-director";
-
 export default async function registerNewStudents(
     request: FastifyRequest,
     response: FastifyReply
@@ -32,7 +32,7 @@ export default async function registerNewStudents(
             return new Date(year, month, day)
         }),
         // IdCurso: z.string().transform(e => parseInt(e)).nullish(),
-        CNPJ: z.string(),
+        CNPJ: z.string().transform(normalizeString),
         isPartial: z.string().transform(e => Boolean(parseInt(e))),
         Turno: SHIFT,
         ScholarshipType: z.enum(Object.values(AllScholarshipsType) as [string, ...string[]]),
@@ -96,21 +96,13 @@ export default async function registerNewStudents(
                 }
             });
         });
-        const detectEncoding = (filePath: any) => {
-            return new Promise((resolve, reject) => {
-                const buffer = fs.readFileSync(filePath);
-                const detection = detect(buffer);
-                resolve(detection.encoding);
-            });
-        };
-
-        const detectedEncoding = await detectEncoding(tempFile.name);
-        const encoding = detectedEncoding === 'windows-1251' ? 'latin1' : (detectedEncoding as string || 'utf8');
+        const encoding = chardet.detectFileSync(tempFile.name)
+        const separator = await getDelimiter(tempFile.name)
         await new Promise((resolve, reject) => {
             fs.createReadStream(tempFile.name)
-                .pipe(decodeStream(encoding))
+                .pipe(decodeStream(encoding ?? 'utf-8'))
                 .pipe(encodeStream('utf8'))
-                .pipe(csv({ separator: detectedEncoding === "UTF-8" ? ',' : ';' }))
+                .pipe(csv({ separator: separator }))
                 .on('data', (data: CSVData) => {
                     const isEmpty = Object.values(data).every(e => !e?.toString())
                     if (isEmpty) {
@@ -118,7 +110,9 @@ export default async function registerNewStudents(
                     }
                     // Process the data as needed
                     const { error, data: parsedData, success } = csvSchema.safeParse(data)
+                    console.log(data)
                     if (error) {
+                        console.log(error)
                         reject(new APIError(`Dados inválidos`))
                     }
                     if (success) {
@@ -166,22 +160,22 @@ export default async function registerNewStudents(
                 where: { user_id: user_id },
                 select: {
                     id: true,
-                    CNPJ: true,
-                    EntitySubsidiary: { select: { id: true, CNPJ: true } }
+                    normalizedCnpj: true,
+                    EntitySubsidiary: { select: { id: true, normalizedCnpj: true } }
                 }
             })
 
             const dataToRegister = csvData.filter(e => {
-                return entity?.CNPJ === e.CNPJ || entity?.EntitySubsidiary.find(i => i.CNPJ === e.CNPJ)
+                return entity?.normalizedCnpj === normalizeString(e.CNPJ) || entity?.EntitySubsidiary.find(i => i.normalizedCnpj === normalizeString(e.CNPJ))
 
             }).map(e => {
-                const isEntity = e.CNPJ.replace(/\D*/g, '') === entity?.CNPJ.replace(/\D*/g, '')
-                const entityId = isEntity ? entity.id : entity?.EntitySubsidiary.find(i => i.CNPJ.replace(/\D*/g, '') === e.CNPJ.replace(/\D*/g, ''))!.id
+                const isEntity = e.CNPJ.replace(/\D*/g, '') === entity?.normalizedCnpj
+                const entityId = isEntity ? entity.id : entity?.EntitySubsidiary.find(i => i.normalizedCnpj === e.CNPJ.replace(/\D*/g, ''))!.id
                 const isResponsible = e.hasResponsible ?? false
                 if (isResponsible) {
 
                     e.responsible!.candidates = e.responsible?.candidates?.map(e => {
-                        const entityId = isEntity ? entity.id : entity?.EntitySubsidiary.find(i => i.CNPJ.replace(/\D*/g, '') === e.CNPJ.replace(/\D*/g, ''))!.id
+                        const entityId = isEntity ? entity.id : entity?.EntitySubsidiary.find(i => i.normalizedCnpj === e.CNPJ.replace(/\D*/g, ''))!.id
                         return { ...e, entityId }
                     })
                 }

@@ -7,6 +7,7 @@ import STATES from '@/utils/enums/zod/state'
 import { hash } from 'bcryptjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { normalizeString } from './utils/normalize-string'
 import SelectEntityOrDirector from './utils/select-entity-or-director'
 
 export async function createSubsidiary(
@@ -80,7 +81,7 @@ export async function createSubsidiary(
     if (userWithSameEmail) {
       throw new UserAlreadyExistsError()
     }
-
+    const normalizedCnpj = normalizeString(CNPJ)
     // Verifica se já existe uma filial com o CNPJ fornecido
     const entitySubsidiary = await prisma.entitySubsidiary.findUnique({
       where: { CNPJ },
@@ -116,6 +117,7 @@ export async function createSubsidiary(
         UF,
         entity_id: entity.id,
         user_id: user.id,
+        normalizedCnpj
       },
     })
 

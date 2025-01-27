@@ -13,6 +13,7 @@ import { detect } from 'jschardet';
 import pump from "pump";
 import tmp from 'tmp';
 import { EntityNotExistsErrorWithCNPJ } from '../../../errors/entity-not-exists-with-cnpj';
+import { normalizeString } from "./utils/normalize-string";
 import SelectEntityOrDirector from "./utils/select-entity-or-director";
 
 const CSVSniffer = require('csv-sniffer')()
@@ -117,18 +118,19 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
 
         const uniqueCNPJs = Array.from(new Set(results.map(result => result["CNPJ (Matriz ou Filial)"])));
 
-        const entities = await Promise.all(uniqueCNPJs.map(async (cnpj) => {
+        const entities = await Promise.all(uniqueCNPJs.map(async (x) => {
+            const cnpj = normalizeString(x)
             let entityOrSubsidiary
 
             entityOrSubsidiary = await prisma.entity.findUnique({
                 where: {
-                    CNPJ: cnpj,
+                    normalizedCnpj: cnpj,
                     id: entity.id
                 }
 
             }) || await prisma.entitySubsidiary.findUnique({
                 where: {
-                    CNPJ: cnpj,
+                    normalizedCnpj: cnpj,
                     entity_id: entity.id
                 }
             });
@@ -146,7 +148,7 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
             throw new APIError('Não podem haver vagas iguais à zero.')
         }
         const csvDataFormated = results.map((result: CSVData) => {
-            const matchedEntity = entities.find(entity => entity.CNPJ === result["CNPJ (Matriz ou Filial)"]);
+            const matchedEntity = entities.find(entity => entity.CNPJ === normalizeString(result["CNPJ (Matriz ou Filial)"]));
             return {
                 // cnpj: result["CNPJ (Matriz ou Filial)"],
                 type: educationTypeMapping[result["Tipo de Educação"]],
