@@ -26,6 +26,8 @@ import higherTemplate from "Assets/templates/Vagas_Superior_Cadastraqui.xlsx"
 import CoursesResumeBoard from "../CoursesResumeBoard"
 import useTutorial from "hooks/useTutorial"
 import ANNOUNCEMENT_TUTORIALS from "utils/enums/tutorials/announcement"
+import Tooltip from "Components/Tooltip"
+import { ReactComponent as Help } from 'Assets/icons/question-mark.svg'
 export default function AnnouncementCourses({ entity, allCourses, data, onPageChange }) {
     // can be 'HigherEducation' or 'BasicEducation'
     const { control, formState: { isValid }, setValue, trigger, getValues, watch, reset, resetField } = useControlForm({
@@ -121,7 +123,10 @@ export default function AnnouncementCourses({ entity, allCourses, data, onPageCh
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
 
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center' }}>
-                    Preencher por planilha ({findLabel(EDUCATION_TYPE, data?.educationLevel)})
+                    <Tooltip tooltip={'Anexar a planilha VAGAS no formato .csv'} Icon={Help}>
+                        Preencher por planilha ({findLabel(EDUCATION_TYPE, data?.educationLevel)})
+
+                    </Tooltip>
                     <a
                         download={isBasicEducation ? 'Modelo_Basico' : 'Modelo_Superior'}
                         href={isBasicEducation ? basicTemplate : higherTemplate} >
