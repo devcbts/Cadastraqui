@@ -1,70 +1,71 @@
-import HomeCandidate from "Pages/Candidate/Home";
-import ProfileCandidate from "Pages/Candidate/Profile";
-import SubscribeForm from "Pages/SubscribeForm";
-import { Navigate, Outlet, Route, Routes, useParams } from "react-router-dom";
+import RedirectWithParams from "Components/RedirectWithParams";
+import AdminAccounts from "Pages/Admin/Accounts";
+import AdminAccountHistory from "Pages/Admin/Accounts/components/History";
+import AdminAccountInfoView from "Pages/Admin/Accounts/components/InfoView";
+import AdminEntityView from "Pages/Admin/EntityView";
+import AdminHome from "Pages/Admin/Home";
+import AdminProfile from "Pages/Admin/Profile";
+import AdminRegister from "Pages/Admin/Register";
 import AnnouncementCandidate from "Pages/Candidate/Announcement";
 import AnnouncementView from "Pages/Candidate/Announcement/components/AnnouncementView";
-import RoleRoutes from "./components/RoleRoutes";
-import SelectionProcess from "Pages/SocialAssistant/SelectionProcess";
-import SocialAssistantAnnouncement from "Pages/SocialAssistant/SelectionProcess/Announcement";
-import SelectedCandidates from "Pages/SocialAssistant/SelectionProcess/SelectedCandidates";
-import CandidateInfo from "Pages/SocialAssistant/SelectionProcess/CandidateInfo";
-import LegalOpinion from "Pages/SocialAssistant/SelectionProcess/LegalOpinion";
-import SocialAssistantProfile from "Pages/SocialAssistant/Profile";
-import Login from "Pages/Login";
-import Register from "Pages/Register";
-import EntitySelectRegister from "Pages/Entity/Register";
-import EntityAnnouncement from "Pages/Entity/Announcement";
-import EntityAnnouncementView from "Pages/Entity/AnnouncementView";
-import AdminRegister from "Pages/Admin/Register";
-import EntityProfile from "Pages/Entity/Profile";
-import EntityAccounts from "Pages/Entity/Accounts";
-import EntityHome from "Pages/Entity/Home";
-import CandidateRequest from "Pages/Candidate/Request";
-import CandidatePendency from "Pages/Candidate/Request/Pendency";
-import SelectionProcessContext from "Pages/SocialAssistant/SelectionProcess/CandidateInfo/context/SelectionProcessContext";
-import AdminHome from "Pages/Admin/Home";
-import AdminEntityView from "Pages/Admin/EntityView";
-import PasswordRecovery from "Pages/PasswordRecovery";
-import RedirectWithParams from "Components/RedirectWithParams";
-import AssistantAnnouncementSchedule from "Pages/SocialAssistant/Schedule/components/AssistantAnnouncementSchedule";
-import AssistantCandidateSchedule from "Pages/SocialAssistant/Schedule/components/AssistantCandidateSchedule";
 import CandidateHistory from "Pages/Candidate/History";
 import ApplicationHistory from "Pages/Candidate/History/components/ApplicationHistory";
-import CandidateScheduleView from "Pages/Candidate/Schedule/components/CandidateScheduleView";
-import CandidateSchedule from "Pages/Candidate/Schedule";
-import AssistantSchedule from "Pages/SocialAssistant/Schedule";
-import AssistantHome from "Pages/SocialAssistant/Home";
-import EntityApplicants from "Pages/Entity/Applicants";
-import EntityAnnouncementCourses from "Pages/Entity/Applicants/components/AnnouncementCourses";
-import EntityAnnouncementApplicants from "Pages/Entity/Applicants/components/AnnouncementApplicants";
+import HomeCandidate from "Pages/Candidate/Home";
+import ProfileCandidate from "Pages/Candidate/Profile";
+import CandidateRequest from "Pages/Candidate/Request";
+import CandidatePendency from "Pages/Candidate/Request/Pendency";
 import CandidateSAC from "Pages/Candidate/SAC";
 import CandidateCreateSAC from "Pages/Candidate/SAC/components/CreateSAC";
-import ChatSAC from "Pages/SAC/components/Chat";
+import CandidateSchedule from "Pages/Candidate/Schedule";
+import CandidateScheduleView from "Pages/Candidate/Schedule/components/CandidateScheduleView";
+import EntityAccounts from "Pages/Entity/Accounts";
+import EntityAnnouncement from "Pages/Entity/Announcement";
+import EntityAnnouncementView from "Pages/Entity/AnnouncementView";
+import EntityApplicants from "Pages/Entity/Applicants";
+import EntityAnnouncementApplicants from "Pages/Entity/Applicants/components/AnnouncementApplicants";
+import EntityAnnouncementCourses from "Pages/Entity/Applicants/components/AnnouncementCourses";
+import EntityApplicantsRegisterApplicant from "Pages/Entity/Applicants/components/RegisterApplicant";
+import EntityHome from "Pages/Entity/Home";
+import EntityLegalFiles from "Pages/Entity/LegalFiles";
+import EntityProfile from "Pages/Entity/Profile";
+import EntitySelectRegister from "Pages/Entity/Register";
+import InterestListing from "Pages/InterestListing";
+import Login from "Pages/Login";
+import PasswordRecovery from "Pages/PasswordRecovery";
+import Register from "Pages/Register";
 import SAC from "Pages/SAC";
+import ChatSAC from "Pages/SAC/components/Chat";
+import AssistantHome from "Pages/SocialAssistant/Home";
 import AssistantManagement from "Pages/SocialAssistant/Management";
 import AssistantManagementAnnouncements from "Pages/SocialAssistant/Management/components/Announcements";
 import AssistantManagerSelectedAnnouncement from "Pages/SocialAssistant/Management/components/SelectedAnnouncement";
 import AssistantManagerSelectedCourse from "Pages/SocialAssistant/Management/components/SelectedCourse";
-import AdminAccounts from "Pages/Admin/Accounts";
-import AdminAccountInfoView from "Pages/Admin/Accounts/components/InfoView";
-import AdminAccountHistory from "Pages/Admin/Accounts/components/History";
-import StudentManager from "Pages/Students/Manager";
-import RegisterStudents from "Pages/Students/Register";
+import SocialAssistantProfile from "Pages/SocialAssistant/Profile";
+import AssistantSchedule from "Pages/SocialAssistant/Schedule";
+import AssistantAnnouncementSchedule from "Pages/SocialAssistant/Schedule/components/AssistantAnnouncementSchedule";
+import AssistantCandidateSchedule from "Pages/SocialAssistant/Schedule/components/AssistantCandidateSchedule";
+import SelectionProcess from "Pages/SocialAssistant/SelectionProcess";
+import SocialAssistantAnnouncement from "Pages/SocialAssistant/SelectionProcess/Announcement";
+import CandidateAIAnalysis from "Pages/SocialAssistant/SelectionProcess/CandidateAIAnalysis";
+import CandidateInfo from "Pages/SocialAssistant/SelectionProcess/CandidateInfo";
+import SelectionProcessContext from "Pages/SocialAssistant/SelectionProcess/CandidateInfo/context/SelectionProcessContext";
+import LegalOpinion from "Pages/SocialAssistant/SelectionProcess/LegalOpinion";
+import SelectedCandidates from "Pages/SocialAssistant/SelectionProcess/SelectedCandidates";
 import StudentsDashboard from "Pages/Students/Dashboard";
 import StudentList from "Pages/Students/Listing";
-import EntityStudentsRenew from "Pages/Students/Renew";
-import EntityApplicantsRegisterApplicant from "Pages/Entity/Applicants/components/RegisterApplicant";
-import AdminProfile from "Pages/Admin/Profile";
 import StudentListInformation from "Pages/Students/Listing/components/StudentInformation";
 import StudentDocuments from "Pages/Students/Listing/components/StudentInformation/components/StudentDocuments";
 import StudentInterviews from "Pages/Students/Listing/components/StudentInformation/components/StudentInterviews";
 import StudentRenewAnnouncements from "Pages/Students/Listing/components/StudentInformation/components/StudentRenewAnnouncements";
 import StudentEmails from "Pages/Students/Listing/components/StudentInformation/components/StudentsEmails";
-import InterestListing from "Pages/InterestListing";
-import CandidateAIAnalysis from "Pages/SocialAssistant/SelectionProcess/CandidateAIAnalysis";
-import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import StudentManager from "Pages/Students/Manager";
+import RegisterStudents from "Pages/Students/Register";
+import EntityStudentsRenew from "Pages/Students/Renew";
+import SubscribeForm from "Pages/SubscribeForm";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import entityService from "services/entity/entityService";
+import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import RoleRoutes from "./components/RoleRoutes";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -230,6 +231,9 @@ export default function AppRoutes() {
                         </Route>
                         <Route path="renovacao" element={<EntityStudentsRenew />} />
                     </Route>
+                    <Route path="arquivos"
+                        element={<EntityLegalFiles />}
+                    ></Route>
                     <Route path="interessados" element={<InterestListing loadAnnouncements={entityService.getFilteredAnnouncements} nameKey={"announcementName"} />} />
                     <Route path="*" element={<Navigate to={'/home'} replace />} />
 
