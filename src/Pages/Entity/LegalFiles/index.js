@@ -1,10 +1,12 @@
 import Accordion from "Components/Accordion"
 import { useMemo } from "react"
+import CnpjCard from "./CnpjCard"
 import ResponsibleCpf from "./ResponsibleCpf"
 
 export default function EntityLegalFiles() {
     const config = useMemo(() => [
         { title: 'CPF dos responsáveis', Component: ResponsibleCpf },
+        { title: 'Cartão do CNPJ', Component: CnpjCard },
     ], [])
 
     return (

@@ -5,8 +5,9 @@ import { z } from "zod"
 import FileCard from "../FileCard"
 import { useLegalFiles } from "../useLegalFiles"
 
-export default function ResponsibleCpf() {
-    const { documents, handleUploadFile } = useLegalFiles({ type: 'RESPONSIBLE_CPF' })
+export default function CnpjCard() {
+    const { documents, handleUploadFile } = useLegalFiles({ type: 'ID_CARD' })
+
     const { control, getValues, reset, handleSubmit } = useControlForm({
         schema: z.object({
             file: z.instanceof(File).nullish().refine((v) => !!v, { message: 'Arquivo obrigatório' })
@@ -15,29 +16,24 @@ export default function ResponsibleCpf() {
             file: null
         }
     })
-    const orderedDocuments = documents.sort((a, b) => a.createdAt > b.createdAt)
     const handleUpload = async () => {
         await handleUploadFile({
             file: getValues('file'),
             metadata: {
-                type: 'CPF',
+                type: 'CNPJ',
             },
-            type: 'RESPONSIBLE_CPF'
+            type: 'ID_CARD'
         }).then(
             (_) => reset()
         )
     }
     return (
         <div>
-            {documents.length === 0 ? <strong>Sem documentos anexados</strong> :
-                <div style={{ display: "grid", gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            {documents.length === 0 ? <strong>Nenhum documento</strong> :
+                <div style={{ display: "grid", gridTemplateColumns: '1fr', gap: 16 }}>
 
-                    {orderedDocuments.map((e, i) =>
-                        <FileCard label={
-                            i === orderedDocuments.length - 1
-                                ? 'Vigente'
-                                : 'Anterior'
-                        } url={e.url} />)
+                    {documents.map((e, i) =>
+                        <FileCard label={'Arquivo'} url={e.url} />)
                     }
                 </div>
             }
