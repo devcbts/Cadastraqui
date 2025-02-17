@@ -42,7 +42,7 @@ export async function getRegistrato(
         const returnFiles = await Promise.all(
             [pix, registrato].filter(x => !!x).map(async file => {
 
-                const url = await getAwsFile(file.path)
+                const url = await getAwsFile(file!.path)
                 return { ...file, url: url.fileUrl }
 
 
