@@ -12,6 +12,7 @@ export async function getEntityDocuments(req: FastifyRequest, res: FastifyReply)
         const schema = z.object({
             type: z.enum(Object.values(EntityDocumentType) as [string, ...string[]])
         })
+        console.log(req.params)
         const { data, success } = schema.safeParse(req.params)
         if (!success) {
             throw new APIError('Tipo de documento solicitado inválido')

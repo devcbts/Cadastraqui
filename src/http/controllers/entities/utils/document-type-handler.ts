@@ -15,6 +15,7 @@ async function countDocument(args: IHandlerArgs) {
     })
 }
 
+
 export async function getEntityLegalDocuments(type: EntityDocumentType, userId: string) {
     const docs = await prisma.entityDocuments.findMany({
         where: {
@@ -52,5 +53,11 @@ export async function documentTypeHandler(args: IHandlerArgs) {
             if (await countDocument(args) > 2) {
                 await deleteOldests(args, 1)
             }
+            break;
+        case 'ID_CARD':
+            if (await countDocument(args) > 1) {
+                await deleteOldests(args, 1)
+            }
+            break;
     }
 }

@@ -1,4 +1,4 @@
-import { EntityDocumentType, Prisma, ROLE } from ".prisma/client";
+import { EntityDocumentType, Prisma } from ".prisma/client";
 import { APIError } from "@/errors/api-error";
 import { uploadFile } from "@/http/services/upload-file";
 import { prisma } from "@/lib/prisma";
@@ -9,10 +9,8 @@ import { z } from "zod";
 import { documentTypeHandler, getEntityLegalDocuments } from "../utils/document-type-handler";
 export async function uploadEntityDocument(req: FastifyRequest, res: FastifyReply) {
     try {
-        const { sub, role } = {
-            sub: '7d5fe1da-ea1e-485d-883a-28b224ec68b9',
-            role: 'ENTITY' as ROLE
-        }
+
+        const { sub, role } = req.user
         const parts = req.parts()
         const entityId = await getUserEntity(sub, role)
         if (!entityId) {
@@ -29,7 +27,7 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
             buffer: z.instanceof(Buffer, { message: 'Arquivo obrigatório' }).refine(v => v?.length !== 0, 'Arquivo obrigatório'),
             name: z.string().optional(), // if not present, means file (buffer) is null
             metadata: z.object({
-                type: z.string().min(1, 'Tipo obrigatório'),
+                type: z.string().min(1, 'Tipo do metadata obrigatório'),
                 category: z.string().optional()
             }).refine((v) => !!v, 'Metadata obrigatório'),
             fields: z.object({}).optional(),
@@ -65,17 +63,21 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
             }
 
         }
-
+        for (const file in files) {
+            const { success, error } = schema.safeParse(file)
+            if (!success) {
+                throw new APIError(error.issues.map(e => e.message).join(','))
+            }
+        }
         await prisma.$transaction(async (tPrisma) => {
             await Promise.all(Object.values(files).map(async file => {
                 console.log(file)
-                const { success, data, error } = schema.safeParse(file)
-                if (!success) {
-                    throw new APIError(error.issues.map(e => e.message).join(','))
-                }
-                const { fields, buffer, metadata, type, name } = data
+
+                const { fields, buffer, metadata, type, name } = file
                 const fn = async () => {
+
                     const path = `EntityDocuments/${entityId}/${type}/${Date.now()}-${name}`
+
                     await uploadFile(buffer!, `EntityDocuments/${entityId}/${type}/${Date.now()}-${name}`, metadata)
                     await tPrisma.entityDocuments.create({
                         data: {
@@ -87,7 +89,8 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                             path
                         }
                     })
-                    await documentTypeHandler({ db: tPrisma, type: file.type!, userId: entityId })
+
+                    await documentTypeHandler({ db: tPrisma, type: EntityDocumentType[type as keyof typeof EntityDocumentType], userId: entityId })
                 }
                 return fn()
             }))
