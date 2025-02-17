@@ -83,6 +83,7 @@ model User {
   updatedAt        DateTime          @default(now()) @updatedAt
   isActive         Boolean           @default(true)
   emailsSent       emailsSent[]
+  EntityDocuments  EntityDocuments[]
 
   @@map("users")
 }
@@ -187,6 +188,7 @@ model Entity {
   updatedAt                  DateTime           @default(now()) @updatedAt
   EntityCourse               EntityCourse[]
   EducationLevel             EducationLevel[]
+  EntityDocuments            EntityDocuments[]
 
   @@map("entities")
 }
@@ -1217,6 +1219,25 @@ model AIAssistant {
 
   @@unique([application_id, section, member_id, table_id], name: "application_id_section_member_table")
   @@index([application_id], name: "application_id")
+}
+
+model EntityDocuments {
+  id        String             @id @default(cuid())
+  entity_id String
+  user_id   String
+  metadata  Json
+  fields    Json?
+  type      EntityDocumentType
+  path      String
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  Entity    Entity             @relation(fields: [entity_id], references: [id], onDelete: Cascade)
+  User      User               @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+enum EntityDocumentType {
+  RESPONSIBLE_CPF
+  ID_CARD
 }
 
 enum AIAssistantStatus {
