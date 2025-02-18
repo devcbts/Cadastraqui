@@ -1,4 +1,3 @@
-import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
@@ -14,8 +13,8 @@ const percentages = {
     despesas: 10,
     saude: 5,
     declaracoes: 15,
-    documentos: 0
-};
+    // documentos: 0
+}
 
 export default async function getCandidatesInterest(request: FastifyRequest, reply: FastifyReply) {
     const interestSchema = z.object({
@@ -39,13 +38,25 @@ export default async function getCandidatesInterest(request: FastifyRequest, rep
                     include: {
                         IdentityDetails: {
                             select: {
-                                workPhone: true,
+                                landlinePhone: true
                             }
                         },
                         user: {
                             select: {
                                 email: true,
-                               
+
+                            }
+                        },
+                        FinishedRegistration: {
+                            select: {
+                                cadastrante: true,
+                                grupoFamiliar: true,
+                                moradia: true,
+                                veiculos: true,
+                                rendaMensal: true,
+                                despesas: true,
+                                saude: true,
+                                declaracoes: true,
                             }
                         }
                     }
@@ -54,12 +65,24 @@ export default async function getCandidatesInterest(request: FastifyRequest, rep
                     include: {
                         IdentityDetails: {
                             select: {
-                                workPhone: true,
+                                landlinePhone: true,
                             },
                         },
                         user: {
                             select: {
                                 email: true,
+                            }
+                        },
+                        FinishedRegistration: {
+                            select: {
+                                cadastrante: true,
+                                grupoFamiliar: true,
+                                moradia: true,
+                                veiculos: true,
+                                rendaMensal: true,
+                                despesas: true,
+                                saude: true,
+                                declaracoes: true,
                             }
                         }
                     }
@@ -67,7 +90,7 @@ export default async function getCandidatesInterest(request: FastifyRequest, rep
 
             }
         })
-        
+
         const applications = await prisma.application.findMany({
             where: { announcement_id },
             select: {
@@ -82,24 +105,27 @@ export default async function getCandidatesInterest(request: FastifyRequest, rep
             const dataToSend = {
                 name: candidateInfo?.name,
                 email: candidateInfo?.user?.email,
-                phone: candidateInfo?.IdentityDetails?.workPhone,
+                phone: candidateInfo?.IdentityDetails?.landlinePhone,
             }
-           
-            
-            const percentage = userInterest.percentage;
+            const percentage = Object.entries(percentages).reduce((acc, curr) => {
+                return acc += (candidateInfo?.FinishedRegistration?.[curr[0] as keyof typeof percentages] ? 1 : 0) * curr[1]
+            }, 0)
+
+            // const percentage = userInterest.percentage;
             let status;
             if (percentage === 100) {
                 status = "Completo"
-            } else if (percentage === 0){
+                numberOfFinishedRegistration++
+            } else if (percentage === 0) {
                 status = "Não Iniciado"
-            }else {
+            } else {
                 status = "Iniciado"
             }
             //Vericficar se o candidato/usuário está inscrito
             if (applications.some(application => application.candidate_id === candidateInfo?.id || application.responsible_id === candidateInfo?.id)) {
                 status = "Inscrito"
-                
-                
+
+
             }
             return { ...dataToSend, status, percentage };
         })
