@@ -99,7 +99,8 @@ export default async function getEntityDashboard(
             //     return an_acc += an_curr._count.Application
             // }, 0)
             const total = education_levels.reduce((acc, curr) => {
-                if (curr.entity === curr_entity.id || (entity.id === curr.id && curr.entity === null)) {
+                console.log('PRINTS', curr.entity, curr_entity.id, entity.id, curr.id, curr)
+                if (curr.entity === curr_entity.id || (entity.id === curr_entity.id && curr.entity === null)) {
                     return acc += curr.count
                 }
                 return acc
