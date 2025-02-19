@@ -1,11 +1,13 @@
 import { prisma } from "@/lib/prisma";
 import { deleteFromS3Folder, getSignedUrlForFile } from "@/lib/S3";
-import { EntityDocumentType, Prisma, PrismaClient } from "@prisma/client";
+import { EntityDocuments, EntityDocumentType, Prisma, PrismaClient } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
 interface IHandlerArgs {
     db: Omit<PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">,
     type: EntityDocumentType,
-    userId: string
+    userId: string,
+    path: string,
+    fields?: Record<string, any>,
 }
 async function countDocument(args: IHandlerArgs) {
     return await args.db.entityDocuments.count({
@@ -47,6 +49,23 @@ async function deleteOldests(args: IHandlerArgs, count: number) {
         })
     }))
 }
+async function deleteFile(args: IHandlerArgs, file: EntityDocuments) {
+    await deleteFromS3Folder(file.path)
+    await args.db.entityDocuments.delete({
+        where: { id: file.id }
+    })
+}
+
+async function searchByField(args: IHandlerArgs, fieldName: string, value: any) {
+    return await args.db.entityDocuments.findFirst({
+        where: {
+            fields: {
+                path: [fieldName],
+                equals: value
+            }
+        }
+    })
+}
 export async function documentTypeHandler(args: IHandlerArgs) {
     switch (args.type) {
         case 'RESPONSIBLE_CPF':
@@ -61,6 +80,11 @@ export async function documentTypeHandler(args: IHandlerArgs) {
                 await deleteOldests(args, 1)
             }
             break;
-
+        case 'ACCOUNTING':
+            const existingFile = await searchByField(args, 'year', args.fields!['year'])
+            if (existingFile) {
+                await deleteFile(args, existingFile)
+            }
+            break
     }
 }

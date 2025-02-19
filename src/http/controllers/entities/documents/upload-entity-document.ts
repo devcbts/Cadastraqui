@@ -30,7 +30,7 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                 type: z.string().min(1, 'Tipo do metadata obrigatório'),
                 category: z.string().optional()
             }).refine((v) => !!v, 'Metadata obrigatório'),
-            fields: z.object({}).optional(),
+            fields: z.record(z.any()).optional(),
             type: z.enum(Object.values(EntityDocumentType) as [string, ...string[]]),
 
         })
@@ -55,16 +55,16 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                 if (!!part.fieldname.match(/^fields_(\d+)$/)) {
                     // validar os fields baseado no tipo
                     files[index].fields = JSON.parse(part.value as string)
+                    console.log(files[index].fields)
                 }
                 if (!!part.fieldname.match(/^type_(\d+)$/)) {
-                    // validar os fields baseado no tipo
                     files[index].type = part.value as EntityDocumentType
                 }
             }
 
         }
-        for (const file in files) {
-            const { success, error } = schema.safeParse(file)
+        for (const item in files) {
+            const { success, error } = schema.safeParse(files[item])
             if (!success) {
                 throw new APIError(error.issues.map(e => e.message).join(','))
             }
@@ -90,7 +90,13 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                         }
                     })
 
-                    await documentTypeHandler({ db: tPrisma, type: EntityDocumentType[type as keyof typeof EntityDocumentType], userId: entityId })
+                    await documentTypeHandler({
+                        db: tPrisma,
+                        type: EntityDocumentType[type as keyof typeof EntityDocumentType],
+                        userId: entityId,
+                        fields: file.fields,
+                        path: path
+                    })
                 }
                 return fn()
             }))
