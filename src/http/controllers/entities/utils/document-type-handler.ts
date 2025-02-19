@@ -19,9 +19,17 @@ async function countDocument(args: IHandlerArgs) {
 
 
 export async function getEntityLegalDocuments(type: EntityDocumentType, userId: string) {
+    const filter: Prisma.EntityDocumentsWhereInput[] = []
+    switch (type) {
+        case 'ACCOUNTING':
+            filter.push({ fields: { path: ['year'], gt: (new Date().getFullYear() - 4) } })
+            break;
+        default:
+            break
+    }
     const docs = await prisma.entityDocuments.findMany({
         where: {
-            AND: [{ entity_id: userId }, { type: type }]
+            AND: [{ entity_id: userId }, { type: type }, ...filter]
         }
     })
     const mappedDocuments = await Promise.all(docs.map(async document => {
@@ -57,6 +65,7 @@ async function deleteFile(args: IHandlerArgs, file: EntityDocuments) {
 }
 
 async function searchByField(args: IHandlerArgs, fieldName: string, value: any) {
+    console.log(fieldName, value)
     return await args.db.entityDocuments.findFirst({
         where: {
             fields: {
@@ -71,12 +80,12 @@ export async function documentTypeHandler(args: IHandlerArgs) {
         case 'RESPONSIBLE_CPF':
         case 'PROCURATION':
         case 'ELECTION_RECORD':
-            if (await countDocument(args) > 2) {
+            if (await countDocument(args) === 2) {
                 await deleteOldests(args, 1)
             }
             break;
         case 'ID_CARD':
-            if (await countDocument(args) > 1) {
+            if (await countDocument(args) === 1) {
                 await deleteOldests(args, 1)
             }
             break;

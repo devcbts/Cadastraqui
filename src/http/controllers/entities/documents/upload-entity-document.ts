@@ -77,8 +77,14 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                 const fn = async () => {
 
                     const path = `EntityDocuments/${entityId}/${type}/${Date.now()}-${name}`
-
                     await uploadFile(buffer!, `EntityDocuments/${entityId}/${type}/${Date.now()}-${name}`, metadata)
+                    await documentTypeHandler({
+                        db: tPrisma,
+                        type: EntityDocumentType[type as keyof typeof EntityDocumentType],
+                        userId: entityId,
+                        fields: file.fields,
+                        path: path
+                    })
                     await tPrisma.entityDocuments.create({
                         data: {
                             fields: fields as Prisma.JsonObject,
@@ -90,13 +96,7 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                         }
                     })
 
-                    await documentTypeHandler({
-                        db: tPrisma,
-                        type: EntityDocumentType[type as keyof typeof EntityDocumentType],
-                        userId: entityId,
-                        fields: file.fields,
-                        path: path
-                    })
+
                 }
                 return fn()
             }))
