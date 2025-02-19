@@ -1,8 +1,8 @@
 import { Controller } from "react-hook-form";
-import FilePickerBase from "../FilePickerBase";
 import { NotificationService } from "services/notification";
+import FilePickerBase from "../FilePickerBase";
 
-export default function FormFilePicker({ name, show = "all", label, control, accept }) {
+export default function FormFilePicker({ name, show = "all", label, control, accept, multiple = false }) {
     const showErrorBorder = (isDirty, error) => {
         // Input wasn't modified but has error OR has been modified and has error (ERROR BORDER)
         if ((!isDirty && error) || (isDirty && error)) {
@@ -30,16 +30,20 @@ export default function FormFilePicker({ name, show = "all", label, control, acc
                         error={showErrorBorder(isDirty, error)}
                         {...rest}
                         accept={accept}
+                        multiple={multiple}
                         onChange={(e) => {
-                            const file = e.target.files?.[0]
-                            if (!file) {
+                            const files = e.target.files
+                            if (!files.length === 0) {
                                 return
                             }
-                            if (file.size >= 10 * 1024 * 1024) {
-                                NotificationService.error({ text: 'Arquivo deve ser menor que 10MB' })
-                                return
+
+                            for (const item of files) {
+                                if (item.size >= 10 * 1024 * 1024) {
+                                    NotificationService.error({ text: 'Arquivo deve ser menor que 10MB' })
+                                    return
+                                }
                             }
-                            field.onChange(e.target.files[0])
+                            field.onChange(multiple ? e.target.files : e.target.files[0])
                         }}
                     />
                 )
