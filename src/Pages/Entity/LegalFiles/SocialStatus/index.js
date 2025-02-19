@@ -6,14 +6,15 @@ import { z } from "zod"
 import FileCard from "../FileCard"
 import { useLegalFiles } from "../useLegalFiles"
 
-export default function CnpjCard() {
-    const { documents, handleUploadFile } = useLegalFiles({ type: 'ID_CARD' })
+export default function SocialStatus() {
+    const { documents, handleUploadFile } = useLegalFiles({ type: 'SOCIAL_STATUS' })
 
     const { control, getValues, reset, handleSubmit } = useControlForm({
         schema: z.object({
-            file: z.instanceof(File).nullish().refine((v) => !!v, { message: 'Arquivo obrigatório' })
+            file: z.instanceof(File).nullish().refine((v) => !!v, { message: 'Arquivo obrigatório' }),
         }),
         defaultValues: {
+
             file: null
         }
     })
@@ -21,15 +22,16 @@ export default function CnpjCard() {
         await handleUploadFile({
             file: getValues('file'),
             metadata: {
-                type: ENTITY_LEGAL_FILE.ID_CARD,
+                type: ENTITY_LEGAL_FILE.SOCIAL_STATUS,
             },
-            type: ENTITY_LEGAL_FILE.ID_CARD,
+
+            type: ENTITY_LEGAL_FILE.SOCIAL_STATUS,
         }).then(
             (_) => reset()
         )
     }
     return (
-        <div>
+        <>
             {documents.length === 0 ? <strong>Nenhum documento</strong> :
                 <div style={{ display: "grid", gridTemplateColumns: '1fr', gap: 16 }}>
 
@@ -39,9 +41,10 @@ export default function CnpjCard() {
                 </div>
             }
             <div style={{ width: 'max(280px,60%)', display: 'flex', margin: 'auto', flexDirection: 'column', alignItems: 'self-start' }}>
-                <FormFilePicker accept={'application/pdf'} label={'Novo arquivo'} name={'file'} control={control} />
-                <ButtonBase label={'enviar'} onClick={handleSubmit(handleUpload)} />
+
+                <FormFilePicker accept={'application/pdf'} label={'arquivo'} name={'file'} control={control} />
+                <ButtonBase onClick={handleSubmit(handleUpload)} label={'enviar'} />
             </div>
-        </div>
+        </>
     )
 }

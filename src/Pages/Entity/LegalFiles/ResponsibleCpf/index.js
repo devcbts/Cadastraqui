@@ -1,6 +1,7 @@
 import ButtonBase from "Components/ButtonBase"
 import FormFilePicker from "Components/FormFilePicker"
 import useControlForm from "hooks/useControlForm"
+import { ENTITY_LEGAL_FILE } from "utils/enums/entity-legal-files-type"
 import { z } from "zod"
 import FileCard from "../FileCard"
 import { useLegalFiles } from "../useLegalFiles"
@@ -20,9 +21,9 @@ export default function ResponsibleCpf() {
         await handleUploadFile({
             file: getValues('file'),
             metadata: {
-                type: 'CPF',
+                type: ENTITY_LEGAL_FILE.RESPONSIBLE_CPF,
             },
-            type: 'RESPONSIBLE_CPF'
+            type: ENTITY_LEGAL_FILE.RESPONSIBLE_CPF,
         }).then(
             (_) => reset()
         )
