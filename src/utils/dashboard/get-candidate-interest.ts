@@ -87,6 +87,6 @@ export default async function getCandidateInterestForDashboard(announcements: An
         numberOfFinishedRegistration,
         numberOfUnfinishedRegistration:
             numberOfInterested - numberOfFinishedRegistration,
-        distributionByAnnouncement
+        distributionByAnnouncement,
     };
 }

@@ -30,7 +30,14 @@ export default async function getCandidatesInterest(request: FastifyRequest, rep
         if (!announcement) {
             throw new AnnouncementNotExists()
         }
-
+        const uniqueResponsible = await prisma.application.findMany({
+            where: { announcement_id: announcement_id },
+            distinct: ['responsible_id']
+        })
+        const uniqueCandidate = await prisma.application.findMany({
+            where: { AND: [{ responsible_id: null }, { announcement_id: announcement_id }] },
+            distinct: ['candidate_id']
+        })
         const allInterest = await prisma.announcementsSeen.findMany({
             where: { announcement_id },
             include: {
@@ -131,17 +138,19 @@ export default async function getCandidatesInterest(request: FastifyRequest, rep
         })
 
 
-
+        const rate = (applications.length) / (uniqueCandidate.length + uniqueResponsible.length)
 
         return reply.status(200).send({
             numberOfInterested,
             numberOfApplications: applications.length,
             numberOfFinishedRegistration,
             numberOfUnfinishedRegistration: numberOfInterested - numberOfFinishedRegistration,
-            candidateInterest
+            candidateInterest,
+            rate
         })
 
     } catch (error: any) {
+        console.log(error)
         if (error instanceof AnnouncementNotExists) {
             return reply.status(404).send({ message: error.message })
         }
