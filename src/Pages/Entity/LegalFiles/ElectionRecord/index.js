@@ -24,7 +24,7 @@ export default function ElectionRecord() {
     })
     const handleUpload = async () => {
         await handleUploadFile({
-            file: getValues('file'),
+            files: getValues('file'),
             metadata: {
                 type: ENTITY_LEGAL_FILE.ELECTION_RECORD,
             },
@@ -43,7 +43,7 @@ export default function ElectionRecord() {
                 <div style={{ display: "grid", gridTemplateColumns: '1fr 1fr', gap: 16 }}>
 
                     {documents.map((e, i) =>
-                        <FileCard label={i === documents.length - 1
+                        <FileCard key={e.id} label={i === documents.length - 1
                             ? 'Vigente'
                             : 'Anterior'} url={e.url} />)
                     }

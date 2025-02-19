@@ -19,7 +19,7 @@ export default function ResponsibleCpf() {
     const orderedDocuments = documents.sort((a, b) => a.createdAt > b.createdAt)
     const handleUpload = async () => {
         await handleUploadFile({
-            file: getValues('file'),
+            files: getValues('file'),
             metadata: {
                 type: ENTITY_LEGAL_FILE.RESPONSIBLE_CPF,
             },
@@ -34,7 +34,7 @@ export default function ResponsibleCpf() {
                 <div style={{ display: "grid", gridTemplateColumns: '1fr 1fr', gap: 16 }}>
 
                     {orderedDocuments.map((e, i) =>
-                        <FileCard label={
+                        <FileCard key={e.id} label={
                             i === orderedDocuments.length - 1
                                 ? 'Vigente'
                                 : 'Anterior'

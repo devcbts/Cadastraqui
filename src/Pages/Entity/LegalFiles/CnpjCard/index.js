@@ -19,7 +19,7 @@ export default function CnpjCard() {
     })
     const handleUpload = async () => {
         await handleUploadFile({
-            file: getValues('file'),
+            files: getValues('file'),
             metadata: {
                 type: ENTITY_LEGAL_FILE.ID_CARD,
             },
@@ -34,7 +34,7 @@ export default function CnpjCard() {
                 <div style={{ display: "grid", gridTemplateColumns: '1fr', gap: 16 }}>
 
                     {documents.map((e, i) =>
-                        <FileCard label={'Arquivo'} url={e.url} />)
+                        <FileCard key={e.id} label={'Arquivo'} url={e.url} />)
                     }
                 </div>
             }

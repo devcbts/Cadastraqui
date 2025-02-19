@@ -11,16 +11,15 @@ export default function SocialStatus() {
 
     const { control, getValues, reset, handleSubmit } = useControlForm({
         schema: z.object({
-            file: z.instanceof(File).nullish().refine((v) => !!v, { message: 'Arquivo obrigatório' }),
+            file: z.instanceof(FileList).nullish().refine((v) => !!v?.length, { message: 'Arquivo(s) obrigatório(s)' }),
         }),
         defaultValues: {
-
             file: null
         }
     })
     const handleUpload = async () => {
         await handleUploadFile({
-            file: getValues('file'),
+            files: getValues('file'),
             metadata: {
                 type: ENTITY_LEGAL_FILE.SOCIAL_STATUS,
             },
@@ -33,16 +32,15 @@ export default function SocialStatus() {
     return (
         <>
             {documents.length === 0 ? <strong>Nenhum documento</strong> :
-                <div style={{ display: "grid", gridTemplateColumns: '1fr', gap: 16 }}>
+                <div style={{ display: "grid", gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
 
                     {documents.map((e, i) =>
-                        <FileCard label={'Arquivo'} url={e.url} />)
+                        <FileCard key={e.id} label={'Arquivo'} url={e.url} />)
                     }
                 </div>
             }
             <div style={{ width: 'max(280px,60%)', display: 'flex', margin: 'auto', flexDirection: 'column', alignItems: 'self-start' }}>
-
-                <FormFilePicker accept={'application/pdf'} label={'arquivo'} name={'file'} control={control} />
+                <FormFilePicker accept={'application/pdf'} label={'arquivo'} name={'file'} control={control} multiple />
                 <ButtonBase onClick={handleSubmit(handleUpload)} label={'enviar'} />
             </div>
         </>

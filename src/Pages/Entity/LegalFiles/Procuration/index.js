@@ -8,7 +8,7 @@ import FileCard from "../FileCard"
 import { useLegalFiles } from "../useLegalFiles"
 
 export default function Procuration() {
-    const { documents, handleUploadFile } = useLegalFiles({ type: 'ELECTION_RECORD' })
+    const { documents, handleUploadFile } = useLegalFiles({ type: 'PROCURATION' })
 
     const { control, getValues, reset, handleSubmit } = useControlForm({
         schema: z.object({
@@ -24,15 +24,15 @@ export default function Procuration() {
     })
     const handleUpload = async () => {
         await handleUploadFile({
-            file: getValues('file'),
+            files: getValues('file'),
             metadata: {
-                type: ENTITY_LEGAL_FILE.ELECTION_RECORD,
+                type: ENTITY_LEGAL_FILE.PROCURATION,
             },
             fields: {
                 start: getValues('start'),
                 end: getValues('end')
             },
-            type: ENTITY_LEGAL_FILE.ELECTION_RECORD,
+            type: ENTITY_LEGAL_FILE.PROCURATION,
         }).then(
             (_) => reset()
         )
@@ -43,7 +43,7 @@ export default function Procuration() {
                 <div style={{ display: "grid", gridTemplateColumns: '1fr 1fr', gap: 16 }}>
 
                     {documents.map((e, i) =>
-                        <FileCard label={i === documents.length - 1
+                        <FileCard key={e.id} label={i === documents.length - 1
                             ? 'Vigente'
                             : 'Anterior'} url={e.url} />)
                     }

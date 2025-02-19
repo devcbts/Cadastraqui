@@ -26,20 +26,34 @@ export function useLegalFiles({
      * @property {METADATA_FILE_CATEGORY} [category]  
       */
     /**
+     * @typedef {Object} IEntityFile
+     * @property {File} file  
+     * @property {string} [type]  
+     * @property {IMetadata} [metadata]
+     * @property {Object} [fields]
+      */
+
+
+    /**
      * 
      * @param {Object} params
-     * @param {IMetadata } params.metadata 
-     * @param {File} params.file 
+     * @param {IMetadata} params.metadata 
+     * @param {IEntityFile[] | File | FileList} params.files
      * @param {string} params.type 
      * @param {Object} [params.fields] 
       */
-    const handleUploadFile = async ({ file, metadata, fields = null, type }) => {
+    const handleUploadFile = async ({ files, metadata, fields, type }) => {
         try {
-            const formData = createLegalDocumentFormData({ file, metadata, fields, type })
+            console.log((Array.isArray(files) || files instanceof FileList) ? Array.from(files) : [files])
+            // transform to an array of files
+            const transformedFiles = (Array.isArray(files) || files instanceof FileList) ? Array.from(files) : [files]
+
+            const formData = createLegalDocumentFormData({ files: transformedFiles, metadata, fields, type })
+            console.log(formData)
             const response = await entityService.uploadLegalFile(formData)
             setDocuments(response.documents)
         } catch (err) {
-            NotificationService.error({ text: err.response.data.message })
+            NotificationService.error({ text: err?.response?.data?.message })
         }
     }
 
