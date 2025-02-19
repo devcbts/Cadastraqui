@@ -137,8 +137,8 @@ export default async function getCandidatesInterest(request: FastifyRequest, rep
             return { ...dataToSend, status, percentage };
         })
 
-
-        const rate = (applications.length) / (uniqueCandidate.length + uniqueResponsible.length)
+        console.log(uniqueCandidate.length, uniqueResponsible, (allInterest.length))
+        const rate = (uniqueCandidate.length + uniqueResponsible.length) / (allInterest.length)
 
         return reply.status(200).send({
             numberOfInterested,
