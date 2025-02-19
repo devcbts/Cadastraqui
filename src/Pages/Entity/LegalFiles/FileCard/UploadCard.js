@@ -1,11 +1,24 @@
+import { useRef } from "react";
 import FileCard from ".";
 import styles from './styles.module.scss';
 export default function UploadCard({
-    onClick,
+    onUpload,
     url,
     label
 }) {
-    return <div onClick={onClick} className={styles.uploadCard}>
-        <FileCard label={label} url={url} />
-    </div>
+    const ref = useRef(null)
+    return (<>
+        <input
+            hidden
+            ref={ref}
+            type="file"
+            onChange={(e) => {
+                const files = e.target.files
+                onUpload(files)
+            }}
+            accept="application/pdf"
+        />
+        <FileCard label={label} url={url} onClick={() => ref.current.click()} className={styles.uploadCard} />
+    </>)
+
 }

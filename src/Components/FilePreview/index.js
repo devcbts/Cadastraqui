@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import styles from './styles.module.scss'
+import styles from './styles.module.scss';
 export default function FilePreview({
     file,
     url,
@@ -9,8 +9,8 @@ export default function FilePreview({
     return (
         <div className={styles.container}>
             {file
-                ? <Link to={URL.createObjectURL(file)} target="_blank">{text}</Link>
-                : <Link to={url} target="_blank">{text}</Link>}
+                ? <Link to={URL.createObjectURL(file)} target="_blank" onClick={(e) => e.stopPropagation()}>{text}</Link>
+                : <Link to={url} target="_blank" onClick={(e) => e.stopPropagation()}>{text}</Link>}
         </div>
     )
 }

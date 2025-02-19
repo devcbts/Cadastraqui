@@ -22,7 +22,7 @@ export default function EntityLegalFiles() {
         { title: 'Escritura pública', Component: PublicDeed },
         { title: 'Certidão de débito', Component: DebitCertificate },
         { title: 'FGTS', Component: FGTS },
-        { title: 'Accounting', Component: Accounting },
+        { title: 'Documentação contábil', Component: Accounting },
     ], [])
 
     return (

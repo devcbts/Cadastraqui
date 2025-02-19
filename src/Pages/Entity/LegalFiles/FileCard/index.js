@@ -2,7 +2,8 @@ import FilePreview from "Components/FilePreview";
 
 export default function FileCard({
     label,
-    url
+    url,
+    ...props
 }) {
     return (
         <div style={{
@@ -17,7 +18,9 @@ export default function FileCard({
             marginBottom: '8px',
             flexDirection: 'column',
             placeSelf: 'center'
-        }}>
+        }}
+            {...props}
+        >
             <strong>{label}</strong>
             <FilePreview url={url} text={'Visualizar'} />
         </div>

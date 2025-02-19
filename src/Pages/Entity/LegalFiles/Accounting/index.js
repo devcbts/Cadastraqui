@@ -1,5 +1,5 @@
 import useControlForm from "hooks/useControlForm"
-import { useRef } from "react"
+import { useMemo } from "react"
 import { ENTITY_LEGAL_FILE } from "utils/enums/entity-legal-files-type"
 import { z } from "zod"
 import UploadCard from "../FileCard/UploadCard"
@@ -18,32 +18,36 @@ export default function Accounting() {
 
         }
     })
-    const handleUpload = async () => {
+    const handleUpload = async (files, year) => {
         await handleUploadFile({
-            files: getValues('file'),
+            files: files,
             metadata: {
                 type: ENTITY_LEGAL_FILE.ACCOUNTING,
+            },
+            fields: {
+                year
             },
             type: ENTITY_LEGAL_FILE.ACCOUNTING,
         }).then(
             (_) => reset()
         )
     }
-    const fileRef = useRef(null)
+    const years = useMemo(() => {
+        const currYear = new Date().getFullYear()
+
+        return Array.from({ length: 4 }).map((_, i) => currYear - i)
+    }, [])
     return (
         <>
-            <input type="file" hidden ref={fileRef} />
+
             <div style={{ display: "grid", gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
 
-                {[2024, 2025, 123234].map((e, i) =>
-                    <UploadCard key={e} label={e} url={''} onClick={() => console.log(e)} />)
+                {years.map((e, i) =>
+                    <UploadCard key={e} label={e} url={
+                        documents.find(x => x.fields.year === e)?.url
+                    } onUpload={(f) => handleUpload(f, e)} />)
                 }
             </div>
-
-            {/* <div style={{ width: 'max(280px,60%)', display: 'flex', margin: 'auto', flexDirection: 'column', alignItems: 'self-start' }}>
-                <FormFilePicker accept={'application/pdf'} label={'arquivo'} name={'file'} control={control} />
-                <ButtonBase onClick={handleSubmit(handleUpload)} label={'enviar'} />
-            </div> */}
         </>
     )
 }

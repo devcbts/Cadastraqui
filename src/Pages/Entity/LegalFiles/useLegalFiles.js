@@ -15,7 +15,7 @@ export function useLegalFiles({
                 const response = await entityService.getLegalFiles(type)
                 setDocuments(response.documents)
             } catch (err) {
-                NotificationService.error({ text: err.response.data.message })
+                NotificationService.error({ text: err?.response?.data?.message })
             }
         }
         fetch()
@@ -52,6 +52,7 @@ export function useLegalFiles({
             console.log(formData)
             const response = await entityService.uploadLegalFile(formData)
             setDocuments(response.documents)
+            NotificationService.success({ type: 'toast', text: 'Envio realizado com sucesso!' })
         } catch (err) {
             NotificationService.error({ text: err?.response?.data?.message })
         }
