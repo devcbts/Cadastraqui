@@ -1,9 +1,9 @@
 import Card from "Components/Card/CardRoot";
 import { useEffect, useState } from "react";
-import entityService from "services/entity/entityService";
-import styles from './styles.module.scss'
-import IndicatorChart from "./IndicatorChart";
 import { useNavigate } from "react-router";
+import entityService from "services/entity/entityService";
+import IndicatorChart from "./IndicatorChart";
+import styles from './styles.module.scss';
 // ({candidateInterest}) => Element
 export default function InterestCards({
     announcementId,
@@ -50,7 +50,7 @@ export default function InterestCards({
                     { value: 20, color: '#55F43E', legend: 'Bom - 61% à 80%' },
                     { value: 20, color: '#26C90C', legend: 'Excelente - 81% à 100%' },
                 ]}
-                value={(data.numberOfApplications / data?.numberOfInterested) * 100}
+                value={(data.rate) * 100}
             />
             {
                 children && (
