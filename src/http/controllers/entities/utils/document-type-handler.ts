@@ -50,6 +50,8 @@ async function deleteOldests(args: IHandlerArgs, count: number) {
 export async function documentTypeHandler(args: IHandlerArgs) {
     switch (args.type) {
         case 'RESPONSIBLE_CPF':
+        case 'PROCURATION':
+        case 'ELECTION_RECORD':
             if (await countDocument(args) > 2) {
                 await deleteOldests(args, 1)
             }
@@ -59,5 +61,6 @@ export async function documentTypeHandler(args: IHandlerArgs) {
                 await deleteOldests(args, 1)
             }
             break;
+
     }
 }

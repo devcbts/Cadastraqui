@@ -1238,6 +1238,9 @@ model EntityDocuments {
 enum EntityDocumentType {
   RESPONSIBLE_CPF
   ID_CARD
+  ELECTION_RECORD
+  PROCURATION
+  SOCIAL_STATUS
 }
 
 enum AIAssistantStatus {
