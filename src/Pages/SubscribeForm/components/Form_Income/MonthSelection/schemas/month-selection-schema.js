@@ -31,7 +31,9 @@ const monthSelectionSchema = (quantity, incomeSource) => z.object({
         // url_dividends: z.string().nullish(),
         // url_decore: z.string().nullish(),
         skipMonth: z.boolean().default(false),
-        isUpdated: z.boolean().default(false)
+        isUpdated: z.boolean().default(false),
+        analysisId: z.string().nullish(),
+        analysisTries: z.number().default(0)
     })
         .catchall(z.any())
         .superRefine((data, ctx) => {

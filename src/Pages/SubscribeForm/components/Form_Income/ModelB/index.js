@@ -2,19 +2,18 @@
 //PrivateEmployee,PublicEmployee,DomesticEmployee,Retired,Pensioner,IncomeTransfer,Apprentice,TemporaryDisabilityBenefit
 
 import { forwardRef } from "react";
-import MonthSelection from "../MonthSelection";
-import FoodAllowance from "../FoodAllowance";
-import TransportAllowance from "../TransportAllowance";
-import ExpenseReimbursement from "../ExpenseReimbursement";
 import AdvancePayment from "../AdvancePayment";
-import GrossValue from "../GrossValue";
-import ReversalValue from "../ReversalValue";
 import Compensation from "../Compensation";
-import Pension from "../Pension";
-import IncomeMonthSelection from "../MonthSelection";
+import ExpenseReimbursement from "../ExpenseReimbursement";
+import FoodAllowance from "../FoodAllowance";
+import GrossValue from "../GrossValue";
 import IncomeFile from "../IncomeFile";
+import IncomeMonthSelection from "../MonthSelection";
+import Pension from "../Pension";
+import ReversalValue from "../ReversalValue";
+import TransportAllowance from "../TransportAllowance";
 
-const IncomeFormModelB = forwardRef(({ data, viewMode }, ref) => {
+const IncomeFormModelB = forwardRef(({ data, viewMode, onAnalysisComplete }, ref) => {
 
     return (
         <IncomeMonthSelection
@@ -31,6 +30,7 @@ const IncomeFormModelB = forwardRef(({ data, viewMode }, ref) => {
                 Pension,
                 IncomeFile,
             ]}
+            onAnalysisComplete={onAnalysisComplete}
             viewMode={viewMode}
         />
     )

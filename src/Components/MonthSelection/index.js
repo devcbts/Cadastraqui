@@ -6,7 +6,7 @@ import ButtonBase from "Components/ButtonBase";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
 import useControlForm from "hooks/useControlForm";
-import { forwardRef, useEffect } from "react";
+import { forwardRef, useEffect, useImperativeHandle } from "react";
 import { Controller } from 'react-hook-form';
 import { useRecoilState } from "recoil";
 import monthAtom from "./atoms/month-atom";
@@ -27,6 +27,23 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
     //     control,
     //     name: 'months'
     // })
+    useImperativeHandle(ref, () => {
+        const controlFormHandle = ref?.current || {};
+        return ({
+            ...controlFormHandle,
+            update: async (month, data) => {
+                const values = await getValues('months')
+                const monthsToUpdate = values.map(e => {
+                    if (e.dateString === month.dateString) {
+                        console.log('alterando aqui', month, data)
+                        return { ...month, ...data }
+                    }
+                    return e
+                })
+                setValue("months", monthsToUpdate)
+            }
+        })
+    })
     useEffect(() => {
         // Get the current value (if API returns any) and prepend on the array
         const incomes = getValues("months") ?? []
@@ -125,7 +142,7 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
 
                     {
                         watchMonths.map((month, index) => (
-                            <div key={index} style={{ display: 'grid', gridTemplateColumns: !!sideInfo ? '2fr 1fr' : '1fr', gap: '12px', alignItems: 'baseline' }}>
+                            <div key={month.dateString} style={{ display: 'grid', gridTemplateColumns: !!sideInfo ? '1fr min-content' : '1fr', gap: '12px', alignItems: 'baseline' }}>
                                 <div className={styles.wrapper}>
                                     <div style={checkRegister ? { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '20px' } : {}} key={month.dateString}>
                                         <ButtonBase

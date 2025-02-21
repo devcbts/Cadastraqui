@@ -2,14 +2,16 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import monthAtom from "Components/MonthSelection/atoms/month-atom";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
+import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
 import uploadService from "services/upload/uploadService";
 import createFileForm from "utils/create-file-form";
 import IncomeFile from "./IncomeFile";
+import IncomeList from './IncomeList';
 import IncomeSelection from "./IncomeSelection";
 import IncomeFormModelA from "./ModelA";
 import InformationModelA from "./ModelA/components/InformationModelA";
@@ -20,10 +22,6 @@ import IncomeFormModelD from "./ModelD";
 import FinancialHelp from "./ModelD/components/FinancialHelp";
 import InformationModelD from "./ModelD/components/InformationModelC";
 import UnemployementInsurance from "./Unemployed/components/UnemployementInsurance";
-import useAuth from 'hooks/useAuth';
-import ROLES from 'utils/enums/role-types';
-import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
-import IncomeList from './IncomeList';
 export default function FormIncome() {
     // Keep track of incomes created/updated by user
     const hasIncomeSelected = useRecoilValue(monthAtom)
