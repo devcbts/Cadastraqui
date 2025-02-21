@@ -22,6 +22,14 @@ export async function getEntityLegalDocuments(type: EntityDocumentType, userId: 
     const filter: Prisma.EntityDocumentsWhereInput[] = []
     switch (type) {
         case 'ACCOUNTING':
+        case 'AUDIT_OPINION':
+        case 'PARTNERSHIP_TERM':
+        case 'ACTIVITY_REPORT':
+        case 'NOMINAL_RELATION':
+        case 'NOMINAL_RELATION_TYPE_ONE':
+        case 'NOMINAL_RELATION_TYPE_TWO':
+        case 'PROFILE_ANALYSIS':
+        case 'GOVERNING_BODY':
             filter.push({ fields: { path: ['year'], gt: (new Date().getFullYear() - 4) } })
             break;
         default:
@@ -85,15 +93,29 @@ export async function documentTypeHandler(args: IHandlerArgs) {
             }
             break;
         case 'ID_CARD':
+        case 'PUBLIC_DEED':
+        case 'CHARITABLE_CERTIFICATE':
             if (await countDocument(args) === 1) {
                 await deleteOldests(args, 1)
             }
             break;
         case 'ACCOUNTING':
+        case 'AUDIT_OPINION':
+        case 'PARTNERSHIP_TERM':
+        case 'ACTIVITY_REPORT':
+        case 'NOMINAL_RELATION':
+        case 'NOMINAL_RELATION_TYPE_ONE':
+        case 'NOMINAL_RELATION_TYPE_TWO':
+        case 'PROFILE_ANALYSIS':
+        case 'GOVERNING_BODY':
+        case 'MONITORING_REPORT':
+        case 'CLARIFICATION_REQUEST':
             const existingFile = await searchByField(args, 'year', args.fields!['year'])
             if (existingFile) {
                 await deleteFile(args, existingFile)
             }
+            break
+        default:
             break
     }
 }
