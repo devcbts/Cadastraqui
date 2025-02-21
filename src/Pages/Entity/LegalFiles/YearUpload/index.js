@@ -1,12 +1,22 @@
+import CustomFilePicker from "Components/CustomFilePicker"
 import useControlForm from "hooks/useControlForm"
 import { useMemo } from "react"
 import { ENTITY_LEGAL_FILE } from "utils/enums/entity-legal-files-type"
 import { z } from "zod"
-import UploadCard from "../FileCard/UploadCard"
 import { useLegalFiles } from "../useLegalFiles"
-
-export default function Accounting() {
-    const { documents, handleUploadFile } = useLegalFiles({ type: 'ACCOUNTING' })
+/**
+ * 
+ * @param {Object} props 
+ * @param {string} props.type 
+ * @param {import("utils/create-legal-document-form-data").IMetadata} [props.metadata] 
+ * @param {number} [props.count] -  default value is 4
+ * @returns 
+ */
+export default function YearUpload({
+    count = 4,
+    type
+}) {
+    const { documents, handleUploadFile } = useLegalFiles({ type: type })
 
     const { control, getValues, reset, handleSubmit } = useControlForm({
         schema: z.object({
@@ -22,31 +32,29 @@ export default function Accounting() {
         await handleUploadFile({
             files: files,
             metadata: {
-                type: ENTITY_LEGAL_FILE.ACCOUNTING,
+                type: ENTITY_LEGAL_FILE[type],
             },
             fields: {
                 year
             },
-            type: ENTITY_LEGAL_FILE.ACCOUNTING,
+            type: ENTITY_LEGAL_FILE[type],
         }).then(
             (_) => reset()
         )
     }
     const years = useMemo(() => {
         const currYear = new Date().getFullYear()
-
         return Array.from({ length: 4 }).map((_, i) => currYear - i)
     }, [])
     return (
         <>
 
             <div style={{ display: "grid", gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
-
-                {years.map((e, i) =>
-                    <UploadCard key={e} label={e} url={
-                        documents.find(x => x.fields.year === e)?.url
-                    } onUpload={(f) => handleUpload(f, e)} />)
-                }
+                {years.map((e, i) => (
+                    <CustomFilePicker key={e} onUpload={(files) => handleUpload(files, e)} >
+                        {/* <FileCard className={styles.uploadCard} label={e} url={documents.find(x => x.fields.year === e)?.url ?? ''} /> */}
+                    </CustomFilePicker>
+                ))}
             </div>
         </>
     )
