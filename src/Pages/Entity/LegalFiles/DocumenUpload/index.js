@@ -1,4 +1,10 @@
+import ButtonBase from "Components/ButtonBase"
+import FormFilePicker from "Components/FormFilePicker"
+import Modal from "Components/Modal"
+import useControlForm from "hooks/useControlForm"
+import React, { useState } from "react"
 import { ENTITY_LEGAL_FILE } from "utils/enums/entity-legal-files-type"
+import { z, ZodObject } from "zod"
 import { useLegalFiles } from "../useLegalFiles"
 import DocumentGridView from "./DocumentGridView"
 import FileUploaderButton from './FileUploaderButton'
@@ -17,7 +23,10 @@ import FileUploaderButton from './FileUploaderButton'
  * @param {string} props.type 
  * @param {import("utils/create-legal-document-form-data").IMetadata} [props.metadata] 
  * @param {GridOptions} [props.gridOptions]
- * @param {'card'| 'button'} [props.add] - which way to add a new file/form, default button
+ * @param {'file'| 'form'} [props.add] - which way to add a new row - default is file
+ * @param {{schema: ZodObject, items: {Component: React.JSX.Element,label:string,name:string}[]}} [props.form] - 'file' is a default field if form is present,
+ *  each individual field will be passes on
+ * "fields" property of returned formData
  * @returns 
  */
 export default function DocumentUpload({
@@ -26,6 +35,7 @@ export default function DocumentUpload({
     metadata,
     gridOptions,
     add,
+    form
 } = {
         gridOptions: {
             columns: 2,
@@ -33,39 +43,86 @@ export default function DocumentUpload({
             transform: (x) => x,
             year: false
         },
-        add: 'button'
+        add: 'file',
+        form: {
+            schema: {},
+            items: []
+        }
     }) {
     const { documents, handleUploadFile } = useLegalFiles({ type: type })
 
+    const { control, getValues, handleSubmit } = useControlForm({
+        schema: z.object({
+            file: z.instanceof(File).nullish().refine(v => !!v, 'Arquivo obrigatório'),
+            ...form?.schema.shape
+        }),
+        defaultValues: {
+            file: null,
+            expireAt: '',
+            issuedAt: '',
+        }
+    })
 
-    const handleUpload = async (files, e) => {
+    const handleUpload = async (files, fields) => {
         await handleUploadFile({
             files: files,
             metadata: {
                 type: ENTITY_LEGAL_FILE[type],
                 ...metadata
             },
-            fields: {
-                ...(gridOptions.year && { year: e })
+            fields: fields && {
+                ...fields
             },
             type: ENTITY_LEGAL_FILE[type],
         })
+        if (!!form) {
+            handleModal()
+        }
     }
-
-
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const handleModal = () => {
+        setIsModalOpen((prev) => !prev)
+    }
+    const getAllFieldValues = () => {
+        let values = {}
+        for (const x of Object.keys(form?.schema.shape)) {
+            console.log(x)
+            values[x] = getValues(x)
+        }
+        return values
+    }
     return (
         <>
-            {add === 'button' && <FileUploaderButton multiple={multiple} onUpload={handleUpload} />}
+            {!gridOptions.year && (
+                add === 'file'
+                    ? <FileUploaderButton multiple={multiple} onUpload={handleUpload} />
+                    : <ButtonBase label={'Novo'} onClick={handleModal} />
+            )}
             <DocumentGridView
                 documents={documents}
                 {...gridOptions}
-                {...((add === 'card' | !!gridOptions.year) && { onDocumentClick: handleUpload })}
-                {...(!!gridOptions.year && { columns: 4 })}
+                {...((!!gridOptions.year) && {
+                    onDocumentClick: (
+                        add === 'file'
+                            ? (files, year) => handleUpload(files, { year })
+                            : handleModal
+                    ), columns: 4
+                })}
             />
-            {/* <div style={{ width: 'max(280px,60%)', display: 'flex', margin: 'auto', flexDirection: 'column', alignItems: 'self-start' }}>
-                <FormFilePicker accept={'application/pdf'} label={'arquivo'} name={'file'} control={control} multiple />
-                <ButtonBase onClick={handleSubmit(handleUpload)} label={'enviar'} />
-            </div> */}
+            <Modal open={isModalOpen} title={'Adicionar'}
+                onConfirm={handleSubmit(() => handleUpload(getValues('file'),
+                    getAllFieldValues()
+                ))}
+                onCancel={() => handleModal()}>
+
+                <div style={{ width: 'max(280px,60%)', display: 'flex', margin: 'auto', flexDirection: 'column', alignItems: 'self-start' }}>
+                    {form?.items.map((x, index) => {
+                        const { Component, ...rest } = x
+                        return <Component key={index} {...rest} control={control} />
+                    })}
+                    <FormFilePicker accept={'application/pdf'} label={'arquivo'} name={'file'} control={control} />
+                </div>
+            </Modal>
         </>
     )
 }

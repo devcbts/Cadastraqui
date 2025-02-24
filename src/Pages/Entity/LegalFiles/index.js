@@ -1,10 +1,11 @@
 import Accordion from "Components/Accordion"
+import InputForm from "Components/InputForm"
 import React, { useMemo } from "react"
+import { z } from "zod"
 import CarePlan from "./CarePlan"
 import DebitCertificate from "./DebitCertificate"
 import DocumentUpload from "./DocumenUpload"
 import ElectionRecord from "./ElectionRecord"
-import FGTS from "./FGTS"
 import Procuration from "./Procuration"
 import YearUpload from "./YearUpload"
 
@@ -61,7 +62,22 @@ export default function EntityLegalFiles() {
             />
         },
         { title: 'Certidão de débito', Component: DebitCertificate },
-        { title: 'FGTS', Component: FGTS },
+        {
+            title: 'FGTS', Component: <DocumentUpload type="FGTS"
+                add="form"
+                gridOptions={{ title: 'Arquivo' }}
+                form={{
+                    schema: z.object({
+                        expireAt: z.string().min(1, 'Obrigatório').date('Data inválida'),
+                        issuedAt: z.string().min(1, 'Obrigatório').date('Data inválida')
+                    }),
+                    items: [
+                        { Component: InputForm, type: 'date', label: 'Certificado emitido em', name: 'expireAt' },
+                        { Component: InputForm, type: 'date', label: 'Certificado válido até', name: 'issuedAt' }
+                    ]
+                }}
+            />
+        },
         {
             title: 'Documentação contábil', Component: <DocumentUpload type="ACCOUNTING"
                 gridOptions={{ year: true }}

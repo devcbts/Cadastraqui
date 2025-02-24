@@ -54,6 +54,7 @@ export function useLegalFiles({
             setDocuments(response.documents)
             NotificationService.success({ type: 'toast', text: 'Envio realizado com sucesso!' })
         } catch (err) {
+            console.log(err)
             NotificationService.error({ text: err?.response?.data?.message })
         }
     }
