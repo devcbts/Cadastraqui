@@ -35,8 +35,7 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
                 const values = await getValues('months')
                 const monthsToUpdate = values.map(e => {
                     if (e.dateString === month.dateString) {
-                        console.log('alterando aqui', month, data)
-                        return { ...month, ...data }
+                        return { ...e, ...data }
                     }
                     return e
                 })
