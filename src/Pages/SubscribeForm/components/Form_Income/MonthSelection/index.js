@@ -74,12 +74,23 @@ const IncomeMonthSelection = forwardRef(({ data, render = [], viewMode }, ref) =
             // formData.append('tries', currMonth.analysisTries)
             formData.append('id', currMonth.analysisId)
             console.log(currMonth.date)
-            let error = false
+            let error = ''
             let confirmSend = false
             const tries = (currMonth.analysisTries ?? 0) + 1
             api.post(`/rundocumentanalysis`, formData).then(async ({ data: response }) => {
                 if (!response.data.legibilidade | !response.data.ratifiedReceiver | !response.data.coherent) {
-                    error = 'Falha na análise do documento, envie novamente'
+                    error = 'Falha na análise do documento, envie novamente.'
+                    const reason = []
+                    if (!response.data.legibilidade) {
+                        reason.push('ilegível')
+                    }
+                    if (!response.data.ratifiedReceiver) {
+                        reason.push('titular diferente')
+                    }
+                    if (!response.data.coherent) {
+                        reason.push('incoerente')
+                    }
+                    error += `Documento ${reason.join(', ')}.`
                 }
                 if (tries >= 3) {
                     error = 'Máximo de tentativas (3). Confirme o envio do documento.'
@@ -89,7 +100,8 @@ const IncomeMonthSelection = forwardRef(({ data, render = [], viewMode }, ref) =
                     analysisId: response.id,
                     analysisTries: tries,
                     grossAmount: String(response.data.grossAmount ?? (currMonth.grossAmount)),
-                    file_document: !error ? file : null
+                    file_document: !error ? file : null,
+                    analysisComplete: !error && response.data.grossAmount !== null
                 })
             }).finally(() => {
                 handleUpdateMonth({ ...currMonth, analysisTries: (currMonth.analysisTries ?? 0) + 1 }, {

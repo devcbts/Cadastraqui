@@ -33,7 +33,8 @@ const monthSelectionSchema = (quantity, incomeSource) => z.object({
         skipMonth: z.boolean().default(false),
         isUpdated: z.boolean().default(false),
         analysisId: z.string().nullish(),
-        analysisTries: z.number().default(0)
+        analysisTries: z.number().default(0),
+        analysisComplete: z.boolean().default(false)
     })
         .catchall(z.any())
         .superRefine((data, ctx) => {
