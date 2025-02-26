@@ -4,6 +4,7 @@ import { uploadFile } from "@/http/services/upload-file";
 import { prisma } from "@/lib/prisma";
 import { getUserEntity } from "@/utils/get-user-entity";
 import { FastifyReply, FastifyRequest } from "fastify";
+import { randomUUID } from "node:crypto";
 import { buffer } from "node:stream/consumers";
 import { z } from "zod";
 import { documentTypeHandler, getEntityLegalDocuments } from "../utils/document-type-handler";
@@ -21,7 +22,8 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
             fields?: object,
             metadata?: object,
             type?: EntityDocumentType,
-            name?: string
+            name?: string,
+            group?: string
         }> = {}
         const schema = z.object({
             buffer: z.instanceof(Buffer, { message: 'Arquivo obrigatório' }).refine(v => v?.length !== 0, 'Arquivo obrigatório'),
@@ -30,10 +32,12 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                 type: z.string().min(1, 'Tipo do metadata obrigatório'),
                 category: z.string().optional()
             }).refine((v) => !!v, 'Metadata obrigatório'),
+            group: z.string().optional(),
             fields: z.record(z.any()).optional(),
             type: z.enum(Object.values(EntityDocumentType) as [string, ...string[]]),
 
         })
+        let groups: Record<string, string> = {}
         for await (const part of parts) {
             const index = part.fieldname.split('_').pop()
             if (!index) {
@@ -52,10 +56,21 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                     // validar o metadata baseado no tipo
                     files[index].metadata = JSON.parse(part.value as string)
                 }
+                if (!!part.fieldname.match(/^group_(\d+)$/)) {
+                    const group = part.value as string
+                    if (!groups[group]) {
+                        const uuid = randomUUID()
+                        groups[group] = uuid
+                    }
+                    files[index].group = groups[group]
+                    files[index].fields = {
+                        ...files[index].fields,
+                        group: groups[group]
+                    }
+                }
                 if (!!part.fieldname.match(/^fields_(\d+)$/)) {
                     // validar os fields baseado no tipo
                     files[index].fields = JSON.parse(part.value as string)
-                    console.log(files[index].fields)
                 }
                 if (!!part.fieldname.match(/^type_(\d+)$/)) {
                     files[index].type = part.value as EntityDocumentType
@@ -71,11 +86,9 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
         }
         await prisma.$transaction(async (tPrisma) => {
             await Promise.all(Object.values(files).map(async file => {
-                console.log(file)
 
-                const { fields, buffer, metadata, type, name } = file
+                const { fields, buffer, metadata, type, name, group } = file
                 const fn = async () => {
-
                     const path = `EntityDocuments/${entityId}/${type}/${Date.now()}-${name}`
                     await uploadFile(buffer!, `EntityDocuments/${entityId}/${type}/${Date.now()}-${name}`, metadata)
                     await documentTypeHandler({
@@ -83,7 +96,7 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                         type: EntityDocumentType[type as keyof typeof EntityDocumentType],
                         userId: entityId,
                         fields: file.fields,
-                        path: path
+                        path: path,
                     })
                     await tPrisma.entityDocuments.create({
                         data: {
@@ -92,7 +105,8 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                             type: type as EntityDocumentType,
                             entity_id: entityId,
                             user_id: sub,
-                            path
+                            path,
+                            group
                         }
                     })
 
@@ -108,7 +122,6 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                 message: error.message
             })
         }
-        console.log(error)
         return res.status(500).send({
             message: 'Erro interno no servidor'
         })

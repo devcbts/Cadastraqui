@@ -1229,6 +1229,7 @@ model EntityDocuments {
   fields    Json?
   type      EntityDocumentType
   path      String
+  group     String?
   createdAt DateTime           @default(now())
   updatedAt DateTime           @updatedAt
   Entity    Entity             @relation(fields: [entity_id], references: [id], onDelete: Cascade)
@@ -1258,6 +1259,9 @@ enum EntityDocumentType {
   CHARITABLE_CERTIFICATE
   MONITORING_REPORT
   CLARIFICATION_REQUEST
+  REQUIREMENTS_DECLARATION
+  ART_5_DECLARATION
+  ACCREDITATION_ACT
 }
 
 enum AIAssistantStatus {

@@ -32,13 +32,20 @@ export async function getEntityLegalDocuments(type: EntityDocumentType, userId: 
         case 'GOVERNING_BODY':
             filter.push({ fields: { path: ['year'], gt: (new Date().getFullYear() - 4) } })
             break;
+        case 'ACCREDITATION_ACT':
+            filter.push({
+                AND: [
+                    { metadata: { path: ['document'], not: Prisma.DbNull } },
+                    { group: { not: null } }
+                ]
+            })
         default:
             break
     }
     const docs = await prisma.entityDocuments.findMany({
         where: {
             AND: [{ entity_id: userId }, { type: type }, ...filter]
-        }
+        },
     })
     const mappedDocuments = await Promise.all(docs.map(async document => {
         const url = await getSignedUrlForFile(document.path)
@@ -46,8 +53,8 @@ export async function getEntityLegalDocuments(type: EntityDocumentType, userId: 
         return ({
             ...document, url
         })
-
     }))
+
     return mappedDocuments
 }
 async function deleteOldests(args: IHandlerArgs, count: number) {
@@ -73,7 +80,6 @@ async function deleteFile(args: IHandlerArgs, file: EntityDocuments) {
 }
 
 async function searchByField(args: IHandlerArgs, fieldName: string, value: any) {
-    console.log(fieldName, value)
     return await args.db.entityDocuments.findFirst({
         where: {
             fields: {
