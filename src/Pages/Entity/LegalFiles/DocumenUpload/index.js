@@ -4,11 +4,12 @@ import Modal from "Components/Modal"
 import useControlForm from "hooks/useControlForm"
 import React, { useState } from "react"
 import { ENTITY_LEGAL_FILE } from "utils/enums/entity-legal-files-type"
+import { getDefaultSchemaValues } from "utils/get-default-schema-values"
 import { z, ZodObject } from "zod"
+import DocumentHint from '../DocumentHint'
 import { useLegalFiles } from "../useLegalFiles"
 import DocumentGridView from "./DocumentGridView"
 import FileUploaderButton from './FileUploaderButton'
-
 /**
  * @typedef {Object} GridOptions
  * @property {'last' | (string & {}) | (index:number)=> string} [title] 
@@ -22,9 +23,11 @@ import FileUploaderButton from './FileUploaderButton'
  * @param {boolean} [props.multiple] - default is false 
  * @param {string} props.type 
  * @param {import("utils/create-legal-document-form-data").IMetadata} [props.metadata] 
+ * @param {string | React.JSX.Element} [props.hint]
+ * @param {React.JSX.Element} [props.details]
  * @param {GridOptions} [props.gridOptions]
  * @param {'file'| 'form'} [props.add] - which way to add a new row - default is file
- * @param {{schema: ZodObject, items: {Component: React.JSX.Element,label:string,name:string}[]}} [props.form] - 'file' is a default field if form is present,
+ * @param {{schema: ZodObject, items: ({Component: React.JSX.Element,label:string,name:string}|React.JSX.Element)[]}} [props.form] - 'file' is a default field if form is present,
  *  each individual field will be passes on
  * "fields" property of returned formData
  * @returns 
@@ -33,33 +36,26 @@ export default function DocumentUpload({
     multiple,
     type,
     metadata,
-    gridOptions,
-    add,
-    form
-} = {
-        gridOptions: {
-            columns: 2,
-            title: '',
-            transform: (x) => x,
-            year: false
-        },
-        add: 'file',
-        form: {
-            schema: {},
-            items: []
-        }
-    }) {
+    gridOptions = {
+        columns: 2,
+        title: '',
+        transform: (x) => x,
+        year: false
+    },
+    details = undefined,
+    add = "file",
+    form = undefined,
+    hint = null
+}) {
     const { documents, handleUploadFile } = useLegalFiles({ type: type })
-
-    const { control, getValues, handleSubmit } = useControlForm({
+    const { control, getValues, handleSubmit, reset } = useControlForm({
         schema: z.object({
             file: z.instanceof(File).nullish().refine(v => !!v, 'Arquivo obrigatório'),
-            ...form?.schema.shape
+            ...form?.schema?.shape ?? {}
         }),
         defaultValues: {
             file: null,
-            expireAt: '',
-            issuedAt: '',
+            ...getDefaultSchemaValues(form?.schema)
         }
     })
 
@@ -82,6 +78,7 @@ export default function DocumentUpload({
     const [isModalOpen, setIsModalOpen] = useState(false)
     const handleModal = () => {
         setIsModalOpen((prev) => !prev)
+        reset()
     }
     const getAllFieldValues = () => {
         let values = {}
@@ -91,12 +88,24 @@ export default function DocumentUpload({
         }
         return values
     }
+
     return (
         <>
-            {!gridOptions.year && (
-                add === 'file'
-                    ? <FileUploaderButton multiple={multiple} onUpload={handleUpload} />
-                    : <ButtonBase label={'Novo'} onClick={handleModal} />
+            <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
+
+                {!gridOptions.year && (
+                    add === 'file'
+                        ? <FileUploaderButton multiple={multiple} onUpload={handleUpload} />
+                        : <ButtonBase label={'Novo'} onClick={handleModal} />
+                )}
+                <DocumentHint hint={hint} />
+            </div>
+
+
+            {!!details && (
+                <div style={{ marginTop: '16px', marginBottom: '16px' }}>
+                    {details}
+                </div>
             )}
             <DocumentGridView
                 documents={documents}
@@ -117,6 +126,9 @@ export default function DocumentUpload({
 
                 <div style={{ width: 'max(280px,60%)', display: 'flex', margin: 'auto', flexDirection: 'column', alignItems: 'self-start' }}>
                     {form?.items.map((x, index) => {
+                        if (React.isValidElement(x)) {
+                            return React.cloneElement(x)
+                        }
                         const { Component, ...rest } = x
                         return <Component key={index} {...rest} control={control} />
                     })}

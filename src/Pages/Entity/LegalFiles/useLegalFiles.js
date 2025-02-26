@@ -29,6 +29,7 @@ export function useLegalFiles({
      * @typedef {Object} IEntityFile
      * @property {File} file  
      * @property {string} [type]  
+     * @property {string} [group]
      * @property {IMetadata} [metadata]
      * @property {Object} [fields]
       */
@@ -41,14 +42,14 @@ export function useLegalFiles({
      * @param {IEntityFile[] | File | FileList} params.files
      * @param {string} params.type 
      * @param {Object} [params.fields] 
+     * @param {string} [params.group] 
       */
-    const handleUploadFile = async ({ files, metadata, fields, type }) => {
+    const handleUploadFile = async ({ files, metadata, fields, group, type }) => {
         try {
-            console.log((Array.isArray(files) || files instanceof FileList) ? Array.from(files) : [files])
             // transform to an array of files
             const transformedFiles = (Array.isArray(files) || files instanceof FileList) ? Array.from(files) : [files]
 
-            const formData = createLegalDocumentFormData({ files: transformedFiles, metadata, fields, type })
+            const formData = createLegalDocumentFormData({ files: transformedFiles, metadata, fields, type, group })
             console.log(formData)
             const response = await entityService.uploadLegalFile(formData)
             setDocuments(response.documents)

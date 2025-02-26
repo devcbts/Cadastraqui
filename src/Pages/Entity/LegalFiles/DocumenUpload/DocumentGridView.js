@@ -30,22 +30,18 @@ export default function DocumentGridView({
     }, [])
     return (
         <div style={{ marginTop: 24 }}>
-
-            {transform(documents).length === 0 ? <strong>Nenhum documento</strong> :
-                <div style={{ display: "grid", gridTemplateColumns: `repeat(${columns},minmax(200px, 1fr))`, gap: 16 }}>
-                    {JSON.stringify(onDocumentClick)}
-                    {
-                        !!year
-                            ? years.map((e, i) => (
-                                <CustomFilePicker key={e} onUpload={(files) => onDocumentClick(files, e)} >
-                                    <FileCard className={styles.uploadCard} label={e} url={documents.find(x => x.fields.year === e)?.url ?? ''} />
-                                </CustomFilePicker>
-                            ))
-                            : transform(documents).map((e, i) =>
-                                <FileCard key={e.id} label={getTitle(i)} url={e.url} />)
-                    }
-                </div>
-            }
+            <div style={{ display: "grid", gridTemplateColumns: `repeat(${columns},minmax(200px, 1fr))`, gap: 16 }}>
+                {
+                    !!year
+                        ? years.map((e, i) => (
+                            <CustomFilePicker key={e} onUpload={(files) => onDocumentClick(files, e)} >
+                                <FileCard className={styles.uploadCard} label={e} url={documents.find(x => x.fields.year === e)?.url ?? ''} />
+                            </CustomFilePicker>
+                        ))
+                        : (transform(documents).length === 0 ? <strong>Nenhum documento</strong> : transform(documents).map((e, i) =>
+                            <FileCard key={e.id} label={getTitle(i)} url={e.url} />))
+                }
+            </div>
         </div>
     )
 }

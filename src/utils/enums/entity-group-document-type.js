@@ -1,0 +1,4 @@
+export const ENTITY_GROUP_TYPE = {
+    INSTITUTION_NAME: 'INSTITUTION_NAME',
+    CNPJ: 'CNPJ'
+}
