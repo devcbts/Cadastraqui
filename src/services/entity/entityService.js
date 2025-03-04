@@ -170,8 +170,12 @@ class EntityService {
         const response = await api.get(`/entities/dashboard/interest/${announcementId}`)
         return response.data
     }
-    async uploadLegalFile(formData) {
-        const response = await api.post(`/entities/legal/documents`, formData)
+    async uploadLegalFile(formData, groupId) {
+        const response = await api.post(`/entities/legal/documents${groupId ? `/${groupId}` : ''}`, formData)
+        return response.data
+    }
+    async updateLegalFile(id, formData) {
+        const response = await api.put(`/entities/legal/documents/${id}`, formData)
         return response.data
     }
     async getLegalFiles(type) {

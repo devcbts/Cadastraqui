@@ -1,5 +1,5 @@
 import { Controller } from "react-hook-form";
-import { NotificationService } from "services/notification";
+import { fileSelectionHandler } from "utils/file/file-selection-handler";
 import FilePickerBase from "../FilePickerBase";
 
 export default function FormFilePicker({ name, show = "all", label, control, accept, multiple = false }) {
@@ -32,17 +32,7 @@ export default function FormFilePicker({ name, show = "all", label, control, acc
                         accept={accept}
                         multiple={multiple}
                         onChange={(e) => {
-                            const files = e.target.files
-                            if (!files.length === 0) {
-                                return
-                            }
-
-                            for (const item of files) {
-                                if (item.size >= 10 * 1024 * 1024) {
-                                    NotificationService.error({ text: 'Arquivo deve ser menor que 10MB' })
-                                    return
-                                }
-                            }
+                            fileSelectionHandler(e)
                             field.onChange(multiple ? e.target.files : e.target.files[0])
                         }}
                     />

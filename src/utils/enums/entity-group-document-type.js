@@ -1,4 +1,17 @@
 export const ENTITY_GROUP_TYPE = {
     INSTITUTION_NAME: 'INSTITUTION_NAME',
-    CNPJ: 'CNPJ'
+    CNPJ: 'CNPJ',
+    ANNOUNCEMENT: 'ANNOUNCEMENT',
+    DISCLOSURE_PROOF: 'DISCLOSURE_PROOF',
+    SOCIAL_ASSISTANT_OPINION: 'SOCIAL_ASSISTANT_OPINION',
+    FINAL_RESULT: 'FINAL_RESULT',
+}
+
+export const ENTITY_GROUP_TYPE_MAPPER = {
+    INSTITUTION_NAME: 'Nome da unidade educacional',
+    CNPJ: 'CNPJ',
+    ANNOUNCEMENT: 'Edital',
+    DISCLOSURE_PROOF: 'Comprovante(s) de divulgação',
+    SOCIAL_ASSISTANT_OPINION: 'Pareceres da assistente social',
+    FINAL_RESULT: 'Extrato final',
 }

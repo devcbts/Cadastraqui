@@ -5,6 +5,7 @@ import InputForm from "Components/InputForm"
 import React, { useMemo } from "react"
 import { z } from "zod"
 import AccreditationAct from './AccreditationAct'
+import Announcement from './Announcement'
 import DocumentUpload from "./DocumenUpload"
 const link = (url, text) => {
     return (
@@ -194,21 +195,7 @@ export default function EntityLegalFiles() {
         },
         {
             title: 'Ato de credenciamento / Autorização de funcionamento da Instituição de Ensino ',
-            Component: <AccreditationAct
-                hint={
-                    <>
-                        <p>
-                            Encaminhar a cópia do ato vigente de credenciamento/autorização de funcionamento de todas as instituições de educação vinculadas à mantenedora.
-                        </p>
-                        <p>
-                            Esse documento, regularmente expedido pelo órgão normativo do sistema de ensino (Conselho ou Secretaria de Educação, MEC), deve conter a autorização de funcionamento da instituição de ensino, bem como os níveis de ensino que está habilitada a ofertar. É necessário encaminhar o documento que comprove tais informações (autorização, resolução, portaria, ou publicação do Diário Oficial).
-                        </p>
-                        <p>
-                            Salienta-se que não se trata do alvará de funcionamento ou documento de utilidade pública municipal
-                        </p>
-                    </>
-                }
-            />
+            Component: <AccreditationAct />
         },
         {
             title: 'Termos', Component: <DocumentUpload gridOptions={{ year: true }} type="PARTNERSHIP_TERM"
@@ -266,8 +253,7 @@ export default function EntityLegalFiles() {
                 hint="Encaminhar a relação com identificação dos integrantes do corpo dirigente de cada instituição de ensino vinculada à mantenedora, 
             destacando a experiência acadêmica e administrativa de cada membro.
             A entidade deverá descrever a experiência acadêmica e administrativa dos integrantes do corpo dirigente de cada instituição de ensino 
-            (ex: reitor, vice-reitor, diretor da escola, vice-diretor, coordenador administrativo/pedagógico, supervisor, etc).
-"
+            (ex: reitor, vice-reitor, diretor da escola, vice-diretor, coordenador administrativo/pedagógico, supervisor, etc)."
             />
         },
         {
@@ -321,6 +307,36 @@ export default function EntityLegalFiles() {
                 />}
             />
         },
+        {
+            title: 'Documentação de editais',
+            Component: <Announcement />
+        },
+        {
+            title: 'Termo de concessão de benefícios - Tipo 1',
+            Component: <DocumentUpload
+                details={<strong>Termo de concessão de benefícios – Tipo 1: Ações de apoio ao aluno bolsista (quando conceder).</strong>}
+                type="BENEFITS_TYPE_ONE"
+                multiple
+            />
+        },
+        {
+            title: 'Termo de concessão de benefícios - Tipo 2',
+            Component: <DocumentUpload
+                details={<strong>Termo de concessão de benefícios – Tipo 2: Ações e serviços destinados a alunos e seu grupo familiar (quando conceder).</strong>}
+                type="BENEFITS_TYPE_TWO"
+                multiple
+            />
+        },
+        {
+            title: 'Termo de parceria para atividades e projetos',
+            Component: <DocumentUpload
+                details={<strong>Termo de parceria para execução de projetos e atividades de educação em tempo
+                    integral para alunos de escola pública (quando aplicável)</strong>}
+                type="PUBLIC_SCHOLARSHIP_PROJECTS"
+                multiple
+            />
+        },
+
     ], [])
 
     return (

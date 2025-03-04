@@ -17,7 +17,7 @@ export default function CustomFilePicker({
             accept="application/pdf"
             multiple={multiple}
         />
-        <div onClick={() => ref.current.click()}  >
+        <div onClick={() => ref.current.click()} style={{ cursor: 'pointer' }} >
             {children}
         </div>
     </>)
