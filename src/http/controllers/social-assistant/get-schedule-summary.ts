@@ -11,7 +11,8 @@ export default async function getScheduleSummary(
             where: { user_id: sub },
             include: {
                 Announcement: {
-                    where: { interview: { isNot: null } },
+                    // where: { interview: { isNot: null } },
+                    where: { announcementDate: { gte: new Date() } },
                     include: {
 
                         AssistantSchedule: {
