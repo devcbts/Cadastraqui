@@ -36,7 +36,6 @@ export default function createLegalDocumentFormData({ files, metadata, fields, t
             group: isEntityFile ? (file.group ?? group) : group,
             fields: file.fields ?? fields
         }
-        console.log('tyope', form)
         if (form.file) {
             formData.append(`file_${index}`, form.file)
         }
@@ -54,5 +53,13 @@ export default function createLegalDocumentFormData({ files, metadata, fields, t
         }
 
     });
+    if (files.length === 0) {
+        if (metadata) {
+            formData.append('metadata_0', JSON.stringify(metadata))
+        }
+        if (fields) {
+            formData.append('fields_0', JSON.stringify(fields))
+        }
+    }
     return formData
 }

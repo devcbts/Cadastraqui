@@ -6,6 +6,7 @@ import React, { useMemo } from "react"
 import { z } from "zod"
 import AccreditationAct from './AccreditationAct'
 import Announcement from './Announcement'
+import Cebas from './Cebas'
 import DocumentUpload from "./DocumenUpload"
 const link = (url, text) => {
     return (
@@ -336,7 +337,10 @@ export default function EntityLegalFiles() {
                 multiple
             />
         },
-
+        {
+            title: 'Certificado de Entidade Beneficente de Assistência Social (CEBAS)',
+            Component: <Cebas />
+        }
     ], [])
 
     return (

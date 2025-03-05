@@ -1,9 +1,8 @@
-import { forwardRef, useRef } from "react";
-import InputBase from "../InputBase";
-import styles from './styles.module.scss'
+import { ReactComponent as Upload } from 'Assets/icons/upload.svg';
 import InputContainer from "Components/InputBase/InputContainer";
-import { ReactComponent as Upload } from 'Assets/icons/upload.svg'
-const FilePickerBase = forwardRef(({ label, error, show, ...props }, ref) => {
+import { forwardRef, useRef } from "react";
+import styles from './styles.module.scss';
+const FilePickerBase = forwardRef(({ label, error, show, tooltip, ...props }, ref) => {
     const inputRef = useRef(null)
     return (
         <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -11,6 +10,7 @@ const FilePickerBase = forwardRef(({ label, error, show, ...props }, ref) => {
                 label={label}
                 show={show}
                 error={error}
+                tooltip={tooltip}
             >
                 {(id) => {
                     return (

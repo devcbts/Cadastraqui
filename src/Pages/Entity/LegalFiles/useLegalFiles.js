@@ -60,6 +60,30 @@ export function useLegalFiles({
             NotificationService.error({ text: err?.response?.data?.message })
         }
     }
+    /**
+    * @typedef {Object} IMetadata
+    * @property {METADATA_FILE_TYPE} [type]  
+    * @property {METADATA_FILE_CATEGORY} [category]  
+    * @property {ENTITY_GROUP_TYPE} [document]  
+     */
+    /**
+     * @typedef {Object} IEntityFile
+     * @property {File} file  
+     * @property {string} [type]  
+     * @property {string} [group]
+     * @property {IMetadata} [metadata]
+     * @property {Object} [fields]
+      */
+
+
+    /**
+     * 
+     * @param {Object} params
+     * @param {IMetadata} params.metadata 
+     * @param {IEntityFile[] | File | FileList} params.files
+     * @param {string} params.type 
+     * @param {Object} [params.fields] 
+       */
     const handleUpdateFile = async ({ id, files, metadata, fields }) => {
         try {
             // transform to an array of files

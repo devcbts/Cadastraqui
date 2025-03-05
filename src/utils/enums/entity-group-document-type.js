@@ -5,6 +5,10 @@ export const ENTITY_GROUP_TYPE = {
     DISCLOSURE_PROOF: 'DISCLOSURE_PROOF',
     SOCIAL_ASSISTANT_OPINION: 'SOCIAL_ASSISTANT_OPINION',
     FINAL_RESULT: 'FINAL_RESULT',
+    CEBAS_CERTIFICATE: 'CEBAS_CERTIFICATE',
+    CEBAS_EXTENSION: 'CEBAS_EXTENSION',
+    CEBAS_EDUCATION: 'CEBAS_EDUCATION',
+    CEBAS_NOTES_COPY: 'CEBAS_NOTES_COPY',
 }
 
 export const ENTITY_GROUP_TYPE_MAPPER = {
@@ -14,4 +18,8 @@ export const ENTITY_GROUP_TYPE_MAPPER = {
     DISCLOSURE_PROOF: 'Comprovante(s) de divulgação',
     SOCIAL_ASSISTANT_OPINION: 'Pareceres da assistente social',
     FINAL_RESULT: 'Extrato final',
+    CEBAS_CERTIFICATE: 'Certificação concedida',
+    CEBAS_EXTENSION: 'Prorrogação do prazo',
+    CEBAS_EDUCATION: 'Certidão CEBAS-Educação',
+    CEBAS_NOTES_COPY: 'Cópia das notas técnicas',
 }

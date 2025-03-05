@@ -42,9 +42,6 @@ export default function GroupedDocumentsGrid({
                                 : null
                             }
                         </React.Fragment>
-                        // docs.map((doc) => (
-                        //         {render(doc, group, index)}
-                        // ))
                     ))}
                 </div>
             ))}
