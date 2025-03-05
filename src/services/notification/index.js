@@ -1,7 +1,7 @@
 
-import Swal from "sweetalert2";
-import styles from './styles.module.scss'
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import styles from './styles.module.scss';
 class NotificationService {
     constructor() {
         this.styles = {
@@ -62,7 +62,7 @@ class NotificationService {
     }
 
     async confirm({ title, text, cancel = "Cancelar", confirm = "Confirmar", onConfirm, onCancel = () => { } }) {
-        const { isConfirmed, isDenied } = await Swal.fire({
+        const { isConfirmed, isDismissed } = await Swal.fire({
             showCloseButton: true,
             title,
             text,
@@ -76,11 +76,11 @@ class NotificationService {
         if (isConfirmed) {
             onConfirm()
         }
-        if (isDenied) {
+        if (isDismissed) {
             onCancel()
         }
     }
 }
 
 const service = new NotificationService()
-export { service as NotificationService }
+export { service as NotificationService };

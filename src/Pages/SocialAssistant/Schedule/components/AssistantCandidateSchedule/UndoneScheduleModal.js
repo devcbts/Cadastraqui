@@ -1,7 +1,5 @@
-import FormSelect from "Components/FormSelect";
 import InputForm from "Components/InputForm";
 import Modal from "Components/Modal";
-import SelectBase from "Components/SelectBase";
 import useControlForm from "hooks/useControlForm";
 import { z } from "zod";
 
@@ -30,7 +28,7 @@ export default function UndoneScheduleModal({
         onClose()
     }
     return (
-        <Modal title={title} open={open} onConfirm={handleConfirm} onCancel={handleClose}>
+        <Modal title={title} open={open} onConfirm={handleConfirm} onClose={handleClose}>
             <InputForm control={control} name="reason" label={'motivo'}
             // value={watch("reason")} options={[{ label: 'teste', value: 'teste' }]} 
             />

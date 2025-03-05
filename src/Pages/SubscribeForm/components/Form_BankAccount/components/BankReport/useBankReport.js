@@ -1,13 +1,7 @@
-import useAuth from "hooks/useAuth"
 import useSubscribeFormPermissions from "Pages/SubscribeForm/hooks/useSubscribeFormPermissions"
-import { useEffect, useMemo, useState } from "react"
-import { useRecoilValue } from "recoil"
-import applicationService from "services/application/applicationService"
-import candidateService from "services/candidate/candidateService"
+import { useEffect, useState } from "react"
 import { NotificationService } from "services/notification"
-import socialAssistantService from "services/socialAssistant/socialAssistantService"
 import uploadService from "services/upload/uploadService"
-import ROLES from "utils/enums/role-types"
 import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category"
 import METADATA_FILE_TYPE from "utils/file/metadata-file-type"
 
@@ -32,14 +26,16 @@ export default function useBankReport({ id }) {
         if (!canEdit) { return }
         try {
             const formData = new FormData()
-            const date = new Date()
             const suffix = `${date.getMonth() + 1}-${date.getFullYear()}-${type}`
             const fileName = `file_${suffix}`
+            const currMonth = date.getMonth() + 1
+            const currYear = date.getFullYear()
+            const date = `${currYear}-${currMonth.toString().padStart(2, '0')}-01T00:00:00`
             const metadata = {
                 [`metadata_${suffix}`]: {
                     type: type === "registrato" ? METADATA_FILE_TYPE.BANK.REGISTRATO : METADATA_FILE_TYPE.BANK.PIX,
                     category: METADATA_FILE_CATEGORY.Finance,
-                    date: `${date.getFullYear()}-${date.getMonth() + 1}-01T00:00:00`
+                    date
                 }
             }
             formData.append("file_metadatas", JSON.stringify(metadata))

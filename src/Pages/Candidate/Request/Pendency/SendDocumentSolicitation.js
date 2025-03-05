@@ -28,7 +28,7 @@ export default function SendDocumentSolicitation({
             open={!!data}
             title={'Enviar Documento'}
             text={data?.description}
-            onCancel={onClose}
+            onClose={onClose}
             onConfirm={handleConfirm}
         >
             <div>

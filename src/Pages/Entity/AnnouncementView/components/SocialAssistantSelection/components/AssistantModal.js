@@ -42,7 +42,7 @@ export default function AssistantModal({ onClose, data, onUpdate }) {
     return (
         <Modal
             open={!!data}
-            onCancel={handleClose}
+            onClose={handleClose}
             onConfirm={handleUpdateAssistant}
             title={'Editar assistente'}
         >

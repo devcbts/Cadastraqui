@@ -74,7 +74,7 @@ export default function AccreditationAct() {
 
             <Modal open={openModal}
                 onConfirm={handleSubmit(handleUpload)}
-                onCancel={handleModal}
+                onClose={handleModal}
             >
                 <FormFilePicker control={control} name={"name"} label={'Nome da unidade educacional'} accept={'application/pdf'} />
                 <FormFilePicker control={control} name={"cnpj"} label={'CNPJ'} accept={'application/pdf'} />

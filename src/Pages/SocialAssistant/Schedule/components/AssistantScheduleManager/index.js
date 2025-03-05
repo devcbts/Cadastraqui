@@ -3,8 +3,6 @@ import ButtonBase from "Components/ButtonBase";
 import Modal from "Components/Modal";
 import Table from "Components/Table";
 import Interview from "Pages/Entity/Register/components/Announcement/components/AnnouncementInfo/Interview";
-import FormList from "Pages/SubscribeForm/components/FormList";
-import FormListItem from "Pages/SubscribeForm/components/FormList/FormListItem";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { NotificationService } from "services/notification";
@@ -66,7 +64,7 @@ export default function AssistantScheduleManager() {
             <BackPageTitle title={'Gerenciar agenda'} onClick={() => navigate('')} />
             <Modal
                 open={!!announcementSchedule?.id}
-                onCancel={() => setAnnouncementSchedule({ id: null, schedule: null })}
+                onClose={() => setAnnouncementSchedule({ id: null, schedule: null })}
                 onConfirm={handleCreateSchedule}
                 title={'Reservar horários'}
                 text={'reserve os horários da agenda para este edital'}

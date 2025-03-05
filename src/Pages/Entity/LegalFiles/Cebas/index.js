@@ -160,7 +160,7 @@ export default function Cebas() {
                 separator
             />
             <Modal open={isModalOpen}
-                onCancel={handleModal}
+                onClose={handleModal}
                 onConfirm={handleSubmit(selectedFile.id ? handleUpdate : handleUpload)}
             >
                 {getForm(ENTITY_GROUP_TYPE.CEBAS_CERTIFICATE) &&

@@ -1,24 +1,23 @@
-import { ReactComponent as Magnifier } from 'Assets/icons/magnifier.svg';
 import { ReactComponent as AddUser } from 'Assets/icons/add-user.svg';
+import { ReactComponent as Magnifier } from 'Assets/icons/magnifier.svg';
 import BackPageTitle from "Components/BackPageTitle";
 import ButtonBase from "Components/ButtonBase";
 import Loader from "Components/Loader";
 import moneyInputMask from "Components/MoneyFormInput/money-input-mask";
 import Table from "Components/Table";
+import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { NotificationService } from 'services/notification';
 import socialAssistantService from "services/socialAssistant/socialAssistantService";
 import APPLICATION_STATUS from "utils/enums/application-status";
+import CANDIDATE_APPLICATION_STATUS from 'utils/enums/candidate-application-status';
 import CRITERIAS from "utils/enums/criterias";
 import EDUCATION_TYPE from "utils/enums/education-type";
 import findLabel from "utils/enums/helpers/findLabel";
 import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer";
 import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
 import styles from './styles.module.scss';
-import { NotificationService } from 'services/notification';
-import useAuth from 'hooks/useAuth';
-import CANDIDATE_APPLICATION_STATUS from 'utils/enums/candidate-application-status';
-import Tooltip from 'Components/Tooltip';
 export default function SelectedCandidates() {
     const navigate = useNavigate()
     const { announcementId, courseId } = useParams()
@@ -132,12 +131,13 @@ export default function SelectedCandidates() {
                                 <Table.Cell >{candidate.candidateName}</Table.Cell>
                                 <Table.Cell >{moneyInputMask(candidate.averageIncome?.toFixed(2)?.toString())}</Table.Cell>
                                 <Table.Cell >{CANDIDATE_APPLICATION_STATUS[candidate.candidateStatus]}</Table.Cell>
-                                <Table.Cell >0</Table.Cell>
+                                <Table.Cell >{candidate.requests.length}</Table.Cell>
                                 <Table.Cell >{findLabel(APPLICATION_STATUS, candidate?.status)}</Table.Cell>
                                 <Table.Cell >
 
-                                    {candidate.socialAssistant_id === auth?.uid
 
+                                    {/* candidate.socialAssistant_id === auth?.uid¿ */}
+                                    {candidate.socialAssistant_id !== null
                                         ? <ButtonBase onClick={
                                             candidate.position === null
                                                 ? null

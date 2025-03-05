@@ -40,7 +40,7 @@ export default function DirectorModal({ onClose, data, onUpdate }) {
     return (
         <Modal
             open={!!data}
-            onCancel={handleClose}
+            onClose={handleClose}
             onConfirm={handleUpdate}
             title={'Editar responsável'}
         >

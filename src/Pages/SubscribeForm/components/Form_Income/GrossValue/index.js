@@ -1,9 +1,9 @@
 import MoneyFormInput from "Components/MoneyFormInput";
-import grossValueSchema from "./schemas/gross-value-schema";
-import { forwardRef } from "react";
 import useControlForm from "hooks/useControlForm";
 import useTutorial from "hooks/useTutorial";
+import { forwardRef } from "react";
 import INCOME_TUTORIALS from "utils/enums/tutorials/income";
+import grossValueSchema from "./schemas/gross-value-schema";
 
 
 const GrossValue = forwardRef(({ data }, ref) => {
@@ -18,7 +18,8 @@ const GrossValue = forwardRef(({ data }, ref) => {
 
     return (
         <>
-            <MoneyFormInput control={control} name="grossAmount" label={"total de rendimentos/renda bruta no mês"} />
+            {console.log(data.analysisComplete)}
+            <MoneyFormInput disabled={data.analysisComplete} control={control} name="grossAmount" label={"total de rendimentos/renda bruta no mês"} />
         </>
     )
 })

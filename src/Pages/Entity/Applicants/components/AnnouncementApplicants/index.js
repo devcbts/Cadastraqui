@@ -1,21 +1,18 @@
 import BackPageTitle from "Components/BackPageTitle";
+import ButtonBase from "Components/ButtonBase";
 import Loader from "Components/Loader";
+import Modal from "Components/Modal";
 import Table from "Components/Table";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import entityService from "services/entity/entityService";
-import APPLICATION_STATUS from "utils/enums/application-status";
-import findLabel from "utils/enums/helpers/findLabel";
-import formatMoney from "utils/format-money";
-import styles from '../../../../SocialAssistant/SelectionProcess/SelectedCandidates/styles.module.scss'
-import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
-import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer";
-import EDUCATION_TYPE from "utils/enums/education-type";
-import CANDIDATE_APPLICATION_STATUS from "utils/enums/candidate-application-status";
-import ButtonBase from "Components/ButtonBase";
-import { SCHOLARSHIP_STATUS, SCHOLARSHIP_STATUS_TRANSLATION } from "utils/enums/scholarship-granted-status";
 import { NotificationService } from "services/notification";
-import Modal from "Components/Modal";
+import EDUCATION_TYPE from "utils/enums/education-type";
+import findLabel from "utils/enums/helpers/findLabel";
+import { SCHOLARSHIP_STATUS, SCHOLARSHIP_STATUS_TRANSLATION } from "utils/enums/scholarship-granted-status";
+import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer";
+import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
+import styles from '../../../../SocialAssistant/SelectionProcess/SelectedCandidates/styles.module.scss';
 export default function EntityAnnouncementApplicants() {
     const { courseId } = useParams()
     const [isLoading, setIsLoading] = useState(true)
@@ -92,7 +89,7 @@ export default function EntityAnnouncementApplicants() {
     return (
         <>
             <Loader loading={isLoading} />
-            <Modal open={!!modal} title={'Qual o motivo?'} onCancel={() => setModal(null)} onConfirm={() => handleUpdateUserScholarship({ id: modal.id, status: modal.reason })}>
+            <Modal open={!!modal} title={'Qual o motivo?'} onClose={() => setModal(null)} onConfirm={() => handleUpdateUserScholarship({ id: modal.id, status: modal.reason })}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', margin: '24px 12px', alignItems: 'center' }}>
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '24px' }}>
                         <ButtonBase label={'Desistência'} onClick={() => {

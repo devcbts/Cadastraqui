@@ -137,7 +137,7 @@ export default function Announcement() {
                 separator
             />
             <Modal open={isModalOpen}
-                onCancel={handleModal}
+                onClose={handleModal}
                 onConfirm={handleSubmit(handleUpload)}
             >
                 <FormFilePicker control={control} name={'announcement'} label={'Edital'} accept={'application/pdf'} />

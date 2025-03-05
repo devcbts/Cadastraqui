@@ -1,16 +1,15 @@
+import InterestCards from "Components/Announcement/InterestCards";
 import BackPageTitle from "Components/BackPageTitle";
 import ButtonBase from "Components/ButtonBase";
-import Card from "Components/Card";
 import Loader from "Components/Loader";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import entityService from "services/entity/entityService";
-import formatDate from "utils/format-date";
-import SocialAssistantSelection from "./components/SocialAssistantSelection";
 import { NotificationService } from "services/notification";
+import formatDate from "utils/format-date";
 import Courses from "./components/Courses";
-import InterestCards from "Components/Announcement/InterestCards";
+import SocialAssistantSelection from "./components/SocialAssistantSelection";
 
 export default function EntityAnnouncementView() {
     const { announcementId } = useParams()
@@ -47,7 +46,7 @@ export default function EntityAnnouncementView() {
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: '24px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     <span>Vigência do edital: {formatDate(announcement?.announcementBegin)} à {formatDate(announcement?.announcementDate, { utc: false })}</span>
-                    <span>Período de inscrição: {formatDate(announcement?.openDate)} à {formatDate(announcement?.closeDate, { utc: true })}</span>
+                    <span>Período de inscrição: {formatDate(announcement?.openDate)} à {formatDate(announcement?.closeDate, { utc: false })}</span>
                     <span>
                         {
                             announcement?.interview !== null

@@ -1,6 +1,4 @@
-import FilePickerBase from "Components/FilePickerBase";
 import FormFilePicker from "Components/FormFilePicker";
-import InputBase from "Components/InputBase";
 import InputForm from "Components/InputForm";
 import Modal from "Components/Modal";
 import useControlForm from "hooks/useControlForm";
@@ -27,7 +25,7 @@ export default function NewReport({ open, onClose, onSubmit }) {
         <Modal
             open={open}
             title={'Fazer Upload de Relatórios'}
-            onCancel={onClose}
+            onClose={onClose}
             onConfirm={handleSubmit}
         >
             <div style={{ width: '100%' }}>

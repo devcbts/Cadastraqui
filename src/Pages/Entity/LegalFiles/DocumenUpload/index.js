@@ -122,7 +122,7 @@ export default function DocumentUpload({
                 onConfirm={handleSubmit(() => handleUpload(getValues('file'),
                     getAllFieldValues()
                 ))}
-                onCancel={() => handleModal()}>
+                onClose={() => handleModal()}>
 
                 <div style={{ width: 'max(280px,60%)', display: 'flex', margin: 'auto', flexDirection: 'column', alignItems: 'self-start' }}>
                     {form?.items.map((x, index) => {

@@ -1,11 +1,11 @@
-import Swal from "sweetalert2";
-import UserService from "../../services/user/userService";
-import Modal from "../Modal";
-import { useState } from "react";
-import useForm from "../../hooks/useForm";
 import { UilLock } from "@iconscout/react-unicons";
-import changePasswordValidation from "./validations/change-password-validation";
+import { useState } from "react";
+import Swal from "sweetalert2";
+import useForm from "../../hooks/useForm";
+import UserService from "../../services/user/userService";
 import Input from "../Input";
+import Modal from "../Modal";
+import changePasswordValidation from "./validations/change-password-validation";
 export default function ChangePassword() {
     const [openModal, setOpenModal] = useState(false)
     const [[password], handlePassChange, passErrors, submit, reset] = useForm({
@@ -50,7 +50,7 @@ export default function ChangePassword() {
                 title="Alterar senha"
                 open={openModal}
                 onConfirm={handleConfirm}
-                onCancel={handleCloseModal}
+                onClose={handleCloseModal}
             >
                 <Input
                     name="oldPass"
