@@ -16,6 +16,15 @@ async function countDocument(args: IHandlerArgs) {
         }
     })
 }
+async function countGroups(args: IHandlerArgs) {
+    const groups = await args.db.entityDocuments.groupBy({
+        by: 'group',
+        where: {
+            AND: [{ entity_id: args.userId }, { type: args.type }]
+        },
+    })
+    return groups.length
+}
 
 
 export async function getEntityLegalDocuments(type: EntityDocumentType, userId: string) {
@@ -30,9 +39,11 @@ export async function getEntityLegalDocuments(type: EntityDocumentType, userId: 
         case 'NOMINAL_RELATION_TYPE_TWO':
         case 'PROFILE_ANALYSIS':
         case 'GOVERNING_BODY':
+        case 'ANNOUNCEMENT':
             filter.push({ fields: { path: ['year'], gt: (new Date().getFullYear() - 4) } })
             break;
         case 'ACCREDITATION_ACT':
+        case 'CEBAS':
             filter.push({
                 AND: [
                     { metadata: { path: ['document'], not: Prisma.DbNull } },
@@ -71,6 +82,26 @@ async function deleteOldests(args: IHandlerArgs, count: number) {
             where: { id: doc.id }
         })
     }))
+}
+async function deleteOldestGroup(args: IHandlerArgs) {
+    const oldestGroup = await args.db.entityDocuments.findFirst({
+        where: {
+            AND: [{ entity_id: args.userId }, { type: args.type }]
+        },
+        orderBy: { createdAt: 'asc' },
+    })
+    console.log('OLDEST GROUP', oldestGroup?.group)
+    const docs = await args.db.entityDocuments.findMany({
+        where: {
+            group: oldestGroup?.group
+        }
+    })
+    await Promise.all(docs.map(async doc => {
+        await deleteFromS3Folder(doc.path)
+    }))
+    await args.db.entityDocuments.deleteMany({
+        where: { group: oldestGroup?.group }
+    })
 }
 async function deleteFile(args: IHandlerArgs, file: EntityDocuments) {
     await deleteFromS3Folder(file.path)
@@ -121,6 +152,11 @@ export async function documentTypeHandler(args: IHandlerArgs) {
                 await deleteFile(args, existingFile)
             }
             break
+        case "CEBAS":
+            if (await countGroups(args) === 2) {
+                await deleteOldestGroup(args)
+            }
+            break;
         default:
             break
     }
