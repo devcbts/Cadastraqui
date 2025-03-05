@@ -1,4 +1,4 @@
-import { EntityDocumentType, Prisma } from ".prisma/client";
+import { EntityDocuments, EntityDocumentType, Prisma } from ".prisma/client";
 import { APIError } from "@/errors/api-error";
 import { uploadFile } from "@/http/services/upload-file";
 import { prisma } from "@/lib/prisma";
@@ -28,7 +28,7 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
         }
         const fileType = Array.from(hasUniqueType)[0]!
         // get first document info to replicate on other documents if grouped
-        let groupedFileInfo = null
+        let groupedFileInfo: EntityDocuments | null = null
         if (!!groupId) {
             groupedFileInfo = await prisma.entityDocuments.findFirst({
                 where: { group: groupId }
