@@ -37,23 +37,21 @@ export default function DocumentRequestModal({
         <Modal
             title={'Solicitar Documento'}
             open={open}
-            onCancel={handleClose}
+            onClose={handleClose}
             onConfirm={handleAdd}
         >
-            <div>
-                <InputBase error={null} value="Documento" readOnly label="tipo de solicitação" />
-                <InputForm
-                    type="date"
-                    control={control}
-                    name="deadLineTime"
-                    label="prazo para envio"
-                />
-                <InputForm
-                    control={control}
-                    name="description"
-                    label="descrição"
-                />
-            </div>
+            <InputBase error={null} value="Documento" readOnly label="tipo de solicitação" />
+            <InputForm
+                type="date"
+                control={control}
+                name="deadLineTime"
+                label="prazo para envio"
+            />
+            <InputForm
+                control={control}
+                name="description"
+                label="descrição"
+            />
         </Modal>
     )
 }

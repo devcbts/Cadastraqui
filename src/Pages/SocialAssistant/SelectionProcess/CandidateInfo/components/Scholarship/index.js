@@ -1,11 +1,11 @@
+import FormRadio from "Components/FormRadio";
 import Table from "Components/Table";
-import styles from '../../styles.module.scss'
-import { useEffect, useMemo, useState } from "react";
-import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import useControlForm from "hooks/useControlForm";
+import { useEffect, useRef } from "react";
 import { useLocation } from "react-router";
 import { NotificationService } from "services/notification";
-import useControlForm from "hooks/useControlForm";
-import FormRadio from "Components/FormRadio";
+import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import styles from '../../styles.module.scss';
 export default function Scholarship({ data, onChange }) {
     // const handleChange = (v) => {
     //     setChecked(v.target.value)
@@ -20,9 +20,16 @@ export default function Scholarship({ data, onChange }) {
         initialData: { partial: data?.partial?.toString() }
     })
     const { state } = useLocation()
-
+    const firstMount = useRef(false)
     // const [checked, setChecked] = useState()
     useEffect(() => {
+        if (watch('partial') === null) {
+            return
+        }
+        // if (!firstMount.current ) {
+        //     firstMount.current = true
+        //     return
+        // }
         const checked = getValues("partial") === "true"
         const updatePartial = async () => {
             if (!state) { return }
