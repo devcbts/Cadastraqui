@@ -18,6 +18,7 @@ export async function getDeclarationsPDF(request: FastifyRequest, reply: Fastify
         const user_id = request.user.sub
         const isAssistant = await prisma.socialAssistant.findUnique({
             where: { user_id },
+            select: { id: true }
         })
         if (!isAssistant) {
             throw new ForbiddenError()
@@ -39,8 +40,9 @@ export async function getDeclarationsPDF(request: FastifyRequest, reply: Fastify
         } else {
             const responsible = await historyDatabase.legalResponsible.findUnique({
                 where: { id: candidateOrResponsibleHDB.UserData.id },
-                include: {
-                    Candidate: true
+                select: {
+                    id: true, name: true,
+                    Candidate: { select: { id: true, name: true } }
                 }
             })
             if (!responsible) {

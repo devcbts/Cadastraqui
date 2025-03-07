@@ -1,13 +1,10 @@
-import { NotAllowedError } from '@/errors/not-allowed-error'
+import { ForbiddenError } from '@/errors/forbidden-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { historyDatabase, prisma } from '@/lib/prisma'
-import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
-import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
+import { SelectCandidateResponsibleHDB } from '@/utils/select-candidate-responsibleHDB'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { getSectionDocumentsPDF_HDB } from '../AWS-routes/get-documents-by-section-HDB'
-import { SelectCandidateResponsibleHDB } from '@/utils/select-candidate-responsibleHDB'
-import { ForbiddenError } from '@/errors/forbidden-error'
 
 export async function getVehicleInfoHDB(
     request: FastifyRequest,
@@ -22,7 +19,8 @@ export async function getVehicleInfoHDB(
     try {
         const user_id = request.user.sub;
         const isAssistant = await prisma.socialAssistant.findUnique({
-            where: { user_id }
+            where: { user_id },
+            select: { id: true }
         })
         if (!isAssistant) {
             throw new ForbiddenError()

@@ -19,7 +19,8 @@ export async function getExpensesInfoHDB(
 
     const user_id = request.user.sub
     const isAssistant = await prisma.socialAssistant.findUnique({
-      where: { user_id }
+      where: { user_id },
+      select: { id: true }
     })
     if (!isAssistant) {
       throw new ForbiddenError()

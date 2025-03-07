@@ -73,7 +73,8 @@ export async function getCandidateResume(
         const candidate = application.candidate
 
         const candidateHDB = await historyDatabase.candidate.findUnique({
-            where: { application_id }
+            where: { application_id },
+            select: { CPF: true, id: true }
         })
 
         const candidateOrResponsibleHDB = await SelectCandidateResponsibleHDB(application_id)
@@ -309,25 +310,29 @@ export async function getCandidateResume(
 
         const solicitationFolder = `SolicitationDocuments/${application.id}`
         // Documentos de solicitações
-        const [majoracao, interviewDocument, visitDocument, solicitations,
+        const [majoracao,
+            interviewDocument,
+            visitDocument,
             solicitationsUrls,
-            interviews, familyMembersCNPJ
+            familyMembersCNPJ
         ] = await Promise.all([
             getAssistantDocumentsPDF_HDB(application_id, 'majoracao'),
             getAssistantDocumentsPDF_HDB(application_id, 'Interview'),
             getAssistantDocumentsPDF_HDB(application_id, 'Interview'),
+            getSignedUrlsGroupedByFolder(solicitationFolder),
+            historyDatabase.applicationMembersCNPJ.findMany({
+                where: { application_id },
+                include: { FoundApplicationCNPJ: true }
+            })
+        ])
+        const [solicitations, interviews] = await prisma.$transaction([
             prisma.requests.findMany({
                 where: { AND: [{ application_id }, { type: 'Document' }] },
 
             }),
-            getSignedUrlsGroupedByFolder(solicitationFolder),
             prisma.interviewSchedule.findMany({
                 where: { application_id, InterviewRealized: true },
                 distinct: ['interviewType'],
-            }),
-            historyDatabase.applicationMembersCNPJ.findMany({
-                where: { application_id },
-                include: { FoundApplicationCNPJ: true }
             })
         ])
         const solicitationsFiltered = solicitations.map((solicitation) => {
