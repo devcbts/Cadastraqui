@@ -111,7 +111,7 @@ export async function getCandidateResume(
             vehicles,
             diseases,
             familyMemberMedications
-        ] = await Promise.all([
+        ] = await historyDatabase.$transaction([
             historyDatabase.familyMember.findMany({
                 where: { application_id }
             }),
