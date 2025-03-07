@@ -60,7 +60,23 @@ export async function getIncomeInfoHDB(
 
     const urls = await getSectionDocumentsPDF_HDB(candidateOrResponsible.UserData.id, 'income')
 
-    let incomeInfoResults = await fetchData(familyMembers)
+    // let incomeInfoResults = await fetchData(familyMembers)
+    let incomeInfoResults = await Promise.all(familyMembers.map(async familyMember => {
+      const familyMemberIncome = await historyDatabase.familyMemberIncome.findMany({
+        where: { familyMember_id: familyMember.id },
+      })
+
+
+      return {
+        name: familyMember.fullName, id: familyMember.id, incomes: familyMemberIncome, isIncomeUpdated: familyMember.isIncomeUpdated,
+        hasBankAccount: familyMember?.hasBankAccount,
+        isBankUpdated: !!(
+          (familyMember?.BankAccount.every(e => e.isUpdated) && familyMember?.BankAccount.length)
+          || (familyMember?.BankAccount.every(e => e.isUpdated) && familyMember?.BankAccount.length)
+
+        )
+      }
+    }))
     const userIdentity = await historyDatabase.identityDetails.findFirst({
       where: { OR: [{ candidate_id: candidateOrResponsible.UserData.id }, { responsible_id: candidateOrResponsible.UserData.id }] },
       select: {

@@ -75,13 +75,24 @@ export async function getBankingInfoHDB(
             const candidateBanks = await historyDatabase.bankAccount.findMany({
                 where: idField,
             })
-            const candidateBankWithUrls = candidateBanks.map(async (account) => {
+            const candidateBankWithUrls = await Promise.all(candidateBanks.map(async (account) => {
                 const urls = await getSectionDocumentsPDF_HDB(application_id, `statement/${candidateOrResponsible.UserData.id}/${account.id}`)
                 console.log('urls', urls)
                 return { ...account, urls }
-            })
+            }))
 
-            bankAccounts = await fetchData(familyMembers)
+            // bankAccounts = await fetchData(familyMembers)
+            bankAccounts = await Promise.all(familyMembers.map(async familyMember => {
+                const familyMemberBanks = await historyDatabase.bankAccount.findMany({
+                    where: { familyMember_id: familyMember.id },
+                })
+                const bankWithUrls = await Promise.all(familyMemberBanks.map(async (account) => {
+                    const urls = await getSectionDocumentsPDF_HDB(familyMember.id, `statement/${familyMember.id}/${account.id}`)
+                    return { ...account, urls }
+                }))
+
+                return { name: familyMember.fullName, id: familyMember.id, bankInfo: bankWithUrls }
+            }))
             bankAccounts.push({ name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, bankInfo: candidateBankWithUrls })
 
         }
