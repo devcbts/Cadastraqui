@@ -105,9 +105,54 @@ export async function getCandidateResume(
 
 
 
-        const familyMembers = await historyDatabase.familyMember.findMany({
-            where: { application_id }
-        })
+        const [
+            familyMembers,
+            housingInfo,
+            vehicles,
+            diseases,
+            familyMemberMedications
+        ] = await Promise.all([
+            historyDatabase.familyMember.findMany({
+                where: { application_id }
+            }),
+            historyDatabase.housing.findUnique({
+                where: { application_id },
+                select: {
+                    domicileType: true,
+                    propertyStatus: true,
+                    numberOfBedrooms: true,
+                    numberOfRooms: true
+                }
+            }),
+            historyDatabase.vehicle.findMany({
+                where: { application_id },
+                select: {
+                    _count: true,
+                    modelAndBrand: true,
+                    manufacturingYear: true,
+                    hasInsurance: true,
+                    situation: true,
+                    vehicleType: true
+                }
+            }),
+            historyDatabase.familyMemberDisease.findMany({
+                where: { application_id },
+                include: {
+                    Medication: true,
+                    familyMember: true,
+                    candidate: true,
+                    legalResponsible: true
+                }
+            }),
+            historyDatabase.medication.findMany({
+                where: { AND: [{ application_id }, { familyMemberDiseaseId: null }] },
+                include: {
+                    candidate: true,
+                    familyMember: true,
+                    legalResponsible: true
+                }
+            })
+        ]);
         let candidateInfo
         if (candidateOrResponsibleHDB.IsResponsible) {
             const candidateFamilyMember = familyMembers.find((familyMember) => familyMember.CPF === candidateHDB.CPF)
@@ -155,45 +200,7 @@ export async function getCandidateResume(
             }
         })
 
-        const housingInfo = await historyDatabase.housing.findUnique({
-            where: { application_id },
-            select: {
-                domicileType: true,
-                propertyStatus: true,
-                numberOfBedrooms: true,
-                numberOfRooms: true
-            }
-        })
 
-        const vehicles = await historyDatabase.vehicle.findMany({
-            where: { application_id },
-            select: {
-                _count: true,
-                modelAndBrand: true,
-                manufacturingYear: true,
-                hasInsurance: true,
-                situation: true,
-                vehicleType: true
-            }
-        })
-        const diseases = await historyDatabase.familyMemberDisease.findMany({
-            where: { application_id },
-            include: {
-                Medication: true,
-                familyMember: true,
-                candidate: true,
-                legalResponsible: true
-            }
-        })
-        //Get all medications with no link with disease
-        const familyMemberMedications = await historyDatabase.medication.findMany({
-            where: { AND: [{ application_id }, { familyMemberDiseaseId: null }] },
-            include: {
-                candidate: true,
-                familyMember: true,
-                legalResponsible: true
-            }
-        })
         const familyMembersDiseases = diseases.map((disease) => {
             return {
                 id: disease.id,
@@ -300,17 +307,29 @@ export async function getCandidateResume(
         }
 
 
-        // Documentos de solicitações
-        const majoracao = await getAssistantDocumentsPDF_HDB(application_id, 'majoracao')
-        const interviewDocument = await getAssistantDocumentsPDF_HDB(application_id, 'Interview')
-        const visitDocument = await getAssistantDocumentsPDF_HDB(application_id, 'Visit')
-
-        const solicitations = await prisma.requests.findMany({
-            where: { AND: [{ application_id }, { type: 'Document' }] },
-
-        })
         const solicitationFolder = `SolicitationDocuments/${application.id}`
-        const solicitationsUrls = await getSignedUrlsGroupedByFolder(solicitationFolder);
+        // Documentos de solicitações
+        const [majoracao, interviewDocument, visitDocument, solicitations,
+            solicitationsUrls,
+            interviews, familyMembersCNPJ
+        ] = await Promise.all([
+            getAssistantDocumentsPDF_HDB(application_id, 'majoracao'),
+            getAssistantDocumentsPDF_HDB(application_id, 'Interview'),
+            getAssistantDocumentsPDF_HDB(application_id, 'Interview'),
+            prisma.requests.findMany({
+                where: { AND: [{ application_id }, { type: 'Document' }] },
+
+            }),
+            getSignedUrlsGroupedByFolder(solicitationFolder),
+            prisma.interviewSchedule.findMany({
+                where: { application_id, InterviewRealized: true },
+                distinct: ['interviewType'],
+            }),
+            historyDatabase.applicationMembersCNPJ.findMany({
+                where: { application_id },
+                include: { FoundApplicationCNPJ: true }
+            })
+        ])
         const solicitationsFiltered = solicitations.map((solicitation) => {
             const solicitationDocument = Object.entries(solicitationsUrls).filter(([url]) => url.split('/')[2] === solicitation.id)
             return {
@@ -319,18 +338,9 @@ export async function getCandidateResume(
             }
         })
 
-        const interviews = await prisma.interviewSchedule.findMany({
-            where: { application_id, InterviewRealized: true },
-            distinct: ['interviewType'],
-        });
 
 
-        // CNPJS 
 
-        const familyMembersCNPJ = await historyDatabase.applicationMembersCNPJ.findMany({
-            where: { application_id },
-            include: { FoundApplicationCNPJ: true }
-        })
 
         const familyMembersCNPJFiltered = familyMembersCNPJ.map((memberCNPJ) => {
             const member = familyMembers.find((member) => member.id === memberCNPJ.member_id)
