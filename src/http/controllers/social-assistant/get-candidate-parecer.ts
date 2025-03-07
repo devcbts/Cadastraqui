@@ -76,11 +76,60 @@ export async function getCandidateParecer(
             throw new ResourceNotFoundError()
         }
         const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapitaHDB(candidateOrResponsible.UserData.id)
-        console.log(incomesPerMember)
+        const [
+            familyMembers,
+            housingInfo,
+            vehicles,
+            expenses,
+            diseases,
+            medications
+        ] = await historyDatabase.$transaction([
+            historyDatabase.familyMember.findMany({
+                where: { application_id }
+            }),
+            historyDatabase.housing.findUnique({
+                where: { application_id },
+            }),
+            historyDatabase.vehicle.findMany({
+                where: { application_id },
+                select: {
+                    _count: true,
+                    modelAndBrand: true,
+                    manufacturingYear: true,
+                    hasInsurance: true,
+                    situation: true,
+                    vehicleType: true,
+                    owners_id: true
+                }
+            }),
+            historyDatabase.expense.findMany({
+                where: { application_id },
 
-        const familyMembers = await historyDatabase.familyMember.findMany({
-            where: { application_id }
-        })
+                select: {
+                    totalExpense: true,
+
+
+                }
+            }),
+            historyDatabase.familyMemberDisease.findMany({
+                where: { application_id },
+                include: {
+                    Medication: true,
+                    familyMember: true,
+                    candidate: true,
+                    legalResponsible: true
+                }
+            }),
+            historyDatabase.medication.findMany({
+                where: { application_id },
+                include: {
+                    familyMember: true,
+                    candidate: true,
+                    legalResponsible: true
+                }
+            })
+        ])
+
 
         let familyMembersInfo = familyMembers.map((familyMember) => {
             return {
@@ -104,22 +153,6 @@ export async function getCandidateParecer(
                 income: incomesPerMember[candidateHDB.responsible_id!]
             })
         }
-        const housingInfo = await historyDatabase.housing.findUnique({
-            where: { application_id },
-        })
-
-        const vehicles = await historyDatabase.vehicle.findMany({
-            where: { application_id },
-            select: {
-                _count: true,
-                modelAndBrand: true,
-                manufacturingYear: true,
-                hasInsurance: true,
-                situation: true,
-                vehicleType: true,
-                owners_id: true
-            }
-        })
 
         const familyMemberNames = familyMembers.reduce((map, member) => {
             map[member.id] = member.fullName;
@@ -199,15 +232,7 @@ export async function getCandidateParecer(
                 ownerNames, // Array with the names of all owners
             };
         });
-        const diseases = await historyDatabase.familyMemberDisease.findMany({
-            where: { application_id },
-            include: {
-                Medication: true,
-                familyMember: true,
-                candidate: true,
-                legalResponsible: true
-            }
-        })
+
         const familyMembersDiseases = diseases.map((disease) => {
             return {
                 id: disease.id,
@@ -218,14 +243,7 @@ export async function getCandidateParecer(
             }
         })
 
-        const medications = await historyDatabase.medication.findMany({
-            where: { application_id },
-            include: {
-                familyMember: true,
-                candidate: true,
-                legalResponsible: true
-            }
-        })
+
         const familyMemberMedications = medications.map((medication) => {
             return {
                 id: medication.id,
@@ -254,24 +272,17 @@ export async function getCandidateParecer(
                 familyMedicationsSummary[memberName].obtainedPublicly = false;
             }
         });
-        const expenses = await historyDatabase.expense.findMany({
-            where: { application_id },
 
-            select: {
-                totalExpense: true,
-
-
-            }
-        })
 
         const totalExpenses = expenses.length > 0 ? expenses.reduce((total, expense) => total + (expense.totalExpense ?? 0), 0) / expenses.length : 0;
         const totalIncome = Object.values(incomesPerMember).reduce((acc, income) => {
             return acc += income
         }, 0)
         const hasGreaterIncome = totalIncome > totalExpenses
-        const majoracao = await getAssistantDocumentsPDF_HDB(application_id, 'majoracao')
-        const parecer = await getAssistantDocumentsPDF_HDB(application_id, 'parecer')
-
+        const [majoracao, parecer] = await Promise.all([
+            getAssistantDocumentsPDF_HDB(application_id, 'majoracao'),
+            getAssistantDocumentsPDF_HDB(application_id, 'parecer')
+        ])
 
         const documentsUrls = await Promise.all(section.map(async sec => await getAwsFileFromFolder(`applicationDocuments/${application_id}/${sec}`)))
         const membersNames = familyMembers.map((member) => {
