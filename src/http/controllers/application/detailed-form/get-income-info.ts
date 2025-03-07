@@ -66,13 +66,13 @@ export async function getIncomeInfoHDB(
         where: { familyMember_id: familyMember.id },
       })
 
-
+      const updatedBankAccount = familyMember?.BankAccount.every(e => e.isUpdated)
       return {
         name: familyMember.fullName, id: familyMember.id, incomes: familyMemberIncome, isIncomeUpdated: familyMember.isIncomeUpdated,
         hasBankAccount: familyMember?.hasBankAccount,
         isBankUpdated: !!(
-          (familyMember?.BankAccount.every(e => e.isUpdated) && familyMember?.BankAccount.length)
-          || (familyMember?.BankAccount.every(e => e.isUpdated) && familyMember?.BankAccount.length)
+          (updatedBankAccount && familyMember?.BankAccount.length)
+          || (updatedBankAccount && familyMember?.BankAccount.length)
 
         )
       }

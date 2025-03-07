@@ -1,4 +1,5 @@
 // require('module-alias/register');
+import compress from '@fastify/compress';
 import fastifyCookie from '@fastify/cookie';
 import fastifyJwt from '@fastify/jwt';
 import { fastifyMultipart } from '@fastify/multipart';
@@ -33,7 +34,6 @@ import getCnpj from './http/services/get-cnpj';
 import { multerConfig } from './lib/multer';
 import './lib/pg-listener';
 import { prisma } from './lib/prisma';
-
 export const app = fastify({
   trustProxy: true
 })
@@ -63,7 +63,7 @@ app.addHook('preHandler', async (req, _) => {
 
 })
 
-
+app.register(compress, { global: true })
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
   cookie: {
