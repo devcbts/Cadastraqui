@@ -22,6 +22,7 @@ export async function getApplications(
 
     const assistant = await prisma.socialAssistant.findUnique({
       where: { user_id: userId },
+      select: { entity_id: true }
     })
 
     if (!assistant) {

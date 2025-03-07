@@ -22,6 +22,7 @@ export async function getAnnouncements(
 
     const assistant = await prisma.socialAssistant.findUnique({
       where: { user_id: userId },
+      select: { id: true }
     })
     if (!assistant) {
       throw new ResourceNotFoundError()
@@ -77,43 +78,49 @@ export async function getAnnouncements(
         }
         return baseFilter
       }
-      const total = await prisma.announcement.count({
-        where: {
-          AND: [{
-            socialAssistant: {
-              some: {
-                id: assistant.id,
+      const [
+        total,
+        announcement
+      ] = await prisma.$transaction([
+        prisma.announcement.count({
+          where: {
+            AND: [{
+              socialAssistant: {
+                some: {
+                  id: assistant.id,
 
+                },
               },
             },
+            { AND: getFilter() },
+            ]
+
           },
-          { AND: getFilter() },
-          ]
+        }),
+        prisma.announcement.findMany({
+          skip: page * size,
+          take: size,
+          where: {
+            AND: [{
+              socialAssistant: {
+                some: {
+                  id: assistant.id,
 
-        },
-      })
-
-      announcement = await prisma.announcement.findMany({
-        skip: page * size,
-        take: size,
-        where: {
-          AND: [{
-            socialAssistant: {
-              some: {
-                id: assistant.id,
-
+                },
               },
             },
+            { AND: getFilter() },
+            ]
           },
-          { AND: getFilter() },
-          ]
-        },
-        include: {
-          entity: true,
-          educationLevels: { include: { course: true } },
-        },
+          include: {
+            entity: true,
+            educationLevels: { include: { course: true } },
+          },
 
-      })
+        })
+      ])
+
+
       if (!announcement) {
         throw new AnnouncementNotExists()
       }

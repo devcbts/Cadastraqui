@@ -15,20 +15,23 @@ export async function getBasicInfoHDB(
   try {
     const user_id = request.user.sub
     const isAssistant = await prisma.socialAssistant.findUnique({
-      where: { user_id }
+      where: { user_id },
+      select: { id: true }
     })
     if (!isAssistant) {
       throw new NotAllowedError()
 
     }
-
     // Verifica se existe um candidato associado ao user_id
-    const basicInfoCandidate = await historyDatabase.candidate.findUnique({
-      where: { application_id },
-    })
-    const basicInfoResponsible = await historyDatabase.legalResponsible.findUnique({
-      where: { application_id },
-    })
+    const [basicInfoCandidate, basicInfoResponsible] = await historyDatabase.$transaction([
+      historyDatabase.candidate.findUnique({
+        where: { application_id },
+      }),
+      historyDatabase.legalResponsible.findUnique({
+        where: { application_id },
+      })
+    ])
+
 
     const basicInfo = basicInfoCandidate || basicInfoResponsible
     return reply.status(200).send({ candidate: basicInfo })

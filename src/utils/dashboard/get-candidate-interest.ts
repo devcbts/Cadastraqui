@@ -6,35 +6,38 @@ export default async function getCandidateInterestForDashboard(announcements: An
 
 
     const announcement_ids = announcements.map((a) => a.id);
+    const [
+        allInterest,
+        applications
+    ] = await prisma.$transaction([
+        // Fetch all interests for those announcements
+        prisma.announcementsSeen.findMany({
+            where: { announcement_id: { in: announcement_ids } },
+            include: {
+                candidate: {
+                    include: {
+                        FinishedRegistration: true,
 
-    // Fetch all interests for those announcements
-    const allInterest = await prisma.announcementsSeen.findMany({
-        where: { announcement_id: { in: announcement_ids } },
-        include: {
-            candidate: {
-                include: {
-                    FinishedRegistration: true,
+                    },
+                },
+                responsible: {
+                    include: {
+                        FinishedRegistration: true,
 
+
+                    },
                 },
             },
-            responsible: {
-                include: {
-                    FinishedRegistration: true,
-
-
-                },
+        }),
+        // Fetch all applications for those announcements
+        prisma.application.findMany({
+            where: { announcement_id: { in: announcement_ids } },
+            select: {
+                responsible_id: true,
+                candidate_id: true,
             },
-        },
-    });
-
-    // Fetch all applications for those announcements
-    const applications = await prisma.application.findMany({
-        where: { announcement_id: { in: announcement_ids } },
-        select: {
-            responsible_id: true,
-            candidate_id: true,
-        },
-    });
+        })
+    ])
 
     const numberOfInterested = allInterest.length;
     let numberOfFinishedRegistration = 0;
