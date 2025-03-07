@@ -278,6 +278,7 @@ model FamilyMember {
   updatedAt             DateTime                @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
+  @@index([application_id])
   @@map("familyMembers")
 }
 
@@ -330,6 +331,7 @@ model Vehicle {
   updatedAt             DateTime                @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
+  @@index([application_id])
 }
 
 model FamilyMemberIncome {
@@ -367,6 +369,7 @@ model FamilyMemberIncome {
   MonthlyIncomes MonthlyIncome[]
 
   @@unique([application_id, main_id])
+  @@index([application_id])
 }
 
 model MonthlyIncome {
@@ -406,6 +409,7 @@ model MonthlyIncome {
   updatedAt DateTime            @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
+  @@index([application_id])
 }
 
 model BankAccount {
@@ -427,22 +431,26 @@ model BankAccount {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([application_id])
 }
 
 model BankBalance {
-  id             String      @id @default(cuid())
+  id             String   @id @default(cuid())
   main_id        String
-  initialBalance Float       @default(0)
-  outflowBalance Float       @default(0)
-  entryBalance   Float       @default(0)
-  totalBalance   Float       @default(0)
+  initialBalance Float    @default(0)
+  outflowBalance Float    @default(0)
+  entryBalance   Float    @default(0)
+  totalBalance   Float    @default(0)
   date           DateTime
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
   bankAccount_id String
-    application_id            String
+  application_id String
 
-  bankAccount    BankAccount @relation(fields: [bankAccount_id], references: [id])
+  bankAccount BankAccount @relation(fields: [bankAccount_id], references: [id])
+
+  @@index([application_id])
 }
 
 model Expense {
@@ -518,6 +526,7 @@ model Expense {
   updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
+  @@index([application_id])
 }
 
 model Loan {
@@ -541,6 +550,7 @@ model Loan {
   updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
+  @@index([application_id])
 }
 
 model Financing {
@@ -566,6 +576,7 @@ model Financing {
   updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
+  @@index([application_id])
 }
 
 model CreditCard {
@@ -590,6 +601,7 @@ model CreditCard {
   updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
+  @@index([application_id])
 }
 
 model OtherExpense {
@@ -609,6 +621,7 @@ model OtherExpense {
   updatedAt          DateTime          @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
+  @@index([application_id])
 }
 
 model FamilyMemberDisease {
@@ -632,6 +645,7 @@ model FamilyMemberDisease {
   updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
+  @@index([application_id])
   @@map("familyMemberDiseases")
 }
 
@@ -656,6 +670,7 @@ model Medication {
   updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
+  @@index([application_id])
   @@map("medications")
 }
 
@@ -673,6 +688,8 @@ model Declarations {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([application_id])
 }
 
 model FamilyMemberToVehicle {
@@ -703,6 +720,7 @@ model CandidateDocuments {
   updatedAt          DateTime                @default(now()) @updatedAt
 
   @@index([tableName, tableId], name: "tableName_tableId")
+  @@index([application_id])
 }
 
 model ApplicationMembersCNPJ {
@@ -717,6 +735,7 @@ model ApplicationMembersCNPJ {
   FoundApplicationCNPJ FoundApplicationCNPJ[]
 
   @@unique([member_id, application_id])
+  @@index([application_id])
 }
 
 model FoundApplicationCNPJ {
@@ -733,9 +752,6 @@ model FoundApplicationCNPJ {
   createdAt                 DateTime                @default(now())
   updatedAt                 DateTime                @default(now()) @updatedAt
 }
-
-
-
 
 enum CandidateDocumentType {
   PIX
