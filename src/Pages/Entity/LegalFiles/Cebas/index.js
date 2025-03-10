@@ -50,7 +50,7 @@ export default function Cebas() {
             fields = { expireAt: certificate?.expireAt, issuedAt: certificate?.issuedAt };
             files = certificate?.file ? [certificate.file] : [];
         } else if (selectedFile.type === ENTITY_GROUP_TYPE.CEBAS_EXTENSION) {
-            fields = { issuedAt: deadline?.issuedAt };
+            fields = { expireAt: deadline?.expireAt };
             files = deadline?.file ? [deadline.file] : [];
         } else if (selectedFile.type === ENTITY_GROUP_TYPE.CEBAS_EDUCATION) {
             files = education ? [education] : [];
@@ -71,12 +71,12 @@ export default function Cebas() {
                 education,
                 notes_copy,
                 certificate: { file: c_file, expireAt: c_expire, issuedAt: c_issued },
-                deadline: { file: d_file, issuedAt: d_issued } } = getValues()
+                deadline: { file: d_file, expireAt: d_expire } } = getValues()
             const group = `group_${Date.now()}`
             await handleUploadFile({
                 files: [
                     { file: c_file, metadata: { document: ENTITY_GROUP_TYPE.CEBAS_CERTIFICATE }, fields: { expireAt: c_expire, issuedAt: c_issued } },
-                    { file: d_file, metadata: { document: ENTITY_GROUP_TYPE.CEBAS_EXTENSION }, fields: { issuedAt: d_issued } },
+                    { file: d_file, metadata: { document: ENTITY_GROUP_TYPE.CEBAS_EXTENSION }, fields: { expireAt: d_expire } },
                     { file: notes_copy, metadata: { document: ENTITY_GROUP_TYPE.CEBAS_NOTES_COPY } },
                     { file: education, metadata: { document: ENTITY_GROUP_TYPE.CEBAS_EDUCATION } },
                 ],
@@ -174,7 +174,7 @@ export default function Cebas() {
                 {getForm(ENTITY_GROUP_TYPE.CEBAS_EXTENSION) &&
                     <>
                         <h3>Em caso de prorrogação do prazo de vigência, anexar a Portaria e inserir a nova data de término.</h3>
-                        <InputForm control={control} name={'deadline.issuedAt'} label={'Término'} type="date" />
+                        <InputForm control={control} name={'deadline.expireAt'} label={'Término'} type="date" />
                         <FormFilePicker control={control} name={'deadline.file'} label={'Arquivo'} accept={'application/pdf'} />
                     </>
                 }

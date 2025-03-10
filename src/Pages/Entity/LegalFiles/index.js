@@ -8,6 +8,7 @@ import AccreditationAct from './AccreditationAct'
 import Announcement from './Announcement'
 import Cebas from './Cebas'
 import DocumentUpload from "./DocumenUpload"
+import MonthlyReport from './MonthlyReport'
 const link = (url, text) => {
     return (
         <a style={{ color: 'black', textDecoration: 'underline' }} target="_blank" href={url}>
@@ -340,6 +341,10 @@ export default function EntityLegalFiles() {
         {
             title: 'Certificado de Entidade Beneficente de Assistência Social (CEBAS)',
             Component: <Cebas />
+        },
+        {
+            title: 'Relatório mensal de acompanhamento',
+            Component: <MonthlyReport />
         }
     ], [])
 
