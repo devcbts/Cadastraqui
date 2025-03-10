@@ -113,10 +113,15 @@ async function deleteFile(args: IHandlerArgs, file: EntityDocuments) {
 async function searchByField(args: IHandlerArgs, fieldName: string, value: any) {
     return await args.db.entityDocuments.findFirst({
         where: {
-            fields: {
-                path: [fieldName],
-                equals: value
-            }
+            AND: [
+                { entity_id: args.userId }, { type: args.type },
+                {
+                    fields: {
+                        path: [fieldName],
+                        equals: value
+                    }
+                }
+            ]
         }
     })
 }
@@ -157,6 +162,31 @@ export async function documentTypeHandler(args: IHandlerArgs) {
                 await deleteOldestGroup(args)
             }
             break;
+        case 'MONTHLY_REPORT':
+            const exist = await args.db.entityDocuments.findFirst({
+                where: {
+                    AND: [
+                        { entity_id: args.userId }, { type: args.type },
+                        {
+
+                            fields: {
+                                path: ['year'],
+                                equals: args.fields!['year']
+                            }
+                        },
+                        {
+                            fields:
+                            {
+                                path: ['month'],
+                                equals: args.fields!['month']
+                            }
+                        }
+                    ]
+                }
+            })
+            if (exist) {
+                await deleteFile(args, exist)
+            }
         default:
             break
     }

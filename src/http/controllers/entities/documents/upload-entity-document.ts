@@ -42,7 +42,8 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                     ? { ...groupedFileInfo.fields as Object, ...fields }
                     : { ...(group && { group }), ...fields }
                 const fn = async () => {
-                    const path = `EntityDocuments/${entityId}/${type}/${randomUUID()}-${name}`
+                    const identifier = randomUUID()
+                    const path = `EntityDocuments/${entityId}/${type}/${identifier}-${name}`
                     await documentTypeHandler({
                         db: tPrisma,
                         type: EntityDocumentType[type as keyof typeof EntityDocumentType],
@@ -61,7 +62,8 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                             group: groupId ?? group
                         }
                     })
-                    await uploadFile(buffer!, path, metadata)
+                    const r = await uploadFile(buffer!, path, metadata)
+                    console.log('upload', r)
                 }
                 return fn()
             }))

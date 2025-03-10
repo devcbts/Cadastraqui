@@ -1267,6 +1267,7 @@ enum EntityDocumentType {
   PUBLIC_SCHOLARSHIP_PROJECTS
   ANNOUNCEMENT
   CEBAS
+  MONTHLY_REPORT
 }
 
 enum AIAssistantStatus {
