@@ -1268,6 +1268,7 @@ enum EntityDocumentType {
   ANNOUNCEMENT
   CEBAS
   MONTHLY_REPORT
+  INFORMATION_REQUEST
 }
 
 enum AIAssistantStatus {

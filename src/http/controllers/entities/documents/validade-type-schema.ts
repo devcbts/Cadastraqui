@@ -21,6 +21,11 @@ export function validateMetadata(type?: EntityDocumentType) {
             })
             metadata = defaultMetadata.merge(obj)
             break
+        case 'INFORMATION_REQUEST':
+            metadata = defaultMetadata.extend({
+                year: z.number()
+            })
+            break;
         default:
             metadata = defaultMetadata
     }
@@ -88,6 +93,25 @@ export function validateFields(type?: EntityDocumentType, subtype?: ENTITY_SUBTY
             if (subtype === 'CEBAS_EXTENSION') {
                 fields = z.object({
                     expireAt: z.string().date('Data inválida'),
+                })
+                break;
+            }
+            fields = defaultFields
+            break;
+        case 'INFORMATION_REQUEST':
+            if (subtype === 'INFORMATION_REQUEST_CERTIFICATE') {
+                fields = z.object({
+                    year: z.number(),
+                    number: z.string(),
+                    issuedAt: z.string().date('Data inválida'),
+                    expireAt: z.string().date('Data inválida'),
+                })
+                break;
+            }
+            if (subtype === 'INFORMATION_REQUEST_ANSWER') {
+                fields = z.object({
+                    year: z.number(),
+                    issuedAt: z.string().date('Data inválida'),
                 })
                 break;
             }
