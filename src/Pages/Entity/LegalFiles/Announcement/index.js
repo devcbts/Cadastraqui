@@ -12,6 +12,7 @@ import { ENTITY_LEGAL_FILE } from "utils/enums/entity-legal-files-type"
 import { z } from "zod"
 import GroupedDocumentsGrid from "../GroupedDocumentsGrid"
 import { useLegalFiles } from "../useLegalFiles"
+import YearGrid from '../YearGrid'
 export default function Announcement() {
     const { documents, handleUploadFile, handleUpdateFile } = useLegalFiles({ type: 'ANNOUNCEMENT' })
     const { control, watch, handleSubmit, reset, getValues, formState: { errors } } = useControlForm({
@@ -78,11 +79,15 @@ export default function Announcement() {
             <strong>
                 Editais, documentos que comprovam sua divulgação, análise do perfil socioeconômico e extrato final de cada processo seletivo.
             </strong>
-            <div style={{ display: 'flex', gap: '16px', marginTop: '8px' }}>
-                {years.map(x => <ButtonBase label={x} onClick={() => setCurrYear(x)} />)}
-            </div>
+            <YearGrid
+                container={{
+                    onClick: setCurrYear
+                }}
+                render={(year) => <strong>{year}</strong>}
+            />
 
-            <GroupedDocumentsGrid
+            <h1>{currYear}</h1>
+            {currYear && <GroupedDocumentsGrid
                 order={[
                     ENTITY_GROUP_TYPE.ANNOUNCEMENT,
                     ENTITY_GROUP_TYPE.DISCLOSURE_PROOF,
@@ -135,7 +140,7 @@ export default function Announcement() {
                 }
                 }
                 separator
-            />
+            />}
             <Modal open={isModalOpen}
                 onClose={handleModal}
                 onConfirm={handleSubmit(handleUpload)}

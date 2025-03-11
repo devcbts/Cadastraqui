@@ -8,6 +8,7 @@ import AccreditationAct from './AccreditationAct'
 import Announcement from './Announcement'
 import Cebas from './Cebas'
 import DocumentUpload from "./DocumenUpload"
+import InformationRequest from './InformationRequest'
 import MonthlyReport from './MonthlyReport'
 const link = (url, text) => {
     return (
@@ -345,7 +346,11 @@ export default function EntityLegalFiles() {
         {
             title: 'Relatório mensal de acompanhamento',
             Component: <MonthlyReport />
-        }
+        },
+        {
+            title: 'Solicitações de esclarecimentos e informações à entidade interessada',
+            Component: <InformationRequest />
+        },
     ], [])
 
     return (

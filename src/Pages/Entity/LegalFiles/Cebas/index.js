@@ -166,8 +166,8 @@ export default function Cebas() {
                 {getForm(ENTITY_GROUP_TYPE.CEBAS_CERTIFICATE) &&
                     <>
                         <h3>Certificação concedida</h3>
-                        <InputForm control={control} name={'certificate.expireAt'} label={'Início'} type="date" />
-                        <InputForm control={control} name={'certificate.issuedAt'} label={'Término'} type="date" />
+                        <InputForm control={control} name={'certificate.issuedAt'} label={'Início'} type="date" />
+                        <InputForm control={control} name={'certificate.expireAt'} label={'Término'} type="date" />
                         <FormFilePicker control={control} name={'certificate.file'} label={'Arquivo'} accept={'application/pdf'} />
                     </>
                 }
