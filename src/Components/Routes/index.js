@@ -266,6 +266,12 @@ export default function AppRoutes() {
                 </Routes>
 
             </RoleRoutes>
+            <RoleRoutes role={'LAWYER'}>
+                <Routes>
+                    <Route path="/home" element={<EntityLegalFiles />} />
+                    <Route path="*" element={<Navigate to={'/home'} />} />
+                </Routes>
+            </RoleRoutes>
         </>
     )
 }

@@ -182,6 +182,10 @@ class EntityService {
         const response = await api.get(`/entities/legal/documents/${type}`)
         return response.data
     }
+    async registerLawyer(data) {
+        const response = await api.post('/entities/lawyer', data)
+        return response.data
+    }
 }
 
 export default new EntityService()
