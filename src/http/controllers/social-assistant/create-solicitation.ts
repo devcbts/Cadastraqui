@@ -1,4 +1,3 @@
-import { APIError } from '@/errors/api-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import sendEmail from '@/http/services/send-email'
@@ -45,20 +44,19 @@ export async function createSolicitation(
         // Se a solicitação for do tipo de documentos
         await prisma.$transaction(async (tsPrisma) => {
             const { deadLineTime, description, type } = solicitation
-
-            if (type === 'Interview' || type === `Visit`) {
+            if (solicitation.type === 'Interview' || solicitation.type === `Visit`) {
                 const solicitationExists = await tsPrisma.requests.findFirst({
                     where: {
                         AND: [{ application_id }, { type }]
                     }
                 })
                 if (solicitationExists) {
-                    throw new APIError('Já existe uma solicitação deste tipo para esta inscrição')
+                    throw new Error('Já existe uma solicitação deste tipo para esta inscrição')
                 }
 
                 const application = await tsPrisma.application.findUnique({
                     where: { id: application_id },
-                    include: {
+                    include: { 
                         candidate:
                         {
                             select: {
@@ -84,20 +82,16 @@ export async function createSolicitation(
                                     }
                                 }
                             }
-                        }, announcement: { include: { interview: true, AssistantSchedule: { where: { assistant: { user_id: sub } } } } }
+                        },announcement: { include: { AssistantSchedule: { where: { assistant: { user_id: sub } } } } }
                     }
                 })
                 if (!application) {
                     throw new ResourceNotFoundError()
                 }
-                if (application.announcement.interview === null && type === 'Interview') {
-                    throw new APIError('Este edital não possui entrevista.')
-
-                }
                 if (application?.announcement.AssistantSchedule.length === 0) {
-                    throw new APIError('Reserve os horários para este edital na seção de Agenda antes de solicitar um agendamento.')
+                    throw new Error('Reserve os horários para este edital na seção de Agenda antes de solicitar um agendamento.')
                 }
-
+               
                 const email = application.responsible?.user.email || application.candidate.user?.email
                 const name = application.responsible?.IdentityDetails?.fullName || application.candidate?.name
                 const translatedType = solicitationTypeTranslations[solicitation.type]
@@ -118,7 +112,7 @@ export async function createSolicitation(
                     user_id: application.responsible?.user_id ?? application.candidate.user_id ?? undefined
                 }).then(v => console.log('Email enviado', v))
             }
-
+            
             const dbSolicitation = await tsPrisma.requests.create({
                 data: {
                     application_id,
@@ -128,16 +122,12 @@ export async function createSolicitation(
                 },
             })
             id = dbSolicitation.id
-
+          
         })
 
         return reply.status(201).send({ id })
 
     } catch (err: any) {
-        console.log(err)
-        if (err instanceof APIError) {
-            return reply.status(400).send({ message: err.message })
-        }
         if (err instanceof NotAllowedError) {
             return reply.status(403).send({ message: err.message })
         }
@@ -145,6 +135,6 @@ export async function createSolicitation(
             return reply.status(404).send({ message: err.message })
         }
 
-        return reply.status(500).send({ message: 'Erro interno no servidor' })
+        return reply.status(500).send({ message: err.message })
     }
 }

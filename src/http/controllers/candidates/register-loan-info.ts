@@ -43,11 +43,11 @@ export async function registerLoanInfo(
     const CandidateOrResponsible = await SelectCandidateResponsible(_id)
 
     const familyMember = await prisma.familyMember.findUnique({
-      where: { id: _id }
+      where: {id: _id}
     })
+    
 
-
-    const idField = CandidateOrResponsible ? (CandidateOrResponsible?.IsResponsible ? { legalresponsible_id: _id } : { candidate_id: _id }) : { familyMember_id: _id }
+    const idField = CandidateOrResponsible ? (CandidateOrResponsible?.IsResponsible ? {legalresponsible_id: _id} : {candidate_id: _id}) : {familyMember_id: _id} 
     await prisma.loan.create({
       data: {
         bankName,
@@ -58,12 +58,12 @@ export async function registerLoanInfo(
         ...idField
       },
     })
-
-
+  
+     
     // Verifica se existe um familiar cadastrado com o owner_id
+   
 
-
-
+    
     return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
@@ -73,6 +73,6 @@ export async function registerLoanInfo(
       return reply.status(401).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    return reply.status(500).send({ message: err.message })
   }
 }

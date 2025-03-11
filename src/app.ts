@@ -1,5 +1,4 @@
 // require('module-alias/register');
-import compress from '@fastify/compress';
 import fastifyCookie from '@fastify/cookie';
 import fastifyJwt from '@fastify/jwt';
 import { fastifyMultipart } from '@fastify/multipart';
@@ -34,15 +33,19 @@ import getCnpj from './http/services/get-cnpj';
 import { multerConfig } from './lib/multer';
 import './lib/pg-listener';
 import { prisma } from './lib/prisma';
+import { handleFileUpload } from './http/controllers/AI_Validation/runDocumentAnalysis';
+
 export const app = fastify({
   trustProxy: true
 })
 app.register(fastifyMultipart,
   {
     // attachFieldsToBody: true
-    limits: {
-      fileSize: 1024 * 1024 * 10,
-    },
+    // limits: {
+    //   fileSize: 15000000,
+    //   files: 10,
+
+    // },
   })
 // Registre o plugin fastify-cors
 app.register(fastifyCors, {
@@ -63,7 +66,7 @@ app.addHook('preHandler', async (req, _) => {
 
 })
 
-app.register(compress, { global: true })
+
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
   cookie: {
@@ -90,7 +93,7 @@ app.post('/session', authenticate)
 app.post('/forgot_password', forgotPassword)
 app.post('/reset_password', resetPassword)
 app.post('/logout', logout)
-
+app.post('/rundocumentanalysis', handleFileUpload)
 app.patch('/refresh', refresh)
 app.put('/change_password', { onRequest: [verifyJWT] }, changePassword)
 app.post(
@@ -106,11 +109,12 @@ app.get('/profilePicture', { onRequest: [verifyJWT] }, getUserProfilePicture)
 app.get('/getUserAddress', getUserAddress)
 app.get('/getCompanyCnpj/:cnpj', getCnpj)
 app.setErrorHandler((error, _request, reply) => {
+  console.log(error)
   if (error instanceof ZodError) {
 
     return reply
       .status(400)
-      .send({ message: 'Erro código 400 - Bad request' })
+      .send({ message: 'Validation error:', issues: error.format() })
   }
 
   if (env.NODE_ENV !== 'production') {

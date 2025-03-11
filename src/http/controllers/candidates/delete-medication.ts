@@ -22,22 +22,22 @@ export async function deleteMedicationInfo(
         if (!IsUser) {
             throw new NotAllowedError()
         }
-
+       
         const findMedication = await prisma.medication.findUnique({
-            where: { id: _id },
-            include: { familyMember: true }
+            where: {id:_id},
+            include: {familyMember:true}
         })
         if (!findMedication) {
             throw new ResourceNotFoundError()
         }
         const user_owner = findMedication.candidate_id || findMedication.legalResponsibleId || findMedication.familyMember?.candidate_id || findMedication.familyMember?.legalResponsibleId
-
+        
         if (user_owner !== user_id) {
             throw new NotAllowedError()
         }
         await prisma.medication.delete({
             where: {
-                id: _id,
+              id: _id,
             },
         })
 
@@ -47,6 +47,6 @@ export async function deleteMedicationInfo(
             return reply.status(404).send({ message: err.message })
         }
 
-        return reply.status(500).send({ message: 'Erro interno no servidor' })
+        return reply.status(500).send({ message: err.message })
     }
 }

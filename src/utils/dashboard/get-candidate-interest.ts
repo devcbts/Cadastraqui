@@ -6,61 +6,46 @@ export default async function getCandidateInterestForDashboard(announcements: An
 
 
     const announcement_ids = announcements.map((a) => a.id);
-    const [
-        allInterest,
-        applications
-    ] = await prisma.$transaction([
-        // Fetch all interests for those announcements
-        prisma.announcementsSeen.findMany({
-            where: { announcement_id: { in: announcement_ids } },
-            include: {
-                candidate: {
-                    include: {
-                        FinishedRegistration: true,
 
-                    },
-                },
-                responsible: {
-                    include: {
-                        FinishedRegistration: true,
+    // Fetch all interests for those announcements
+    const allInterest = await prisma.announcementsSeen.findMany({
+        where: { announcement_id: { in: announcement_ids } },
+        include: {
+            candidate: {
+                include: {
+                    FinishedRegistration: true,
 
-
-                    },
                 },
             },
-        }),
-        // Fetch all applications for those announcements
-        prisma.application.findMany({
-            where: { announcement_id: { in: announcement_ids } },
-            select: {
-                responsible_id: true,
-                candidate_id: true,
+            responsible: {
+                include: {
+                    FinishedRegistration: true,
+
+
+                },
             },
-        })
-    ])
+        },
+    });
+
+    // Fetch all applications for those announcements
+    const applications = await prisma.application.findMany({
+        where: { announcement_id: { in: announcement_ids } },
+        select: {
+            responsible_id: true,
+            candidate_id: true,
+        },
+    });
 
     const numberOfInterested = allInterest.length;
     let numberOfFinishedRegistration = 0;
-    const percentages = {
-        cadastrante: 20,
-        grupoFamiliar: 20,
-        moradia: 5,
-        veiculos: 5,
-        rendaMensal: 20,
-        despesas: 10,
-        saude: 5,
-        declaracoes: 15,
-        // documentos: 0
-    }
+
     for (const userInterest of allInterest) {
         const candidateInfo = userInterest.candidate || userInterest.responsible;
-        // const completions = userInterest.percentage;
-        const completions = Object.entries(percentages).reduce((acc, curr) => {
-            return acc += (candidateInfo?.FinishedRegistration?.[curr[0] as keyof typeof percentages] ? 1 : 0) * curr[1]
-        }, 0)
+        const completions = userInterest.percentage;
         if (!completions) {
             continue;
         }
+        
 
         if (completions === 100) {
             numberOfFinishedRegistration++;
@@ -69,7 +54,7 @@ export default async function getCandidateInterestForDashboard(announcements: An
 
 
 
-
+        
     }
     // Group by announcement_id
     const distributionByAnnouncement = announcement_ids.map((announcement_id) => {
@@ -90,6 +75,6 @@ export default async function getCandidateInterestForDashboard(announcements: An
         numberOfFinishedRegistration,
         numberOfUnfinishedRegistration:
             numberOfInterested - numberOfFinishedRegistration,
-        distributionByAnnouncement,
+        distributionByAnnouncement
     };
 }

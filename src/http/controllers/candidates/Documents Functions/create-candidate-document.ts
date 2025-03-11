@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { DocumentAnalysisStatus, Prisma } from "@prisma/client";
 
 export default async function createCandidateDocument(tsPrisma: Prisma.TransactionClient,
     path: string,
@@ -7,6 +7,8 @@ export default async function createCandidateDocument(tsPrisma: Prisma.Transacti
     tableId: string,
     memberId: string,
     expiresAt: Date | null = null,
+    analysisStatus : DocumentAnalysisStatus = "NotIncluded",
+    AiData: Prisma.InputJsonValue | Prisma.NullableJsonNullValueInput | undefined = undefined
 ) {
 
     // if (tableName === "pix" || tableName === "registrato") {
@@ -47,7 +49,9 @@ export default async function createCandidateDocument(tsPrisma: Prisma.Transacti
             tableName: tableName,
             tableId,
             expiresAt,
-            memberId
+            memberId,
+            analysisStatus,
+            AiData
         },
         update: {
             expiresAt,

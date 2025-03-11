@@ -2,21 +2,17 @@ import { APIError } from "@/errors/api-error";
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
-import getDelimiter from "@/utils/get-csv-delimiter";
 import { AllEducationType, AllScholarshipsType, SHIFT } from "@prisma/client";
-import chardet from 'chardet';
 import csv from 'csv-parser';
 import { FastifyReply, FastifyRequest } from "fastify";
 import fs from 'fs';
-import { decodeStream, encodeStream } from 'iconv-lite';
+import { decodeStream, encodeStream } from "iconv-lite";
 import { detect } from 'jschardet';
 import pump from "pump";
 import tmp from 'tmp';
 import { EntityNotExistsErrorWithCNPJ } from '../../../errors/entity-not-exists-with-cnpj';
-import { normalizeString } from "./utils/normalize-string";
 import SelectEntityOrDirector from "./utils/select-entity-or-director";
 
-const CSVSniffer = require('csv-sniffer')()
 interface CSVData {
     "CNPJ (Matriz ou Filial)": string;
     "Tipo de Educação": string;
@@ -69,7 +65,7 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
 
         // Save the uploaded file to the temporary file
         await new Promise((resolve, reject) => {
-            pump(csvFile.file, fs.createWriteStream(tempFile.name, { encoding: 'utf-8' }), (err) => {
+            pump(csvFile.file, fs.createWriteStream(tempFile.name), (err) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -85,17 +81,16 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
             });
         };
 
-        const encoding = chardet.detectFileSync(tempFile.name)
-        const separator = await getDelimiter(tempFile.name)
+        const detectedEncoding = 'latin1';
         // const encoding = detectedEncoding === 'windows-1251' ? 'latin1' : (detectedEncoding as string || 'utf8');
         const results: CSVData[] = [];
         await new Promise((resolve, reject) => {
             fs.createReadStream(tempFile.name)
-                .pipe(decodeStream(encoding ?? 'utf-8'))
+                .pipe(decodeStream(detectedEncoding))
                 .pipe(encodeStream('utf8'))
                 .pipe(csv({
-                    separator: separator
-                    // detectedEncoding === "UTF-8" ? ',' : ';',
+                    separator: ';'
+                    // detectedEncoding === "UTF-8" ? ',' : ';'
                 }))
                 .on('data', (data: CSVData) => {
                     // Process the data as needed
@@ -118,19 +113,18 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
 
         const uniqueCNPJs = Array.from(new Set(results.map(result => result["CNPJ (Matriz ou Filial)"])));
 
-        const entities = await Promise.all(uniqueCNPJs.map(async (x) => {
-            const cnpj = normalizeString(x)
+        const entities = await Promise.all(uniqueCNPJs.map(async (cnpj) => {
             let entityOrSubsidiary
 
             entityOrSubsidiary = await prisma.entity.findUnique({
                 where: {
-                    normalizedCnpj: cnpj,
+                    CNPJ: cnpj,
                     id: entity.id
                 }
 
             }) || await prisma.entitySubsidiary.findUnique({
                 where: {
-                    normalizedCnpj: cnpj,
+                    CNPJ: cnpj,
                     entity_id: entity.id
                 }
             });
@@ -142,13 +136,12 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
         console.log(results)
         if (results.some(e => {
             const value = parseInt(e["Número de Vagas"])
-            console.log(value)
             return isNaN(value) || value <= 0
         })) {
             throw new APIError('Não podem haver vagas iguais à zero.')
         }
         const csvDataFormated = results.map((result: CSVData) => {
-            const matchedEntity = entities.find(entity => entity.CNPJ === normalizeString(result["CNPJ (Matriz ou Filial)"]));
+            const matchedEntity = entities.find(entity => entity.CNPJ === result["CNPJ (Matriz ou Filial)"]);
             return {
                 // cnpj: result["CNPJ (Matriz ou Filial)"],
                 type: educationTypeMapping[result["Tipo de Educação"]],

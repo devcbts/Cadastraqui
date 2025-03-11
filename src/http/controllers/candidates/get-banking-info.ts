@@ -110,6 +110,6 @@ export async function getBankingInfo(
             return reply.status(403).send({ message: err.message })
         }
 
-        return reply.status(500).send({ message: 'Erro interno no servidor' })
+        return reply.status(500).send({ message: err.message })
     }
 }

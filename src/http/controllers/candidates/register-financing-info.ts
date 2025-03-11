@@ -10,10 +10,10 @@ export async function registerFinancingInfo(
   reply: FastifyReply,
 ) {
   const FinancingType = z.enum(['Car',
-    'Motorcycle',
-    'Truck',
-    'House_Apartment_Land',
-    'Other'])
+  'Motorcycle',
+  'Truck',
+  'House_Apartment_Land',
+  'Other'])
 
   const FinancingDataSchema = z.object({
     familyMemberName: z.string(),
@@ -32,7 +32,7 @@ export async function registerFinancingInfo(
   // _id === family_member_id
   const { _id } = FinancingParamsSchema.parse(request.params)
 
-
+  
   const {
     bankName,
     familyMemberName,
@@ -58,14 +58,14 @@ export async function registerFinancingInfo(
       if (!familyMember) {
         throw new ResourceNotFoundError()
       }
-      idField = { familyMember_id: _id }
+      idField = {familyMember_id: _id}
     }
+    
 
 
-
-
-
-
+    
+      
+    
     // Armazena informações acerca do Loan no banco de dados
     await prisma.financing.create({
       data: {
@@ -76,8 +76,8 @@ export async function registerFinancingInfo(
         paidInstallments,
         totalInstallments,
         otherFinancing,
-
-        ...(IsUser ? (IsUser.IsResponsible ? { legalResponsible_id: _id } : { candidate_id: _id }) : idField)
+        
+        ...(IsUser? (IsUser.IsResponsible ? {legalResponsible_id: _id} : {candidate_id: _id}) : idField) 
       },
     })
 
@@ -90,6 +90,6 @@ export async function registerFinancingInfo(
       return reply.status(401).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    return reply.status(500).send({ message: err.message })
   }
 }

@@ -18,10 +18,10 @@ export async function deleteSubsidiary(
     const user_id = request.user.sub
 
     const entity = await prisma.entity.findUnique({
-      where: { user_id }
+        where: {user_id}
     })
     if (!entity) {
-      throw new NotAllowedError()
+        throw new NotAllowedError()
     }
 
 
@@ -34,7 +34,7 @@ export async function deleteSubsidiary(
     }
 
     // Falta deletar os usuários relacionados com os diretores excluídos
-
+    
     await prisma.entitySubsidiary.delete({ where: { id: _id } })
 
     await prisma.user.delete({ where: { id: subsidiary.user_id } })
@@ -46,8 +46,8 @@ export async function deleteSubsidiary(
     }
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
-    }
+  }
 
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    return reply.status(500).send({ message: err.message })
   }
 }

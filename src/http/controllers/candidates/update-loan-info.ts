@@ -43,9 +43,9 @@ export async function updateLoanInfo(
 
     // Verifica se existe um candidato associado ao user_id
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-
+   
     const responsible = await prisma.legalResponsible.findUnique({
-      where: { user_id }
+      where: {user_id}
     })
 
     if (!candidate && !responsible) {
@@ -71,7 +71,7 @@ export async function updateLoanInfo(
         candidate_id: candidate?.id,
         legalResponsibleId: responsible?.id
       },
-      where: { id: id }
+      where: {id: id}
     })
 
     return reply.status(201).send()
@@ -83,6 +83,6 @@ export async function updateLoanInfo(
       return reply.status(401).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    return reply.status(500).send({ message: err.message })
   }
 }

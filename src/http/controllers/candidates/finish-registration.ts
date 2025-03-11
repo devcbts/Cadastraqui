@@ -2,6 +2,7 @@ import { ApplicationAlreadyExistsError } from '@/errors/already-exists-applicati
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
 
 export async function finishRegistration(
     request: FastifyRequest,
@@ -18,9 +19,9 @@ export async function finishRegistration(
         if (!candidate) {
             throw new ResourceNotFoundError()
         }
-        const updatedCandidate = await prisma.candidate.update(
+       const updatedCandidate = await prisma.candidate.update(
             {
-                where: { user_id: userId },
+                where: { user_id: userId},
                 data: {
 
                     finishedapplication: true,
@@ -38,6 +39,6 @@ export async function finishRegistration(
             return reply.status(409).send({ err })
         }
 
-        return reply.status(500).send({ message: 'Erro interno no servidor' })
+        return reply.status(500).send({ message: err.message })
     }
 }

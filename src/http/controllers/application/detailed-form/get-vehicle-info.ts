@@ -24,10 +24,6 @@ export async function getVehicleInfoHDB(
         }
         const familyMembers = await historyDatabase.familyMember.findMany({
             where: { application_id: application_id },
-            select: {
-                id: true,
-                fullName: true
-            }
         })
 
         // Obtém todos os veículos associados ao candidato

@@ -2,7 +2,6 @@ import { prisma } from "@/lib/prisma";
 import STATES from "@/utils/enums/zod/state";
 import { FastifyReply, FastifyRequest } from "fastify";
 import z from 'zod';
-import { normalizeString } from "./utils/normalize-string";
 export default async function updateEntityProfile(
     request: FastifyRequest,
     response: FastifyReply
@@ -38,13 +37,12 @@ export default async function updateEntityProfile(
         if (checkEntityCNPJ) {
             return response.status(400).send({ message: "CNPJ já cadastrado" })
         }
-        const normalizedCnpj = parsedSchema.CNPJ ? normalizeString(parsedSchema.CNPJ) : undefined
+
         const { email, ...dataToUpdate } = parsedSchema
         await prisma.entity.update({
             where: { user_id: sub },
             data: {
                 ...dataToUpdate,
-                normalizedCnpj,
                 user: {
                     update: {
                         where: { id: sub },

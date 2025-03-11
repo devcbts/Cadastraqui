@@ -2,17 +2,15 @@ import { APIError } from "@/errors/api-error";
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
-import getDelimiter from "@/utils/get-csv-delimiter";
 import { AllEducationType, AllScholarshipsType, SHIFT } from "@prisma/client";
-import chardet from 'chardet';
-import csvParser from "csv-parser";
+import csv from 'csv-parser';
 import { FastifyReply, FastifyRequest } from "fastify";
 import fs from 'fs';
 import { decodeStream, encodeStream } from "iconv-lite";
+import { detect } from 'jschardet';
 import pump from "pump";
 import tmp from 'tmp';
 import { EntityNotExistsErrorWithCNPJ } from '../../../errors/entity-not-exists-with-cnpj';
-import { normalizeString } from "./utils/normalize-string";
 import SelectEntityOrDirector from "./utils/select-entity-or-director";
 
 interface CSVData {
@@ -49,8 +47,6 @@ const scholarshipTypeMapping: { [key: string]: AllScholarshipsType } = {
     "Trabalhadores da Instituição de Ensino Superior": AllScholarshipsType.HigherEduInstitutionWorkers,
     "Pós-Graduação Stricto Sensu": AllScholarshipsType.PostgraduateStrictoSensu
 };
-
-
 export default async function uploadHigherEducationCSVFileToAnnouncement(
     request: FastifyRequest,
     reply: FastifyReply
@@ -67,11 +63,10 @@ export default async function uploadHigherEducationCSVFileToAnnouncement(
 
         // Create a temporary file
         const tempFile = tmp.fileSync({ postfix: '.csv' });
+
         // Save the uploaded file to the temporary file
         await new Promise((resolve, reject) => {
-            const readStream = csvFile.file
-
-            pump(readStream, fs.createWriteStream(tempFile.name), (err) => {
+            pump(csvFile.file, fs.createWriteStream(tempFile.name), (err) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -79,17 +74,22 @@ export default async function uploadHigherEducationCSVFileToAnnouncement(
                 }
             });
         });
+        const detectEncoding = (filePath: any) => {
+            return new Promise((resolve, reject) => {
+                const buffer = fs.readFileSync(filePath);
+                const detection = detect(buffer);
+                resolve(detection.encoding);
+            });
+        };
 
-        const encoding = chardet.detectFileSync(tempFile.name)
-        const separator = await getDelimiter(tempFile.name)
-        console.log(separator)
-        // const encoding = detectedEncoding === 'windows-1251' ? 'latin1' : (detectedEncoding as string || 'utf8');
+        const detectedEncoding = await detectEncoding(tempFile.name);
+        const encoding = detectedEncoding === 'windows-1251' ? 'latin1' : (detectedEncoding as string || 'utf8');
         const results: CSVData[] = [];
         await new Promise((resolve, reject) => {
             fs.createReadStream(tempFile.name)
-                .pipe(decodeStream(encoding ?? 'utf-8'))
-                .pipe(encodeStream('utf-8'))
-                .pipe(csvParser({ separator: separator }))
+                .pipe(decodeStream(encoding))
+                .pipe(encodeStream('utf8'))
+                .pipe(csv({ separator: detectedEncoding === "UTF-8" ? ',' : ';' }))
                 .on('data', (data: CSVData) => {
                     // Process the data as needed
                     console.log(data)
@@ -109,28 +109,27 @@ export default async function uploadHigherEducationCSVFileToAnnouncement(
                 });
         });
 
-        console.log(results, results.length)
+
         const uniqueCNPJs = Array.from(new Set(results.map(result => result["CNPJ (Matriz ou Filial)"])));
 
-        const entities = await Promise.all(uniqueCNPJs.map(async (x) => {
-            const cnpj = normalizeString(x)
+        const entities = await Promise.all(uniqueCNPJs.map(async (cnpj) => {
             let entityOrSubsidiary
+
             entityOrSubsidiary = await prisma.entity.findUnique({
                 where: {
-                    normalizedCnpj: cnpj,
+                    CNPJ: cnpj,
                     id: entity.id
                 }
 
             }) || await prisma.entitySubsidiary.findUnique({
                 where: {
-                    normalizedCnpj: cnpj,
+                    CNPJ: cnpj,
                     entity_id: entity.id
                 }
             });
             if (!entityOrSubsidiary) {
                 throw new EntityNotExistsErrorWithCNPJ(cnpj);
             }
-            console.log('ACHEI', entityOrSubsidiary.CNPJ, entityOrSubsidiary.socialReason)
             return entityOrSubsidiary;
         }))
         if (results.some(e => {
@@ -140,7 +139,7 @@ export default async function uploadHigherEducationCSVFileToAnnouncement(
             throw new APIError('Não podem haver vagas iguais à zero.')
         }
         const csvDataFormated = results.map((result: CSVData) => {
-            const matchedEntity = entities.find(entity => entity.CNPJ === normalizeString(result["CNPJ (Matriz ou Filial)"]));
+            const matchedEntity = entities.find(entity => entity.CNPJ === result["CNPJ (Matriz ou Filial)"]);
             return {
                 // cnpj: result["CNPJ (Matriz ou Filial)"],
                 type: educationTypeMapping[result["Tipo de Curso"]],

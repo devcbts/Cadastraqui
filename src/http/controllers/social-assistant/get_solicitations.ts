@@ -29,7 +29,6 @@ export async function getSolicitations(
 
         const assistant = await prisma.socialAssistant.findUnique({
             where: { user_id: userId },
-            select: { entity_id: true }
         })
 
         // Verifica se o usuário existe na tabela de assistentes
@@ -52,8 +51,7 @@ export async function getSolicitations(
 
         // verifica se existe o processo seletivo
         const announcement = await prisma.announcement.findUnique({
-            where: { id: application.announcement_id },
-            select: { entity_id: true }
+            where: { id: application.announcement_id }
         })
 
         if (announcement) {
@@ -106,6 +104,6 @@ export async function getSolicitations(
         }
 
 
-        return reply.status(500).send({ message: 'Erro interno no servidor' })
+        return reply.status(500).send({ message: err.message })
     }
 }

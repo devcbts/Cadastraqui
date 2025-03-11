@@ -22,7 +22,6 @@ export async function getApplications(
 
     const assistant = await prisma.socialAssistant.findUnique({
       where: { user_id: userId },
-      select: { entity_id: true }
     })
 
     if (!assistant) {
@@ -77,6 +76,6 @@ export async function getApplications(
       return reply.status(404).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    return reply.status(500).send({ message: err.message })
   }
 }

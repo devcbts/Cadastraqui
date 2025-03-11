@@ -2,6 +2,7 @@
 // Ele pode conceder uma bolsa e gerar um registro no histórico e um indice na tabela de bolsas concedidas
 // Ou ele pode escolher não conceder a bolsa e só gerar um registro no histórico de que o candidato teve seu pedido negado
 
+import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
@@ -18,23 +19,23 @@ export async function updateSolicitationWithReport(
 ) {
     const solictationParamsSchema = z.object({
         solicitation_id: z.string(),
-
+       
 
     })
 
     const solicitationBodySchema = z.object({
         report: z.string()
     })
-
+   
     const { solicitation_id } = solictationParamsSchema.parse(request.params)
     const { report } = solicitationBodySchema.parse(request.body)
 
     try {
-
+    
         // Caso 1: gaveUp true
         await prisma.applicationHistory.update({
-            where: { id: solicitation_id },
-            data: {
+            where: {id: solicitation_id},
+            data:{
                 report: report
             }
         })
@@ -49,6 +50,6 @@ export async function updateSolicitationWithReport(
         }
 
 
-        return reply.status(500).send({ message: 'Erro interno no servidor' })
+        return reply.status(500).send({ message: err.message })
     }
 }

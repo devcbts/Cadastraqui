@@ -3,7 +3,8 @@ import { SelectCandidateResponsible } from "@/utils/select-candidate-responsible
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import IncomeSource from "./enums/IncomeSource";
-
+import { CacheManager } from "../students/CacheManager";
+const cacheManager = new CacheManager();
 export default async function updateMonthlyIncome(
     request: FastifyRequest,
     response: FastifyReply
@@ -44,6 +45,7 @@ export default async function updateMonthlyIncome(
             reversalValue: z.number().default(0),
             compensationValue: z.number().default(0),
             judicialPensionValue: z.number().default(0),
+            thread_id: z.string().nullable()
             // file_document: z.instanceof(File).nullish()
         })).default([])
     })
@@ -73,8 +75,31 @@ export default async function updateMonthlyIncome(
                     if (income.proLabore && income.dividends) {
                         liquidAmount = income.proLabore + income.dividends
                     }
+
                     // Armazena informações acerca da renda mensal no banco de dados
                     if (income.id) {
+                        if (income.thread_id && income.judicialPensionValue === 0){
+                            const cachedInfo: {
+                             legibilidade: boolean,
+                             retifiedReceiver: boolean,
+                             grossAmount: string,
+                             netIncome: string,
+                             coherent: boolean,
+                             tries: number
+                         } | null | undefined = cacheManager.getCache(income.thread_id);
+                         if (cachedInfo !== null && cachedInfo !== undefined && (cachedInfo.legibilidade && cachedInfo.retifiedReceiver && cachedInfo.coherent)) {
+                           const objectGroosAmount = cachedInfo.grossAmount ? parseFloat(cachedInfo.grossAmount) : null;
+                           const objectNetIncome = cachedInfo.netIncome ? parseFloat(cachedInfo.netIncome) : null;
+                            if (objectGroosAmount && objectNetIncome){
+                              // verificar se a renda do formulário está similar a renda informada
+                              if (liquidAmount < objectNetIncome*0.94){
+                                throw new Error("Renda informada não corresponde a renda do documento");
+                                
+                              }
+                            }
+                           
+                         }
+                         }
                         monthlyIncomesId.push(income.id)
                         await tsPrisma.monthlyIncome.update({
                             where: { id: income.id },

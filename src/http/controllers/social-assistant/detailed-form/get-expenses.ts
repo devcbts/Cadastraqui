@@ -1,9 +1,12 @@
-import { ForbiddenError } from '@/errors/forbidden-error'
+import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { historyDatabase, prisma } from '@/lib/prisma'
-import { SelectCandidateResponsibleHDB } from '@/utils/select-candidate-responsibleHDB'
+import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { SelectCandidateResponsibleHDB } from '@/utils/select-candidate-responsibleHDB';
+import { ForbiddenError } from '@/errors/forbidden-error'
 import { getSectionDocumentsPDF_HDB } from '../AWS-routes/get-documents-by-section-HDB'
 export async function getExpensesInfoHDB(
   request: FastifyRequest,
@@ -19,25 +22,24 @@ export async function getExpensesInfoHDB(
 
     const user_id = request.user.sub
     const isAssistant = await prisma.socialAssistant.findUnique({
-      where: { user_id },
-      select: { id: true }
+        where: {user_id}
     })
     if (!isAssistant) {
-      throw new ForbiddenError()
-
+        throw new ForbiddenError()
+        
     }
-    const candidateOrResponsible = await SelectCandidateResponsibleHDB(application_id)
+    const candidateOrResponsible = await SelectCandidateResponsibleHDB(application_id) 
     if (!candidateOrResponsible) {
-      throw new ResourceNotFoundError()
+        throw new ResourceNotFoundError()
     }
-    const idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
-
+    const idField = candidateOrResponsible.IsResponsible ? {legalResponsibleId: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
+    
     // Busca todas as despesas associadas ao candidato
     const expenses = await historyDatabase.expense.findMany({
       where: idField,
       take: 3,
       orderBy: {
-        date: 'desc',
+      date: 'desc',
       },
     })
     const urls = await getSectionDocumentsPDF_HDB(candidateOrResponsible.UserData.id, 'expenses');
@@ -52,12 +54,12 @@ export async function getExpensesInfoHDB(
     return reply.status(200).send({ expenses: expensesWithUrls })
   } catch (err: any) {
     if (err instanceof ForbiddenError) {
-      return reply.status(403).send({ message: err.message })
+        return reply.status(403).send({ message: err.message })
     }
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    return reply.status(500).send({ message: err.message })
   }
 }

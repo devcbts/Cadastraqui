@@ -4,7 +4,8 @@ import { prisma } from '@/lib/prisma'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-
+import { CacheManager } from '../students/CacheManager'
+const cacheManager = new CacheManager();
 export async function registerMonthlyIncomeInfo(
   request: FastifyRequest,
   reply: FastifyReply,
@@ -54,6 +55,7 @@ export async function registerMonthlyIncomeInfo(
       reversalValue: z.number().default(0),
       compensationValue: z.number().default(0),
       judicialPensionValue: z.number().default(0),
+      thread_id: z.string().nullable()
     })).default([])
   })
 
@@ -94,6 +96,7 @@ export async function registerMonthlyIncomeInfo(
       // iterate over the month array to get all total income
       await Promise.all(monthlyIncome.incomes.map(async (income) => {
         if (income.grossAmount) {
+        
           let liquidAmount =
             income.grossAmount -
             income.foodAllowanceValue -
@@ -106,6 +109,29 @@ export async function registerMonthlyIncomeInfo(
           if (income.proLabore || income.dividends) {
             liquidAmount = income.proLabore + income.dividends
           }
+
+          if (income.thread_id && income.judicialPensionValue === 0){
+            const cachedInfo: {
+             legibilidade: boolean,
+             retifiedReceiver: boolean,
+             grossAmount: string,
+             netIncome: string,
+             coherent: boolean,
+             tries: number
+         } | null | undefined = cacheManager.getCache(income.thread_id);
+         if (cachedInfo !== null && cachedInfo !== undefined && (cachedInfo.legibilidade && cachedInfo.retifiedReceiver && cachedInfo.coherent)) {
+           const objectGroosAmount = cachedInfo.grossAmount ? parseFloat(cachedInfo.grossAmount) : null;
+           const objectNetIncome = cachedInfo.netIncome ? parseFloat(cachedInfo.netIncome) : null;
+            if (objectGroosAmount && objectNetIncome){
+              // verificar se a renda do formulário está similar a renda informada
+              if (liquidAmount < objectNetIncome*0.94){
+                throw new Error("Renda informada não corresponde a renda do documento");
+                
+              }
+            }
+           
+         }
+         }
           // Armazena informações acerca da renda mensal no banco de dados
           await tsPrisma.monthlyIncome.create({
             data: {
@@ -188,7 +214,11 @@ export async function registerMonthlyIncomeInfo(
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
     }
+    if (err instanceof Error) {
+      return reply.status(400).send({ message: err.message })
+      
+    }
 
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    return reply.status(500).send({ message: err.message })
   }
 }

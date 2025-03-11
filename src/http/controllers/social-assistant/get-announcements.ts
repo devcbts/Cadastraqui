@@ -22,7 +22,6 @@ export async function getAnnouncements(
 
     const assistant = await prisma.socialAssistant.findUnique({
       where: { user_id: userId },
-      select: { id: true }
     })
     if (!assistant) {
       throw new ResourceNotFoundError()
@@ -78,49 +77,43 @@ export async function getAnnouncements(
         }
         return baseFilter
       }
-      const [
-        total,
-        announcement
-      ] = await prisma.$transaction([
-        prisma.announcement.count({
-          where: {
-            AND: [{
-              socialAssistant: {
-                some: {
-                  id: assistant.id,
+      const total = await prisma.announcement.count({
+        where: {
+          AND: [{
+            socialAssistant: {
+              some: {
+                id: assistant.id,
 
-                },
               },
             },
-            { AND: getFilter() },
-            ]
-
           },
-        }),
-        prisma.announcement.findMany({
-          skip: page * size,
-          take: size,
-          where: {
-            AND: [{
-              socialAssistant: {
-                some: {
-                  id: assistant.id,
+          { AND: getFilter() },
+          ]
 
-                },
+        },
+      })
+
+      announcement = await prisma.announcement.findMany({
+        skip: page * size,
+        take: size,
+        where: {
+          AND: [{
+            socialAssistant: {
+              some: {
+                id: assistant.id,
+
               },
             },
-            { AND: getFilter() },
-            ]
           },
-          include: {
-            entity: true,
-            educationLevels: { include: { course: true } },
-          },
+          { AND: getFilter() },
+          ]
+        },
+        include: {
+          entity: true,
+          educationLevels: { include: { course: true } },
+        },
 
-        })
-      ])
-
-
+      })
       if (!announcement) {
         throw new AnnouncementNotExists()
       }
@@ -205,6 +198,6 @@ export async function getAnnouncements(
       return reply.status(400).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    return reply.status(500).send({ message: err.message })
   }
 }

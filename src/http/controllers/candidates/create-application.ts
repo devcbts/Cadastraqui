@@ -127,7 +127,6 @@ export async function subscribeAnnouncement(
 
     }
 
-
     const educationLevel = await prisma.educationLevel.findUnique({
       where: { id: educationLevel_id }
     })
@@ -205,6 +204,6 @@ export async function subscribeAnnouncement(
       return reply.status(412).send({ message: err.message })
 
     }
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    return reply.status(500).send({ message: err.message })
   }
 }

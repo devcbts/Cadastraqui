@@ -39,6 +39,6 @@ export async function fetchSubsidiarys(
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ err: err.message })
     }
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    return reply.status(500).send({ message: err.message })
   }
 }

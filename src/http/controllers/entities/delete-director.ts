@@ -18,10 +18,10 @@ export async function deleteDirector(
     const user_id = request.user.sub
 
     const entity = await prisma.entity.findUnique({
-      where: { user_id }
+        where: {user_id}
     })
     if (!entity) {
-      throw new NotAllowedError()
+        throw new NotAllowedError()
     }
 
     const director = await prisma.entityDirector.findUnique({
@@ -43,8 +43,8 @@ export async function deleteDirector(
     }
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
-    }
+  }
 
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    return reply.status(500).send({ message: err.message })
   }
 }

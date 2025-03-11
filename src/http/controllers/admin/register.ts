@@ -11,15 +11,15 @@ export async function registerAdmin(
   const registerBodySchema = z.object({
     email: z.string(),
     password: z.string().min(6),
-
+    
   })
 
   const {
-
+    
     email,
     password,
-
-
+    
+    
   } = registerBodySchema.parse(request.body)
 
   try {
@@ -27,8 +27,8 @@ export async function registerAdmin(
     const userWithSameEmail = await prisma.user.findUnique({
       where: { email },
     })
-
-    if (userWithSameEmail) {
+   
+    if (userWithSameEmail ) {
       throw new UserAlreadyExistsError()
     }
 
@@ -43,7 +43,7 @@ export async function registerAdmin(
       },
     })
 
-
+ 
 
     return reply.status(201).send()
   } catch (err: any) {
@@ -51,6 +51,6 @@ export async function registerAdmin(
       return reply.status(409).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    return reply.status(500).send({ message: err.message })
   }
 }

@@ -41,8 +41,8 @@ export async function searchCNPJJob(
         })
 
         const memberIds = familyMembers.map(familyMember => familyMember.id);
-        await searchMemberCNPJ(candidateOrResponsible.UserData.id, userInfo.CPF! , application_id )
-      
+        await searchMemberCNPJ(candidateOrResponsible.UserData.id, userInfo.CPF!, application_id)
+
         for (let i = 0; i < memberIds.length; i++) {
             await searchMemberCNPJ(memberIds[i], familyMembers[i].CPF!, application_id)
         }
@@ -56,8 +56,14 @@ async function searchMemberCNPJ(member_id: string, memberCPF: string, applicatio
 
 
     try {
+        const memberIsSearched = await historyDatabase.applicationMembersCNPJ.findUnique(
+            {
+                where: { member_id_application_id: { member_id, application_id } }
+            })
+        if (memberIsSearched) {
+            return;
+        }
         const numbersOnlyCPF = memberCPF.replace(/\D/g, '');
-        console.log(numbersOnlyCPF);
         const apiFetch = await fetch(`https://api.cpfcnpj.com.br/${env.CPF_CNPJ_KEY}/15/${numbersOnlyCPF}`);
         const data = await apiFetch.json();
         const empresas: Empresa[] = data.empresas;
@@ -66,7 +72,7 @@ async function searchMemberCNPJ(member_id: string, memberCPF: string, applicatio
                 OR: [{ candidate_id: member_id }, { legalResponsibleId: member_id }, { familyMember_id: member_id }]
             }
         });
-        let InformedCNPJ = registeredIncome.some(registeredIncome => registeredIncome.employmentType === 'BusinessOwner' || registeredIncome.employmentType=== 'BusinessOwnerSimplifiedTax' || registeredIncome.employmentType === 'IndividualEntrepreneur');
+        let InformedCNPJ = registeredIncome.some(registeredIncome => registeredIncome.employmentType === 'BusinessOwner' || registeredIncome.employmentType === 'BusinessOwnerSimplifiedTax' || registeredIncome.employmentType === 'IndividualEntrepreneur');
 
         if (empresas?.length) {
 
@@ -87,9 +93,8 @@ async function searchMemberCNPJ(member_id: string, memberCPF: string, applicatio
                 qualificacao: empresa.qualificacao,
                 situacao: empresa.situacao,
             }));
-            await historyDatabase.applicationMembersCNPJ.upsert({
-                where: {  member_id_application_id: { member_id, application_id } },
-                create: {
+            await historyDatabase.applicationMembersCNPJ.create({
+                data: {
 
                     member_id,
                     application_id,
@@ -101,32 +106,19 @@ async function searchMemberCNPJ(member_id: string, memberCPF: string, applicatio
                         }
                     }
                 },
-                update: {
-                    CPFCNPJ: true,
-                    InformedCNPJ,
-                    FoundApplicationCNPJ: {
-                        deleteMany: {},
-                        createMany: {
-                            data: empresasData,
-                        },
-                    },
-                }
+                
             });
         } else {
-            await historyDatabase.applicationMembersCNPJ.upsert({
-                where: {  member_id_application_id: { member_id, application_id } },
-                create: {
+            await historyDatabase.applicationMembersCNPJ.create({
+                data: {
 
                     member_id,
                     application_id,
                     CPFCNPJ: false,
                     InformedCNPJ
 
-                },
-                update: {
-                    CPFCNPJ: false,
-                    InformedCNPJ
                 }
+
             });
         }
     } catch (error) {

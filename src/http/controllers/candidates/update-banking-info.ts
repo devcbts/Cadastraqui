@@ -17,7 +17,7 @@ export async function updateBankingInfo(
         accountNumber: z.string().optional(),
         accountType: AccountType.optional(),
         balances: z.array(z.object({
-            id: z.string().nullish(),
+            id: z.string(),
             initialBalance: z.number().refine(e => e > 0),
             entryBalance: z.number().refine(e => e > 0),
             outflowBalance: z.number().refine(e => e > 0),
@@ -70,38 +70,20 @@ export async function updateBankingInfo(
                 },
             })
             for (const e of balances) {
-                if (e.id) {
-
-                    await tsPrisma.bankBalance.update({
-                        where: { id: e.id ?? '' },
-                        data: {
-                            initialBalance: e.initialBalance,
-                            entryBalance: e.entryBalance,
-                            outflowBalance: e.outflowBalance,
-                            totalBalance: e.totalBalance,
-                        }
-
-                    })
-                } else {
-                    await tsPrisma.bankBalance.create({
-                        data: {
-                            bankAccount_id: _id,
-                            initialBalance: e.initialBalance,
-                            entryBalance: e.entryBalance,
-                            outflowBalance: e.outflowBalance,
-                            totalBalance: e.totalBalance,
-                            date: e.date
-                        }
-
-                    })
-
-                }
+                await tsPrisma.bankBalance.update({
+                    where: { id: e.id },
+                    data: {
+                        initialBalance: e.initialBalance,
+                        entryBalance: e.entryBalance,
+                        outflowBalance: e.outflowBalance,
+                        totalBalance: e.totalBalance,
+                    }
+                })
             }
         })
 
         return reply.status(200).send({ bankInfo })
     } catch (err: any) {
-        console.log(err)
         if (err instanceof ResourceNotFoundError) {
             return reply.status(404).send({ message: err.message })
         }
@@ -112,6 +94,7 @@ export async function updateBankingInfo(
             return reply.status(403).send({ message: err.message })
 
         }
-        return reply.status(500).send({ message: 'Erro interno no servidor' })
+
+        return reply.status(500).send({ message: err.message })
     }
 }

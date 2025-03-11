@@ -1,6 +1,8 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { historyDatabase, prisma } from '@/lib/prisma'
+import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { getSectionDocumentsPDF_HDB } from '../AWS-routes/get-documents-by-section-HDB'
@@ -20,8 +22,7 @@ export async function getHousingInfoHDB(
     const user_id = request.user.sub;
 
     const isAssistant = await prisma.socialAssistant.findUnique({
-      where: { user_id },
-      select: { id: true }
+      where: { user_id }
     })
     if (!isAssistant) {
       throw new NotAllowedError()
@@ -41,6 +42,6 @@ export async function getHousingInfoHDB(
       return reply.status(404).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    return reply.status(500).send({ message: err.message })
   }
 }

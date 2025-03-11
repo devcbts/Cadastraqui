@@ -29,7 +29,7 @@ export async function deleteAnnouncement(
     }
 
     if (announcement.entity_id !== entity.id) {
-      throw new NotAllowedError()
+        throw new NotAllowedError()
     }
 
     await prisma.announcement.delete({ where: { id: announcement_id } })
@@ -41,9 +41,9 @@ export async function deleteAnnouncement(
       return reply.status(404).send({ message: err.message })
     }
     if (err instanceof NotAllowedError) {
-      return reply.status(401).send({ message: err.message })
+        return reply.status(401).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    return reply.status(500).send({ message: err.message })
   }
 }

@@ -74,7 +74,7 @@ export async function verifyIncomeBankRegistration(id: string) {
         if (familyMember.hasBankAccount === null) {
             update = null;
         }
-        if (!hasIncome) {
+        if (hasIncome.length === 0) {
             update = null;
         }
 

@@ -37,9 +37,17 @@ import verifyDeclarationRegistration from "@/utils/Trigger-Functions/verify-decl
 import { createBankBalanceHDB, deleteBankBalanceHDB, updateBankBalanceHDB } from "@/HistDatabaseFunctions/handle-bank-balance";
 
 const clientBackup = new Client(env.DATABASE_URL);
+let isConnected = false;
+
 const connectClient = async () => {
     try {
+        if (isConnected) {
+            console.log('Already connected to the database');
+            return;
+        }
+        console.log('Connected to the database');
         await clientBackup.connect();
+        isConnected = true;
         console.log('Connected to the database');
 
         await clientBackup.query('LISTEN channel_application');
@@ -66,6 +74,7 @@ const connectClient = async () => {
     } catch (err) {
         console.error('Failed to connect to the database', err);
         await clientBackup.end();
+        isConnected = false;
         setTimeout(connectClient, 5000); // Retry connection after 5 seconds
     }
 };
@@ -73,6 +82,7 @@ connectClient();
 
 clientBackup.on("error", async (err) => {
     console.error('Error in database connection', err);
+    isConnected = false;
     await clientBackup.end();
     setTimeout(connectClient, 5000); // Retry connection after 5 seconds
 })
@@ -90,6 +100,8 @@ clientBackup.on('notification', async (msg) => {
             case ('channel_candidate_documents'):
                 const document = JSON.parse(msg.payload!);
 
+                
+
                 if (document.operation == 'Insert' || document.operation == 'Update') {
                     switch (document.data.tableName) {
                         case 'statement':
@@ -101,7 +113,7 @@ clientBackup.on('notification', async (msg) => {
                         case 'registrato':
                             await verifyIncomeBankRegistration(document.data.tableId)
                             break;
-
+                            
 
                     }
                 }

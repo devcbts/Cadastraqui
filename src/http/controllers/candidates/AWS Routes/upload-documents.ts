@@ -11,8 +11,10 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import fs from 'fs'
 import { z } from 'zod'
 import createCandidateDocument from '../Documents Functions/create-candidate-document'
+import { CacheManager } from '../../students/CacheManager'
+import { DocumentAnalysisStatus } from '@prisma/client'
 
-
+const cacheManager = new CacheManager();
 
 export const section = z.enum(["identity",
     "housing",
@@ -42,6 +44,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
 
 
     const { documentType, member_id, table_id } = requestParamsSchema.parse(request.params)
+    let isIncomeDocument = false;
     try {
         const user_id = request.user.sub;
         // Verifica se existe um candidato associado ao user_id
@@ -57,6 +60,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
         for await (const part of parts) {
             if (part.fieldname === 'file_metadatas' && part.type === "field") {
                 metadatas = JSON.parse(part.value as string)
+
             }
             if (part.type === "file") {
                 // read the file before sending to AWS, need to ensure the data needed for file store isn't lost during the process
@@ -92,7 +96,31 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             // Inicia transação de envio de documento
             await prisma.$transaction(async (tsPrisma) => {
                 // Cria o registro do documento no banco de dados
-                await createCandidateDocument(tsPrisma, route, part.metadata, documentType, table_id || member_id, member_id, getExpireDate(documentType, part.metadata));
+                
+                let documentAnalysisStatus: DocumentAnalysisStatus = "NotIncluded";
+                let AiData 
+                const metadata = part.metadata as object;
+                if (metadata && 'id' in metadata) {
+                    
+                    const id = metadata.id as string;
+                    const cachedInfo: {
+                        legibilidade: boolean,
+                        retifiedReceiver: boolean,
+                        grossAmount: string,
+                        netIncome: string,
+                        coherent: boolean,
+                        tries: number
+                    } | null | undefined = cacheManager.getCache(id);
+                    if (cachedInfo !== null && cachedInfo !== undefined && (cachedInfo.legibilidade && cachedInfo.retifiedReceiver && cachedInfo.coherent)) {
+                        documentAnalysisStatus = "Approved";
+
+                    }else{
+                        documentAnalysisStatus = "Forced";
+                    }
+                    AiData = cachedInfo;
+                }
+
+                await createCandidateDocument(tsPrisma, route, part.metadata, documentType, table_id || member_id, member_id, getExpireDate(documentType, part.metadata), documentAnalysisStatus, AiData ?? undefined);
                 const sended = await uploadFile(fileBuffer, route, part.metadata);
                 if (!sended) {
                     throw new NotAllowedError();

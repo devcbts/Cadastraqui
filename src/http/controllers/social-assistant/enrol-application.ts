@@ -1,4 +1,3 @@
-import { APIError } from '@/errors/api-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -33,7 +32,7 @@ export async function enrollApplication(
             where: { id: application_id }
         })
         if (application?.socialAssistant_id) {
-            throw new APIError('Já existe um(a) assistente vinculado(a) à essa inscrição.')
+            throw new Error('Já existe um(a) assistente vinculado(a) à essa inscrição.')
         }
         console.log(application?.id)
         // atualizar inscrição
@@ -58,14 +57,11 @@ export async function enrollApplication(
 
 
     } catch (err: any) {
-        if (err instanceof APIError) {
-            return reply.status(400).send({ message: err.message })
-        }
         if (err instanceof NotAllowedError) {
             return reply.status(404).send({ message: err.message })
         }
 
 
-        return reply.status(500).send({ message: 'Erro interno no servidor' })
+        return reply.status(500).send({ message: err.message })
     }
 }

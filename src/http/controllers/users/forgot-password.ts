@@ -18,6 +18,7 @@ export async function forgotPassword(req: FastifyRequest, reply: FastifyReply) {
     }
 
     const token = await reply.jwtSign({ token: user.id }, { sign: { expiresIn: '3h' } })
+    console.log(token)
     const { messageId } = await sendPasswordRecoveryMail({ token, email })
     if (messageId) {
       return reply.status(204).send()

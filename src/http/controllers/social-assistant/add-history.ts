@@ -1,3 +1,4 @@
+import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
@@ -14,14 +15,14 @@ export async function addHistory(
 ) {
     const applicationParamsSchema = z.object({
         application_id: z.string(),
-
+        
     })
     const applicationBodySchema = z.object({
         description: z.string(),
-        status: z.enum(['Approved', 'Rejected', 'Pending']).optional()
+        status: z.enum(['Approved','Rejected','Pending']).optional()
     })
     const { application_id } = applicationParamsSchema.parse(request.params)
-    const { description, status } = applicationBodySchema.parse(request.body)
+    const {description, status} = applicationBodySchema.parse(request.body)
     try {
         const userType = request.user.role
         const userId = request.user.sub
@@ -40,7 +41,7 @@ export async function addHistory(
 
         // Criar novo report no histórico da inscrição
         await prisma.applicationHistory.create({
-            data: {
+            data:{
                 application_id,
                 description: description
 
@@ -50,16 +51,16 @@ export async function addHistory(
         // Altera o status da inscrição
         if (status) {
             await prisma.application.update({
-                data: {
+                data:{
                     status
                 },
-                where: { id: application_id }
+                where: {id: application_id}
             })
         }
 
 
 
-        return reply.status(201).send({ message: "Histórico Criado" })
+        return reply.status(201).send({message:"Histórico Criado"})
     } catch (err: any) {
         if (err instanceof NotAllowedError) {
             return reply.status(404).send({ message: err.message })
@@ -69,6 +70,6 @@ export async function addHistory(
         }
 
 
-        return reply.status(500).send({ message: 'Erro interno no servidor' })
+        return reply.status(500).send({ message: err.message })
     }
 }

@@ -76,7 +76,7 @@ export async function registerHealthInfo(
       },
     })
 
-
+   
     return reply.status(201).send({ id })
 
   } catch (err: any) {
@@ -87,6 +87,6 @@ export async function registerHealthInfo(
       return reply.status(401).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    return reply.status(500).send({ message: err.message })
   }
 }

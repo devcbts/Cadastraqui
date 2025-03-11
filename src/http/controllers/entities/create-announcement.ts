@@ -24,9 +24,9 @@ export async function CreateAnnoucment(
     entity_subsidiary_id: z.array(z.string()).optional(),
     announcementInterview: z.object({
       startDate: z.string().pipe(z.coerce.date()),
-      endDate: z.string().min(1).pipe(z.coerce.date()),
+      endDate: z.string().pipe(z.coerce.date()),
       duration: z.number().int().default(20),
-      beginHour: z.string().min(1).transform(v => {
+      beginHour: z.string().transform(v => {
         const [hour, min] = v.split(':')
         const curr = new Date()
         curr.setHours(parseInt(hour), parseInt(min), 0, 0)
@@ -204,6 +204,7 @@ export async function CreateAnnoucment(
     if (err instanceof announcementAlreadyExists) {
       return reply.status(409).send({ message: err.message })
     }
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    console.log(err)
+    return reply.status(500).send({ message: err.message })
   }
 }

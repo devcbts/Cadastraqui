@@ -91,6 +91,6 @@ export async function getSolicitationDocumentsPDF(
         }
 
 
-        return reply.status(500).send({ message: 'Erro interno no servidor' })
+        return reply.status(500).send({ message: err.message })
     }
 }

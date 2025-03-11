@@ -33,10 +33,9 @@ export default async function getAssistantDashboard(request: FastifyRequest, rep
 
         })
         const allAnnouncements = myAnnouncements.length
-
-        const applicationAnnouncements = myAnnouncements.filter(announcement => new Date(announcement.openDate!) < new Date() && new Date(announcement.closeDate!) > new Date()).length
-        const avaliationAnnouncements = myAnnouncements.filter(announcement => new Date(announcement?.interview?.endDate!) > new Date() && new Date(announcement?.interview?.startDate!) < new Date()).length
-        const closedAnnoncements = myAnnouncements.filter(announcement => new Date(announcement.announcementDate!) < new Date()).length
+        const applicationAnnouncements = myAnnouncements.filter(announcement => announcement.openDate! < new Date() && announcement.closeDate! > new Date()).length
+        const avaliationAnnouncements = myAnnouncements.filter(announcement => announcement?.interview?.endDate! < new Date() && announcement?.interview?.startDate! > new Date()).length
+        const closedAnnoncements = myAnnouncements.filter(announcement => announcement.announcementDate! < new Date()).length
         const pendingApplications = myAnnouncements.reduce((acc, announcement) => acc + announcement.Application.filter(application => application.status === 'Pending').length, 0)
         const approvedApplications = myAnnouncements.reduce((acc, announcement) => acc + announcement.Application.filter(application => application.status === 'Approved').length, 0)
         const numberOfRequests = myAnnouncements.reduce((acc, announcement) => acc + announcement.Application.reduce((acc, application) => acc + application.requests.length, 0), 0)

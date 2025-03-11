@@ -25,8 +25,7 @@ export async function getHealthInfoHDB(
     try {
         const user_id = request.user.sub
         const isAssistant = await prisma.socialAssistant.findUnique({
-            where: { user_id },
-            select: { id: true }
+            where: { user_id }
         })
         if (!isAssistant) {
             throw new ForbiddenError()
@@ -131,6 +130,6 @@ export async function getHealthInfoHDB(
             return reply.status(404).send({ message: err.message })
         }
 
-        return reply.status(500).send({ message: 'Erro interno no servidor' })
+        return reply.status(500).send({ message: err.message })
     }
 }

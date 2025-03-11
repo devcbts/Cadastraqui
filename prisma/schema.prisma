@@ -177,7 +177,6 @@ model Entity {
   educationalInstitutionCode String?
   emec                       String?
   user_id                    String             @unique
-  normalizedCnpj             String?            @unique
   Announcement               Announcement[]
   EntityDirector             EntityDirector[]
   EntitySubsidiary           EntitySubsidiary[]
@@ -206,7 +205,6 @@ model EntitySubsidiary {
   educationalInstitutionCode String?
   entity_id                  String
   user_id                    String            @unique
-  normalizedCnpj             String?           @unique
   Announcement               Announcement[]
   entity                     Entity            @relation(fields: [entity_id], references: [id])
   user                       User              @relation(fields: [user_id], references: [id])
@@ -1174,16 +1172,19 @@ enum StudentRenewStatus {
 }
 
 model CandidateDocuments {
-  id        String                  @id @default(uuid())
-  status    CandidateDocumentStatus @default(UPDATED)
-  path      String                  @unique
-  metadata  Json
-  tableName String
-  tableId   String
-  memberId  String?
-  expiresAt DateTime?
-  createdAt DateTime                @default(now())
-  updatedAt DateTime                @default(now()) @updatedAt
+  id             String                  @id @default(uuid())
+  status         CandidateDocumentStatus @default(UPDATED)
+  path           String                  @unique
+  metadata       Json
+  tableName      String
+  analysisStatus DocumentAnalysisStatus  @default(NotIncluded)
+  AiData         Json?
+  tries          Int                     @default(0)
+  tableId        String
+  memberId       String?
+  expiresAt      DateTime?
+  createdAt      DateTime                @default(now())
+  updatedAt      DateTime                @default(now()) @updatedAt
 
   @@index([tableName, tableId], name: "tableName_tableId")
 }
@@ -1738,4 +1739,13 @@ enum DocumentStatus {
   Signed
   Cancelled
   Declined
+}
+
+enum DocumentAnalysisStatus {
+  Pending
+  NotIncluded
+  Approved
+  Declined
+  Forced
+  Failed
 }

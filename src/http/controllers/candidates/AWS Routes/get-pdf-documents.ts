@@ -1,6 +1,7 @@
 import { AnnouncementNotExists } from '@/errors/announcement-not-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
+import { GetUrls } from '@/http/services/get-files'
 import { getSignedUrlsGroupedByFolder } from '@/lib/S3'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -67,6 +68,6 @@ export async function getDocumentsPDF(
       return reply.status(404).send({ message: err.message })
     }
 
-    return reply.status(500).send({ message: 'Erro interno no servidor' })
+    return reply.status(500).send({ message: err.message })
   }
 }

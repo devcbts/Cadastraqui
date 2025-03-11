@@ -21,30 +21,23 @@ export async function getRegistrato(
             throw new ForbiddenError()
         }
         // const urls = await getSectionDocumentsPDF(isUser.UserData.id, `registrato/${_id}`)
-        const pix = await prisma.candidateDocuments.findFirst({
+        const files = await prisma.candidateDocuments.findMany({
             where: {
                 AND: [
-                    { tableName: "pix" },
+                    {
+                        OR: [
+                            { tableName: "registrato" },
+                            { tableName: "pix" }
+                        ]
+                    },
                     { tableId: _id }
                 ]
-            },
-            orderBy: { createdAt: 'desc' }
-        })
-        const registrato = await prisma.candidateDocuments.findFirst({
-            where: {
-                AND: [
-                    { tableName: "registrato" },
-                    { tableId: _id }
-                ]
-            },
-            orderBy: { createdAt: 'desc' }
+            }
         })
         const returnFiles = await Promise.all(
-            [pix, registrato].filter(x => !!x).map(async file => {
-
-                const url = await getAwsFile(file!.path)
+            files.map(async file => {
+                const url = await getAwsFile(file.path)
                 return { ...file, url: url.fileUrl }
-
 
             })
         )

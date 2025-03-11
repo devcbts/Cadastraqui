@@ -36,39 +36,9 @@ export async function getMemberIncomeStatusHDB(request: FastifyRequest, reply: F
         }
 
         if (!member) { throw new APIError('Informações do usuário não encontradas') }
-        const [
-            bankAccounts,
-            incomes,
-            pix,
-            registrato
-        ] = await historyDatabase.$transaction([
-            historyDatabase.bankAccount.findMany({
-                where: idField
-            }),
-            historyDatabase.familyMemberIncome.findMany({
-                where: idField
-            }),
-            historyDatabase.candidateDocuments.findFirst({
-                where: {
-                    AND: [
-                        { tableName: 'pix' },
-
-                        { tableId: _id },
-                        { application_id }
-                    ]
-                }
-            }),
-            historyDatabase.candidateDocuments.findFirst({
-                where: {
-                    AND: [
-                        { tableName: 'registrato' },
-
-                        { tableId: _id },
-                        { application_id }
-                    ]
-                }
-            })
-        ])
+        const bankAccounts = await historyDatabase.bankAccount.findMany({
+            where: idField
+        })
 
         // verificar o status da conta bancária
         if ((!bankAccounts.length && member.hasBankAccount) || member.hasBankAccount === null) {
@@ -82,7 +52,9 @@ export async function getMemberIncomeStatusHDB(request: FastifyRequest, reply: F
         }
 
         // verificar o status da renda
-
+        const incomes = await historyDatabase.familyMemberIncome.findMany({
+            where: idField
+        })
         if (!incomes.length) {
             IncomesUpdated = null;
         }
@@ -95,7 +67,26 @@ export async function getMemberIncomeStatusHDB(request: FastifyRequest, reply: F
 
         // verificar o status do CCS
 
+        const pix = await historyDatabase.candidateDocuments.findFirst({
+            where: {
+                AND: [
+                    { tableName: 'pix' },
 
+                    { tableId: _id },
+                    { application_id }
+                ]
+            }
+        })
+        const registrato = await historyDatabase.candidateDocuments.findFirst({
+            where: {
+                AND: [
+                    { tableName: 'registrato' },
+
+                    { tableId: _id },
+                    { application_id }
+                ]
+            }
+        })
         if (pix?.status === 'PENDING' || registrato?.status === 'PENDING') {
             CCS_Updated = false;
         }
