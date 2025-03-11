@@ -57,6 +57,9 @@ export async function getEntityLegalDocuments(type: EntityDocumentType, userId: 
         where: {
             AND: [{ entity_id: userId }, { type: type }, ...filter]
         },
+        orderBy: {
+            createdAt: 'desc'
+        }
     })
     const mappedDocuments = await Promise.all(docs.map(async document => {
         const url = await getSignedUrlForFile(document.path)

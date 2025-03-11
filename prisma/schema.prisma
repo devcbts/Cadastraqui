@@ -75,6 +75,7 @@ model User {
   EntitySubsidiary EntitySubsidiary?
   SocialAssistant  SocialAssistant?
   Candidate        Candidate?
+  Lawyer           Lawyer?
   Entity           Entity?
   LegalResponsible LegalResponsible?
   createdCalls     Call[]            @relation("Creator")
@@ -189,6 +190,7 @@ model Entity {
   EntityCourse               EntityCourse[]
   EducationLevel             EducationLevel[]
   EntityDocuments            EntityDocuments[]
+  Lawyer                     Lawyer[]
 
   @@map("entities")
 }
@@ -1228,12 +1230,26 @@ model EntityDocuments {
   metadata  Json
   fields    Json?
   type      EntityDocumentType
+  name      String?
   path      String
   group     String?
   createdAt DateTime           @default(now())
   updatedAt DateTime           @updatedAt
   Entity    Entity             @relation(fields: [entity_id], references: [id], onDelete: Cascade)
   User      User               @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model Lawyer {
+  id        String @id @default(cuid())
+  name      String
+  CPF       String
+  entity_id String
+  Entity    Entity @relation(fields: [entity_id], references: [id], onDelete: Cascade)
+  user_id   String @unique
+  User      User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum EntityDocumentType {
@@ -1344,6 +1360,7 @@ enum ROLE {
   ENTITY_SUB
   ENTITY_DIRECTOR
   SELECTION_RESPONSIBLE
+  LAWYER
 }
 
 enum COUNTRY {

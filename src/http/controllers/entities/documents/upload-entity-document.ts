@@ -53,6 +53,7 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                     })
                     await tPrisma.entityDocuments.create({
                         data: {
+                            name: name,
                             fields: mergedFields as Prisma.JsonObject,
                             metadata: metadata as Prisma.JsonObject,
                             type: type as EntityDocumentType,

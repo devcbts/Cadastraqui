@@ -27,6 +27,7 @@ import { getEntityProfilePicture } from './get-profile-picture'
 import getRegisteredStudentsByCourse from './get-registered-course-students'
 import { getSocialAssistants } from './get-social-assistants'
 import { registerEntity } from './register-entity'
+import createLawyer from './register-lawyer'
 import removeAssistantFromAnnouncement from './remove-assistant-from-announcement'
 import getCandidateScholarshipDocuments from './scholarship/get-candidate-scholarship-documents'
 import getCandidateScholarshipInfo from './scholarship/get-candidate-scholarship-info'
@@ -172,5 +173,6 @@ export async function entityRoutes(app: FastifyInstance) {
 
 
   app.get('/dashboard/interest/:announcement_id', { onRequest: [verifyJWT, verifyRole(['ASSISTANT', 'ENTITY', 'ENTITY_DIRECTOR'])] }, getCandidatesInterest)
+  app.post('/lawyer', { onRequest: [verifyJWT] }, createLawyer)
   entityDocumentsRoutes(app)
 }

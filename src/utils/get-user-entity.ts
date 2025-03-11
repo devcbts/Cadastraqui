@@ -16,6 +16,12 @@ export async function getUserEntity(userId: string, role: ROLE) {
             });
             entityId = director?.entity_id
             break;
+        case 'LAWYER':
+            const lawyer = await prisma.lawyer.findUnique({
+                where: { user_id: userId },
+            });
+            entityId = lawyer?.entity_id
+            break;
     }
 
     return entityId

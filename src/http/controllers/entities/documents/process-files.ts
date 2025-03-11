@@ -100,6 +100,7 @@ export default async function processFiles(parts: AsyncIterableIterator<Multipar
     for (const item in files) {
         const { success, error, data } = commonSchema.safeParse(files[item])
         getErrors(success, error)
+        console.log('METADATAS')
         const metadata = validateMetadata(files[item].type)
         const { success: m_success, error: m_error, data: m_data } = metadata
             .catchall(z.string({ invalid_type_error: 'Metadados devem ser todos do tipo texto' }))
@@ -118,7 +119,11 @@ export default async function processFiles(parts: AsyncIterableIterator<Multipar
             })
             .safeParse(files[item].metadata)
         getErrors(m_success, m_error)
-        const fields = validateFields(files[item].type, m_data?.document as ENTITY_SUBTYPE_DOC)
+        console.log('FIELDS')
+        let fields = validateFields(files[item].type, m_data?.document as ENTITY_SUBTYPE_DOC)
+        if (groupFile) {
+            fields = fields.optional() as any
+        }
         const { success: f_success, error: f_error, data: f_data } = fields.safeParse(files[item].fields)
         getErrors(f_success, f_error)
         files[item] = data!

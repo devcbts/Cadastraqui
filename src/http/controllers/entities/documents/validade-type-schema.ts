@@ -70,7 +70,7 @@ export function validateFields(type?: EntityDocumentType, subtype?: ENTITY_SUBTY
         case 'GOVERNING_BODY':
         case 'MONITORING_REPORT':
             fields = z.object({
-                year: z.number({ message: 'Ano obrigatório' }),
+                year: z.number({ message: 'Ano obrigatório', invalid_type_error: 'abcd' }),
             })
             break
         case 'MONTHLY_REPORT':

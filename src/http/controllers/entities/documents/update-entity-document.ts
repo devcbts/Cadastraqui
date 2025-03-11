@@ -51,6 +51,7 @@ export default async function updateEntityDocument(req: FastifyRequest, res: Fas
                     updated = await tPrisma.entityDocuments.update({
                         where: { id },
                         data: {
+                            name,
                             fields: newFields as Prisma.JsonObject,
                             metadata: newMetadata as Prisma.JsonObject,
                             // type: type as EntityDocumentType,
