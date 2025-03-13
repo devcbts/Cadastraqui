@@ -10,14 +10,20 @@ export default function CustomFilePicker({
             hidden
             ref={ref}
             type="file"
+
             onChange={(e) => {
+                e.preventDefault()
                 const files = e.target.files
                 onUpload(files)
             }}
             accept="application/pdf"
             multiple={multiple}
         />
-        <div onClick={() => ref.current.click()} style={{ cursor: 'pointer' }} >
+        <div onClick={(e) => {
+            e.stopPropagation()
+            console.log(e.isPropagationStopped())
+            ref.current.click()
+        }} style={{ cursor: 'pointer' }} >
             {children}
         </div>
     </>)

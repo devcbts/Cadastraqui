@@ -4,6 +4,7 @@ import Modal from "Components/Modal"
 import useControlForm from "hooks/useControlForm"
 import React, { useState } from "react"
 import { ENTITY_LEGAL_FILE } from "utils/enums/entity-legal-files-type"
+import { downloadZip } from "utils/file/download-zip"
 import { getDefaultSchemaValues } from "utils/get-default-schema-values"
 import { z, ZodObject } from "zod"
 import DocumentHint from '../DocumentHint'
@@ -99,6 +100,9 @@ export default function DocumentUpload({
                         : <ButtonBase label={'Novo'} onClick={handleModal} />
                 )}
                 <DocumentHint hint={hint} />
+                {documents.length > 0 && !gridOptions.year && <ButtonBase label={'Baixar tudo'} onClick={() => {
+                    downloadZip(documents.map(e => ({ filename: e.name, url: e.url })))
+                }} />}
             </div>
 
 

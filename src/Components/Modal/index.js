@@ -51,7 +51,7 @@ export default function Modal({ title, text, children, onDestructive, onConfirm,
                             {children}
                             <div style={{ display: "flex", gap: "16px", justifyContent: "center" }}>
                                 <ButtonBase onClick={onDestructive ?? onClose} danger>{destructiveText}</ButtonBase>
-                                <ButtonBase onClick={onConfirm}>{confirmText}</ButtonBase>
+                                {onConfirm && <ButtonBase onClick={onConfirm}>{confirmText}</ButtonBase>}
                             </div>
                         </motion.div>
                     </Overlay>

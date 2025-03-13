@@ -40,10 +40,10 @@ export default function MonthlyReport() {
                     {months.map(month => (
                         <div style={{ minWidth: '150px', }}>
                             <CustomFilePicker children={'Novo'} onUpload={(files) => handleUpload(files, months.indexOf(month) + 1)} />
-                            <FileCard label={month.toUpperCase()} url={documents.find(doc => {
+                            <FileCard label={month.toUpperCase()} doc={documents.find(doc => {
                                 const { fields } = doc
                                 return (fields?.month === (months.indexOf(month) + 1) && fields?.year === (selectedYear))
-                            })?.url} />
+                            })} />
                         </div>
                     ))}
                 </div>

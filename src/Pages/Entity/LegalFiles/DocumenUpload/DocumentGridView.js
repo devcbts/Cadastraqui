@@ -1,7 +1,6 @@
 import CustomFilePicker from "Components/CustomFilePicker"
 import FileCard from "../FileCard"
 import YearGrid from "../YearGrid"
-import styles from './styles.module.scss'
 
 export default function DocumentGridView({
     columns = 2,
@@ -33,12 +32,12 @@ export default function DocumentGridView({
                         ? <YearGrid render={(year) => {
                             return (
                                 <CustomFilePicker key={year} onUpload={(files) => onDocumentClick(files, year)} >
-                                    <FileCard className={styles.uploadCard} label={year} url={documents.find(x => x.fields.year === year)?.url ?? ''} />
+                                    <FileCard label={year} doc={documents.find(x => x.fields.year === year)} />
                                 </CustomFilePicker>
                             )
                         }} />
                         : (transform(documents).length === 0 ? <strong>Nenhum documento</strong> : transform(documents).map((e, i) =>
-                            <FileCard key={e.id} label={getTitle(i)} url={e.url} />))
+                            <FileCard key={e.id} label={getTitle(i)} doc={e} />))
                 }
             </div>
         </div>

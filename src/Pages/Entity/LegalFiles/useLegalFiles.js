@@ -57,7 +57,7 @@ export function useLegalFiles({
             NotificationService.success({ type: 'toast', text: 'Envio realizado com sucesso!' })
         } catch (err) {
             console.log(err)
-            NotificationService.error({ text: err?.response?.data?.message, type: 'toast' })
+            NotificationService.error({ text: err?.response?.data?.message, })
         }
     }
     /**

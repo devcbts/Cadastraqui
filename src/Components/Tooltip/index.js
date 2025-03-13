@@ -1,7 +1,7 @@
-import styles from './styles.module.scss'
-import { ReactComponent as Lightbulb } from '../../Assets/icons/lightbulb.svg'
-import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useState } from 'react'
+import { ReactComponent as Lightbulb } from '../../Assets/icons/lightbulb.svg'
+import styles from './styles.module.scss'
 export default function Tooltip({ tooltip, Icon = Lightbulb, children }) {
     const [show, setShow] = useState(false)
     const handleShow = () => {

@@ -1,22 +1,24 @@
-import { ReactComponent as Edit } from 'Assets/icons/pencil.svg'
+import { pdf } from "@react-pdf/renderer"
 import ButtonBase from "Components/ButtonBase"
-import CustomFilePicker from "Components/CustomFilePicker"
-import FilePreview from "Components/FilePreview"
 import FormFilePicker from "Components/FormFilePicker"
 import FormSelect from "Components/FormSelect"
 import Modal from "Components/Modal"
 import useControlForm from "hooks/useControlForm"
-import { useMemo, useState } from "react"
-import { ENTITY_GROUP_TYPE, ENTITY_GROUP_TYPE_MAPPER } from "utils/enums/entity-group-document-type"
+import { useEffect, useMemo, useState } from "react"
+import entityService from "services/entity/entityService"
+import { ENTITY_GROUP_TYPE } from "utils/enums/entity-group-document-type"
 import { ENTITY_LEGAL_FILE } from "utils/enums/entity-legal-files-type"
 import { z } from "zod"
 import GroupedDocumentsGrid from "../GroupedDocumentsGrid"
+import DefaultCard from '../GroupedDocumentsGrid/DefaultCard'
 import { useLegalFiles } from "../useLegalFiles"
 import YearGrid from '../YearGrid'
+import FinalResultPdf from "./FinalResultPdf"
 export default function Announcement() {
     const { documents, handleUploadFile, handleUpdateFile } = useLegalFiles({ type: 'ANNOUNCEMENT' })
     const { control, watch, handleSubmit, reset, getValues, formState: { errors } } = useControlForm({
         schema: z.object({
+            id: z.string().min(1, 'Selecione o edital'),
             announcement: z.instanceof(File).nullish(),
             year: z.number(),
             disclosure_proof: z.instanceof(FileList).nullish(),
@@ -30,6 +32,7 @@ export default function Announcement() {
 
         ), 'Anexe pelo menos um arquivo'),
         defaultValues: {
+            id: '',
             announcement: null,
             year: new Date().getFullYear(),
             disclosure_proof: null,
@@ -48,7 +51,7 @@ export default function Announcement() {
     }, [])
 
     const handleUpload = async () => {
-        const { year, disclosure_proof, social_assistant_opinion, announcement, final_result } = getValues()
+        const { year, disclosure_proof, social_assistant_opinion, announcement, final_result, id } = getValues()
         const group = `group_${Date.now()}`
         await handleUploadFile({
             files: [
@@ -63,13 +66,33 @@ export default function Announcement() {
             metadata: {
                 type: ENTITY_LEGAL_FILE.ANNOUNCEMENT
             },
-            fields: { year },
+            fields: { year, id, name: announcements.find(x => x.id === id).announcementName },
             type: ENTITY_LEGAL_FILE.ANNOUNCEMENT,
             group
         })
         handleModal()
     }
     const [currYear, setCurrYear] = useState()
+    const [announcements, setAnnouncements] = useState([])
+    useEffect(() => {
+        const fetch = async () => {
+            try {
+                setAnnouncements((await entityService.getFilteredAnnouncements()).announcements)
+            } catch { }
+        }
+        fetch()
+    }, [])
+    const handleGenerateReport = async (id) => {
+        if (!id) {
+            return
+        }
+        const response = await entityService.getAnnouncementResume(id)
+        const blob = await pdf(<FinalResultPdf data={response} />).toBlob()
+        console.log(blob)
+        const url = URL.createObjectURL(blob)
+        window.open(url, '_blank')
+
+    }
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -96,46 +119,38 @@ export default function Announcement() {
                 ]}
                 documents={documents.filter(c => c.fields.year === currYear)}
                 render={(docs, groupId, type) => {
-                    return (<div style={{ display: 'flex', flex: 1, flexDirection: "column", alignItems: 'center' }}>
-                        <div style={{ display: "flex", alignItems: 'center', gap: '4px' }}>
-                            {ENTITY_GROUP_TYPE_MAPPER[type]}
-                            {docs.length === 1 &&
-                                <CustomFilePicker
-                                    onUpload={async (files) => {
-                                        await handleUpdateFile({
-                                            id: docs[0].id,
-                                            files,
-                                        })
-                                    }}
-                                >
-                                    <Edit width={20} height={20} />
-                                </CustomFilePicker>}
-                        </div>
-                        {docs.length === 0
-                            ? <CustomFilePicker
-                                onUpload={async (files) => {
-                                    await handleUploadFile({
-                                        files,
-                                        metadata: {
-                                            type: ENTITY_LEGAL_FILE.ANNOUNCEMENT,
-                                            document: type
-                                        },
+
+                    return (
+                        <DefaultCard
+                            actions={type === ENTITY_GROUP_TYPE.FINAL_RESULT
+                                ? <strong
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => handleGenerateReport(
+                                        documents.find(x => x.group === groupId)?.fields?.id
+                                    )}>Gerar relatório</strong>
+
+                                : null
+                            }
+                            docs={docs}
+                            type={type}
+                            multiple={type === ENTITY_GROUP_TYPE.DISCLOSURE_PROOF}
+                            onUpdate={async (id, files) => {
+                                await handleUpdateFile({
+                                    id,
+                                    files,
+                                })
+                            }}
+                            onUpload={async (files) => {
+                                await handleUploadFile({
+                                    files,
+                                    metadata: {
                                         type: ENTITY_LEGAL_FILE.ANNOUNCEMENT,
-                                    }, groupId)
-                                }}
-                                multiple={type === ENTITY_GROUP_TYPE.DISCLOSURE_PROOF}
-                            >
-                                <strong>Adicionar</strong>
-                            </CustomFilePicker>
-                            : ((docs.length > 1)
-                                ? <strong style={{ cursor: 'pointer' }} onClick={() => {
-                                    docs.map(({ url }) => window.open(url, '_blank'))
-                                }}>Ver todos ({docs.length})</strong>
-
-                                : <FilePreview text={'visualizar'} url={docs[0].url} />)
-                        }
-                    </div>
-
+                                        document: type
+                                    },
+                                    type: ENTITY_LEGAL_FILE.ANNOUNCEMENT,
+                                }, groupId)
+                            }}
+                        />
                     )
                 }
                 }
@@ -145,7 +160,11 @@ export default function Announcement() {
                 onClose={handleModal}
                 onConfirm={handleSubmit(handleUpload)}
             >
-                <FormFilePicker control={control} name={'announcement'} label={'Edital'} accept={'application/pdf'} />
+                <FormSelect control={control} name={'id'} label={'Edital'}
+                    value={watch('id')}
+                    options={announcements.map(x => ({ label: x.announcementName, value: x.id }))}
+                />
+                <FormFilePicker control={control} name={'announcement'} label={'Arquivo do edital'} accept={'application/pdf'} />
                 <FormSelect control={control} name={'year'} label={'Ano'} options={years.map(x => ({ label: x, value: x }))} value={watch('year')} />
                 <FormFilePicker control={control} name={'disclosure_proof'} label={'Comprovante(s) de divulgação'} multiple accept={'application/pdf'} />
                 <FormFilePicker control={control} name={'social_assistant_opinion'} label={'pareceres da assistente social'} accept={'application/pdf'} />
