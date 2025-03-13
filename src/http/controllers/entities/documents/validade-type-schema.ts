@@ -59,6 +59,12 @@ export function validateFields(type?: EntityDocumentType, subtype?: ENTITY_SUBTY
             })
             break
         case 'ANNOUNCEMENT':
+            fields = z.object({
+                year: z.number({ message: 'Ano obrigatório' }),
+                id: z.string({ message: 'Id do edital obrigatório' }),
+                name: z.string({ message: 'Nome do edital obrigatório' }),
+            })
+            break
         case 'ACCOUNTING':
         case 'AUDIT_OPINION':
         case 'PARTNERSHIP_TERM':
@@ -70,7 +76,7 @@ export function validateFields(type?: EntityDocumentType, subtype?: ENTITY_SUBTY
         case 'GOVERNING_BODY':
         case 'MONITORING_REPORT':
             fields = z.object({
-                year: z.number({ message: 'Ano obrigatório', invalid_type_error: 'abcd' }),
+                year: z.number({ message: 'Ano obrigatório' }),
             })
             break
         case 'MONTHLY_REPORT':
