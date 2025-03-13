@@ -1,6 +1,7 @@
 // require('module-alias/register');
 import compress from '@fastify/compress';
 import fastifyCookie from '@fastify/cookie';
+import helmet from '@fastify/helmet';
 import fastifyJwt from '@fastify/jwt';
 import { fastifyMultipart } from '@fastify/multipart';
 import fastify from 'fastify';
@@ -44,6 +45,9 @@ app.register(fastifyMultipart,
       fileSize: 1024 * 1024 * 10,
     },
   })
+app.register(helmet, {
+  xFrameOptions: { action: 'deny' }
+});
 // Registre o plugin fastify-cors
 app.register(fastifyCors, {
   origin: ["https://dev-cadastraqui.vercel.app", "https://cadastraqui.vercel.app", "http://localhost:3000", "https://www.cadastraqui.com.br"],
