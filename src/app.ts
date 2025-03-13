@@ -46,7 +46,12 @@ app.register(fastifyMultipart,
     },
   })
 app.register(helmet, {
-  xFrameOptions: { action: 'deny' }
+  global: true,
+  xFrameOptions: { action: 'deny' },
+  noSniff: true,
+  referrerPolicy: {
+    policy: 'strict-origin-when-cross-origin'
+  }
 });
 // Registre o plugin fastify-cors
 app.register(fastifyCors, {

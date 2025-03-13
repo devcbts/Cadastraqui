@@ -177,7 +177,6 @@ export async function getSignedUrlsGroupedByFolder(
           Key: obj.Key!,
           Expires: 3600, // O URL será válido por 1 hora
         })
-        console.log((await s3.headObject({ Key: obj.Key!, Bucket: process.env.AWS_BUCKET_NAME! }).promise()).Metadata)
         if (!urlsByFolder[folderPath]) {
           urlsByFolder[folderPath] = {}
         }
