@@ -162,40 +162,40 @@ model SocialAssistant {
 }
 
 model Entity {
-  id                         String             @id @default(uuid())
+  id                         String   @id @default(uuid())
   name                       String?
   phone                      String?
   socialReason               String
   logo                       String?
-  CNPJ                       String             @unique
-  normalizedCnpj             String            @unique
+  CNPJ                       String   @unique
+  normalizedCnpj             String   @unique
   CEP                        String
-  address                    String             @default("")
+  address                    String   @default("")
   addressNumber              Int?
-  neighborhood               String             @default("")
+  neighborhood               String   @default("")
   UF                         COUNTRY?
-  city                       String             @default("")
+  city                       String   @default("")
   educationalInstitutionCode String?
   emec                       String?
 
-  user_id                    String             @unique
-  Announcement               Announcement[]
-  EntityDirector             EntityDirector[]
-  EntitySubsidiary           EntitySubsidiary[]
-  SocialAssistant            SocialAssistant[]
-  user                       User               @relation(fields: [user_id], references: [id])
-  createdAt                  DateTime           @default(now())
-  updatedAt                  DateTime           @default(now()) @updatedAt
-  EntityCourse               EntityCourse[]
-  EducationLevel             EducationLevel[]
+  user_id          String             @unique
+  Announcement     Announcement[]
+  EntityDirector   EntityDirector[]
+  EntitySubsidiary EntitySubsidiary[]
+  SocialAssistant  SocialAssistant[]
+  user             User               @relation(fields: [user_id], references: [id])
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @default(now()) @updatedAt
+  EntityCourse     EntityCourse[]
+  EducationLevel   EducationLevel[]
 
   @@map("entities")
 }
 
 model EntitySubsidiary {
-  id                         String            @id @default(uuid())
-  CNPJ                       String            @unique
-    normalizedCnpj             String           @unique
+  id             String @id @default(uuid())
+  CNPJ           String @unique
+  normalizedCnpj String @unique
 
   name                       String
   socialReason               String
@@ -233,7 +233,7 @@ model EntityDirector {
 }
 
 model IdentityDetails {
-  id                                         String            @id @default(uuid())
+  id                                         String                 @id @default(uuid())
   fullName                                   String
   socialName                                 String?
   birthDate                                  DateTime
@@ -241,14 +241,14 @@ model IdentityDetails {
   nationality                                String
   natural_city                               String
   natural_UF                                 COUNTRY
-  CPF                                        String?           @unique
-  RG                                         String            @unique
+  CPF                                        String?                @unique
+  RG                                         String                 @unique
   rgIssuingAuthority                         String
   rgIssuingState                             String
   documentType                               DOCUMENT_TYPE?
-  CadUnico                                   Boolean           @default(false)
+  CadUnico                                   Boolean                @default(false)
   hasSevereDeseaseOrUsesMedication           Boolean?
-  hasBankAccount                             Boolean?          @default(true)
+  hasBankAccount                             Boolean?               @default(true)
   documentNumber                             String?
   documentValidity                           DateTime?
   maritalStatus                              MARITAL_STATUS
@@ -288,15 +288,14 @@ model IdentityDetails {
   institutionName_professional               String?
   institutionCNPJ_professional               String?
   nameOfScholarshipCourse_professional       String?
-  candidate_id                               String?           @unique
-  responsible_id                             String?           @unique
-  candidate                                  Candidate?        @relation(fields: [candidate_id], references: [id])
-  responsible                                LegalResponsible? @relation(fields: [responsible_id], references: [id])
-  createdAt                                  DateTime          @default(now())
-  updatedAt                                  DateTime          @default(now()) @updatedAt
+  candidate_id                               String?                @unique
+  responsible_id                             String?                @unique
+  candidate                                  Candidate?             @relation(fields: [candidate_id], references: [id])
+  responsible                                LegalResponsible?      @relation(fields: [responsible_id], references: [id])
+  createdAt                                  DateTime               @default(now())
+  updatedAt                                  DateTime               @default(now()) @updatedAt
   isIncomeUpdated                            Boolean?
-    incomeUpdatedStatus                        DocumentAnalysisStatus  @default(Approved)
-
+  incomeUpdatedStatus                        DocumentAnalysisStatus @default(Approved)
 }
 
 model FamilyMember {

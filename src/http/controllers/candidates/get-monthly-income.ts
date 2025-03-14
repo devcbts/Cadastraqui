@@ -48,12 +48,12 @@ export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: F
 
     const idField = CandidateOrResponsible ? CandidateOrResponsible.IsResponsible ? { legalResponsibleId: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id } : { familyMember_id: _id };
     let result = {};
-   
+
     const memberIncomes = await prisma.familyMemberIncome.findMany({
       where: idField,
       include: { MonthlyIncomes: true }
     });
-    
+
     const urlsMonthlyIncome = await getSectionDocumentsPDF(IsUser.UserData.id, `monthly-income/${_id}`)
 
     const urlsIncome = await getSectionDocumentsPDF(IsUser.UserData.id, 'income')
@@ -73,6 +73,7 @@ export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: F
         incomeSource: source,
         urls: Object.fromEntries(IncomeDocuments),
         monthlyIncomes: monthlyIncomes,
+        analysisStatus: income.updatedStatus
       };
     });
     return reply.status(200).send({ incomeBySource });

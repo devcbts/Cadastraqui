@@ -182,6 +182,7 @@ exports.Prisma.IdentityDetailsScalarFieldEnum = {
   hasSevereDeseaseOrUsesMedication: 'hasSevereDeseaseOrUsesMedication',
   hasBankAccount: 'hasBankAccount',
   isIncomeUpdated: 'isIncomeUpdated',
+  incomeUpdatedStatus: 'incomeUpdatedStatus',
   documentNumber: 'documentNumber',
   documentValidity: 'documentValidity',
   maritalStatus: 'maritalStatus',
@@ -281,6 +282,7 @@ exports.Prisma.FamilyMemberScalarFieldEnum = {
   hasSevereDeseaseOrUsesMedication: 'hasSevereDeseaseOrUsesMedication',
   hasBankAccount: 'hasBankAccount',
   isIncomeUpdated: 'isIncomeUpdated',
+  incomeUpdatedStatus: 'incomeUpdatedStatus',
   incomeSource: 'incomeSource',
   legalResponsibleId: 'legalResponsibleId',
   application_id: 'application_id',
@@ -333,6 +335,7 @@ exports.Prisma.FamilyMemberIncomeScalarFieldEnum = {
   averageIncome: 'averageIncome',
   main_id: 'main_id',
   isUpdated: 'isUpdated',
+  updatedStatus: 'updatedStatus',
   admissionDate: 'admissionDate',
   position: 'position',
   payingSource: 'payingSource',
@@ -359,6 +362,7 @@ exports.Prisma.FamilyMemberIncomeScalarFieldEnum = {
 exports.Prisma.MonthlyIncomeScalarFieldEnum = {
   id: 'id',
   receivedIncome: 'receivedIncome',
+  analysisStatus: 'analysisStatus',
   date: 'date',
   main_id: 'main_id',
   grossAmount: 'grossAmount',
@@ -608,6 +612,9 @@ exports.Prisma.CandidateDocumentsScalarFieldEnum = {
   metadata: 'metadata',
   tableName: 'tableName',
   tableId: 'tableId',
+  analysisStatus: 'analysisStatus',
+  AiData: 'AiData',
+  tries: 'tries',
   memberId: 'memberId',
   application_id: 'application_id',
   expiresAt: 'expiresAt',
@@ -644,6 +651,11 @@ exports.Prisma.SortOrder = {
 };
 
 exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
@@ -734,6 +746,15 @@ exports.DOCUMENT_TYPE = exports.$Enums.DOCUMENT_TYPE = {
   Foreignerapplication: 'Foreignerapplication',
   Passport: 'Passport',
   WorkCard: 'WorkCard'
+};
+
+exports.DocumentAnalysisStatus = exports.$Enums.DocumentAnalysisStatus = {
+  Pending: 'Pending',
+  NotIncluded: 'NotIncluded',
+  Approved: 'Approved',
+  Declined: 'Declined',
+  Forced: 'Forced',
+  Failed: 'Failed'
 };
 
 exports.MARITAL_STATUS = exports.$Enums.MARITAL_STATUS = {

@@ -153,6 +153,7 @@ model IdentityDetails {
   hasSevereDeseaseOrUsesMedication Boolean?
   hasBankAccount                   Boolean?
   isIncomeUpdated                  Boolean?
+  incomeUpdatedStatus                        DocumentAnalysisStatus  @default(Approved)
 
   documentNumber                             String?
   documentValidity                           DateTime?
@@ -257,6 +258,7 @@ model FamilyMember {
   hasSevereDeseaseOrUsesMedication           Boolean?
   hasBankAccount                             Boolean?
   isIncomeUpdated                            Boolean?
+  incomeUpdatedStatus                        DocumentAnalysisStatus  @default(Approved)
 
   incomeSource          IncomeSource[]
   CreditCard            CreditCard[]
@@ -338,6 +340,7 @@ model FamilyMemberIncome {
   averageIncome  String
   main_id        String?
   isUpdated      Boolean?
+  updatedStatus         DocumentAnalysisStatus @default(Approved)
 
   admissionDate         DateTime?
   position              String?
@@ -372,6 +375,7 @@ model FamilyMemberIncome {
 model MonthlyIncome {
   id             String   @id @default(uuid())
   receivedIncome Boolean? @default(true)
+  analysisStatus            DocumentAnalysisStatus @default(Approved)
 
   date                      DateTime?         @default(now())
   main_id                   String?
@@ -430,19 +434,19 @@ model BankAccount {
 }
 
 model BankBalance {
-  id             String      @id @default(cuid())
+  id             String   @id @default(cuid())
   main_id        String
-  initialBalance Float       @default(0)
-  outflowBalance Float       @default(0)
-  entryBalance   Float       @default(0)
-  totalBalance   Float       @default(0)
+  initialBalance Float    @default(0)
+  outflowBalance Float    @default(0)
+  entryBalance   Float    @default(0)
+  totalBalance   Float    @default(0)
   date           DateTime
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
   bankAccount_id String
-    application_id            String
+  application_id String
 
-  bankAccount    BankAccount @relation(fields: [bankAccount_id], references: [id])
+  bankAccount BankAccount @relation(fields: [bankAccount_id], references: [id])
 }
 
 model Expense {
@@ -696,6 +700,9 @@ model CandidateDocuments {
   metadata           Json
   tableName          String
   tableId            String
+  analysisStatus     DocumentAnalysisStatus  @default(NotIncluded)
+  AiData             Json?
+  tries              Int                     @default(0)
   memberId           String?
   application_id     String
   expiresAt          DateTime?
@@ -733,9 +740,6 @@ model FoundApplicationCNPJ {
   createdAt                 DateTime                @default(now())
   updatedAt                 DateTime                @default(now()) @updatedAt
 }
-
-
-
 
 enum CandidateDocumentType {
   PIX
@@ -1133,4 +1137,20 @@ enum Declaration_Type {
   StableUnion
   Status
   WorkCard
+}
+
+enum DocumentAnalysisStatus {
+  Pending
+  NotIncluded
+  Approved
+  Declined
+  Forced
+  Failed
+}
+
+enum sectionStatus {
+  Pending
+  Approved
+  Declined
+  Forced
 }

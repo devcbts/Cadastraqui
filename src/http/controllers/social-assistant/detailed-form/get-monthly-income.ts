@@ -3,7 +3,6 @@ import { SelectCandidateResponsibleHDB } from '@/utils/select-candidate-responsi
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 import { getSectionDocumentsPDF_HDB } from '../AWS-routes/get-documents-by-section-HDB';
-import { url } from 'node:inspector';
 
 export async function getMonthlyIncomeBySourceHDB(request: FastifyRequest, reply: FastifyReply) {
 
@@ -26,12 +25,12 @@ export async function getMonthlyIncomeBySourceHDB(request: FastifyRequest, reply
       where: idField,
       include: { MonthlyIncomes: true }
     });
-    
-    
 
 
-    const urlsMonthlyIncome = await getSectionDocumentsPDF_HDB(application_id,  `monthly-income/${_id}`)
-    const urlsIncome = await getSectionDocumentsPDF_HDB(application_id,  `income/${_id}`)
+
+
+    const urlsMonthlyIncome = await getSectionDocumentsPDF_HDB(application_id, `monthly-income/${_id}`)
+    const urlsIncome = await getSectionDocumentsPDF_HDB(application_id, `income/${_id}`)
 
     const incomeBySource = memberIncomes.map(income => {
       const source = income.employmentType ? income.employmentType : 'Unknown';
@@ -48,6 +47,7 @@ export async function getMonthlyIncomeBySourceHDB(request: FastifyRequest, reply
         incomeSource: source,
         urls: Object.fromEntries(IncomeDocuments),
         monthlyIncomes: monthlyIncomes,
+        analysisStatus: income.updatedStatus
       };
     });
     return reply.status(200).send({ incomeBySource });

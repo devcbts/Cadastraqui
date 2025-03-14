@@ -39,7 +39,8 @@ export async function getIncomeInfo(
         const userBanks = familyMember.BankAccount.length
         incomeInfoResults.push({
           name: familyMember.fullName, id: familyMember.id, incomes: familyMember.FamilyMemberIncome, hasBankAccount: familyMember.hasBankAccount, userBanks, isUser: false, isIncomeUpdated: familyMember.isIncomeUpdated,
-          isBankUpdated: (!!familyMember.BankAccount.length && familyMember.BankAccount.every(e => e.isUpdated)), BankAccount: familyMember.BankAccount
+          isBankUpdated: (!!familyMember.BankAccount.length && familyMember.BankAccount.every(e => e.isUpdated)), BankAccount: familyMember.BankAccount,
+          analysisStatus: familyMember.incomeUpdatedStatus
         })
       } catch (error) {
         throw new ResourceNotFoundError()
@@ -57,7 +58,8 @@ export async function getIncomeInfo(
         hasBankAccount: true,
         candidate: { select: { _count: { select: { BankAccount: true } }, BankAccount: { select: { isUpdated: true } } } },
         responsible: { select: { _count: { select: { BankAccount: true } }, BankAccount: { select: { isUpdated: true } } }, },
-        isIncomeUpdated: true
+        isIncomeUpdated: true,
+        incomeUpdatedStatus: true
       }
     })
     const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'income')
@@ -70,7 +72,8 @@ export async function getIncomeInfo(
         !!userIdentity?.candidate
           ? !!userIdentity?.candidate?.BankAccount.length && userIdentity?.candidate?.BankAccount.every(e => e.isUpdated)
           : !!userIdentity?.responsible?.BankAccount.length && userIdentity?.responsible?.BankAccount.every(e => e.isUpdated)
-      )
+      ),
+      analysisStatus: userIdentity?.incomeUpdatedStatus
     })
     const incomeInfoResultsWithUrls = incomeInfoResults.map((familyMember) => {
       const incomesWithUrls = familyMember.incomes.map((income) => {

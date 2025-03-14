@@ -233,6 +233,18 @@ export const DOCUMENT_TYPE: {
 export type DOCUMENT_TYPE = (typeof DOCUMENT_TYPE)[keyof typeof DOCUMENT_TYPE]
 
 
+export const DocumentAnalysisStatus: {
+  Pending: 'Pending',
+  NotIncluded: 'NotIncluded',
+  Approved: 'Approved',
+  Declined: 'Declined',
+  Forced: 'Forced',
+  Failed: 'Failed'
+};
+
+export type DocumentAnalysisStatus = (typeof DocumentAnalysisStatus)[keyof typeof DocumentAnalysisStatus]
+
+
 export const MARITAL_STATUS: {
   Single: 'Single',
   Married: 'Married',
@@ -567,6 +579,10 @@ export const COUNTRY: typeof $Enums.COUNTRY
 export type DOCUMENT_TYPE = $Enums.DOCUMENT_TYPE
 
 export const DOCUMENT_TYPE: typeof $Enums.DOCUMENT_TYPE
+
+export type DocumentAnalysisStatus = $Enums.DocumentAnalysisStatus
+
+export const DocumentAnalysisStatus: typeof $Enums.DocumentAnalysisStatus
 
 export type MARITAL_STATUS = $Enums.MARITAL_STATUS
 
@@ -8615,6 +8631,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication: boolean | null
     hasBankAccount: boolean | null
     isIncomeUpdated: boolean | null
+    incomeUpdatedStatus: $Enums.DocumentAnalysisStatus | null
     documentNumber: string | null
     documentValidity: Date | null
     maritalStatus: $Enums.MARITAL_STATUS | null
@@ -8678,6 +8695,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication: boolean | null
     hasBankAccount: boolean | null
     isIncomeUpdated: boolean | null
+    incomeUpdatedStatus: $Enums.DocumentAnalysisStatus | null
     documentNumber: string | null
     documentValidity: Date | null
     maritalStatus: $Enums.MARITAL_STATUS | null
@@ -8741,6 +8759,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication: number
     hasBankAccount: number
     isIncomeUpdated: number
+    incomeUpdatedStatus: number
     documentNumber: number
     documentValidity: number
     maritalStatus: number
@@ -8808,6 +8827,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: true
     hasBankAccount?: true
     isIncomeUpdated?: true
+    incomeUpdatedStatus?: true
     documentNumber?: true
     documentValidity?: true
     maritalStatus?: true
@@ -8871,6 +8891,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: true
     hasBankAccount?: true
     isIncomeUpdated?: true
+    incomeUpdatedStatus?: true
     documentNumber?: true
     documentValidity?: true
     maritalStatus?: true
@@ -8934,6 +8955,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: true
     hasBankAccount?: true
     isIncomeUpdated?: true
+    incomeUpdatedStatus?: true
     documentNumber?: true
     documentValidity?: true
     maritalStatus?: true
@@ -9072,6 +9094,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication: boolean | null
     hasBankAccount: boolean | null
     isIncomeUpdated: boolean | null
+    incomeUpdatedStatus: $Enums.DocumentAnalysisStatus
     documentNumber: string | null
     documentValidity: Date | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -9154,6 +9177,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean
     hasBankAccount?: boolean
     isIncomeUpdated?: boolean
+    incomeUpdatedStatus?: boolean
     documentNumber?: boolean
     documentValidity?: boolean
     maritalStatus?: boolean
@@ -9221,6 +9245,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean
     hasBankAccount?: boolean
     isIncomeUpdated?: boolean
+    incomeUpdatedStatus?: boolean
     documentNumber?: boolean
     documentValidity?: boolean
     maritalStatus?: boolean
@@ -9298,6 +9323,7 @@ export namespace Prisma {
       hasSevereDeseaseOrUsesMedication: boolean | null
       hasBankAccount: boolean | null
       isIncomeUpdated: boolean | null
+      incomeUpdatedStatus: $Enums.DocumentAnalysisStatus
       documentNumber: string | null
       documentValidity: Date | null
       maritalStatus: $Enums.MARITAL_STATUS
@@ -9757,6 +9783,7 @@ export namespace Prisma {
     readonly hasSevereDeseaseOrUsesMedication: FieldRef<"IdentityDetails", 'Boolean'>
     readonly hasBankAccount: FieldRef<"IdentityDetails", 'Boolean'>
     readonly isIncomeUpdated: FieldRef<"IdentityDetails", 'Boolean'>
+    readonly incomeUpdatedStatus: FieldRef<"IdentityDetails", 'DocumentAnalysisStatus'>
     readonly documentNumber: FieldRef<"IdentityDetails", 'String'>
     readonly documentValidity: FieldRef<"IdentityDetails", 'DateTime'>
     readonly maritalStatus: FieldRef<"IdentityDetails", 'MARITAL_STATUS'>
@@ -10223,6 +10250,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication: boolean | null
     hasBankAccount: boolean | null
     isIncomeUpdated: boolean | null
+    incomeUpdatedStatus: $Enums.DocumentAnalysisStatus | null
     legalResponsibleId: string | null
     application_id: string | null
     createdAt: Date | null
@@ -10282,6 +10310,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication: boolean | null
     hasBankAccount: boolean | null
     isIncomeUpdated: boolean | null
+    incomeUpdatedStatus: $Enums.DocumentAnalysisStatus | null
     legalResponsibleId: string | null
     application_id: string | null
     createdAt: Date | null
@@ -10341,6 +10370,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication: number
     hasBankAccount: number
     isIncomeUpdated: number
+    incomeUpdatedStatus: number
     incomeSource: number
     legalResponsibleId: number
     application_id: number
@@ -10403,6 +10433,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: true
     hasBankAccount?: true
     isIncomeUpdated?: true
+    incomeUpdatedStatus?: true
     legalResponsibleId?: true
     application_id?: true
     createdAt?: true
@@ -10462,6 +10493,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: true
     hasBankAccount?: true
     isIncomeUpdated?: true
+    incomeUpdatedStatus?: true
     legalResponsibleId?: true
     application_id?: true
     createdAt?: true
@@ -10521,6 +10553,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: true
     hasBankAccount?: true
     isIncomeUpdated?: true
+    incomeUpdatedStatus?: true
     incomeSource?: true
     legalResponsibleId?: true
     application_id?: true
@@ -10654,6 +10687,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication: boolean | null
     hasBankAccount: boolean | null
     isIncomeUpdated: boolean | null
+    incomeUpdatedStatus: $Enums.DocumentAnalysisStatus
     incomeSource: $Enums.IncomeSource[]
     legalResponsibleId: string | null
     application_id: string
@@ -10731,6 +10765,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean
     hasBankAccount?: boolean
     isIncomeUpdated?: boolean
+    incomeUpdatedStatus?: boolean
     incomeSource?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
@@ -10805,6 +10840,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean
     hasBankAccount?: boolean
     isIncomeUpdated?: boolean
+    incomeUpdatedStatus?: boolean
     incomeSource?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
@@ -10900,6 +10936,7 @@ export namespace Prisma {
       hasSevereDeseaseOrUsesMedication: boolean | null
       hasBankAccount: boolean | null
       isIncomeUpdated: boolean | null
+      incomeUpdatedStatus: $Enums.DocumentAnalysisStatus
       incomeSource: $Enums.IncomeSource[]
       legalResponsibleId: string | null
       application_id: string
@@ -11376,6 +11413,7 @@ export namespace Prisma {
     readonly hasSevereDeseaseOrUsesMedication: FieldRef<"FamilyMember", 'Boolean'>
     readonly hasBankAccount: FieldRef<"FamilyMember", 'Boolean'>
     readonly isIncomeUpdated: FieldRef<"FamilyMember", 'Boolean'>
+    readonly incomeUpdatedStatus: FieldRef<"FamilyMember", 'DocumentAnalysisStatus'>
     readonly incomeSource: FieldRef<"FamilyMember", 'IncomeSource[]'>
     readonly legalResponsibleId: FieldRef<"FamilyMember", 'String'>
     readonly application_id: FieldRef<"FamilyMember", 'String'>
@@ -14268,6 +14306,7 @@ export namespace Prisma {
     averageIncome: string | null
     main_id: string | null
     isUpdated: boolean | null
+    updatedStatus: $Enums.DocumentAnalysisStatus | null
     admissionDate: Date | null
     position: string | null
     payingSource: string | null
@@ -14297,6 +14336,7 @@ export namespace Prisma {
     averageIncome: string | null
     main_id: string | null
     isUpdated: boolean | null
+    updatedStatus: $Enums.DocumentAnalysisStatus | null
     admissionDate: Date | null
     position: string | null
     payingSource: string | null
@@ -14326,6 +14366,7 @@ export namespace Prisma {
     averageIncome: number
     main_id: number
     isUpdated: number
+    updatedStatus: number
     admissionDate: number
     position: number
     payingSource: number
@@ -14369,6 +14410,7 @@ export namespace Prisma {
     averageIncome?: true
     main_id?: true
     isUpdated?: true
+    updatedStatus?: true
     admissionDate?: true
     position?: true
     payingSource?: true
@@ -14398,6 +14440,7 @@ export namespace Prisma {
     averageIncome?: true
     main_id?: true
     isUpdated?: true
+    updatedStatus?: true
     admissionDate?: true
     position?: true
     payingSource?: true
@@ -14427,6 +14470,7 @@ export namespace Prisma {
     averageIncome?: true
     main_id?: true
     isUpdated?: true
+    updatedStatus?: true
     admissionDate?: true
     position?: true
     payingSource?: true
@@ -14543,6 +14587,7 @@ export namespace Prisma {
     averageIncome: string
     main_id: string | null
     isUpdated: boolean | null
+    updatedStatus: $Enums.DocumentAnalysisStatus
     admissionDate: Date | null
     position: string | null
     payingSource: string | null
@@ -14591,6 +14636,7 @@ export namespace Prisma {
     averageIncome?: boolean
     main_id?: boolean
     isUpdated?: boolean
+    updatedStatus?: boolean
     admissionDate?: boolean
     position?: boolean
     payingSource?: boolean
@@ -14625,6 +14671,7 @@ export namespace Prisma {
     averageIncome?: boolean
     main_id?: boolean
     isUpdated?: boolean
+    updatedStatus?: boolean
     admissionDate?: boolean
     position?: boolean
     payingSource?: boolean
@@ -14671,6 +14718,7 @@ export namespace Prisma {
       averageIncome: string
       main_id: string | null
       isUpdated: boolean | null
+      updatedStatus: $Enums.DocumentAnalysisStatus
       admissionDate: Date | null
       position: string | null
       payingSource: string | null
@@ -15098,6 +15146,7 @@ export namespace Prisma {
     readonly averageIncome: FieldRef<"FamilyMemberIncome", 'String'>
     readonly main_id: FieldRef<"FamilyMemberIncome", 'String'>
     readonly isUpdated: FieldRef<"FamilyMemberIncome", 'Boolean'>
+    readonly updatedStatus: FieldRef<"FamilyMemberIncome", 'DocumentAnalysisStatus'>
     readonly admissionDate: FieldRef<"FamilyMemberIncome", 'DateTime'>
     readonly position: FieldRef<"FamilyMemberIncome", 'String'>
     readonly payingSource: FieldRef<"FamilyMemberIncome", 'String'>
@@ -15568,6 +15617,7 @@ export namespace Prisma {
   export type MonthlyIncomeMinAggregateOutputType = {
     id: string | null
     receivedIncome: boolean | null
+    analysisStatus: $Enums.DocumentAnalysisStatus | null
     date: Date | null
     main_id: string | null
     grossAmount: number | null
@@ -15599,6 +15649,7 @@ export namespace Prisma {
   export type MonthlyIncomeMaxAggregateOutputType = {
     id: string | null
     receivedIncome: boolean | null
+    analysisStatus: $Enums.DocumentAnalysisStatus | null
     date: Date | null
     main_id: string | null
     grossAmount: number | null
@@ -15630,6 +15681,7 @@ export namespace Prisma {
   export type MonthlyIncomeCountAggregateOutputType = {
     id: number
     receivedIncome: number
+    analysisStatus: number
     date: number
     main_id: number
     grossAmount: number
@@ -15701,6 +15753,7 @@ export namespace Prisma {
   export type MonthlyIncomeMinAggregateInputType = {
     id?: true
     receivedIncome?: true
+    analysisStatus?: true
     date?: true
     main_id?: true
     grossAmount?: true
@@ -15732,6 +15785,7 @@ export namespace Prisma {
   export type MonthlyIncomeMaxAggregateInputType = {
     id?: true
     receivedIncome?: true
+    analysisStatus?: true
     date?: true
     main_id?: true
     grossAmount?: true
@@ -15763,6 +15817,7 @@ export namespace Prisma {
   export type MonthlyIncomeCountAggregateInputType = {
     id?: true
     receivedIncome?: true
+    analysisStatus?: true
     date?: true
     main_id?: true
     grossAmount?: true
@@ -15881,6 +15936,7 @@ export namespace Prisma {
   export type MonthlyIncomeGroupByOutputType = {
     id: string
     receivedIncome: boolean | null
+    analysisStatus: $Enums.DocumentAnalysisStatus
     date: Date | null
     main_id: string | null
     grossAmount: number | null
@@ -15931,6 +15987,7 @@ export namespace Prisma {
   export type MonthlyIncomeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     receivedIncome?: boolean
+    analysisStatus?: boolean
     date?: boolean
     main_id?: boolean
     grossAmount?: boolean
@@ -15966,6 +16023,7 @@ export namespace Prisma {
   export type MonthlyIncomeSelectScalar = {
     id?: boolean
     receivedIncome?: boolean
+    analysisStatus?: boolean
     date?: boolean
     main_id?: boolean
     grossAmount?: boolean
@@ -16013,6 +16071,7 @@ export namespace Prisma {
     scalars: $Extensions.GetResult<{
       id: string
       receivedIncome: boolean | null
+      analysisStatus: $Enums.DocumentAnalysisStatus
       date: Date | null
       main_id: string | null
       grossAmount: number | null
@@ -16442,6 +16501,7 @@ export namespace Prisma {
   interface MonthlyIncomeFieldRefs {
     readonly id: FieldRef<"MonthlyIncome", 'String'>
     readonly receivedIncome: FieldRef<"MonthlyIncome", 'Boolean'>
+    readonly analysisStatus: FieldRef<"MonthlyIncome", 'DocumentAnalysisStatus'>
     readonly date: FieldRef<"MonthlyIncome", 'DateTime'>
     readonly main_id: FieldRef<"MonthlyIncome", 'String'>
     readonly grossAmount: FieldRef<"MonthlyIncome", 'Float'>
@@ -29281,8 +29341,18 @@ export namespace Prisma {
 
   export type AggregateCandidateDocuments = {
     _count: CandidateDocumentsCountAggregateOutputType | null
+    _avg: CandidateDocumentsAvgAggregateOutputType | null
+    _sum: CandidateDocumentsSumAggregateOutputType | null
     _min: CandidateDocumentsMinAggregateOutputType | null
     _max: CandidateDocumentsMaxAggregateOutputType | null
+  }
+
+  export type CandidateDocumentsAvgAggregateOutputType = {
+    tries: number | null
+  }
+
+  export type CandidateDocumentsSumAggregateOutputType = {
+    tries: number | null
   }
 
   export type CandidateDocumentsMinAggregateOutputType = {
@@ -29292,6 +29362,8 @@ export namespace Prisma {
     pathInMainDatabase: string | null
     tableName: string | null
     tableId: string | null
+    analysisStatus: $Enums.DocumentAnalysisStatus | null
+    tries: number | null
     memberId: string | null
     application_id: string | null
     expiresAt: Date | null
@@ -29306,6 +29378,8 @@ export namespace Prisma {
     pathInMainDatabase: string | null
     tableName: string | null
     tableId: string | null
+    analysisStatus: $Enums.DocumentAnalysisStatus | null
+    tries: number | null
     memberId: string | null
     application_id: string | null
     expiresAt: Date | null
@@ -29321,6 +29395,9 @@ export namespace Prisma {
     metadata: number
     tableName: number
     tableId: number
+    analysisStatus: number
+    AiData: number
+    tries: number
     memberId: number
     application_id: number
     expiresAt: number
@@ -29330,6 +29407,14 @@ export namespace Prisma {
   }
 
 
+  export type CandidateDocumentsAvgAggregateInputType = {
+    tries?: true
+  }
+
+  export type CandidateDocumentsSumAggregateInputType = {
+    tries?: true
+  }
+
   export type CandidateDocumentsMinAggregateInputType = {
     id?: true
     status?: true
@@ -29337,6 +29422,8 @@ export namespace Prisma {
     pathInMainDatabase?: true
     tableName?: true
     tableId?: true
+    analysisStatus?: true
+    tries?: true
     memberId?: true
     application_id?: true
     expiresAt?: true
@@ -29351,6 +29438,8 @@ export namespace Prisma {
     pathInMainDatabase?: true
     tableName?: true
     tableId?: true
+    analysisStatus?: true
+    tries?: true
     memberId?: true
     application_id?: true
     expiresAt?: true
@@ -29366,6 +29455,9 @@ export namespace Prisma {
     metadata?: true
     tableName?: true
     tableId?: true
+    analysisStatus?: true
+    AiData?: true
+    tries?: true
     memberId?: true
     application_id?: true
     expiresAt?: true
@@ -29412,6 +29504,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: CandidateDocumentsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CandidateDocumentsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: CandidateDocumentsMinAggregateInputType
@@ -29442,6 +29546,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: CandidateDocumentsCountAggregateInputType | true
+    _avg?: CandidateDocumentsAvgAggregateInputType
+    _sum?: CandidateDocumentsSumAggregateInputType
     _min?: CandidateDocumentsMinAggregateInputType
     _max?: CandidateDocumentsMaxAggregateInputType
   }
@@ -29454,12 +29560,17 @@ export namespace Prisma {
     metadata: JsonValue
     tableName: string
     tableId: string
+    analysisStatus: $Enums.DocumentAnalysisStatus
+    AiData: JsonValue | null
+    tries: number
     memberId: string | null
     application_id: string
     expiresAt: Date | null
     createdAt: Date
     updatedAt: Date
     _count: CandidateDocumentsCountAggregateOutputType | null
+    _avg: CandidateDocumentsAvgAggregateOutputType | null
+    _sum: CandidateDocumentsSumAggregateOutputType | null
     _min: CandidateDocumentsMinAggregateOutputType | null
     _max: CandidateDocumentsMaxAggregateOutputType | null
   }
@@ -29486,6 +29597,9 @@ export namespace Prisma {
     metadata?: boolean
     tableName?: boolean
     tableId?: boolean
+    analysisStatus?: boolean
+    AiData?: boolean
+    tries?: boolean
     memberId?: boolean
     application_id?: boolean
     expiresAt?: boolean
@@ -29501,6 +29615,9 @@ export namespace Prisma {
     metadata?: boolean
     tableName?: boolean
     tableId?: boolean
+    analysisStatus?: boolean
+    AiData?: boolean
+    tries?: boolean
     memberId?: boolean
     application_id?: boolean
     expiresAt?: boolean
@@ -29520,6 +29637,9 @@ export namespace Prisma {
       metadata: Prisma.JsonValue
       tableName: string
       tableId: string
+      analysisStatus: $Enums.DocumentAnalysisStatus
+      AiData: Prisma.JsonValue | null
+      tries: number
       memberId: string | null
       application_id: string
       expiresAt: Date | null
@@ -29926,6 +30046,9 @@ export namespace Prisma {
     readonly metadata: FieldRef<"CandidateDocuments", 'Json'>
     readonly tableName: FieldRef<"CandidateDocuments", 'String'>
     readonly tableId: FieldRef<"CandidateDocuments", 'String'>
+    readonly analysisStatus: FieldRef<"CandidateDocuments", 'DocumentAnalysisStatus'>
+    readonly AiData: FieldRef<"CandidateDocuments", 'Json'>
+    readonly tries: FieldRef<"CandidateDocuments", 'Int'>
     readonly memberId: FieldRef<"CandidateDocuments", 'String'>
     readonly application_id: FieldRef<"CandidateDocuments", 'String'>
     readonly expiresAt: FieldRef<"CandidateDocuments", 'DateTime'>
@@ -32271,6 +32394,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication: 'hasSevereDeseaseOrUsesMedication',
     hasBankAccount: 'hasBankAccount',
     isIncomeUpdated: 'isIncomeUpdated',
+    incomeUpdatedStatus: 'incomeUpdatedStatus',
     documentNumber: 'documentNumber',
     documentValidity: 'documentValidity',
     maritalStatus: 'maritalStatus',
@@ -32373,6 +32497,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication: 'hasSevereDeseaseOrUsesMedication',
     hasBankAccount: 'hasBankAccount',
     isIncomeUpdated: 'isIncomeUpdated',
+    incomeUpdatedStatus: 'incomeUpdatedStatus',
     incomeSource: 'incomeSource',
     legalResponsibleId: 'legalResponsibleId',
     application_id: 'application_id',
@@ -32434,6 +32559,7 @@ export namespace Prisma {
     averageIncome: 'averageIncome',
     main_id: 'main_id',
     isUpdated: 'isUpdated',
+    updatedStatus: 'updatedStatus',
     admissionDate: 'admissionDate',
     position: 'position',
     payingSource: 'payingSource',
@@ -32463,6 +32589,7 @@ export namespace Prisma {
   export const MonthlyIncomeScalarFieldEnum: {
     id: 'id',
     receivedIncome: 'receivedIncome',
+    analysisStatus: 'analysisStatus',
     date: 'date',
     main_id: 'main_id',
     grossAmount: 'grossAmount',
@@ -32748,6 +32875,9 @@ export namespace Prisma {
     metadata: 'metadata',
     tableName: 'tableName',
     tableId: 'tableId',
+    analysisStatus: 'analysisStatus',
+    AiData: 'AiData',
+    tries: 'tries',
     memberId: 'memberId',
     application_id: 'application_id',
     expiresAt: 'expiresAt',
@@ -32800,6 +32930,14 @@ export namespace Prisma {
   };
 
   export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const QueryMode: {
@@ -32962,6 +33100,20 @@ export namespace Prisma {
    * Reference to a field of type 'DOCUMENT_TYPE[]'
    */
   export type ListEnumDOCUMENT_TYPEFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DOCUMENT_TYPE[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DocumentAnalysisStatus'
+   */
+  export type EnumDocumentAnalysisStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentAnalysisStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'DocumentAnalysisStatus[]'
+   */
+  export type ListEnumDocumentAnalysisStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentAnalysisStatus[]'>
     
 
 
@@ -33759,6 +33911,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     hasBankAccount?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     isIncomeUpdated?: BoolNullableFilter<"IdentityDetails"> | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFilter<"IdentityDetails"> | $Enums.DocumentAnalysisStatus
     documentNumber?: StringNullableFilter<"IdentityDetails"> | string | null
     documentValidity?: DateTimeNullableFilter<"IdentityDetails"> | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFilter<"IdentityDetails"> | $Enums.MARITAL_STATUS
@@ -33826,6 +33979,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: SortOrderInput | SortOrder
     hasBankAccount?: SortOrderInput | SortOrder
     isIncomeUpdated?: SortOrderInput | SortOrder
+    incomeUpdatedStatus?: SortOrder
     documentNumber?: SortOrderInput | SortOrder
     documentValidity?: SortOrderInput | SortOrder
     maritalStatus?: SortOrder
@@ -33897,6 +34051,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     hasBankAccount?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     isIncomeUpdated?: BoolNullableFilter<"IdentityDetails"> | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFilter<"IdentityDetails"> | $Enums.DocumentAnalysisStatus
     documentNumber?: StringNullableFilter<"IdentityDetails"> | string | null
     documentValidity?: DateTimeNullableFilter<"IdentityDetails"> | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFilter<"IdentityDetails"> | $Enums.MARITAL_STATUS
@@ -33963,6 +34118,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: SortOrderInput | SortOrder
     hasBankAccount?: SortOrderInput | SortOrder
     isIncomeUpdated?: SortOrderInput | SortOrder
+    incomeUpdatedStatus?: SortOrder
     documentNumber?: SortOrderInput | SortOrder
     documentValidity?: SortOrderInput | SortOrder
     maritalStatus?: SortOrder
@@ -34034,6 +34190,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: BoolNullableWithAggregatesFilter<"IdentityDetails"> | boolean | null
     hasBankAccount?: BoolNullableWithAggregatesFilter<"IdentityDetails"> | boolean | null
     isIncomeUpdated?: BoolNullableWithAggregatesFilter<"IdentityDetails"> | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusWithAggregatesFilter<"IdentityDetails"> | $Enums.DocumentAnalysisStatus
     documentNumber?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     documentValidity?: DateTimeNullableWithAggregatesFilter<"IdentityDetails"> | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSWithAggregatesFilter<"IdentityDetails"> | $Enums.MARITAL_STATUS
@@ -34136,6 +34293,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: BoolNullableFilter<"FamilyMember"> | boolean | null
     hasBankAccount?: BoolNullableFilter<"FamilyMember"> | boolean | null
     isIncomeUpdated?: BoolNullableFilter<"FamilyMember"> | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFilter<"FamilyMember"> | $Enums.DocumentAnalysisStatus
     incomeSource?: EnumIncomeSourceNullableListFilter<"FamilyMember">
     legalResponsibleId?: StringNullableFilter<"FamilyMember"> | string | null
     application_id?: StringFilter<"FamilyMember"> | string
@@ -34209,6 +34367,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: SortOrderInput | SortOrder
     hasBankAccount?: SortOrderInput | SortOrder
     isIncomeUpdated?: SortOrderInput | SortOrder
+    incomeUpdatedStatus?: SortOrder
     incomeSource?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
@@ -34286,6 +34445,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: BoolNullableFilter<"FamilyMember"> | boolean | null
     hasBankAccount?: BoolNullableFilter<"FamilyMember"> | boolean | null
     isIncomeUpdated?: BoolNullableFilter<"FamilyMember"> | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFilter<"FamilyMember"> | $Enums.DocumentAnalysisStatus
     incomeSource?: EnumIncomeSourceNullableListFilter<"FamilyMember">
     legalResponsibleId?: StringNullableFilter<"FamilyMember"> | string | null
     application_id?: StringFilter<"FamilyMember"> | string
@@ -34359,6 +34519,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: SortOrderInput | SortOrder
     hasBankAccount?: SortOrderInput | SortOrder
     isIncomeUpdated?: SortOrderInput | SortOrder
+    incomeUpdatedStatus?: SortOrder
     incomeSource?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
@@ -34425,6 +34586,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: BoolNullableWithAggregatesFilter<"FamilyMember"> | boolean | null
     hasBankAccount?: BoolNullableWithAggregatesFilter<"FamilyMember"> | boolean | null
     isIncomeUpdated?: BoolNullableWithAggregatesFilter<"FamilyMember"> | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusWithAggregatesFilter<"FamilyMember"> | $Enums.DocumentAnalysisStatus
     incomeSource?: EnumIncomeSourceNullableListFilter<"FamilyMember">
     legalResponsibleId?: StringNullableWithAggregatesFilter<"FamilyMember"> | string | null
     application_id?: StringWithAggregatesFilter<"FamilyMember"> | string
@@ -34681,6 +34843,7 @@ export namespace Prisma {
     averageIncome?: StringFilter<"FamilyMemberIncome"> | string
     main_id?: StringNullableFilter<"FamilyMemberIncome"> | string | null
     isUpdated?: BoolNullableFilter<"FamilyMemberIncome"> | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFilter<"FamilyMemberIncome"> | $Enums.DocumentAnalysisStatus
     admissionDate?: DateTimeNullableFilter<"FamilyMemberIncome"> | Date | string | null
     position?: StringNullableFilter<"FamilyMemberIncome"> | string | null
     payingSource?: StringNullableFilter<"FamilyMemberIncome"> | string | null
@@ -34714,6 +34877,7 @@ export namespace Prisma {
     averageIncome?: SortOrder
     main_id?: SortOrderInput | SortOrder
     isUpdated?: SortOrderInput | SortOrder
+    updatedStatus?: SortOrder
     admissionDate?: SortOrderInput | SortOrder
     position?: SortOrderInput | SortOrder
     payingSource?: SortOrderInput | SortOrder
@@ -34751,6 +34915,7 @@ export namespace Prisma {
     averageIncome?: StringFilter<"FamilyMemberIncome"> | string
     main_id?: StringNullableFilter<"FamilyMemberIncome"> | string | null
     isUpdated?: BoolNullableFilter<"FamilyMemberIncome"> | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFilter<"FamilyMemberIncome"> | $Enums.DocumentAnalysisStatus
     admissionDate?: DateTimeNullableFilter<"FamilyMemberIncome"> | Date | string | null
     position?: StringNullableFilter<"FamilyMemberIncome"> | string | null
     payingSource?: StringNullableFilter<"FamilyMemberIncome"> | string | null
@@ -34784,6 +34949,7 @@ export namespace Prisma {
     averageIncome?: SortOrder
     main_id?: SortOrderInput | SortOrder
     isUpdated?: SortOrderInput | SortOrder
+    updatedStatus?: SortOrder
     admissionDate?: SortOrderInput | SortOrder
     position?: SortOrderInput | SortOrder
     payingSource?: SortOrderInput | SortOrder
@@ -34821,6 +34987,7 @@ export namespace Prisma {
     averageIncome?: StringWithAggregatesFilter<"FamilyMemberIncome"> | string
     main_id?: StringNullableWithAggregatesFilter<"FamilyMemberIncome"> | string | null
     isUpdated?: BoolNullableWithAggregatesFilter<"FamilyMemberIncome"> | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusWithAggregatesFilter<"FamilyMemberIncome"> | $Enums.DocumentAnalysisStatus
     admissionDate?: DateTimeNullableWithAggregatesFilter<"FamilyMemberIncome"> | Date | string | null
     position?: StringNullableWithAggregatesFilter<"FamilyMemberIncome"> | string | null
     payingSource?: StringNullableWithAggregatesFilter<"FamilyMemberIncome"> | string | null
@@ -34850,6 +35017,7 @@ export namespace Prisma {
     NOT?: MonthlyIncomeWhereInput | MonthlyIncomeWhereInput[]
     id?: StringFilter<"MonthlyIncome"> | string
     receivedIncome?: BoolNullableFilter<"MonthlyIncome"> | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFilter<"MonthlyIncome"> | $Enums.DocumentAnalysisStatus
     date?: DateTimeNullableFilter<"MonthlyIncome"> | Date | string | null
     main_id?: StringNullableFilter<"MonthlyIncome"> | string | null
     grossAmount?: FloatNullableFilter<"MonthlyIncome"> | number | null
@@ -34885,6 +35053,7 @@ export namespace Prisma {
   export type MonthlyIncomeOrderByWithRelationInput = {
     id?: SortOrder
     receivedIncome?: SortOrderInput | SortOrder
+    analysisStatus?: SortOrder
     date?: SortOrderInput | SortOrder
     main_id?: SortOrderInput | SortOrder
     grossAmount?: SortOrderInput | SortOrder
@@ -34924,6 +35093,7 @@ export namespace Prisma {
     OR?: MonthlyIncomeWhereInput[]
     NOT?: MonthlyIncomeWhereInput | MonthlyIncomeWhereInput[]
     receivedIncome?: BoolNullableFilter<"MonthlyIncome"> | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFilter<"MonthlyIncome"> | $Enums.DocumentAnalysisStatus
     date?: DateTimeNullableFilter<"MonthlyIncome"> | Date | string | null
     main_id?: StringNullableFilter<"MonthlyIncome"> | string | null
     grossAmount?: FloatNullableFilter<"MonthlyIncome"> | number | null
@@ -34959,6 +35129,7 @@ export namespace Prisma {
   export type MonthlyIncomeOrderByWithAggregationInput = {
     id?: SortOrder
     receivedIncome?: SortOrderInput | SortOrder
+    analysisStatus?: SortOrder
     date?: SortOrderInput | SortOrder
     main_id?: SortOrderInput | SortOrder
     grossAmount?: SortOrderInput | SortOrder
@@ -34998,6 +35169,7 @@ export namespace Prisma {
     NOT?: MonthlyIncomeScalarWhereWithAggregatesInput | MonthlyIncomeScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"MonthlyIncome"> | string
     receivedIncome?: BoolNullableWithAggregatesFilter<"MonthlyIncome"> | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusWithAggregatesFilter<"MonthlyIncome"> | $Enums.DocumentAnalysisStatus
     date?: DateTimeNullableWithAggregatesFilter<"MonthlyIncome"> | Date | string | null
     main_id?: StringNullableWithAggregatesFilter<"MonthlyIncome"> | string | null
     grossAmount?: FloatNullableWithAggregatesFilter<"MonthlyIncome"> | number | null
@@ -36350,6 +36522,9 @@ export namespace Prisma {
     metadata?: JsonFilter<"CandidateDocuments">
     tableName?: StringFilter<"CandidateDocuments"> | string
     tableId?: StringFilter<"CandidateDocuments"> | string
+    analysisStatus?: EnumDocumentAnalysisStatusFilter<"CandidateDocuments"> | $Enums.DocumentAnalysisStatus
+    AiData?: JsonNullableFilter<"CandidateDocuments">
+    tries?: IntFilter<"CandidateDocuments"> | number
     memberId?: StringNullableFilter<"CandidateDocuments"> | string | null
     application_id?: StringFilter<"CandidateDocuments"> | string
     expiresAt?: DateTimeNullableFilter<"CandidateDocuments"> | Date | string | null
@@ -36365,6 +36540,9 @@ export namespace Prisma {
     metadata?: SortOrder
     tableName?: SortOrder
     tableId?: SortOrder
+    analysisStatus?: SortOrder
+    AiData?: SortOrderInput | SortOrder
+    tries?: SortOrder
     memberId?: SortOrderInput | SortOrder
     application_id?: SortOrder
     expiresAt?: SortOrderInput | SortOrder
@@ -36383,6 +36561,9 @@ export namespace Prisma {
     metadata?: JsonFilter<"CandidateDocuments">
     tableName?: StringFilter<"CandidateDocuments"> | string
     tableId?: StringFilter<"CandidateDocuments"> | string
+    analysisStatus?: EnumDocumentAnalysisStatusFilter<"CandidateDocuments"> | $Enums.DocumentAnalysisStatus
+    AiData?: JsonNullableFilter<"CandidateDocuments">
+    tries?: IntFilter<"CandidateDocuments"> | number
     memberId?: StringNullableFilter<"CandidateDocuments"> | string | null
     application_id?: StringFilter<"CandidateDocuments"> | string
     expiresAt?: DateTimeNullableFilter<"CandidateDocuments"> | Date | string | null
@@ -36398,14 +36579,19 @@ export namespace Prisma {
     metadata?: SortOrder
     tableName?: SortOrder
     tableId?: SortOrder
+    analysisStatus?: SortOrder
+    AiData?: SortOrderInput | SortOrder
+    tries?: SortOrder
     memberId?: SortOrderInput | SortOrder
     application_id?: SortOrder
     expiresAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: CandidateDocumentsCountOrderByAggregateInput
+    _avg?: CandidateDocumentsAvgOrderByAggregateInput
     _max?: CandidateDocumentsMaxOrderByAggregateInput
     _min?: CandidateDocumentsMinOrderByAggregateInput
+    _sum?: CandidateDocumentsSumOrderByAggregateInput
   }
 
   export type CandidateDocumentsScalarWhereWithAggregatesInput = {
@@ -36419,6 +36605,9 @@ export namespace Prisma {
     metadata?: JsonWithAggregatesFilter<"CandidateDocuments">
     tableName?: StringWithAggregatesFilter<"CandidateDocuments"> | string
     tableId?: StringWithAggregatesFilter<"CandidateDocuments"> | string
+    analysisStatus?: EnumDocumentAnalysisStatusWithAggregatesFilter<"CandidateDocuments"> | $Enums.DocumentAnalysisStatus
+    AiData?: JsonNullableWithAggregatesFilter<"CandidateDocuments">
+    tries?: IntWithAggregatesFilter<"CandidateDocuments"> | number
     memberId?: StringNullableWithAggregatesFilter<"CandidateDocuments"> | string | null
     application_id?: StringWithAggregatesFilter<"CandidateDocuments"> | string
     expiresAt?: DateTimeNullableWithAggregatesFilter<"CandidateDocuments"> | Date | string | null
@@ -37106,6 +37295,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -37171,6 +37361,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -37236,6 +37427,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -37301,6 +37493,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -37366,6 +37559,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -37431,6 +37625,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -37494,6 +37689,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -37592,6 +37788,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     createdAt?: Date | string
@@ -37664,6 +37861,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -37734,6 +37932,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37806,6 +38005,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -37877,6 +38077,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -37936,6 +38137,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37995,6 +38197,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -38281,6 +38484,7 @@ export namespace Prisma {
     averageIncome: string
     main_id?: string | null
     isUpdated?: boolean | null
+    updatedStatus?: $Enums.DocumentAnalysisStatus
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -38311,6 +38515,7 @@ export namespace Prisma {
     averageIncome: string
     main_id?: string | null
     isUpdated?: boolean | null
+    updatedStatus?: $Enums.DocumentAnalysisStatus
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -38341,6 +38546,7 @@ export namespace Prisma {
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38371,6 +38577,7 @@ export namespace Prisma {
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38401,6 +38608,7 @@ export namespace Prisma {
     averageIncome: string
     main_id?: string | null
     isUpdated?: boolean | null
+    updatedStatus?: $Enums.DocumentAnalysisStatus
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -38430,6 +38638,7 @@ export namespace Prisma {
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38456,6 +38665,7 @@ export namespace Prisma {
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38482,6 +38692,7 @@ export namespace Prisma {
   export type MonthlyIncomeCreateInput = {
     id?: string
     receivedIncome?: boolean | null
+    analysisStatus?: $Enums.DocumentAnalysisStatus
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -38513,6 +38724,7 @@ export namespace Prisma {
   export type MonthlyIncomeUncheckedCreateInput = {
     id?: string
     receivedIncome?: boolean | null
+    analysisStatus?: $Enums.DocumentAnalysisStatus
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -38544,6 +38756,7 @@ export namespace Prisma {
   export type MonthlyIncomeUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -38575,6 +38788,7 @@ export namespace Prisma {
   export type MonthlyIncomeUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -38606,6 +38820,7 @@ export namespace Prisma {
   export type MonthlyIncomeCreateManyInput = {
     id?: string
     receivedIncome?: boolean | null
+    analysisStatus?: $Enums.DocumentAnalysisStatus
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -38637,6 +38852,7 @@ export namespace Prisma {
   export type MonthlyIncomeUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -38664,6 +38880,7 @@ export namespace Prisma {
   export type MonthlyIncomeUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -40169,6 +40386,9 @@ export namespace Prisma {
     metadata: JsonNullValueInput | InputJsonValue
     tableName: string
     tableId: string
+    analysisStatus?: $Enums.DocumentAnalysisStatus
+    AiData?: NullableJsonNullValueInput | InputJsonValue
+    tries?: number
     memberId?: string | null
     application_id: string
     expiresAt?: Date | string | null
@@ -40184,6 +40404,9 @@ export namespace Prisma {
     metadata: JsonNullValueInput | InputJsonValue
     tableName: string
     tableId: string
+    analysisStatus?: $Enums.DocumentAnalysisStatus
+    AiData?: NullableJsonNullValueInput | InputJsonValue
+    tries?: number
     memberId?: string | null
     application_id: string
     expiresAt?: Date | string | null
@@ -40199,6 +40422,9 @@ export namespace Prisma {
     metadata?: JsonNullValueInput | InputJsonValue
     tableName?: StringFieldUpdateOperationsInput | string
     tableId?: StringFieldUpdateOperationsInput | string
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
+    AiData?: NullableJsonNullValueInput | InputJsonValue
+    tries?: IntFieldUpdateOperationsInput | number
     memberId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40214,6 +40440,9 @@ export namespace Prisma {
     metadata?: JsonNullValueInput | InputJsonValue
     tableName?: StringFieldUpdateOperationsInput | string
     tableId?: StringFieldUpdateOperationsInput | string
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
+    AiData?: NullableJsonNullValueInput | InputJsonValue
+    tries?: IntFieldUpdateOperationsInput | number
     memberId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40229,6 +40458,9 @@ export namespace Prisma {
     metadata: JsonNullValueInput | InputJsonValue
     tableName: string
     tableId: string
+    analysisStatus?: $Enums.DocumentAnalysisStatus
+    AiData?: NullableJsonNullValueInput | InputJsonValue
+    tries?: number
     memberId?: string | null
     application_id: string
     expiresAt?: Date | string | null
@@ -40244,6 +40476,9 @@ export namespace Prisma {
     metadata?: JsonNullValueInput | InputJsonValue
     tableName?: StringFieldUpdateOperationsInput | string
     tableId?: StringFieldUpdateOperationsInput | string
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
+    AiData?: NullableJsonNullValueInput | InputJsonValue
+    tries?: IntFieldUpdateOperationsInput | number
     memberId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40259,6 +40494,9 @@ export namespace Prisma {
     metadata?: JsonNullValueInput | InputJsonValue
     tableName?: StringFieldUpdateOperationsInput | string
     tableId?: StringFieldUpdateOperationsInput | string
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
+    AiData?: NullableJsonNullValueInput | InputJsonValue
+    tries?: IntFieldUpdateOperationsInput | number
     memberId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40984,6 +41222,13 @@ export namespace Prisma {
     not?: NestedEnumDOCUMENT_TYPENullableFilter<$PrismaModel> | $Enums.DOCUMENT_TYPE | null
   }
 
+  export type EnumDocumentAnalysisStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentAnalysisStatus | EnumDocumentAnalysisStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentAnalysisStatus[] | ListEnumDocumentAnalysisStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentAnalysisStatus[] | ListEnumDocumentAnalysisStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentAnalysisStatusFilter<$PrismaModel> | $Enums.DocumentAnalysisStatus
+  }
+
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -41077,6 +41322,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: SortOrder
     hasBankAccount?: SortOrder
     isIncomeUpdated?: SortOrder
+    incomeUpdatedStatus?: SortOrder
     documentNumber?: SortOrder
     documentValidity?: SortOrder
     maritalStatus?: SortOrder
@@ -41142,6 +41388,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: SortOrder
     hasBankAccount?: SortOrder
     isIncomeUpdated?: SortOrder
+    incomeUpdatedStatus?: SortOrder
     documentNumber?: SortOrder
     documentValidity?: SortOrder
     maritalStatus?: SortOrder
@@ -41205,6 +41452,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: SortOrder
     hasBankAccount?: SortOrder
     isIncomeUpdated?: SortOrder
+    incomeUpdatedStatus?: SortOrder
     documentNumber?: SortOrder
     documentValidity?: SortOrder
     maritalStatus?: SortOrder
@@ -41277,6 +41525,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumDOCUMENT_TYPENullableFilter<$PrismaModel>
     _max?: NestedEnumDOCUMENT_TYPENullableFilter<$PrismaModel>
+  }
+
+  export type EnumDocumentAnalysisStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentAnalysisStatus | EnumDocumentAnalysisStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentAnalysisStatus[] | ListEnumDocumentAnalysisStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentAnalysisStatus[] | ListEnumDocumentAnalysisStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentAnalysisStatusWithAggregatesFilter<$PrismaModel> | $Enums.DocumentAnalysisStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDocumentAnalysisStatusFilter<$PrismaModel>
+    _max?: NestedEnumDocumentAnalysisStatusFilter<$PrismaModel>
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -41428,6 +41686,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: SortOrder
     hasBankAccount?: SortOrder
     isIncomeUpdated?: SortOrder
+    incomeUpdatedStatus?: SortOrder
     incomeSource?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
@@ -41488,6 +41747,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: SortOrder
     hasBankAccount?: SortOrder
     isIncomeUpdated?: SortOrder
+    incomeUpdatedStatus?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
     createdAt?: SortOrder
@@ -41547,6 +41807,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: SortOrder
     hasBankAccount?: SortOrder
     isIncomeUpdated?: SortOrder
+    incomeUpdatedStatus?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
     createdAt?: SortOrder
@@ -41950,6 +42211,7 @@ export namespace Prisma {
     averageIncome?: SortOrder
     main_id?: SortOrder
     isUpdated?: SortOrder
+    updatedStatus?: SortOrder
     admissionDate?: SortOrder
     position?: SortOrder
     payingSource?: SortOrder
@@ -41985,6 +42247,7 @@ export namespace Prisma {
     averageIncome?: SortOrder
     main_id?: SortOrder
     isUpdated?: SortOrder
+    updatedStatus?: SortOrder
     admissionDate?: SortOrder
     position?: SortOrder
     payingSource?: SortOrder
@@ -42014,6 +42277,7 @@ export namespace Prisma {
     averageIncome?: SortOrder
     main_id?: SortOrder
     isUpdated?: SortOrder
+    updatedStatus?: SortOrder
     admissionDate?: SortOrder
     position?: SortOrder
     payingSource?: SortOrder
@@ -42084,6 +42348,7 @@ export namespace Prisma {
   export type MonthlyIncomeCountOrderByAggregateInput = {
     id?: SortOrder
     receivedIncome?: SortOrder
+    analysisStatus?: SortOrder
     date?: SortOrder
     main_id?: SortOrder
     grossAmount?: SortOrder
@@ -42134,6 +42399,7 @@ export namespace Prisma {
   export type MonthlyIncomeMaxOrderByAggregateInput = {
     id?: SortOrder
     receivedIncome?: SortOrder
+    analysisStatus?: SortOrder
     date?: SortOrder
     main_id?: SortOrder
     grossAmount?: SortOrder
@@ -42165,6 +42431,7 @@ export namespace Prisma {
   export type MonthlyIncomeMinOrderByAggregateInput = {
     id?: SortOrder
     receivedIncome?: SortOrder
+    analysisStatus?: SortOrder
     date?: SortOrder
     main_id?: SortOrder
     grossAmount?: SortOrder
@@ -43212,6 +43479,28 @@ export namespace Prisma {
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
+  export type JsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type CandidateDocumentsCountOrderByAggregateInput = {
     id?: SortOrder
@@ -43221,11 +43510,18 @@ export namespace Prisma {
     metadata?: SortOrder
     tableName?: SortOrder
     tableId?: SortOrder
+    analysisStatus?: SortOrder
+    AiData?: SortOrder
+    tries?: SortOrder
     memberId?: SortOrder
     application_id?: SortOrder
     expiresAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type CandidateDocumentsAvgOrderByAggregateInput = {
+    tries?: SortOrder
   }
 
   export type CandidateDocumentsMaxOrderByAggregateInput = {
@@ -43235,6 +43531,8 @@ export namespace Prisma {
     pathInMainDatabase?: SortOrder
     tableName?: SortOrder
     tableId?: SortOrder
+    analysisStatus?: SortOrder
+    tries?: SortOrder
     memberId?: SortOrder
     application_id?: SortOrder
     expiresAt?: SortOrder
@@ -43249,11 +43547,17 @@ export namespace Prisma {
     pathInMainDatabase?: SortOrder
     tableName?: SortOrder
     tableId?: SortOrder
+    analysisStatus?: SortOrder
+    tries?: SortOrder
     memberId?: SortOrder
     application_id?: SortOrder
     expiresAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type CandidateDocumentsSumOrderByAggregateInput = {
+    tries?: SortOrder
   }
 
   export type EnumCandidateDocumentStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -43289,6 +43593,31 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedJsonFilter<$PrismaModel>
     _max?: NestedJsonFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type FoundApplicationCNPJListRelationFilter = {
@@ -44764,6 +45093,10 @@ export namespace Prisma {
 
   export type NullableEnumDOCUMENT_TYPEFieldUpdateOperationsInput = {
     set?: $Enums.DOCUMENT_TYPE | null
+  }
+
+  export type EnumDocumentAnalysisStatusFieldUpdateOperationsInput = {
+    set?: $Enums.DocumentAnalysisStatus
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -46567,6 +46900,13 @@ export namespace Prisma {
     not?: NestedEnumDOCUMENT_TYPENullableFilter<$PrismaModel> | $Enums.DOCUMENT_TYPE | null
   }
 
+  export type NestedEnumDocumentAnalysisStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentAnalysisStatus | EnumDocumentAnalysisStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentAnalysisStatus[] | ListEnumDocumentAnalysisStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentAnalysisStatus[] | ListEnumDocumentAnalysisStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentAnalysisStatusFilter<$PrismaModel> | $Enums.DocumentAnalysisStatus
+  }
+
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -46648,6 +46988,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumDOCUMENT_TYPENullableFilter<$PrismaModel>
     _max?: NestedEnumDOCUMENT_TYPENullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumDocumentAnalysisStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentAnalysisStatus | EnumDocumentAnalysisStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentAnalysisStatus[] | ListEnumDocumentAnalysisStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentAnalysisStatus[] | ListEnumDocumentAnalysisStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentAnalysisStatusWithAggregatesFilter<$PrismaModel> | $Enums.DocumentAnalysisStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDocumentAnalysisStatusFilter<$PrismaModel>
+    _max?: NestedEnumDocumentAnalysisStatusFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -47130,6 +47480,28 @@ export namespace Prisma {
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type CreditCardCreateWithoutCandidateInput = {
     id?: string
@@ -47384,6 +47756,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -47448,6 +47821,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -47509,6 +47883,7 @@ export namespace Prisma {
     averageIncome: string
     main_id?: string | null
     isUpdated?: boolean | null
+    updatedStatus?: $Enums.DocumentAnalysisStatus
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -47538,6 +47913,7 @@ export namespace Prisma {
     averageIncome: string
     main_id?: string | null
     isUpdated?: boolean | null
+    updatedStatus?: $Enums.DocumentAnalysisStatus
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -47830,6 +48206,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     createdAt?: Date | string
@@ -47900,6 +48277,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -47973,6 +48351,7 @@ export namespace Prisma {
   export type MonthlyIncomeCreateWithoutCandidateInput = {
     id?: string
     receivedIncome?: boolean | null
+    analysisStatus?: $Enums.DocumentAnalysisStatus
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -48003,6 +48382,7 @@ export namespace Prisma {
   export type MonthlyIncomeUncheckedCreateWithoutCandidateInput = {
     id?: string
     receivedIncome?: boolean | null
+    analysisStatus?: $Enums.DocumentAnalysisStatus
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -48392,6 +48772,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     hasBankAccount?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     isIncomeUpdated?: BoolNullableFilter<"IdentityDetails"> | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFilter<"IdentityDetails"> | $Enums.DocumentAnalysisStatus
     documentNumber?: StringNullableFilter<"IdentityDetails"> | string | null
     documentValidity?: DateTimeNullableFilter<"IdentityDetails"> | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFilter<"IdentityDetails"> | $Enums.MARITAL_STATUS
@@ -48463,6 +48844,7 @@ export namespace Prisma {
     averageIncome?: StringFilter<"FamilyMemberIncome"> | string
     main_id?: StringNullableFilter<"FamilyMemberIncome"> | string | null
     isUpdated?: BoolNullableFilter<"FamilyMemberIncome"> | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFilter<"FamilyMemberIncome"> | $Enums.DocumentAnalysisStatus
     admissionDate?: DateTimeNullableFilter<"FamilyMemberIncome"> | Date | string | null
     position?: StringNullableFilter<"FamilyMemberIncome"> | string | null
     payingSource?: StringNullableFilter<"FamilyMemberIncome"> | string | null
@@ -48751,6 +49133,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: BoolNullableFilter<"FamilyMember"> | boolean | null
     hasBankAccount?: BoolNullableFilter<"FamilyMember"> | boolean | null
     isIncomeUpdated?: BoolNullableFilter<"FamilyMember"> | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFilter<"FamilyMember"> | $Enums.DocumentAnalysisStatus
     incomeSource?: EnumIncomeSourceNullableListFilter<"FamilyMember">
     legalResponsibleId?: StringNullableFilter<"FamilyMember"> | string | null
     application_id?: StringFilter<"FamilyMember"> | string
@@ -48816,6 +49199,7 @@ export namespace Prisma {
     NOT?: MonthlyIncomeScalarWhereInput | MonthlyIncomeScalarWhereInput[]
     id?: StringFilter<"MonthlyIncome"> | string
     receivedIncome?: BoolNullableFilter<"MonthlyIncome"> | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFilter<"MonthlyIncome"> | $Enums.DocumentAnalysisStatus
     date?: DateTimeNullableFilter<"MonthlyIncome"> | Date | string | null
     main_id?: StringNullableFilter<"MonthlyIncome"> | string | null
     grossAmount?: FloatNullableFilter<"MonthlyIncome"> | number | null
@@ -48997,6 +49381,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -49061,6 +49446,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -49282,6 +49668,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     createdAt?: Date | string
@@ -49353,6 +49740,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     createdAt?: Date | string
@@ -49826,6 +50214,7 @@ export namespace Prisma {
     averageIncome: string
     main_id?: string | null
     isUpdated?: boolean | null
+    updatedStatus?: $Enums.DocumentAnalysisStatus
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -49855,6 +50244,7 @@ export namespace Prisma {
     averageIncome: string
     main_id?: string | null
     isUpdated?: boolean | null
+    updatedStatus?: $Enums.DocumentAnalysisStatus
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -49891,6 +50281,7 @@ export namespace Prisma {
   export type MonthlyIncomeCreateWithoutLegalResponsibleInput = {
     id?: string
     receivedIncome?: boolean | null
+    analysisStatus?: $Enums.DocumentAnalysisStatus
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -49921,6 +50312,7 @@ export namespace Prisma {
   export type MonthlyIncomeUncheckedCreateWithoutLegalResponsibleInput = {
     id?: string
     receivedIncome?: boolean | null
+    analysisStatus?: $Enums.DocumentAnalysisStatus
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -50660,6 +51052,7 @@ export namespace Prisma {
     averageIncome: string
     main_id?: string | null
     isUpdated?: boolean | null
+    updatedStatus?: $Enums.DocumentAnalysisStatus
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -50689,6 +51082,7 @@ export namespace Prisma {
     averageIncome: string
     main_id?: string | null
     isUpdated?: boolean | null
+    updatedStatus?: $Enums.DocumentAnalysisStatus
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -50809,6 +51203,7 @@ export namespace Prisma {
   export type MonthlyIncomeCreateWithoutFamilyMemberInput = {
     id?: string
     receivedIncome?: boolean | null
+    analysisStatus?: $Enums.DocumentAnalysisStatus
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -50839,6 +51234,7 @@ export namespace Prisma {
   export type MonthlyIncomeUncheckedCreateWithoutFamilyMemberInput = {
     id?: string
     receivedIncome?: boolean | null
+    analysisStatus?: $Enums.DocumentAnalysisStatus
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -52272,6 +52668,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     createdAt?: Date | string
@@ -52343,6 +52740,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -52514,6 +52912,7 @@ export namespace Prisma {
   export type MonthlyIncomeCreateWithoutIncomeInput = {
     id?: string
     receivedIncome?: boolean | null
+    analysisStatus?: $Enums.DocumentAnalysisStatus
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -52544,6 +52943,7 @@ export namespace Prisma {
   export type MonthlyIncomeUncheckedCreateWithoutIncomeInput = {
     id?: string
     receivedIncome?: boolean | null
+    analysisStatus?: $Enums.DocumentAnalysisStatus
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -52644,6 +53044,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52715,6 +53116,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -52958,6 +53360,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     createdAt?: Date | string
@@ -53029,6 +53432,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -53203,6 +53607,7 @@ export namespace Prisma {
     averageIncome: string
     main_id?: string | null
     isUpdated?: boolean | null
+    updatedStatus?: $Enums.DocumentAnalysisStatus
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -53232,6 +53637,7 @@ export namespace Prisma {
     averageIncome: string
     main_id?: string | null
     isUpdated?: boolean | null
+    updatedStatus?: $Enums.DocumentAnalysisStatus
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -53323,6 +53729,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -53394,6 +53801,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -53586,6 +53994,7 @@ export namespace Prisma {
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -53615,6 +54024,7 @@ export namespace Prisma {
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -53726,6 +54136,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     createdAt?: Date | string
@@ -53797,6 +54208,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -54061,6 +54473,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -54132,6 +54545,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -54810,6 +55224,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     createdAt?: Date | string
@@ -54881,6 +55296,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -55118,6 +55534,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -55189,6 +55606,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -55410,6 +55828,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     createdAt?: Date | string
@@ -55481,6 +55900,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -55718,6 +56138,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -55789,6 +56210,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -56010,6 +56432,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     createdAt?: Date | string
@@ -56081,6 +56504,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -56318,6 +56742,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56389,6 +56814,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -56610,6 +57036,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     createdAt?: Date | string
@@ -56681,6 +57108,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -56918,6 +57346,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56989,6 +57418,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -57143,6 +57573,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     createdAt?: Date | string
@@ -57214,6 +57645,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -57483,6 +57915,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57554,6 +57987,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -57797,6 +58231,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     createdAt?: Date | string
@@ -57868,6 +58303,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -58134,6 +58570,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -58205,6 +58642,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -58540,6 +58978,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     createdAt?: Date | string
@@ -58611,6 +59050,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -58848,6 +59288,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -58919,6 +59360,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -59073,6 +59515,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     createdAt?: Date | string
@@ -59144,6 +59587,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -59278,6 +59722,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -59349,6 +59794,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -59664,6 +60110,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -59715,6 +60162,7 @@ export namespace Prisma {
     averageIncome: string
     main_id?: string | null
     isUpdated?: boolean | null
+    updatedStatus?: $Enums.DocumentAnalysisStatus
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -59837,6 +60285,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -59863,6 +60312,7 @@ export namespace Prisma {
   export type MonthlyIncomeCreateManyCandidateInput = {
     id?: string
     receivedIncome?: boolean | null
+    analysisStatus?: $Enums.DocumentAnalysisStatus
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -60269,6 +60719,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -60333,6 +60784,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -60397,6 +60849,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -60448,6 +60901,7 @@ export namespace Prisma {
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -60477,6 +60931,7 @@ export namespace Prisma {
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -60506,6 +60961,7 @@ export namespace Prisma {
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -60726,6 +61182,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -60796,6 +61253,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -60866,6 +61324,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -60924,6 +61383,7 @@ export namespace Prisma {
   export type MonthlyIncomeUpdateWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
     receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -60954,6 +61414,7 @@ export namespace Prisma {
   export type MonthlyIncomeUncheckedUpdateWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
     receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -60984,6 +61445,7 @@ export namespace Prisma {
   export type MonthlyIncomeUncheckedUpdateManyWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
     receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -61196,6 +61658,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -61326,6 +61789,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
     isIncomeUpdated?: boolean | null
+    incomeUpdatedStatus?: $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     createdAt?: Date | string
@@ -61516,6 +61980,7 @@ export namespace Prisma {
     averageIncome: string
     main_id?: string | null
     isUpdated?: boolean | null
+    updatedStatus?: $Enums.DocumentAnalysisStatus
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -61541,6 +62006,7 @@ export namespace Prisma {
   export type MonthlyIncomeCreateManyLegalResponsibleInput = {
     id?: string
     receivedIncome?: boolean | null
+    analysisStatus?: $Enums.DocumentAnalysisStatus
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -61613,6 +62079,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -61677,6 +62144,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -61741,6 +62209,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -61964,6 +62433,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -62035,6 +62505,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -62105,6 +62576,7 @@ export namespace Prisma {
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    incomeUpdatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -62655,6 +63127,7 @@ export namespace Prisma {
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -62684,6 +63157,7 @@ export namespace Prisma {
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -62713,6 +63187,7 @@ export namespace Prisma {
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -62738,6 +63213,7 @@ export namespace Prisma {
   export type MonthlyIncomeUpdateWithoutLegalResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
     receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -62768,6 +63244,7 @@ export namespace Prisma {
   export type MonthlyIncomeUncheckedUpdateWithoutLegalResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
     receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -62798,6 +63275,7 @@ export namespace Prisma {
   export type MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
     receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -62927,6 +63405,7 @@ export namespace Prisma {
     averageIncome: string
     main_id?: string | null
     isUpdated?: boolean | null
+    updatedStatus?: $Enums.DocumentAnalysisStatus
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -62984,6 +63463,7 @@ export namespace Prisma {
   export type MonthlyIncomeCreateManyFamilyMemberInput = {
     id?: string
     receivedIncome?: boolean | null
+    analysisStatus?: $Enums.DocumentAnalysisStatus
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -63137,6 +63617,7 @@ export namespace Prisma {
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -63166,6 +63647,7 @@ export namespace Prisma {
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -63195,6 +63677,7 @@ export namespace Prisma {
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    updatedStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -63316,6 +63799,7 @@ export namespace Prisma {
   export type MonthlyIncomeUpdateWithoutFamilyMemberInput = {
     id?: StringFieldUpdateOperationsInput | string
     receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -63346,6 +63830,7 @@ export namespace Prisma {
   export type MonthlyIncomeUncheckedUpdateWithoutFamilyMemberInput = {
     id?: StringFieldUpdateOperationsInput | string
     receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -63376,6 +63861,7 @@ export namespace Prisma {
   export type MonthlyIncomeUncheckedUpdateManyWithoutFamilyMemberInput = {
     id?: StringFieldUpdateOperationsInput | string
     receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -63650,6 +64136,7 @@ export namespace Prisma {
   export type MonthlyIncomeCreateManyIncomeInput = {
     id?: string
     receivedIncome?: boolean | null
+    analysisStatus?: $Enums.DocumentAnalysisStatus
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -63680,6 +64167,7 @@ export namespace Prisma {
   export type MonthlyIncomeUpdateWithoutIncomeInput = {
     id?: StringFieldUpdateOperationsInput | string
     receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -63710,6 +64198,7 @@ export namespace Prisma {
   export type MonthlyIncomeUncheckedUpdateWithoutIncomeInput = {
     id?: StringFieldUpdateOperationsInput | string
     receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -63740,6 +64229,7 @@ export namespace Prisma {
   export type MonthlyIncomeUncheckedUpdateManyWithoutIncomeInput = {
     id?: StringFieldUpdateOperationsInput | string
     receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    analysisStatus?: EnumDocumentAnalysisStatusFieldUpdateOperationsInput | $Enums.DocumentAnalysisStatus
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
