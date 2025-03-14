@@ -168,7 +168,7 @@ model Entity {
   socialReason               String
   logo                       String?
   CNPJ                       String             @unique
-  normalizedCNPJ             String            @unique
+  normalizedCnpj             String            @unique
   CEP                        String
   address                    String             @default("")
   addressNumber              Int?
@@ -195,7 +195,7 @@ model Entity {
 model EntitySubsidiary {
   id                         String            @id @default(uuid())
   CNPJ                       String            @unique
-    normalizedCNPJ             String            @unique
+    normalizedCnpj             String           @unique
 
   name                       String
   socialReason               String

@@ -37,6 +37,7 @@ import verifyDeclarationRegistration from "@/utils/Trigger-Functions/verify-decl
 import { createBankBalanceHDB, deleteBankBalanceHDB, updateBankBalanceHDB } from "@/HistDatabaseFunctions/handle-bank-balance";
 import { runBackgroundDocumentAnalysis } from "@/utils/AI Assistant/runBackgroundDocumentAnalysis";
 import { CandidateDocuments } from "@prisma/client";
+import { VerifyMonthlyIncomeStatus } from "@/utils/Trigger-Functions/verify-monthlyIncomes-status";
 
 const clientBackup = new Client(env.DATABASE_URL);
 let isConnected = false;
@@ -317,6 +318,7 @@ clientBackup.on('notification', async (msg) => {
                     include: { familyMember: true }
                 })
                 await CalculateMemberAverageIncome(monthlyIncome.data.candidate_id || monthlyIncome.data.familyMember_id || monthlyIncome.data.legalResponsibleId, monthlyIncome.data.incomeSource)
+                await VerifyMonthlyIncomeStatus(monthlyIncome.data.income_id)
                 if (monthlyIncome.operation == 'Update') {
                     await updateMonthlyIncomeHDB(monthlyIncome.data.id)
                 }
