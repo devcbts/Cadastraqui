@@ -2,6 +2,7 @@ import { pdf } from "@react-pdf/renderer"
 import ButtonBase from "Components/ButtonBase"
 import FormFilePicker from "Components/FormFilePicker"
 import FormSelect from "Components/FormSelect"
+import Spinner from "Components/Loader/Spinner"
 import Modal from "Components/Modal"
 import useControlForm from "hooks/useControlForm"
 import { useEffect, useMemo, useState } from "react"
@@ -15,7 +16,7 @@ import { useLegalFiles } from "../useLegalFiles"
 import YearGrid from '../YearGrid'
 import FinalResultPdf from "./FinalResultPdf"
 export default function Announcement() {
-    const { documents, handleUploadFile, handleUpdateFile } = useLegalFiles({ type: 'ANNOUNCEMENT' })
+    const { loading, documents, handleUploadFile, handleUpdateFile } = useLegalFiles({ type: 'ANNOUNCEMENT' })
     const { control, watch, handleSubmit, reset, getValues, formState: { errors } } = useControlForm({
         schema: z.object({
             id: z.string().min(1, 'Selecione o edital'),
@@ -92,6 +93,12 @@ export default function Announcement() {
         const url = URL.createObjectURL(blob)
         window.open(url, '_blank')
 
+    }
+    if (loading) {
+        return <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Spinner size="24" />
+            <strong>Carregando documentos da seção</strong>
+        </div>
     }
 
     return (

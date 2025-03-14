@@ -41,7 +41,10 @@ export default function Modal({ title, text, children, onDestructive, onConfirm,
                                 margin: '24px 16px',
                             }}>
                             <div style={{ display: 'flex', alignSelf: 'flex-end', cursor: 'pointer' }}>
-                                <Close onClick={onClose} height={25} width={25} />
+                                <Close onClick={(e) => {
+                                    e.stopPropagation()
+                                    onClose()
+                                }} height={25} width={25} />
                             </div>
 
                             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: '16px' }}>
@@ -50,8 +53,14 @@ export default function Modal({ title, text, children, onDestructive, onConfirm,
                             </div>
                             {children}
                             <div style={{ display: "flex", gap: "16px", justifyContent: "center" }}>
-                                <ButtonBase onClick={onDestructive ?? onClose} danger>{destructiveText}</ButtonBase>
-                                {onConfirm && <ButtonBase onClick={onConfirm}>{confirmText}</ButtonBase>}
+                                <ButtonBase onClick={(e) => {
+                                    e.stopPropagation()
+                                    onDestructive?.() ?? onClose?.()
+                                }} danger>{destructiveText}</ButtonBase>
+                                {onConfirm && <ButtonBase onClick={(e) => {
+                                    e.stopPropagation()
+                                    onConfirm()
+                                }}>{confirmText}</ButtonBase>}
                             </div>
                         </motion.div>
                     </Overlay>

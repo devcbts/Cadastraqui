@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { ENTITY_GROUP_TYPE_MAPPER } from "utils/enums/entity-group-document-type"
 import { downloadFile } from 'utils/file/download-file'
 import { downloadZip } from 'utils/file/download-zip'
+import FileInfo from '../../FileCard/FileInfo'
 export default function DefaultCard({ type, docs, multiple, onUpdate, onUpload, actions = null }) {
     const [open, setOpen] = useState(false)
     const handleDocs = () => {
@@ -28,6 +29,7 @@ export default function DefaultCard({ type, docs, multiple, onUpdate, onUpload, 
                     >
                         <Edit width={20} height={20} />
                     </CustomFilePicker>}
+                <FileInfo doc={docs[0]} />
             </div>
             {actions}
             {

@@ -10,11 +10,14 @@ export default function DocumentHint({
         setToggleHint((prev) => !prev)
     }
     return (
-        <div style={{ display: 'flex', alignItems: 'center', flex: 1, gap: '8px' }}>
-            {hint && <Help style={{ cursor: 'pointer' }} width={30} height={30} onClick={handleHint} />}
+        <div style={{ display: 'flex', flex: 1, gap: '8px' }}>
+            {hint && <Help style={{ cursor: 'pointer', }} width={30} height={30} onClick={handleHint} />}
             <AnimatePresence>
                 {toggleHint ? <motion.div
-                    style={{ padding: '12px', backgroundColor: 'white', fontSize: '12px', width: 'fit-content', display: 'flex', borderRadius: 8, listStylePosition: 'inside' }}
+                    style={{
+                        padding: '12px', backgroundColor: '#ddd', fontSize: '12px',
+                        width: 'fit-content', display: 'flex', borderRadius: 8, listStylePosition: 'inside', flex: 1
+                    }}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -10 }}

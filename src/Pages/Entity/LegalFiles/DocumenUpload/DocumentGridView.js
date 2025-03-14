@@ -1,10 +1,10 @@
-import CustomFilePicker from "Components/CustomFilePicker"
 import FileCard from "../FileCard"
 import YearGrid from "../YearGrid"
 
 export default function DocumentGridView({
     columns = 2,
     documents = [],
+    onUpdate = () => { },
     title,
     transform = (x) => x,
     year,
@@ -31,9 +31,10 @@ export default function DocumentGridView({
                     !!year
                         ? <YearGrid render={(year) => {
                             return (
-                                <CustomFilePicker key={year} onUpload={(files) => onDocumentClick(files, year)} >
-                                    <FileCard label={year} doc={documents.find(x => x.fields.year === year)} />
-                                </CustomFilePicker>
+                                <FileCard label={year} doc={documents.find(x => x.fields.year === year)}
+                                    onAdd={(files) => onDocumentClick(files, year)}
+                                    onEdit={(id, files) => onUpdate(id, files)}
+                                />
                             )
                         }} />
                         : (transform(documents).length === 0 ? <strong>Nenhum documento</strong> : transform(documents).map((e, i) =>

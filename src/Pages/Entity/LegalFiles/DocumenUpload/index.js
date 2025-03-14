@@ -1,5 +1,6 @@
 import ButtonBase from "Components/ButtonBase"
 import FormFilePicker from "Components/FormFilePicker"
+import Spinner from "Components/Loader/Spinner"
 import Modal from "Components/Modal"
 import useControlForm from "hooks/useControlForm"
 import React, { useState } from "react"
@@ -48,7 +49,7 @@ export default function DocumentUpload({
     form = undefined,
     hint = null
 }) {
-    const { documents, handleUploadFile } = useLegalFiles({ type: type })
+    const { loading, documents, handleUploadFile, handleUpdateFile } = useLegalFiles({ type: type })
     const { control, getValues, handleSubmit, reset } = useControlForm({
         schema: z.object({
             file: z.instanceof(File).nullish().refine(v => !!v, 'Arquivo obrigatório'),
@@ -89,10 +90,15 @@ export default function DocumentUpload({
         }
         return values
     }
-
+    if (loading) {
+        return <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Spinner size="24" />
+            <strong>Carregando documentos da seção</strong>
+        </div>
+    }
     return (
         <>
-            <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: '24px' }}>
 
                 {!gridOptions.year && (
                     add === 'file'
@@ -100,7 +106,7 @@ export default function DocumentUpload({
                         : <ButtonBase label={'Novo'} onClick={handleModal} />
                 )}
                 <DocumentHint hint={hint} />
-                {documents.length > 0 && !gridOptions.year && <ButtonBase label={'Baixar tudo'} onClick={() => {
+                {documents.length > 0 && <ButtonBase style={{ alignSelf: 'start' }} label={'Baixar tudo'} onClick={() => {
                     downloadZip(documents.map(e => ({ filename: e.name, url: e.url })))
                 }} />}
             </div>
@@ -113,6 +119,7 @@ export default function DocumentUpload({
             )}
             <DocumentGridView
                 documents={documents}
+                onUpdate={(id, files) => handleUpdateFile({ id: id, files: files })}
                 {...gridOptions}
                 {...((!!gridOptions.year) && {
                     onDocumentClick: (

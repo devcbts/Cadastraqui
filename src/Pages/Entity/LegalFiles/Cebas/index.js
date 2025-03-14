@@ -3,11 +3,13 @@ import ButtonBase from "Components/ButtonBase"
 import FilePreview from "Components/FilePreview"
 import FormFilePicker from "Components/FormFilePicker"
 import InputForm from 'Components/InputForm'
+import Spinner from 'Components/Loader/Spinner'
 import Modal from "Components/Modal"
 import useControlForm from "hooks/useControlForm"
 import { useState } from "react"
 import { ENTITY_GROUP_TYPE, ENTITY_GROUP_TYPE_MAPPER } from "utils/enums/entity-group-document-type"
 import { ENTITY_LEGAL_FILE } from "utils/enums/entity-legal-files-type"
+import FileInfo from '../FileCard/FileInfo'
 import GroupedDocumentsGrid from "../GroupedDocumentsGrid"
 import { useLegalFiles } from "../useLegalFiles"
 import { cebasSchema } from './schema'
@@ -23,7 +25,7 @@ export default function Cebas() {
         }
     }
     const [selectedFile, setSelectedFile] = useState(initialFileState)
-    const { documents, handleUploadFile, handleUpdateFile } = useLegalFiles({ type: 'CEBAS' })
+    const { loading, documents, handleUploadFile, handleUpdateFile } = useLegalFiles({ type: 'CEBAS' })
     const { control, handleSubmit, reset, getValues } = useControlForm({
         schema: cebasSchema(selectedFile.type),
         defaultValues: selectedFile.info
@@ -97,6 +99,12 @@ export default function Cebas() {
         }
         return false
     }
+    if (loading) {
+        return <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Spinner size="24" />
+            <strong>Carregando documentos da seção</strong>
+        </div>
+    }
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'flex', gap: '12px' }}>
@@ -122,24 +130,27 @@ export default function Cebas() {
                         <div style={{ display: "flex", alignItems: 'center', gap: '4px' }}>
                             {ENTITY_GROUP_TYPE_MAPPER[type]}
                             {docs.length === 1 &&
-                                <Edit width={20} height={20} style={{ cursor: 'pointer' }} onClick={() => {
-                                    setSelectedFile((prev) => {
-                                        const values = {
-                                            ...prev.info,
-                                            ...(type === ENTITY_GROUP_TYPE.CEBAS_CERTIFICATE && { certificate: fields[0] }),
-                                            ...(type === ENTITY_GROUP_TYPE.CEBAS_EXTENSION && { deadline: fields[0] })
+                                <>
+                                    <Edit width={20} height={20} style={{ cursor: 'pointer' }} onClick={() => {
+                                        setSelectedFile((prev) => {
+                                            const values = {
+                                                ...prev.info,
+                                                ...(type === ENTITY_GROUP_TYPE.CEBAS_CERTIFICATE && { certificate: fields[0] }),
+                                                ...(type === ENTITY_GROUP_TYPE.CEBAS_EXTENSION && { deadline: fields[0] })
+                                            }
+                                            return ({
+                                                id: docs[0].id,
+                                                type,
+                                                info: values
+                                            })
+
                                         }
-                                        return ({
-                                            id: docs[0].id,
-                                            type,
-                                            info: values
-                                        })
+                                        )
 
-                                    }
-                                    )
-
-                                    handleModal()
-                                }} />
+                                        handleModal()
+                                    }} />
+                                    <FileInfo doc={docs?.[0]} />
+                                </>
                             }
                         </div>
                         {docs.length === 0

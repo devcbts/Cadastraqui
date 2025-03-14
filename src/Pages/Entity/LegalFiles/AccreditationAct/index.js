@@ -1,6 +1,7 @@
 import ButtonBase from "Components/ButtonBase"
 import FilePreview from "Components/FilePreview"
 import FormFilePicker from "Components/FormFilePicker"
+import Spinner from "Components/Loader/Spinner"
 import Modal from "Components/Modal"
 import useControlForm from "hooks/useControlForm"
 import { useState } from "react"
@@ -12,7 +13,7 @@ import GroupedDocumentsGrid from "../GroupedDocumentsGrid"
 import { useLegalFiles } from "../useLegalFiles"
 
 export default function AccreditationAct() {
-    const { documents, handleUploadFile } = useLegalFiles({ type: "ACCREDITATION_ACT" })
+    const { loading, documents, handleUploadFile } = useLegalFiles({ type: "ACCREDITATION_ACT" })
     const [openModal, setOpenModal] = useState(false)
     const { control, handleSubmit, getValues, reset } = useControlForm({
         schema: z.object({
@@ -42,7 +43,12 @@ export default function AccreditationAct() {
             group
         })
     }
-
+    if (loading) {
+        return <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Spinner size="24" />
+            <strong>Carregando documentos da seção</strong>
+        </div>
+    }
     return (
         <>
             <div style={{ display: 'flex', gap: '12px' }}>

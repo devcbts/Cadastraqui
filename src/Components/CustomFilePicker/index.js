@@ -23,7 +23,7 @@ export default function CustomFilePicker({
             e.stopPropagation()
             console.log(e.isPropagationStopped())
             ref.current.click()
-        }} style={{ cursor: 'pointer' }} >
+        }} style={{ cursor: 'pointer', display: 'flex' }} >
             {children}
         </div>
     </>)

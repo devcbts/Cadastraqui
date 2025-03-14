@@ -3,11 +3,13 @@ import ButtonBase from "Components/ButtonBase"
 import FilePreview from 'Components/FilePreview'
 import FormFilePicker from "Components/FormFilePicker"
 import InputForm from "Components/InputForm"
+import Spinner from 'Components/Loader/Spinner'
 import Modal from "Components/Modal"
 import useControlForm from "hooks/useControlForm"
 import { useState } from "react"
 import { ENTITY_GROUP_TYPE, ENTITY_GROUP_TYPE_MAPPER } from "utils/enums/entity-group-document-type"
 import { ENTITY_LEGAL_FILE } from "utils/enums/entity-legal-files-type"
+import FileInfo from '../FileCard/FileInfo'
 import GroupedDocumentsGrid from "../GroupedDocumentsGrid"
 import { useLegalFiles } from "../useLegalFiles"
 import YearGrid from '../YearGrid'
@@ -23,7 +25,7 @@ export default function InformationRequest() {
     }
     const [selectedFile, setSelectedFile] = useState(initialFileState)
     const [selectedYear, setSelectedYear] = useState()
-    const { documents, handleUploadFile, handleUpdateFile } = useLegalFiles({ type: 'INFORMATION_REQUEST' })
+    const { loading, documents, handleUploadFile, handleUpdateFile } = useLegalFiles({ type: 'INFORMATION_REQUEST' })
     const { control, handleSubmit, reset, getValues } = useControlForm({
         schema: informationRequestSchema(selectedFile.type),
         defaultValues: selectedFile.info
@@ -59,6 +61,7 @@ export default function InformationRequest() {
             fields: fields,
             files: files,
         })
+        handleModal()
     }
 
     const handleUpload = async () => {
@@ -101,6 +104,12 @@ export default function InformationRequest() {
         }
         return false
     }
+    if (loading) {
+        return <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Spinner size="24" />
+            <strong>Carregando documentos da seção</strong>
+        </div>
+    }
     return (
         <>
             <strong>Solicitações de esclarecimentos e informações à entidade interessada (diligências - se houver e/ou processo de supervisão)</strong>
@@ -109,6 +118,7 @@ export default function InformationRequest() {
                     onClick: setSelectedYear
                 }}
                 render={(year) => {
+
                     return (
                         <>
                             <strong>{year}</strong>
@@ -136,24 +146,28 @@ export default function InformationRequest() {
                             <div style={{ display: "flex", alignItems: 'center', gap: '4px' }}>
                                 {ENTITY_GROUP_TYPE_MAPPER[type]}
                                 {docs.length === 1 &&
-                                    <Edit width={20} height={20} style={{ cursor: 'pointer' }} onClick={() => {
-                                        setSelectedFile((prev) => {
-                                            const values = {
-                                                ...prev.info,
-                                                ...(type === ENTITY_GROUP_TYPE.INFORMATION_REQUEST_CERTIFICATE && { certificate: fields[0] }),
-                                                ...(type === ENTITY_GROUP_TYPE.INFORMATION_REQUEST_ANSWER && { answer: fields[0] })
+                                    <>
+                                        <Edit width={20} height={20} style={{ cursor: 'pointer' }} onClick={() => {
+                                            setSelectedFile((prev) => {
+                                                const values = {
+                                                    ...prev.info,
+                                                    ...(type === ENTITY_GROUP_TYPE.INFORMATION_REQUEST_CERTIFICATE && { certificate: fields[0] }),
+                                                    ...(type === ENTITY_GROUP_TYPE.INFORMATION_REQUEST_ANSWER && { answer: fields[0] })
+                                                }
+                                                return ({
+                                                    id: docs[0].id,
+                                                    type,
+                                                    info: values
+                                                })
+
                                             }
-                                            return ({
-                                                id: docs[0].id,
-                                                type,
-                                                info: values
-                                            })
+                                            )
 
-                                        }
-                                        )
+                                            handleModal()
+                                        }} />
+                                        <FileInfo doc={docs?.[0]} />
 
-                                        handleModal()
-                                    }} />
+                                    </>
                                 }
                             </div>
                             {docs.length === 0

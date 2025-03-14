@@ -6,15 +6,18 @@ export function useLegalFiles({
     type
 }) {
     const [documents, setDocuments] = useState([])
-
+    const [loading, setLoading] = useState(true)
     useEffect(() => {
 
         const fetch = async () => {
             try {
+                setLoading(true)
                 const response = await entityService.getLegalFiles(type)
                 setDocuments(response.documents)
             } catch (err) {
                 NotificationService.error({ text: err?.response?.data?.message })
+            } finally {
+                setLoading(false)
             }
         }
         fetch()
@@ -99,6 +102,6 @@ export function useLegalFiles({
         }
     }
 
-    return { documents, handleUploadFile, handleUpdateFile }
+    return { loading, documents, handleUploadFile, handleUpdateFile }
 
 }

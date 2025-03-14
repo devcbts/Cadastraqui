@@ -1,18 +1,19 @@
-import { ReactComponent as Help } from 'Assets/icons/question-mark.svg'
-import Modal from 'Components/Modal'
-import { useState } from 'react'
+import { ReactComponent as NewDocument } from 'Assets/icons/fileCirclePlus.svg'
+import { ReactComponent as Edit } from 'Assets/icons/pencil.svg'
+import CustomFilePicker from 'Components/CustomFilePicker'
 import { downloadFile } from 'utils/file/download-file'
-import getLegalFields from '../get-fields'
-
+import FileInfo from './FileInfo'
 export default function FileCard({
     label,
     doc,
+    onAdd,
+    multiple = false,
+    onEdit,
     ...props
 }) {
-    const [showInfo, setShowInfo] = useState(false)
-    const handleModal = () => {
-        setShowInfo(prev => !prev)
-    }
+
+
+
     return (
         <div style={{
             backgroundColor: '#fff',
@@ -25,7 +26,8 @@ export default function FileCard({
             marginBottom: '8px',
             flexDirection: 'column',
             placeSelf: 'center',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            boxShadow: '0px 0px 8px .1px #999'
         }}
             {...props}
         >
@@ -33,17 +35,21 @@ export default function FileCard({
                 padding: '16px 24px',
 
             }}>
+
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                     <strong >{label}</strong>
-                    {(!!doc?.fields && JSON.stringify(doc?.fields) !== "{}") ?
-
-
-                        <Help height={22} onClick={(e) => {
-                            e.stopPropagation()
-                            handleModal()
-                        }}
-                            style={{ cursor: 'pointer' }} />
-                        : null}
+                    {(!!doc) ?
+                        <>
+                            {onEdit && <CustomFilePicker onUpload={(file) => onEdit(doc.id, file[0])}>
+                                <Edit height={22} />
+                            </CustomFilePicker>}
+                            <FileInfo doc={doc} />
+                        </>
+                        : <>
+                            {onAdd && <CustomFilePicker onUpload={(file) => onAdd(file)} multiple={multiple}>
+                                <NewDocument />
+                            </CustomFilePicker>}
+                        </>}
                 </div>
             </div>
             <div style={{
@@ -79,18 +85,8 @@ export default function FileCard({
                     )
                 }
             </div>
-            <Modal onClose={handleModal}
-                open={showInfo}
-                destructiveText='Fechar'
-                onConfirm={null}
-                text={'Informações do documento'}
-            >
-                <div style={{ padding: 16, display: 'flex', flexDirection: 'column' }}>
-                    {getLegalFields(doc?.fields).map(x => (
-                        <strong>{x}</strong>
-                    ))}
-                </div>
-            </Modal>
+
+
         </div>
     )
 }

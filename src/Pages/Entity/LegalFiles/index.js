@@ -1,8 +1,7 @@
 import DeclaracaoArt5 from 'Assets/templates/declaracao_art_5.docx'
-import Accordion from "Components/Accordion"
 import ButtonBase from "Components/ButtonBase"
 import InputForm from "Components/InputForm"
-import React, { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { z } from "zod"
 import AccreditationAct from './AccreditationAct'
 import Announcement from './Announcement'
@@ -352,17 +351,43 @@ export default function EntityLegalFiles() {
             Component: <InformationRequest />
         },
     ], [])
-
+    const [index, setIndex] = useState(0)
+    const [selecting, setSelecting] = useState(false)
     return (
         <>
             <h1>Arquivos da Instituição</h1>
-            {config.map((e, i) => (
+            <div style={{ display: 'flex', gap: 24, marginTop: 24 }}>
+
+                <div style={{
+                    display: 'flex', flexDirection: 'column',
+                    maxHeight: 'calc(80vh)',
+                    overflowY: 'scroll',
+                    overflowX: 'hidden'
+                }}>
+                    {config.map((x, i) => (
+                        <div style={{
+                            // color: index === i ? 'white' : '',
+                            backgroundColor: index !== i ? 'white' : '#bbb',
+                            maxWidth: 220,
+                        }}>
+                            <strong
+                                style={{ fontSize: 14, textOverflow: 'ellipsis', wordBreak: 'unset' }}
+                                onClick={() => setIndex(i)}>{x.title}</strong>
+                        </div>
+                    ))}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+
+                    {config[index].Component}
+                </div>
+            </div>
+            {/* {config.map((e, i) => (
                 <div style={{ marginBottom: 16 }}>
                     <Accordion key={e.title} title={e.title} >
                         {React.isValidElement(e.Component) ? e.Component : <e.Component />}
                     </Accordion>
                 </div>
-            ))}
+            ))} */}
         </>
     )
 }
