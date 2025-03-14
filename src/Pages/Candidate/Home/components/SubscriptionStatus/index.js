@@ -5,18 +5,22 @@ import { ReactComponent as Family } from 'Assets/icons/family.svg';
 import { ReactComponent as House } from 'Assets/icons/house.svg';
 import { ReactComponent as List } from 'Assets/icons/list.svg';
 import { ReactComponent as Money } from 'Assets/icons/money.svg';
+import { ReactComponent as Help } from 'Assets/icons/question-mark.svg';
+import { ReactComponent as Siren } from 'Assets/icons/siren.svg';
 import { ReactComponent as User } from 'Assets/icons/user.svg';
+import AIAnalysisIndicator from 'Components/AIAnalysisIndicator';
+import Card from 'Components/Card/CardRoot';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Pie, PieChart } from 'recharts';
 import candidateService from 'services/candidate/candidateService';
 import styles from './styles.module.scss';
-import Card from 'Components/Card/CardRoot';
-import { ReactComponent as Siren } from 'Assets/icons/siren.svg'
-import { ReactComponent as Help } from 'Assets/icons/question-mark.svg'
-import { AnimatePresence, motion } from 'framer-motion';
 export default function SubscriptionStatus() {
     const [data, setData] = useState([])
+    const [analysisStatus, setAnalysisStatus] = useState({
+        renda: undefined
+    })
     const navigate = useNavigate()
     const max = 8
     const [showHelp, setShowHelp] = useState(false)
@@ -24,6 +28,9 @@ export default function SubscriptionStatus() {
         const fetchProgress = async () => {
             try {
                 const progress = await candidateService.getProgress()
+                setAnalysisStatus({
+                    renda: progress.rendaMensalStatus
+                })
                 setData(Object.entries(progress).filter(([key]) => sections.some(e => e.name === key)).map(([key, val]) => ({ name: key, value: val ? 1 : 0 })))
             } catch (err) { }
         }
@@ -88,17 +95,24 @@ export default function SubscriptionStatus() {
                             const Component = icon
                             const step = index + 1
                             return (
-                                <Component
-                                    key={index}
-                                    tabIndex={0}
-                                    aria-label={title}
-                                    title={`${title} - ${!!data?.find(e => e.name === name)?.value ? 'completo' : 'incompleto'}`}
-                                    style={{ cursor: 'pointer', color: !!data?.find(e => e.name === name)?.value && '#499468', clipPath: 'circle()' }}
-                                    onClick={() => navigate('/formulario-inscricao', { state: { step } })}
-                                    height={30}
-                                    width={30}
-                                    color='#1F4B73'
-                                />
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center', alignSelf: 'flex-end' }}>
+                                    {name === 'rendaMensal' && <AIAnalysisIndicator status={analysisStatus.renda} />}
+                                    <Component
+                                        key={index}
+                                        tabIndex={0}
+                                        aria-label={title}
+                                        title={`${title} - ${!!data?.find(e => e.name === name)?.value ? 'completo' : 'incompleto'}`}
+                                        style={{
+                                            cursor: 'pointer', color: !!data?.find(e => e.name === name)?.value && '#499468',
+                                            clipPath: 'circle()'
+                                        }}
+                                        onClick={() => navigate('/formulario-inscricao', { state: { step } })}
+                                        height={30}
+                                        width={30}
+                                        color='#1F4B73'
+                                    />
+
+                                </div>
                             )
                         })}
 

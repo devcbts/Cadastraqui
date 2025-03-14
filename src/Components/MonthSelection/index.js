@@ -141,9 +141,16 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
 
                     {
                         watchMonths.map((month, index) => (
-                            <div key={month.dateString} style={{ display: 'grid', gridTemplateColumns: !!sideInfo ? '1fr min-content' : '1fr', gap: '12px', alignItems: 'baseline' }}>
+                            <div key={month.dateString}
+                                style={{
+                                    display: 'grid', gridTemplateColumns: !!sideInfo ? '1fr min-content' : '1fr',
+                                    gap: '12px', alignItems: 'baseline'
+                                }}>
                                 <div className={styles.wrapper}>
-                                    <div style={checkRegister ? { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '20px' } : {}} key={month.dateString}>
+                                    <div style={checkRegister ? {
+                                        display: 'flex', flexDirection: 'row',
+                                        alignItems: 'center', justifyContent: 'center', gap: '20px'
+                                    } : {}} key={month.dateString}>
                                         <ButtonBase
                                             disabled={checkRegister ? month.skipMonth : false}
                                             // label={month.dateString}

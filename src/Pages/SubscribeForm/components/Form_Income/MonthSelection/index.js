@@ -1,6 +1,7 @@
 import { ReactComponent as Error } from 'Assets/icons/error.svg';
 import { ReactComponent as Help } from 'Assets/icons/question-mark.svg';
 import { ReactComponent as Upload } from 'Assets/icons/upload.svg';
+import AIAnalysisIndicator from 'Components/AIAnalysisIndicator';
 import Spinner from 'Components/Loader/Spinner';
 import moneyInputMask from "Components/MoneyFormInput/money-input-mask";
 import MonthSelection from "Components/MonthSelection";
@@ -203,6 +204,9 @@ const IncomeMonthSelection = forwardRef(({ data, render = [], viewMode }, ref) =
                                     }
                                 </>
                             }
+                            <AIAnalysisIndicator
+                                status={month?.analysisStatus}
+                            />
                         </div>)
                 }}
                 checkRegister={true}

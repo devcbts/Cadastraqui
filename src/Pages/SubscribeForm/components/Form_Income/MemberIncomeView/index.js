@@ -1,16 +1,15 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
+import AIAnalysisIndicator from 'Components/AIAnalysisIndicator'
 import ButtonBase from "Components/ButtonBase"
-import { useEffect, useRef, useState } from "react"
-import candidateService from "services/candidate/candidateService"
-import { NotificationService } from "services/notification"
+import Indicator from 'Components/Indicator'
+import moneyInputMask from 'Components/MoneyFormInput/money-input-mask'
+import { useState } from "react"
 import FormBankAccount from "../../Form_BankAccount"
 import BankReport from '../../Form_BankAccount/components/BankReport'
 import FormList from "../../FormList"
 import FormListItem from "../../FormList/FormListItem"
 import styles from './styles.module.scss'
-import Indicator from 'Components/Indicator'
 import useMemberIncomeView from './useMemberIncomeView'
-import moneyInputMask from 'Components/MoneyFormInput/money-input-mask'
 
 export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
     // // showpagetype can be 'income', 'accounts' or 'report'
@@ -77,6 +76,9 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                                 return (
                                     <FormListItem.Root text={item.income.label}>
                                         <FormListItem.Actions>
+                                            <AIAnalysisIndicator
+                                                status={item?.analysisStatus}
+                                            />
                                             <ButtonBase label={"visualizar"} onClick={() => onSelect({ member: member, income: item, info: incomeInfo?.info.find(e => e.employmentType === item.income.value) })} />
                                             {!readOnlyUser && <ButtonBase label={"excluir"} onClick={() => handleDeleteIncome(item)} danger />}
                                         </FormListItem.Actions>

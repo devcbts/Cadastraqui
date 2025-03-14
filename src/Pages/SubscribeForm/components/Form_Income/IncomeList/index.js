@@ -1,18 +1,12 @@
+import AIAnalysisIndicator from "Components/AIAnalysisIndicator";
 import ButtonBase from "Components/ButtonBase";
-import { useEffect, useMemo, useState } from "react";
-import candidateService from "services/candidate/candidateService";
+import Indicator from "Components/Indicator";
+import useSubscribeFormPermissions from "Pages/SubscribeForm/hooks/useSubscribeFormPermissions";
+import { useEffect, useState } from "react";
 import FormList from "../../FormList";
 import FormListItem from "../../FormList/FormListItem";
 import MemberIncomeView from "../MemberIncomeView";
 import styles from './styles.module.scss';
-import { NotificationService } from "services/notification";
-import Indicator from "Components/Indicator";
-import useAuth from "hooks/useAuth";
-import socialAssistantService from "services/socialAssistant/socialAssistantService";
-import { useRecoilValue } from "recoil";
-import ROLES from "utils/enums/role-types";
-import applicationService from "services/application/applicationService";
-import useSubscribeFormPermissions from "Pages/SubscribeForm/hooks/useSubscribeFormPermissions";
 
 export default function IncomeList({ onSelect, onAdd, initialMember }) {
 
@@ -51,6 +45,9 @@ export default function IncomeList({ onSelect, onAdd, initialMember }) {
                 <FormList.List list={members?.incomes} text={'Cadastre um membro em seu grupo familiar para cadastrar um tipo de renda'} render={(item) => (
                     <FormListItem.Root text={item.name}>
                         <FormListItem.Actions>
+                            <AIAnalysisIndicator
+                                status={item?.analysisStatus}
+                            />
                             <Indicator
                                 status={item?.isIncomeUpdated}
                             />

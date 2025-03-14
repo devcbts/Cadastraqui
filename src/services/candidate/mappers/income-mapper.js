@@ -1,5 +1,4 @@
-import INCOME_SOURCE from "utils/enums/income-source"
-import { formatCurrency } from "utils/format-currency";
+import INCOME_SOURCE from "utils/enums/income-source";
 import removeObjectFileExtension from "utils/remove-file-ext";
 
 class IncomeMapper {
@@ -14,8 +13,10 @@ class IncomeMapper {
             "advancePaymentValue", "reversalValue", "compensationValue", "judicialPensionValue", "proLabore", "dividends", "parcelValue", "deductionValue",
             "parcels", "parcelValue"
         ];
+        console.log(data.map(e => e))
         const mappedData = data.map((obj) => ({
             income: INCOME_SOURCE.find((e) => e.value === obj.incomeSource),
+            analysisStatus: obj.analysisStatus,
             // list: data[key].map(e => ({ ...e, url_document: Object.values(removeObjectFileExtension(e.urls))?.[0] }))
             list: obj.monthlyIncomes.map(e => {
                 const obj = Object.entries(e).reduce((acc, [objKey, objValue]) => {
