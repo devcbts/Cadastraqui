@@ -6,3 +6,4 @@ docker-compose.yml
 .vercel
 .env.*
 .vscode
+./backup_prisma/generated

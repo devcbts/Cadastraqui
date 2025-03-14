@@ -22,7 +22,11 @@ export async function registerBankingInfo(
             entryBalance: z.number().refine(e => e > 0),
             outflowBalance: z.number().refine(e => e > 0),
             totalBalance: z.number().refine(e => e > 0),
-            date: z.string().transform(e => new Date(e))
+            date: z.string().transform(e => {
+                const date = new Date(e)
+                date.setHours(0)
+                return date
+            })
         }))
     })
 

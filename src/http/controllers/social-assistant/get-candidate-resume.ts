@@ -73,7 +73,8 @@ export async function getCandidateResume(
         const candidate = application.candidate
 
         const candidateHDB = await historyDatabase.candidate.findUnique({
-            where: { application_id }
+            where: { application_id },
+            select: { CPF: true, id: true }
         })
 
         const candidateOrResponsibleHDB = await SelectCandidateResponsibleHDB(application_id)
@@ -299,18 +300,34 @@ export async function getCandidateResume(
             status: application.status
         }
 
+        const solicitationFolder = `SolicitationDocuments/${application.id}`
 
         // Documentos de solicitações
-        const majoracao = await getAssistantDocumentsPDF_HDB(application_id, 'majoracao')
-        const interviewDocument = await getAssistantDocumentsPDF_HDB(application_id, 'Interview')
-        const visitDocument = await getAssistantDocumentsPDF_HDB(application_id, 'Visit')
+        const [majoracao,
+            interviewDocument,
+            visitDocument,
+            solicitationsUrls,
+            familyMembersCNPJ
+        ] = await Promise.all([
+            getAssistantDocumentsPDF_HDB(application_id, 'majoracao'),
+            getAssistantDocumentsPDF_HDB(application_id, 'Interview'),
+            getAssistantDocumentsPDF_HDB(application_id, 'Interview'),
+            getSignedUrlsGroupedByFolder(solicitationFolder),
+            historyDatabase.applicationMembersCNPJ.findMany({
+                where: { application_id },
+                include: { FoundApplicationCNPJ: true }
+            })
+        ])
+        const [solicitations, interviews] = await prisma.$transaction([
+            prisma.requests.findMany({
+                where: { AND: [{ application_id }, { type: 'Document' }] },
 
-        const solicitations = await prisma.requests.findMany({
-            where: { AND: [{ application_id }, { type: 'Document' }] },
-
-        })
-        const solicitationFolder = `SolicitationDocuments/${application.id}`
-        const solicitationsUrls = await getSignedUrlsGroupedByFolder(solicitationFolder);
+            }),
+            prisma.interviewSchedule.findMany({
+                where: { application_id, InterviewRealized: true },
+                distinct: ['interviewType'],
+            })
+        ])
         const solicitationsFiltered = solicitations.map((solicitation) => {
             const solicitationDocument = Object.entries(solicitationsUrls).filter(([url]) => url.split('/')[2] === solicitation.id)
             return {
@@ -319,18 +336,7 @@ export async function getCandidateResume(
             }
         })
 
-        const interviews = await prisma.interviewSchedule.findMany({
-            where: { application_id, InterviewRealized: true },
-            distinct: ['interviewType'],
-        });
-
-
-        // CNPJS 
-
-        const familyMembersCNPJ = await historyDatabase.applicationMembersCNPJ.findMany({
-            where: { application_id },
-            include: { FoundApplicationCNPJ: true }
-        })
+       
 
         const familyMembersCNPJFiltered = familyMembersCNPJ.map((memberCNPJ) => {
             const member = familyMembers.find((member) => member.id === memberCNPJ.member_id)
