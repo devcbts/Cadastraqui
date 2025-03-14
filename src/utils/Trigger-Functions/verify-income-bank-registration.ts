@@ -1,3 +1,4 @@
+import { DocumentAnalysisStatus } from "@prisma/client";
 import { prisma } from "../../lib/prisma";
 import { calculateAge } from "../calculate-age";
 import { SelectCandidateResponsible } from "../select-candidate-responsible";
@@ -25,6 +26,7 @@ export async function verifyIncomeBankRegistration(id: string) {
         isResponsible = candidateOrResponsible.IsResponsible;
     }
 
+  let updatedStatus : DocumentAnalysisStatus = 'Approved'
 
     let update;
     update = true;
@@ -37,7 +39,13 @@ export async function verifyIncomeBankRegistration(id: string) {
         if (hasIncome.some(income => income.isUpdated === false) || hasIncome.length === 0) {
             update = false;
         }
-
+        if (hasIncome.some(income => income.updatedStatus === 'Forced')) {
+            updatedStatus = 'Forced'
+        }
+        if (hasIncome.some(income => income.updatedStatus === 'Declined')) {
+            update= false;
+            updatedStatus = 'Declined'
+        }
 
         if (familyMember.hasBankAccount) {
             const hasBankAccount = await prisma.bankAccount.findMany({
@@ -83,7 +91,9 @@ export async function verifyIncomeBankRegistration(id: string) {
                 id
             },
             data: {
-                isIncomeUpdated: update
+                isIncomeUpdated: update,
+                incomeUpdatedStatus: updatedStatus
+
             }
         })
     } else {
@@ -152,8 +162,9 @@ export async function verifyIncomeBankRegistration(id: string) {
                 id: identityDetails.id
             },
             data: {
-                isIncomeUpdated: update
-            }
+                isIncomeUpdated: update,
+                incomeUpdatedStatus: updatedStatus
+            }   
         })
 
 

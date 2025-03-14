@@ -35,6 +35,8 @@ import { IdentityDetails, FamilyMember } from '../../backup_prisma/generated/cli
 import { prisma } from './prisma';
 import verifyDeclarationRegistration from "@/utils/Trigger-Functions/verify-declaration-registration";
 import { createBankBalanceHDB, deleteBankBalanceHDB, updateBankBalanceHDB } from "@/HistDatabaseFunctions/handle-bank-balance";
+import { runBackgroundDocumentAnalysis } from "@/utils/AI Assistant/runBackgroundDocumentAnalysis";
+import { CandidateDocuments } from "@prisma/client";
 
 const clientBackup = new Client(env.DATABASE_URL);
 let isConnected = false;
@@ -113,8 +115,12 @@ clientBackup.on('notification', async (msg) => {
                         case 'registrato':
                             await verifyIncomeBankRegistration(document.data.tableId)
                             break;
+                        case 'identity':
+                            const documentData : CandidateDocuments = document.data
+                            await runBackgroundDocumentAnalysis({documentPath: documentData.path, tableName: documentData.tableName,tableId: documentData.tableId , metadata: documentData.metadata}) 
+                            break;
                             
-
+                            
                     }
                 }
                 break;

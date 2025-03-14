@@ -1,7 +1,8 @@
+import { Candidate, LegalResponsible } from "@prisma/client";
 import { prisma } from "../lib/prisma";
 
 //This function is similar to ChooseCandidateResponsible, but it diferentiates the candidate from the responsible by the id
-export async function SelectCandidateResponsible(identifier: string): Promise<{ IsResponsible: boolean, UserData: any } | null> {
+export async function SelectCandidateResponsible(identifier: string): Promise<{ IsResponsible: boolean, UserData: LegalResponsible | Candidate } | null> {
 
     const candidate = await prisma.candidate.findFirst({
         where: { OR: [{ id: identifier }, { user_id: identifier }] },
@@ -11,12 +12,13 @@ export async function SelectCandidateResponsible(identifier: string): Promise<{ 
         where: { OR: [{ id: identifier }, { user_id: identifier }] },
     });
 
-    if (!candidate && !responsible) {
-        return null;
-    }
 
     if (responsible) {
-        return { IsResponsible: true, UserData: responsible };
+        return { IsResponsible: true, UserData: responsible as LegalResponsible };
     }
-    return { IsResponsible: false, UserData: candidate };
+    if(candidate){
+
+        return { IsResponsible: false, UserData: candidate as Candidate };
+    }
+    return null;
 }

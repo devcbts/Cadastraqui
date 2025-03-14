@@ -16,7 +16,7 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 
 
-export async function runBackgroundDocumentAnalysis({ documentPath, tableName, tableId, metadata }: { documentPath: string, tableName: string, tableId: string, metadata: Prisma.JsonObject }) {
+export async function runBackgroundDocumentAnalysis({ documentPath, tableName, tableId, metadata }: { documentPath: string, tableName: string, tableId: string, metadata: Prisma.JsonValue }) {
 
     let document
     try {

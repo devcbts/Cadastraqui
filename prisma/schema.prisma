@@ -168,6 +168,7 @@ model Entity {
   socialReason               String
   logo                       String?
   CNPJ                       String             @unique
+  normalizedCNPJ             String            @unique
   CEP                        String
   address                    String             @default("")
   addressNumber              Int?
@@ -176,6 +177,7 @@ model Entity {
   city                       String             @default("")
   educationalInstitutionCode String?
   emec                       String?
+
   user_id                    String             @unique
   Announcement               Announcement[]
   EntityDirector             EntityDirector[]
@@ -193,6 +195,8 @@ model Entity {
 model EntitySubsidiary {
   id                         String            @id @default(uuid())
   CNPJ                       String            @unique
+    normalizedCNPJ             String            @unique
+
   name                       String
   socialReason               String
   CEP                        String
@@ -229,23 +233,22 @@ model EntityDirector {
 }
 
 model IdentityDetails {
-  id                               String         @id @default(uuid())
-  fullName                         String
-  socialName                       String?
-  birthDate                        DateTime
-  gender                           GENDER
-  nationality                      String
-  natural_city                     String
-  natural_UF                       COUNTRY
-  CPF                              String?        @unique
-  RG                               String         @unique
-  rgIssuingAuthority               String
-  rgIssuingState                   String
-  documentType                     DOCUMENT_TYPE?
-  CadUnico                         Boolean        @default(false)
-  hasSevereDeseaseOrUsesMedication Boolean?
-  hasBankAccount                   Boolean?       @default(true)
-
+  id                                         String            @id @default(uuid())
+  fullName                                   String
+  socialName                                 String?
+  birthDate                                  DateTime
+  gender                                     GENDER
+  nationality                                String
+  natural_city                               String
+  natural_UF                                 COUNTRY
+  CPF                                        String?           @unique
+  RG                                         String            @unique
+  rgIssuingAuthority                         String
+  rgIssuingState                             String
+  documentType                               DOCUMENT_TYPE?
+  CadUnico                                   Boolean           @default(false)
+  hasSevereDeseaseOrUsesMedication           Boolean?
+  hasBankAccount                             Boolean?          @default(true)
   documentNumber                             String?
   documentValidity                           DateTime?
   maritalStatus                              MARITAL_STATUS
@@ -292,6 +295,8 @@ model IdentityDetails {
   createdAt                                  DateTime          @default(now())
   updatedAt                                  DateTime          @default(now()) @updatedAt
   isIncomeUpdated                            Boolean?
+    incomeUpdatedStatus                        DocumentAnalysisStatus  @default(Approved)
+
 }
 
 model FamilyMember {
@@ -361,8 +366,10 @@ model FamilyMember {
   hasSevereDeseaseOrUsesMedication           Boolean?
   hasBankAccount                             Boolean?                @default(true)
   isIncomeUpdated                            Boolean?
-  createdAt                                  DateTime                @default(now())
-  updatedAt                                  DateTime                @default(now()) @updatedAt
+  incomeUpdatedStatus                        DocumentAnalysisStatus  @default(Approved)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@map("familyMembers")
 }
@@ -412,9 +419,10 @@ model Vehicle {
 }
 
 model FamilyMemberIncome {
-  id                    String            @id @default(uuid())
+  id                    String                 @id @default(uuid())
   employmentType        EmploymentType
-  isUpdated             Boolean?          @default(true)
+  isUpdated             Boolean?               @default(true)
+  updatedStatus         DocumentAnalysisStatus @default(Approved)
   averageIncome         String
   admissionDate         DateTime?
   position              String?
@@ -431,11 +439,11 @@ model FamilyMemberIncome {
   firstParcelDate       DateTime?
   parcelValue           Float?
   familyMember_id       String?
-  quantity              Int               @default(3)
-  familyMember          FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
-  candidate             Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  quantity              Int                    @default(3)
+  familyMember          FamilyMember?          @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  candidate             Candidate?             @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id          String?
-  LegalResponsible      LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  LegalResponsible      LegalResponsible?      @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId    String?
 
   createdAt      DateTime        @default(now())
@@ -444,9 +452,10 @@ model FamilyMemberIncome {
 }
 
 model MonthlyIncome {
-  id                        String              @id @default(uuid())
-  receivedIncome            Boolean?            @default(true)
-  date                      DateTime?           @default(now())
+  id                        String                 @id @default(uuid())
+  receivedIncome            Boolean?               @default(true)
+  date                      DateTime?              @default(now())
+  analysisStatus            DocumentAnalysisStatus @default(Approved)
   grossAmount               Float?
   liquidAmount              Float?
   proLabore                 Float?
@@ -464,16 +473,16 @@ model MonthlyIncome {
   compensationValue         Decimal?
   judicialPensionValue      Decimal?
   familyMember_id           String?
-  familyMember              FamilyMember?       @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
-  candidate                 Candidate?          @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  familyMember              FamilyMember?          @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  candidate                 Candidate?             @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id              String?
   incomeSource              IncomeSource
-  LegalResponsible          LegalResponsible?   @relation(fields: [legalResponsibleId], references: [id])
+  LegalResponsible          LegalResponsible?      @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId        String?
   income_id                 String?
-  income                    FamilyMemberIncome? @relation(fields: [income_id], references: [id], onDelete: Cascade)
-  createdAt                 DateTime            @default(now())
-  updatedAt                 DateTime            @default(now()) @updatedAt
+  income                    FamilyMemberIncome?    @relation(fields: [income_id], references: [id], onDelete: Cascade)
+  createdAt                 DateTime               @default(now())
+  updatedAt                 DateTime               @default(now()) @updatedAt
 }
 
 model BankAccount {
@@ -731,8 +740,10 @@ model FinishedRegistration {
   candidate_id       String?           @unique
   legalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?           @unique
-  createdAt          DateTime          @default(now())
-  updatedAt          DateTime          @default(now()) @updatedAt
+  rendaMensalStatus  sectionStatus     @default(Pending)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([candidate_id, legalResponsibleId])
   @@map("registration")
@@ -1748,4 +1759,11 @@ enum DocumentAnalysisStatus {
   Declined
   Forced
   Failed
+}
+
+enum sectionStatus {
+  Pending
+  Approved
+  Declined
+  Forced
 }

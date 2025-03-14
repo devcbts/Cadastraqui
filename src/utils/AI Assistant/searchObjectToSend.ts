@@ -1,13 +1,13 @@
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
-export default async function searchObjectToSend({ tableId, tableName, metadata }: { tableId: string, tableName: string, metadata: Prisma.JsonObject }) {
+export default async function searchObjectToSend({ tableId, tableName, metadata }: { tableId: string, tableName: string, metadata: Prisma.JsonValue }) {
     let objectToSend = {};
 
     if (metadata) {
 
         if (tableName === 'identity') {
-            const type = metadata.type as string
+            const type = (metadata as Prisma.JsonObject).type as string
             switch (type) {
                 case 'ID':
                     const identityInfo = await prisma.identityDetails.findUniqueOrThrow({
