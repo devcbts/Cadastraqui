@@ -1,6 +1,8 @@
+import { APIError } from '@/errors/api-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
+import { Candidate, FamilyMember, LegalResponsible } from '@prisma/client'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -35,8 +37,12 @@ export async function getFamilyMemberHealthInfo(
       ...familyMemberIncomeInfo,
       ...familyMemberMedicationInfo,
     }
-    let info = isCandidateOrResponsible ? isCandidateOrResponsible.UserData : familyMember
-    return reply.status(200).send({ name: (info.fullName || info.name), id: info.id, healthInfo })
+    const info: LegalResponsible | Candidate | FamilyMember = !!isCandidateOrResponsible ? isCandidateOrResponsible.UserData : familyMember!
+    if (!info) {
+      throw new APIError('Nenhuma informação')
+    }
+
+    return reply.status(200).send({ name: ('fullName' in info ? info?.fullName : info?.name), id: info?.id, healthInfo })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

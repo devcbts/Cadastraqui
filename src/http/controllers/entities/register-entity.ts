@@ -7,6 +7,7 @@ import { ROLE } from '@prisma/client'
 import { hash } from 'bcryptjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { normalizeString } from './utils/normalize-string'
 
 export async function registerEntity(
   request: FastifyRequest,
@@ -92,7 +93,8 @@ export async function registerEntity(
         UF,
         neighborhood,
         educationalInstitutionCode,
-        phone
+        phone,
+        normalizedCnpj: normalizeString(CNPJ)
       },
     })
 

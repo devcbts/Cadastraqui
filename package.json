@@ -73,7 +73,6 @@
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "2.1.0",
-    "@types/bcryptjs": "2.4.4",
     "@types/fastify-cors": "2.1.0",
     "@types/fastify-multipart": "0.7.0",
     "@types/fastify-static": "2.2.1",

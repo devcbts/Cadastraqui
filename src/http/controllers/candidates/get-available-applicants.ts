@@ -1,3 +1,4 @@
+import { APIError } from "@/errors/api-error";
 import { prisma } from "@/lib/prisma";
 import { SelectCandidateResponsible } from "@/utils/select-candidate-responsible";
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -9,6 +10,9 @@ export async function getAvailableApplicants(
     try {
         const id = request.user.sub
         const user = await SelectCandidateResponsible(id)
+        if (!user) {
+            throw new APIError('usuário não encontrado')
+        }
         const { id: user_id } = user?.UserData
         let applicants;
         if (user?.IsResponsible) {
