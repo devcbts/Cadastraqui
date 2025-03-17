@@ -57,15 +57,27 @@ export async function getEntityLegalDocuments(type: EntityDocumentType, userId: 
         where: {
             AND: [{ entity_id: userId }, { type: type }, ...filter]
         },
+        include: {
+            User: {
+                select: {
+                    Entity: { select: { socialReason: true } },
+                    EntityDirector: { select: { name: true } },
+                    Lawyer: { select: { name: true } },
+                    SocialAssistant: { select: { name: true } },
+                    EntitySubsidiary: { select: { socialReason: true } }
+                }
+            }
+        },
         orderBy: {
             createdAt: 'desc'
         }
     })
     const mappedDocuments = await Promise.all(docs.map(async document => {
         const url = await getSignedUrlForFile(document.path)
-
+        const { Entity, EntityDirector, EntitySubsidiary, Lawyer, SocialAssistant } = document.User
+        const sentBy = Entity?.socialReason || EntityDirector?.name || EntitySubsidiary?.socialReason || Lawyer?.name || SocialAssistant?.name
         return ({
-            ...document, url
+            ...document, url, sentBy
         })
     }))
 
