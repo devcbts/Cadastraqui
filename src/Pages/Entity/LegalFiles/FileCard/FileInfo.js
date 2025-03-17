@@ -29,6 +29,7 @@ export default function FileInfo({
                 <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                     <strong>Enviado em: {formatDate(doc?.createdAt)}</strong>
                     <strong>Nome do arquivo: {doc?.name}</strong>
+                    <strong>Enviado por: {doc?.sentBy}</strong>
                     {getLegalFields(doc?.fields).map(x => (
                         <strong>{x}</strong>
                     ))}

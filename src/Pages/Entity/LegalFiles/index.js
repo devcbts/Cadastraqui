@@ -1,3 +1,4 @@
+import { ReactComponent as Folder } from 'Assets/icons/folder.svg'
 import DeclaracaoArt5 from 'Assets/templates/declaracao_art_5.docx'
 import ButtonBase from "Components/ButtonBase"
 import InputForm from "Components/InputForm"
@@ -358,26 +359,46 @@ export default function EntityLegalFiles() {
             <h1>Arquivos da Instituição</h1>
             <div style={{ display: 'flex', gap: 24, marginTop: 24 }}>
 
-                <div style={{
+                {selecting && <div style={{
                     display: 'flex', flexDirection: 'column',
                     maxHeight: 'calc(80vh)',
-                    overflowY: 'scroll',
+                    overflowY: 'auto',
                     overflowX: 'hidden'
                 }}>
                     {config.map((x, i) => (
-                        <div style={{
-                            // color: index === i ? 'white' : '',
+                        <div key={x.title} style={{
                             backgroundColor: index !== i ? 'white' : '#bbb',
-                            maxWidth: 220,
-                        }}>
+                            padding: '4px 16px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center'
+                        }}
+                            onClick={() => {
+                                setSelecting(false)
+                                setIndex(i)
+                            }}
+                        >
+                            {index === i && <Folder height={16} />}
                             <strong
-                                style={{ fontSize: 14, textOverflow: 'ellipsis', wordBreak: 'unset' }}
-                                onClick={() => setIndex(i)}>{x.title}</strong>
+                                style={{ fontSize: 16 }}
+                            >{x.title}</strong>
                         </div>
                     ))}
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-
+                }
+                <div key={index} style={{ display: selecting ? 'none' : 'flex', flexDirection: 'column', flex: 1 }}>
+                    <div
+                        style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '16px' }}>
+                        <div
+                            style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
+                            onClick={() => setSelecting(true)}
+                        >
+                            <Folder height={30} width={30}
+                            />
+                            <strong>Arquivos {`>`}</strong>
+                        </div>
+                        <strong>{config[index].title}</strong>
+                    </div>
                     {config[index].Component}
                 </div>
             </div>
