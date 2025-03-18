@@ -15,6 +15,7 @@ const envSchema = z.object({
   REDIS_HOST: z.string(), // Substitua pelo host do seu Redis na nuvem
   REDIS_PORT: z.coerce.number(), // Substitua pela porta do seu Redis na nuvem
   REDIS_PASSWORD: z.string(),
+  OPENAI_API_KEY: z.string(),
 })
 // Validação das variáveis de ambiente
 const _env = envSchema.safeParse(process.env)

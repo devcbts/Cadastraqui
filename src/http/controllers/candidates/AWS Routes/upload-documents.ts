@@ -138,6 +138,8 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
                 if (fs.existsSync(part.filename)) {
                     fs.unlinkSync(part.filename)
                 }
+            }, {
+                timeout: 60000
             })
             if (documentType === "declaracoes") {
                 // Atualizar o status das declaraões

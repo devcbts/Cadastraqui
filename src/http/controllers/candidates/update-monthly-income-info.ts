@@ -3,8 +3,8 @@ import { SelectCandidateResponsible } from "@/utils/select-candidate-responsible
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import IncomeSource from "./enums/IncomeSource";
-import { CacheManager } from "../students/CacheManager";
-const cacheManager = new CacheManager();
+import { DocumentAnalysisStatus, IncomeSource as IncomeSourceClient } from "@prisma/client";
+import { cacheManager } from "@/utils/cacheManager/cacheManagerInstance";
 export default async function updateMonthlyIncome(
     request: FastifyRequest,
     response: FastifyReply
@@ -45,7 +45,7 @@ export default async function updateMonthlyIncome(
             reversalValue: z.number().default(0),
             compensationValue: z.number().default(0),
             judicialPensionValue: z.number().default(0),
-            thread_id: z.string().nullable()
+            analysisId: z.string().nullable().optional()
             // file_document: z.instanceof(File).nullish()
         })).default([])
     })
@@ -58,11 +58,12 @@ export default async function updateMonthlyIncome(
         const { id, incomes, quantity, incomeSource, ...rest } = schema.parse(request.body)
         const isCandidateOrResponsible = await SelectCandidateResponsible(memberId)
         let monthlyIncomesId: string[] = []
+        let incomeSourceNotGrossIncome : IncomeSourceClient[] = ['BusinessOwner', 'BusinessOwnerSimplifiedTax', 'IndividualEntrepreneur']
         // Verifica se existe um familiar cadastrado com o owner_id
         const idField = isCandidateOrResponsible ? (isCandidateOrResponsible.IsResponsible ? { legalResponsibleId: memberId } : { candidate_id: memberId }) : { familyMember_id: memberId };
         await prisma.$transaction(async (tsPrisma) => {
             await Promise.all(incomes.map(async (income) => {
-                if (income.grossAmount) {
+                if (!incomeSourceNotGrossIncome.includes(incomeSource)) {
                     let liquidAmount =
                         income.grossAmount -
                         income.foodAllowanceValue -
@@ -75,31 +76,42 @@ export default async function updateMonthlyIncome(
                     if (income.proLabore && income.dividends) {
                         liquidAmount = income.proLabore + income.dividends
                     }
+                    let documentStatus: DocumentAnalysisStatus | null = null
+                    if (income.analysisId) {
+                        console.log(income.analysisId)
+                        console.log(cacheManager.hasCache(income.analysisId))
+                        const cachedInfo: {
+                            legibilidade: boolean,
+                            ratifiedReceiver: boolean,
+                            grossAmount: string,
+                            netIncome: string,
+                            coherent: boolean,
+                            tries: number
+                        } | null | undefined = cacheManager.getCache(income.analysisId);
+                        console.log(cachedInfo)
+                        if (cachedInfo !== null && cachedInfo !== undefined && (cachedInfo.legibilidade && cachedInfo.ratifiedReceiver && cachedInfo.coherent)) {
+                            console.log('Entrou no Arquivo')
+                            const objectGroosAmount = cachedInfo.grossAmount ? parseFloat(cachedInfo.grossAmount) : null;
+                            const objectNetIncome = cachedInfo.netIncome ? parseFloat(cachedInfo.netIncome) : null;
+                            console.log(objectGroosAmount, objectNetIncome)
 
+                            if (objectGroosAmount && objectNetIncome) {
+                                console.log('Tudo certo')
+                                // verificar se a renda do formulário está similar a renda informada
+                                if (liquidAmount < objectNetIncome * 0.94) {
+                                    throw new Error("Renda informada não corresponde a renda do documento");
+
+                                }
+                                documentStatus = 'Approved'
+                            }
+
+                        }else{
+                            documentStatus = 'Forced'
+                        }
+                    }
                     // Armazena informações acerca da renda mensal no banco de dados
                     if (income.id) {
-                        if (income.thread_id && income.judicialPensionValue === 0){
-                            const cachedInfo: {
-                             legibilidade: boolean,
-                             retifiedReceiver: boolean,
-                             grossAmount: string,
-                             netIncome: string,
-                             coherent: boolean,
-                             tries: number
-                         } | null | undefined = cacheManager.getCache(income.thread_id);
-                         if (cachedInfo !== null && cachedInfo !== undefined && (cachedInfo.legibilidade && cachedInfo.retifiedReceiver && cachedInfo.coherent)) {
-                           const objectGroosAmount = cachedInfo.grossAmount ? parseFloat(cachedInfo.grossAmount) : null;
-                           const objectNetIncome = cachedInfo.netIncome ? parseFloat(cachedInfo.netIncome) : null;
-                            if (objectGroosAmount && objectNetIncome){
-                              // verificar se a renda do formulário está similar a renda informada
-                              if (liquidAmount < objectNetIncome*0.94){
-                                throw new Error("Renda informada não corresponde a renda do documento");
-                                
-                              }
-                            }
-                           
-                         }
-                         }
+
                         monthlyIncomesId.push(income.id)
                         await tsPrisma.monthlyIncome.update({
                             where: { id: income.id },
@@ -121,6 +133,7 @@ export default async function updateMonthlyIncome(
                                 transportAllowanceValue: income.transportAllowanceValue,
                                 dividends: income.dividends,
                                 proLabore: income.proLabore,
+                                ...(documentStatus && { analysisStatus: documentStatus }),
                             }
                         })
                     } else {
@@ -144,6 +157,7 @@ export default async function updateMonthlyIncome(
                                 dividends: income.dividends,
                                 proLabore: income.proLabore,
                                 incomeSource,
+                                ...(documentStatus && { analysisStatus: documentStatus }),
                                 ...idField
                             }
                         })
@@ -288,6 +302,9 @@ export default async function updateMonthlyIncome(
                 incomeId: income.id,
                 monthlyIncomesId
             })
+        }, {
+            timeout: 60000 // Tempo máximo da transação em milissegundos (por exemplo, 60 segundos)
+
         })
 
     } catch (err) {

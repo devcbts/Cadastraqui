@@ -8,8 +8,8 @@ export class CacheManager {
   }
 
   // Função para armazenar dados no cache
-  setCache<T>(key: string, value: T): boolean {
-    return this.cache.set(key, value);
+  setCache<T>(key: string, value: T, ttl: number = 1500): boolean {
+    return this.cache.set(key, value, ttl);
   }
 
   // Função para obter dados do cache

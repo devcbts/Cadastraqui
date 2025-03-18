@@ -117,7 +117,13 @@ export async function verifyIncomeBankRegistration(id: string) {
         if (hasIncome.some(income => income.isUpdated === false)) update = false;
 
         if (hasIncome.length === 0) update = null;
-
+        if (hasIncome.some(income => income.updatedStatus === 'Forced')) {
+            updatedStatus = 'Forced'
+        }
+        if (hasIncome.some(income => income.updatedStatus === 'Declined')) {
+            update= false;
+            updatedStatus = 'Declined'
+        }
 
         if (identityDetails.hasBankAccount) {
             const hasBankAccount = await prisma.bankAccount.findMany({

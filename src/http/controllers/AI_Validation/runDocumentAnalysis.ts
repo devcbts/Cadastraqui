@@ -5,9 +5,8 @@ import * as path from 'path';
 import { PDFDocument } from "pdf-lib";
 import { MultipartFile } from "@fastify/multipart";
 import { z } from "zod";
-import { CacheManager } from "../students/CacheManager";
+import { cacheManager } from "@/utils/cacheManager/cacheManagerInstance";
 
-const cacheManager = new CacheManager(1000, 20);
 export const MAX_FILE_SIZE = 1024 * 1024 * 10;
 
 export async function handleFileUpload(request: FastifyRequest, reply: FastifyReply) {
@@ -32,6 +31,8 @@ export async function handleFileUpload(request: FastifyRequest, reply: FastifyRe
       }
       if (part.fieldname === 'id' && part.type === "field") {
         uuid = part.value as string;
+        console.log(cacheManager.hasCache(uuid));
+
         if (cacheManager.hasCache(uuid)) {
           hasCache = true;
           const cachedData: {
@@ -130,7 +131,7 @@ export async function handleFileUpload(request: FastifyRequest, reply: FastifyRe
       tries += 1;
     }
 
-    cacheManager.setCache(uuid, { ...parsedResponse, tries });
+    cacheManager.setCache(uuid, { ...parsedResponse, tries }, 1500);
 
     return reply.status(200).send({ data: parsedResponse, id: uuid });
   } catch (error: any) {
