@@ -4,6 +4,12 @@ export async function getUserEntity(userId: string, role: ROLE) {
     let entityId;
 
     switch (role) {
+        case 'ASSISTANT':
+            const assistant = await prisma.socialAssistant.findUnique({
+                where: { user_id: userId }
+            });
+            entityId = assistant?.entity_id
+            break;
         case 'ENTITY':
             const entity = await prisma.entity.findUnique({
                 where: { user_id: userId }

@@ -40,8 +40,8 @@ export function validateFields(type?: EntityDocumentType, subtype?: ENTITY_SUBTY
         case 'ELECTION_RECORD':
         case 'PROCURATION':
             fields = z.object({
-                start: z.string().date('Data inválida'),
-                end: z.string().date('Data inválida'),
+                issuedAt: z.string().date('Data inválida'),
+                expireAt: z.string().date('Data inválida'),
             })
             break
         case 'DEBIT_CERTIFICATE':

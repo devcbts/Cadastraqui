@@ -7,6 +7,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { randomUUID } from "node:crypto";
 import { z } from "zod";
 import { documentTypeHandler, getEntityLegalDocuments } from "../utils/document-type-handler";
+import signDocumentsHandler from "../utils/sign-documents-handler";
 import processFiles from "./process-files";
 export async function uploadEntityDocument(req: FastifyRequest, res: FastifyReply) {
     try {
@@ -41,16 +42,30 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                 const mergedFields = !!groupedFileInfo
                     ? { ...groupedFileInfo.fields as Object, ...fields }
                     : { ...(group && { group }), ...fields }
+                let expireAt = undefined;
+                if (!!fields && "expireAt" in fields) {
+                    expireAt = new Date(fields.expireAt as string)
+                }
                 const fn = async () => {
                     const identifier = randomUUID()
                     const path = `EntityDocuments/${entityId}/${type}/${identifier}-${name}`
-                    await documentTypeHandler({
-                        db: tPrisma,
-                        type: EntityDocumentType[type as keyof typeof EntityDocumentType],
-                        userId: entityId,
-                        fields: file.fields,
-                        path: path,
+                    const signKey = await signDocumentsHandler({
+                        type,
+                        userId: sub,
+                        file: { buffer, name },
+                        path,
+                        metadata,
+                        db: tPrisma
                     })
+                    if (!groupId) {
+                        await documentTypeHandler({
+                            db: tPrisma,
+                            type: EntityDocumentType[type as keyof typeof EntityDocumentType],
+                            userId: entityId,
+                            fields: file.fields,
+                            path: path,
+                        })
+                    }
                     await tPrisma.entityDocuments.create({
                         data: {
                             name: name,
@@ -60,7 +75,9 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                             entity_id: entityId,
                             user_id: sub,
                             path,
-                            group: groupId ?? group
+                            group: groupId ?? group,
+                            expireAt,
+                            signKey
                         }
                     })
                     const r = await uploadFile(buffer!, path, metadata)

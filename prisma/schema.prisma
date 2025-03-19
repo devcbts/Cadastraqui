@@ -714,12 +714,13 @@ model Declarations {
 }
 
 model SignedDocuments {
-  documentKey String         @id @unique
-  path        String
-  emails      String[]
-  metadata    Json
-  status      DocumentStatus @default(Open)
-  createdAt   DateTime       @default(now())
+  documentKey     String            @id @unique
+  path            String
+  emails          String[]
+  metadata        Json
+  status          DocumentStatus    @default(Open)
+  createdAt       DateTime          @default(now())
+  EntityDocuments EntityDocuments[]
 }
 
 model FinishedRegistration {
@@ -991,7 +992,7 @@ model ScholarshipGranted {
   type2DocumentReceived Boolean                  @default(false)
   application_id        String                   @unique
   announcement_id       String
-  announmentent         Announcement             @relation(fields: [announcement_id], references: [id])
+  announcement          Announcement             @relation(fields: [announcement_id], references: [id])
   application           Application              @relation(fields: [application_id], references: [id])
   createdAt             DateTime                 @default(now())
   updatedAt             DateTime                 @default(now()) @updatedAt
@@ -1224,19 +1225,24 @@ model AIAssistant {
 }
 
 model EntityDocuments {
-  id        String             @id @default(cuid())
-  entity_id String
-  user_id   String
-  metadata  Json
-  fields    Json?
-  type      EntityDocumentType
-  name      String?
-  path      String
-  group     String?
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @updatedAt
-  Entity    Entity             @relation(fields: [entity_id], references: [id], onDelete: Cascade)
-  User      User               @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  id              String             @id @default(cuid())
+  entity_id       String
+  user_id         String?
+  metadata        Json
+  fields          Json?
+  type            EntityDocumentType
+  name            String?
+  path            String
+  group           String?
+  signKey         String?            @unique
+  expireAt        DateTime?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  Entity          Entity             @relation(fields: [entity_id], references: [id], onDelete: Cascade)
+  User            User?              @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  SignedDocuments SignedDocuments?   @relation(fields: [signKey], references: [documentKey], onDelete: SetNull)
+
+  @@index([signKey])
 }
 
 model Lawyer {

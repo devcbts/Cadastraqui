@@ -8,6 +8,8 @@ interface IHandlerArgs {
     userId: string,
     path: string,
     fields?: Record<string, any>,
+    metadata?: Record<string, any>,
+    file?: File
 }
 async function countDocument(args: IHandlerArgs) {
     return await args.db.entityDocuments.count({
@@ -125,17 +127,14 @@ async function deleteFile(args: IHandlerArgs, file: EntityDocuments) {
     })
 }
 
-async function searchByField(args: IHandlerArgs, fieldName: string, value: any) {
+async function searchByField(args: IHandlerArgs, fields: Prisma.JsonNullableFilter<"EntityDocuments">[]) {
     return await args.db.entityDocuments.findFirst({
         where: {
             AND: [
                 { entity_id: args.userId }, { type: args.type },
-                {
-                    fields: {
-                        path: [fieldName],
-                        equals: value
-                    }
-                }
+                ...fields.map(x => ({
+                    fields: x
+                }))
             ]
         }
     })
@@ -167,7 +166,7 @@ export async function documentTypeHandler(args: IHandlerArgs) {
         case 'GOVERNING_BODY':
         case 'MONITORING_REPORT':
         case 'CLARIFICATION_REQUEST':
-            const existingFile = await searchByField(args, 'year', args.fields!['year'])
+            const existingFile = await searchByField(args, [{ path: ['year'], equals: args.fields!['year'] }])
             if (existingFile) {
                 await deleteFile(args, existingFile)
             }
@@ -178,30 +177,16 @@ export async function documentTypeHandler(args: IHandlerArgs) {
             }
             break;
         case 'MONTHLY_REPORT':
-            const exist = await args.db.entityDocuments.findFirst({
-                where: {
-                    AND: [
-                        { entity_id: args.userId }, { type: args.type },
-                        {
-
-                            fields: {
-                                path: ['year'],
-                                equals: args.fields!['year']
-                            }
-                        },
-                        {
-                            fields:
-                            {
-                                path: ['month'],
-                                equals: args.fields!['month']
-                            }
-                        }
-                    ]
-                }
-            })
+            const exist = await searchByField(args, [
+                { path: ['year'], equals: args.fields!['year'] },
+                { path: ['month'], equals: args.fields!['month'] }
+            ])
             if (exist) {
                 await deleteFile(args, exist)
+
             }
+
+            break;
         default:
             break
     }

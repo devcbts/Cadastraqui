@@ -35,6 +35,10 @@ export default async function updateEntityDocument(req: FastifyRequest, res: Fas
                     })
                     const newMetadata = { ...doc.metadata as Object, ...metadata ?? {} }
                     const newFields = { ...doc.fields as Object, ...fields ?? {} }
+                    let expireAt = undefined;
+                    if (!!fields && "expireAt" in fields) {
+                        expireAt = new Date(fields.expireAt as string)
+                    }
                     let path
                     if (buffer) {
                         path = `EntityDocuments/${entityId}/${doc.type}/${randomUUID()}-${name}`
@@ -58,6 +62,7 @@ export default async function updateEntityDocument(req: FastifyRequest, res: Fas
                             // entity_id: entityId,
                             user_id: sub,
                             path,
+                            expireAt
                             // group
                         }
                     })
