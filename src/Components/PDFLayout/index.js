@@ -1,4 +1,4 @@
-import { Text, View, Image, Font } from "@react-pdf/renderer"
+import { Image, Text, View } from "@react-pdf/renderer"
 import Logo from 'Assets/images/logo_white.png'
 import { pdfStyles } from "Pages/SubscribeForm/components/Form_Declarations/components/HabitationDeclarationPDF"
 const styles = {
@@ -46,7 +46,8 @@ const PDFEntityHeader = ({ socialReason, address, addressNumber, city, UF, CEP, 
                     display: 'flex', flexDirection: 'column', gap: '2px', alignItems: 'flex-start',
                     fontSize: 8, fontWeight: "light"
                 }}>
-                    <Text>{`${address} Nº${addressNumber}, ${city} - ${UF}`}</Text>
+                    <Text>{`${address} Nº${addressNumber}`}</Text>
+                    <Text>{`${city} - ${UF}`}</Text>
                     <Text>{CEP}</Text>
                 </View>
             </View>
@@ -78,8 +79,5 @@ const PDFHeader = ({ children }) => {
     )
 }
 export {
-    PDFFooter,
-    PDFEntityHeader,
-    PDFRowHeader,
-    PDFHeader
+    PDFEntityHeader, PDFFooter, PDFHeader, PDFRowHeader
 }

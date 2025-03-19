@@ -1,4 +1,7 @@
 export function formatCPF(cpf) {
+    if (!cpf) {
+        return ""
+    }
     const digits = cpf
         ?.replace(/\D/g, '')
     if (digits.length < 11) return cpf

@@ -13,12 +13,12 @@ export default function ElectionRecord() {
     const { control, getValues, reset, handleSubmit } = useControlForm({
         schema: z.object({
             file: z.instanceof(File).nullish().refine((v) => !!v, { message: 'Arquivo obrigatório' }),
-            start: z.string().min(1, 'Obrigatório').date('Data inválida'),
-            end: z.string().min(1, 'Obrigatório').date('Data inválida'),
+            issuedAt: z.string().min(1, 'Obrigatório').date('Data inválida'),
+            expireAt: z.string().min(1, 'Obrigatório').date('Data inválida'),
         }),
         defaultValues: {
-            start: '',
-            end: '',
+            issuedAt: '',
+            expireAt: '',
             file: null
         }
     })
@@ -29,8 +29,8 @@ export default function ElectionRecord() {
                 type: ENTITY_LEGAL_FILE.ELECTION_RECORD,
             },
             fields: {
-                start: getValues('start'),
-                end: getValues('end')
+                issuedAt: getValues('issuedAt'),
+                expireAt: getValues('expireAt')
             },
             type: ENTITY_LEGAL_FILE.ELECTION_RECORD,
         }).then(
@@ -50,8 +50,8 @@ export default function ElectionRecord() {
                 </div>
             }
             <div style={{ width: 'max(280px,60%)', display: 'flex', margin: 'auto', flexDirection: 'column', alignItems: 'self-start' }}>
-                <InputForm type="date" control={control} label={'Início do mandato'} name={'start'} />
-                <InputForm type="date" control={control} label={'Término do mandato'} name={'end'} />
+                <InputForm type="date" control={control} label={'Início do mandato'} name={'issuedAt'} />
+                <InputForm type="date" control={control} label={'Término do mandato'} name={'expireAt'} />
                 <FormFilePicker accept={'application/pdf'} label={'arquivo'} name={'file'} control={control} />
                 <ButtonBase onClick={handleSubmit(handleUpload)} label={'enviar'} />
             </div>

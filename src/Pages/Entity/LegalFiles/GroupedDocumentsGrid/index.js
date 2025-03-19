@@ -28,9 +28,11 @@ export default function GroupedDocumentsGrid({
         return <strong style={{ marginTop: '24px' }}>Nenhum documento</strong>
     }
     return (
-        <div style={{ display: 'flex', flexDirection: "column", marginTop: '24px' }}>
+        <div style={{ display: 'flex', flexDirection: "column", marginTop: '24px', }}>
             {Object.entries(groupedDocuments).map(([group, types]) => (
-                <div style={{ display: 'flex', padding: '12px', marginTop: '8px', borderRadius: 8, backgroundColor: 'white' }}>
+                <div style={{
+                    display: 'flex', padding: '12px', marginTop: '8px', borderRadius: 8, backgroundColor: 'white', boxShadow: '0px 0px 8px .1px #999'
+                }}>
                     {Object.entries(types).map(([docType, docs], index) => (
                         <React.Fragment key={docType}>
                             {render(docs, group, docType, index)}

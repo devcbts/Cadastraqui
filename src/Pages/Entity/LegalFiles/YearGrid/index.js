@@ -28,6 +28,7 @@ export default function YearGrid({
                             marginBottom: '8px',
                             flexDirection: 'column',
                             placeSelf: 'center',
+                            boxShadow: '0px 0px 8px .1px #999',
                             cursor: container?.onClick ? 'pointer' : 'default',
                             ...container?.style ?? {}
                         }}

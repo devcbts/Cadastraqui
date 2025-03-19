@@ -2,7 +2,9 @@ import { ReactComponent as Folder } from 'Assets/icons/folder.svg'
 import DeclaracaoArt5 from 'Assets/templates/declaracao_art_5.docx'
 import ButtonBase from "Components/ButtonBase"
 import InputForm from "Components/InputForm"
-import { useMemo, useState } from "react"
+import useAuth from 'hooks/useAuth'
+import { useEffect, useMemo, useState } from "react"
+import entityService from 'services/entity/entityService'
 import { z } from "zod"
 import AccreditationAct from './AccreditationAct'
 import Announcement from './Announcement'
@@ -18,6 +20,7 @@ const link = (url, text) => {
     )
 }
 export default function EntityLegalFiles() {
+    const { auth } = useAuth()
     const config = useMemo(() => [
         {
             title: 'CPF dos responsáveis', Component: <DocumentUpload type="RESPONSIBLE_CPF"
@@ -43,12 +46,12 @@ export default function EntityLegalFiles() {
                 add="form"
                 form={{
                     schema: z.object({
-                        start: z.string().min(1, 'Obrigatório').date('Data inválida'),
-                        end: z.string().min(1, 'Obrigatório').date('Data inválida'),
+                        issuedAt: z.string().min(1, 'Obrigatório').date('Data inválida'),
+                        expireAt: z.string().min(1, 'Obrigatório').date('Data inválida'),
                     }),
                     items: [
-                        { Component: InputForm, label: 'Início do mandato', name: 'start', type: 'date' },
-                        { Component: InputForm, label: 'Término do mandato', name: 'end', type: 'date' },
+                        { Component: InputForm, label: 'Início do mandato', name: 'issuedAt', type: 'date' },
+                        { Component: InputForm, label: 'Término do mandato', name: 'expireAt', type: 'date' },
                     ]
                 }}
                 gridOptions={{
@@ -63,12 +66,12 @@ export default function EntityLegalFiles() {
                 add="form"
                 form={{
                     schema: z.object({
-                        start: z.string().min(1, 'Obrigatório').date('Data inválida'),
-                        end: z.string().min(1, 'Obrigatório').date('Data inválida'),
+                        issuedAt: z.string().min(1, 'Obrigatório').date('Data inválida'),
+                        issuedAt: z.string().min(1, 'Obrigatório').date('Data inválida'),
                     }),
                     items: [
-                        { Component: InputForm, label: 'Data da nomeação e constituição por bastente procurador(a)', name: 'start', type: 'date' },
-                        { Component: InputForm, label: 'Validade da procuração', name: 'end', type: 'date' },
+                        { Component: InputForm, label: 'Data da nomeação e constituição por bastente procurador(a)', name: 'issuedAt', type: 'date' },
+                        { Component: InputForm, label: 'Validade da procuração', name: 'expireAt', type: 'date' },
                     ]
                 }}
                 gridOptions={{
@@ -201,14 +204,14 @@ export default function EntityLegalFiles() {
             Component: <AccreditationAct />
         },
         {
-            title: 'Termos', Component: <DocumentUpload gridOptions={{ year: true }} type="PARTNERSHIP_TERM"
+            title: 'Termos de convênio ou parceria', Component: <DocumentUpload gridOptions={{ year: true }} type="PARTNERSHIP_TERM"
                 details={<strong>
                     Termo(s) de convênio/parceria vigente firmado(s) com órgãos ou entidades dos poderes públicos e avaliações periódicas, quando for o caso.
                 </strong>}
             />
         },
         {
-            title: 'Relatório de atividade', Component: <DocumentUpload gridOptions={{ year: true }} type="ACTIVITY_REPORT"
+            title: 'Relatório de atividades', Component: <DocumentUpload gridOptions={{ year: true }} type="ACTIVITY_REPORT"
                 hint="Relatório de todas as atividades desempenhadas, incluindo atividades não certificáveis,
          se houver. A entidade deve destacar em seu relatório as atividades desenvolvidas, os seus objetivos, 
          com a identificação clara de cada serviço, programa, projeto ou benefício socioassistencial, a metodologia utilizada, o público alvo atendido, o número de atendidos, 
@@ -345,19 +348,27 @@ export default function EntityLegalFiles() {
         },
         {
             title: 'Relatório mensal de acompanhamento',
-            Component: <MonthlyReport />
+            Component: <MonthlyReport />,
+            visible: ["ASSISTANT"]
         },
         {
             title: 'Solicitações de esclarecimentos e informações à entidade interessada',
             Component: <InformationRequest />
         },
-    ], [])
-    const [index, setIndex] = useState(0)
-    const [selecting, setSelecting] = useState(false)
+    ].map((x, i) => ({ ...x, id: i })), [auth.role])
+    useEffect(() => {
+        const fetch = async () => {
+            await entityService.getExpiringDocuments()
+        }
+        fetch()
+    }, [])
+    const [index, setIndex] = useState({})
+    const [selecting, setSelecting] = useState(true)
+    const visibleRoles = ["ENTITY", "ENTITY_DIRECTOR", "LAWYER"]
     return (
         <>
             <h1>Arquivos da Instituição</h1>
-            <div style={{ display: 'flex', gap: 24, marginTop: 24 }}>
+            <div style={{ display: 'flex', gap: 24, marginTop: 24, flex: 1 }}>
 
                 {selecting && <div style={{
                     display: 'flex', flexDirection: 'column',
@@ -365,28 +376,30 @@ export default function EntityLegalFiles() {
                     overflowY: 'auto',
                     overflowX: 'hidden'
                 }}>
-                    {config.map((x, i) => (
-                        <div key={x.title} style={{
-                            backgroundColor: index !== i ? 'white' : '#bbb',
-                            padding: '4px 16px',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center'
-                        }}
-                            onClick={() => {
-                                setSelecting(false)
-                                setIndex(i)
+                    {config
+                        .filter(x => (visibleRoles.includes(auth?.role) || x.visible?.includes(auth?.role)))
+                        .map((x, i) => (
+                            <div key={x.title} style={{
+                                backgroundColor: index !== x.id ? 'white' : '#bbb',
+                                padding: '4px 16px',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center'
                             }}
-                        >
-                            {index === i && <Folder height={16} />}
-                            <strong
-                                style={{ fontSize: 16 }}
-                            >{x.title}</strong>
-                        </div>
-                    ))}
+                                onClick={() => {
+                                    setSelecting(false)
+                                    setIndex(x.id)
+                                }}
+                            >
+                                {index === x.id && <Folder height={16} />}
+                                <strong
+                                    style={{ fontSize: 16 }}
+                                >{x.title}</strong>
+                            </div>
+                        ))}
                 </div>
                 }
-                <div key={index} style={{ display: selecting ? 'none' : 'flex', flexDirection: 'column', flex: 1 }}>
+                {index >= 0 && <div key={index} style={{ display: selecting ? 'none' : 'flex', flexDirection: 'column', flex: 1, maxWidth: '100%' }}>
                     <div
                         style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '16px' }}>
                         <div
@@ -400,7 +413,7 @@ export default function EntityLegalFiles() {
                         <strong>{config[index].title}</strong>
                     </div>
                     {config[index].Component}
-                </div>
+                </div>}
             </div>
             {/* {config.map((e, i) => (
                 <div style={{ marginBottom: 16 }}>

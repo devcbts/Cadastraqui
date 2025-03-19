@@ -32,8 +32,7 @@ export default function FileCard({
             {...props}
         >
             <div style={{
-                padding: '16px 24px',
-
+                padding: '16px 24px'
             }}>
 
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
@@ -63,6 +62,7 @@ export default function FileCard({
                             width: '100%',
                             padding: '0 8px',
                             flex: 1,
+                            gap: 8,
                             // backgroundColor: '#bbb',
                             alignItems: 'center', justifyContent: 'space-around',
                             display: 'flex',

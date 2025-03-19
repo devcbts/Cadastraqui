@@ -98,7 +98,7 @@ export default function DocumentUpload({
     }
     return (
         <>
-            <div style={{ display: 'flex', gap: '24px' }}>
+            <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
 
                 {!gridOptions.year && (
                     add === 'file'

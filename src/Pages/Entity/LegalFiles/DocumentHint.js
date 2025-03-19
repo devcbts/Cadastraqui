@@ -10,8 +10,12 @@ export default function DocumentHint({
         setToggleHint((prev) => !prev)
     }
     return (
-        <div style={{ display: 'flex', flex: 1, gap: '8px' }}>
-            {hint && <Help style={{ cursor: 'pointer', }} width={30} height={30} onClick={handleHint} />}
+        <div style={{ display: 'flex', flex: 1, gap: '8px', alignItems: 'flex-start' }}>
+            {hint && <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={handleHint}>
+                <Help width={30} height={30} />
+                {!toggleHint && <strong style={{ fontSize: '12px' }}>mais informações</strong>}
+            </div>
+            }
             <AnimatePresence>
                 {toggleHint ? <motion.div
                     style={{
@@ -20,7 +24,7 @@ export default function DocumentHint({
                     }}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -10 }}
+                    exit={{ opacity: 0, x: -10, height: 0 }}
                 >
                     <strong>{hint}</strong>
                 </motion.div> : null}

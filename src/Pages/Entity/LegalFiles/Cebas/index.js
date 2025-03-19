@@ -17,6 +17,7 @@ export default function Cebas() {
     const initialFileState = {
         type: undefined,
         id: undefined,
+        group: undefined,
         info: {
             certificate: undefined,
             deadline: undefined,
@@ -27,7 +28,7 @@ export default function Cebas() {
     const [selectedFile, setSelectedFile] = useState(initialFileState)
     const { loading, documents, handleUploadFile, handleUpdateFile } = useLegalFiles({ type: 'CEBAS' })
     const { control, handleSubmit, reset, getValues } = useControlForm({
-        schema: cebasSchema(selectedFile.type),
+        schema: cebasSchema(selectedFile.type, selectedFile.id),
         defaultValues: selectedFile.info
     })
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -72,8 +73,8 @@ export default function Cebas() {
             const {
                 education,
                 notes_copy,
-                certificate: { file: c_file, expireAt: c_expire, issuedAt: c_issued },
-                deadline: { file: d_file, expireAt: d_expire } } = getValues()
+                certificate: { file: c_file, expireAt: c_expire, issuedAt: c_issued } = {},
+                deadline: { file: d_file, expireAt: d_expire } = {} } = getValues()
             const group = `group_${Date.now()}`
             await handleUploadFile({
                 files: [
@@ -87,9 +88,10 @@ export default function Cebas() {
                 },
                 type: ENTITY_LEGAL_FILE.CEBAS,
                 group
-            })
+            }, selectedFile?.group)
         }
         catch (err) {
+            console.log(err)
         }
         handleModal()
     }
@@ -155,7 +157,10 @@ export default function Cebas() {
                         </div>
                         {docs.length === 0
                             ?
-                            <strong style={{ cursor: 'pointer' }} onClick={() => handleModal(type)}>Adicionar</strong>
+                            <strong style={{ cursor: 'pointer' }} onClick={() => {
+                                setSelectedFile({ type: type, group: groupId })
+                                handleModal()
+                            }}>Adicionar</strong>
                             : ((docs.length > 1)
                                 ? <strong style={{ cursor: 'pointer' }} onClick={() => {
                                     docs.map(({ url }) => window.open(url, '_blank'))

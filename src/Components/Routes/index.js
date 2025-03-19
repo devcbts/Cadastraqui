@@ -181,6 +181,9 @@ export default function AppRoutes() {
                         <Route path="renovacao" element={<EntityStudentsRenew />} />
                     </Route>
                     <Route path="/interessados" element={<InterestListing loadAnnouncements={socialAssistantService.getAllAnnouncements} />} />
+                    <Route path="arquivos"
+                        element={<EntityLegalFiles />}
+                    ></Route>
                     <Route path="*" element={<Navigate to={'/home'} />} replace />
 
                 </Routes>
@@ -268,8 +271,8 @@ export default function AppRoutes() {
             </RoleRoutes>
             <RoleRoutes role={'LAWYER'}>
                 <Routes>
-                    <Route path="/home" element={<EntityLegalFiles />} />
-                    <Route path="*" element={<Navigate to={'/home'} />} />
+                    <Route path="/arquivos" element={<EntityLegalFiles />} />
+                    <Route path="*" element={<Navigate to={'/arquivos'} />} />
                 </Routes>
             </RoleRoutes>
         </>

@@ -186,8 +186,16 @@ class EntityService {
         const response = await api.get(`/entities/legal/resume/${id}`)
         return response.data
     }
+    async getLegalMonthlyReportResume() {
+        const response = await api.get(`/entities/legal/report`)
+        return response.data
+    }
     async registerLawyer(data) {
         const response = await api.post('/entities/lawyer', data)
+        return response.data
+    }
+    async getExpiringDocuments() {
+        const response = await api.get('/entities/legal/expiring')
         return response.data
     }
 }

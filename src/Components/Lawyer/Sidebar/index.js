@@ -1,9 +1,9 @@
 import Sidebar from "Components/Sidebar";
-import { ReactComponent as Home } from '../../../Assets/icons/home.svg';
+import { ReactComponent as Legal } from '../../../Assets/icons/legal.svg';
 export default function LawyerSidebar() {
     return (
         <Sidebar.Root>
-            <Sidebar.Item icon={Home} text={'início'} path={'/home'}></Sidebar.Item>
+            <Sidebar.Item icon={Legal} text={'arquivos legais'} path={'/arquivos'}></Sidebar.Item>
         </Sidebar.Root>
     )
 }

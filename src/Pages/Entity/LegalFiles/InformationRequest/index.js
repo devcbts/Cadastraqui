@@ -18,6 +18,7 @@ export default function InformationRequest() {
     const initialFileState = {
         type: undefined,
         id: undefined,
+        group: undefined,
         info: {
             certificate: undefined,
             answer: undefined,
@@ -92,7 +93,7 @@ export default function InformationRequest() {
                 },
                 type: ENTITY_LEGAL_FILE.INFORMATION_REQUEST,
                 group
-            })
+            }, selectedFile?.group)
             handleModal()
         }
         catch (err) {
@@ -172,7 +173,12 @@ export default function InformationRequest() {
                             </div>
                             {docs.length === 0
                                 ?
-                                <strong style={{ cursor: 'pointer' }} onClick={() => handleModal(type)}>Adicionar</strong>
+                                <strong style={{ cursor: 'pointer' }} onClick={() => {
+                                    setSelectedFile({
+                                        group
+                                    })
+                                    handleModal()
+                                }}>Adicionar</strong>
                                 : ((docs.length > 1)
                                     ? <strong style={{ cursor: 'pointer' }} onClick={() => {
                                         docs.map(({ url }) => window.open(url, '_blank'))
