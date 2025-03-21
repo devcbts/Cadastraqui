@@ -1029,8 +1029,8 @@ model Call {
   Messages    CallMessages[]
   CreatedAt   DateTime       @default(now())
   UpdatedAt   DateTime       @default(now()) @updatedAt
-  creator     User           @relation("Creator", fields: [creator_id], references: [id])
-  replyer     User?          @relation("Replyer", fields: [replyer_id], references: [id])
+  creator     User           @relation("Creator", fields: [creator_id], references: [id], onDelete: Cascade)
+  replyer     User?          @relation("Replyer", fields: [replyer_id], references: [id], onDelete: SetNull)
 }
 
 model CallMessages {
@@ -1055,7 +1055,7 @@ model LoginHistory {
   deviceModel String?
   deviceType  String?
   browser     String?
-  user        User     @relation("User", fields: [user_id], references: [id])
+  user        User     @relation("User", fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model AuditLog {
@@ -1150,7 +1150,7 @@ model emailsSent {
   deadline  DateTime?
   createdBy HistoryRequester @default(System)
   user_id   String?
-  user      User?            @relation(fields: [user_id], references: [id])
+  user      User?            @relation(fields: [user_id], references: [id], onDelete: SetNull)
   createdAt DateTime         @default(now())
   updatedAt DateTime         @default(now()) @updatedAt
 }
@@ -1255,14 +1255,13 @@ model LegalDocumentEmail {
 }
 
 model Lawyer {
-  id        String @id @default(cuid())
+  id        String   @id @default(cuid())
   name      String
   CPF       String
   entity_id String
-  Entity    Entity @relation(fields: [entity_id], references: [id], onDelete: Cascade)
-  user_id   String @unique
-  User      User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
+  Entity    Entity   @relation(fields: [entity_id], references: [id], onDelete: Cascade)
+  user_id   String   @unique
+  User      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

@@ -8,6 +8,7 @@ import { Prisma } from "@prisma/client";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { randomUUID } from "node:crypto";
 import { z } from "zod";
+import signDocumentsHandler from "../utils/sign-documents-handler";
 import processFiles from "./process-files";
 
 export default async function updateEntityDocument(req: FastifyRequest, res: FastifyReply) {
@@ -44,6 +45,15 @@ export default async function updateEntityDocument(req: FastifyRequest, res: Fas
                         path = `EntityDocuments/${entityId}/${doc.type}/${randomUUID()}-${name}`
                         await deleteFile(doc?.path)
                         await uploadFile(buffer, path, newMetadata)
+                        await signDocumentsHandler({
+                            db: tPrisma,
+                            path,
+                            userId: sub,
+                            doc,
+                            file: { buffer, name },
+                            metadata,
+                            type
+                        })
                     }
                     // await documentTypeHandler({
                     //     db: tPrisma,

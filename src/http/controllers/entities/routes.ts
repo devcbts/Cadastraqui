@@ -10,6 +10,7 @@ import { deleteAnnouncement } from './delete-announcement'
 import { deleteAssistant } from './delete-assistant'
 import { deleteDirector } from './delete-director'
 import { deleteEntity } from './delete-entity'
+import { deleteLawyer } from './delete-lawyer'
 import { deleteSubsidiary } from './delete-subsidiary'
 import entityDocumentsRoutes from './documents/routes'
 import { fetchAnnouncements } from './fetch-announcements'
@@ -23,6 +24,7 @@ import { getApplications } from './get-applications'
 import getEntityDashboard from './get-dashboard'
 import { getEntityInfo } from './get-entity-info'
 import { getGrantedScholarships } from './get-granted-scholarships'
+import { getLawyers } from './get-lawyers'
 import { getEntityProfilePicture } from './get-profile-picture'
 import getRegisteredStudentsByCourse from './get-registered-course-students'
 import { getSocialAssistants } from './get-social-assistants'
@@ -173,6 +175,8 @@ export async function entityRoutes(app: FastifyInstance) {
 
 
   app.get('/dashboard/interest/:announcement_id', { onRequest: [verifyJWT, verifyRole(['ASSISTANT', 'ENTITY', 'ENTITY_DIRECTOR'])] }, getCandidatesInterest)
+  app.get('/lawyer', { onRequest: [verifyJWT] }, getLawyers)
   app.post('/lawyer', { onRequest: [verifyJWT] }, createLawyer)
+  app.delete('/lawyer/:id', { onRequest: [verifyJWT] }, deleteLawyer)
   entityDocumentsRoutes(app)
 }
