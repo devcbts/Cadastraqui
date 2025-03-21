@@ -75,6 +75,7 @@ model User {
   EntitySubsidiary EntitySubsidiary?
   SocialAssistant  SocialAssistant?
   Candidate        Candidate?
+  Lawyer           Lawyer?
   Entity           Entity?
   LegalResponsible LegalResponsible?
   createdCalls     Call[]            @relation("Creator")
@@ -83,6 +84,7 @@ model User {
   updatedAt        DateTime          @default(now()) @updatedAt
   isActive         Boolean           @default(true)
   emailsSent       emailsSent[]
+  EntityDocuments  EntityDocuments[]
 
   @@map("users")
 }
@@ -162,32 +164,33 @@ model SocialAssistant {
 }
 
 model Entity {
-  id                         String   @id @default(uuid())
+  id                         String             @id @default(uuid())
   name                       String?
   phone                      String?
   socialReason               String
   logo                       String?
-  CNPJ                       String   @unique
-  normalizedCnpj             String   @unique
+  CNPJ                       String             @unique
+  normalizedCnpj             String             @unique
   CEP                        String
-  address                    String   @default("")
+  address                    String             @default("")
   addressNumber              Int?
-  neighborhood               String   @default("")
+  neighborhood               String             @default("")
   UF                         COUNTRY?
-  city                       String   @default("")
+  city                       String             @default("")
   educationalInstitutionCode String?
   emec                       String?
-
-  user_id          String             @unique
-  Announcement     Announcement[]
-  EntityDirector   EntityDirector[]
-  EntitySubsidiary EntitySubsidiary[]
-  SocialAssistant  SocialAssistant[]
-  user             User               @relation(fields: [user_id], references: [id])
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @default(now()) @updatedAt
-  EntityCourse     EntityCourse[]
-  EducationLevel   EducationLevel[]
+  user_id                    String             @unique
+  Announcement               Announcement[]
+  EntityDirector             EntityDirector[]
+  EntitySubsidiary           EntitySubsidiary[]
+  SocialAssistant            SocialAssistant[]
+  user                       User               @relation(fields: [user_id], references: [id])
+  createdAt                  DateTime           @default(now())
+  updatedAt                  DateTime           @default(now()) @updatedAt
+  EntityCourse               EntityCourse[]
+  EducationLevel             EducationLevel[]
+  EntityDocuments            EntityDocuments[]
+  Lawyer                     Lawyer[]
 
   @@map("entities")
 }
@@ -716,12 +719,13 @@ model Declarations {
 }
 
 model SignedDocuments {
-  documentKey String         @id @unique
-  path        String
-  emails      String[]
-  metadata    Json
-  status      DocumentStatus @default(Open)
-  createdAt   DateTime       @default(now())
+  documentKey     String            @id @unique
+  path            String
+  emails          String[]
+  metadata        Json
+  status          DocumentStatus    @default(Open)
+  createdAt       DateTime          @default(now())
+  EntityDocuments EntityDocuments[]
 }
 
 model FinishedRegistration {
@@ -995,7 +999,7 @@ model ScholarshipGranted {
   type2DocumentReceived Boolean                  @default(false)
   application_id        String                   @unique
   announcement_id       String
-  announmentent         Announcement             @relation(fields: [announcement_id], references: [id])
+  announcement          Announcement             @relation(fields: [announcement_id], references: [id])
   application           Application              @relation(fields: [application_id], references: [id])
   createdAt             DateTime                 @default(now())
   updatedAt             DateTime                 @default(now()) @updatedAt
@@ -1032,8 +1036,8 @@ model Call {
   Messages    CallMessages[]
   CreatedAt   DateTime       @default(now())
   UpdatedAt   DateTime       @default(now()) @updatedAt
-  creator     User           @relation("Creator", fields: [creator_id], references: [id])
-  replyer     User?          @relation("Replyer", fields: [replyer_id], references: [id])
+  creator     User           @relation("Creator", fields: [creator_id], references: [id], onDelete: Cascade)
+  replyer     User?          @relation("Replyer", fields: [replyer_id], references: [id], onDelete: SetNull)
 }
 
 model CallMessages {
@@ -1058,7 +1062,7 @@ model LoginHistory {
   deviceModel String?
   deviceType  String?
   browser     String?
-  user        User     @relation("User", fields: [user_id], references: [id])
+  user        User     @relation("User", fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model AuditLog {
@@ -1153,7 +1157,7 @@ model emailsSent {
   deadline  DateTime?
   createdBy HistoryRequester @default(System)
   user_id   String?
-  user      User?            @relation(fields: [user_id], references: [id])
+  user      User?            @relation(fields: [user_id], references: [id], onDelete: SetNull)
   createdAt DateTime         @default(now())
   updatedAt DateTime         @default(now()) @updatedAt
 }
@@ -1230,6 +1234,83 @@ model AIAssistant {
   @@index([application_id], name: "application_id")
 }
 
+model EntityDocuments {
+  id              String               @id @default(cuid())
+  entity_id       String
+  user_id         String?
+  metadata        Json
+  fields          Json?
+  type            EntityDocumentType
+  name            String?
+  path            String
+  group           String?
+  signKey         String?              @unique
+  expireAt        DateTime?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  Entity          Entity               @relation(fields: [entity_id], references: [id], onDelete: Cascade)
+  User            User?                @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  SignedDocuments SignedDocuments?     @relation(fields: [signKey], references: [documentKey], onDelete: SetNull)
+  EmailsSent      LegalDocumentEmail[]
+}
+
+model LegalDocumentEmail {
+  id             String          @id @default(cuid())
+  emails         String[]
+  document_id    String
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  cycle          Int //Current notification cycle
+  EntityDocument EntityDocuments @relation(fields: [document_id], references: [id], onDelete: Cascade)
+}
+
+model Lawyer {
+  id        String   @id @default(cuid())
+  name      String
+  CPF       String
+  entity_id String
+  Entity    Entity   @relation(fields: [entity_id], references: [id], onDelete: Cascade)
+  user_id   String   @unique
+  User      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum EntityDocumentType {
+  RESPONSIBLE_CPF
+  ID_CARD
+  ELECTION_RECORD
+  PROCURATION
+  SOCIAL_STATUS
+  INTERNAL_RULES
+  PUBLIC_DEED
+  DEBIT_CERTIFICATE
+  FGTS
+  ACCOUNTING
+  AUDIT_OPINION
+  PARTNERSHIP_TERM
+  ACTIVITY_REPORT
+  NOMINAL_RELATION
+  NOMINAL_RELATION_TYPE_ONE
+  NOMINAL_RELATION_TYPE_TWO
+  PROFILE_ANALYSIS
+  CARE_PLAN
+  GOVERNING_BODY
+  CHARITABLE_CERTIFICATE
+  MONITORING_REPORT
+  CLARIFICATION_REQUEST
+  REQUIREMENTS_DECLARATION
+  ART_5_DECLARATION
+  ACCREDITATION_ACT
+  BENEFITS_TYPE_ONE
+  BENEFITS_TYPE_TWO
+  PUBLIC_SCHOLARSHIP_PROJECTS
+  ANNOUNCEMENT
+  CEBAS
+  MONTHLY_REPORT
+  INFORMATION_REQUEST
+}
+
 enum AIAssistantStatus {
   CONCLUSIVE
   INCONCLUSIVE
@@ -1303,6 +1384,7 @@ enum ROLE {
   ENTITY_SUB
   ENTITY_DIRECTOR
   SELECTION_RESPONSIBLE
+  LAWYER
 }
 
 enum COUNTRY {

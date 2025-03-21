@@ -120,7 +120,6 @@ app.get('/getCompanyCnpj/:cnpj', getCnpj)
 app.setErrorHandler((error, _request, reply) => {
   console.log(error)
   if (error instanceof ZodError) {
-
     return reply
       .status(400)
       .send({ message: 'Validation error:', issues: error.format() })

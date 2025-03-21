@@ -5,11 +5,14 @@ import { addAssistantAnnouncement } from './add-social-assistant-to-announcement
 import { CreateAnnoucment } from './create-announcement'
 import { createDirector } from './create-director'
 import { createSubsidiary } from './create-subsidiary'
+import getCandidatesInterest from './dashboard/get-candidates-interest'
 import { deleteAnnouncement } from './delete-announcement'
 import { deleteAssistant } from './delete-assistant'
 import { deleteDirector } from './delete-director'
 import { deleteEntity } from './delete-entity'
+import { deleteLawyer } from './delete-lawyer'
 import { deleteSubsidiary } from './delete-subsidiary'
+import entityDocumentsRoutes from './documents/routes'
 import { fetchAnnouncements } from './fetch-announcements'
 import { fetchClosedAnnouncements } from './fetch-closed-announcements'
 import { fetchDirectors } from './fetch-directors'
@@ -21,10 +24,12 @@ import { getApplications } from './get-applications'
 import getEntityDashboard from './get-dashboard'
 import { getEntityInfo } from './get-entity-info'
 import { getGrantedScholarships } from './get-granted-scholarships'
+import { getLawyers } from './get-lawyers'
 import { getEntityProfilePicture } from './get-profile-picture'
 import getRegisteredStudentsByCourse from './get-registered-course-students'
 import { getSocialAssistants } from './get-social-assistants'
 import { registerEntity } from './register-entity'
+import createLawyer from './register-lawyer'
 import removeAssistantFromAnnouncement from './remove-assistant-from-announcement'
 import getCandidateScholarshipDocuments from './scholarship/get-candidate-scholarship-documents'
 import getCandidateScholarshipInfo from './scholarship/get-candidate-scholarship-info'
@@ -40,7 +45,6 @@ import { uploadAnnouncementPdf } from './upload-announcement-pdf'
 import uploadBasicEducationCSVFileToAnnouncement from './upload-basic-education-csv-to-announcement'
 import uploadHigherEducationCSVFileToAnnouncement from './upload-higher-education-csv-to-announcement'
 import { uploadEntityProfilePicture } from './upload-profile-picture'
-import getCandidatesInterest from './dashboard/get-candidates-interest'
 
 export async function entityRoutes(app: FastifyInstance) {
   /** Admin Routes (Rotas acessadas na página do Admin)
@@ -170,6 +174,9 @@ export async function entityRoutes(app: FastifyInstance) {
   app.get('/courses/all', { onRequest: [verifyJWT] }, getAllCourses)
 
 
-app.get('/dashboard/interest/:announcement_id', {onRequest: [verifyJWT, verifyRole(['ASSISTANT','ENTITY','ENTITY_DIRECTOR'])]} , getCandidatesInterest)
-
+  app.get('/dashboard/interest/:announcement_id', { onRequest: [verifyJWT, verifyRole(['ASSISTANT', 'ENTITY', 'ENTITY_DIRECTOR'])] }, getCandidatesInterest)
+  app.get('/lawyer', { onRequest: [verifyJWT] }, getLawyers)
+  app.post('/lawyer', { onRequest: [verifyJWT] }, createLawyer)
+  app.delete('/lawyer/:id', { onRequest: [verifyJWT] }, deleteLawyer)
+  entityDocumentsRoutes(app)
 }
