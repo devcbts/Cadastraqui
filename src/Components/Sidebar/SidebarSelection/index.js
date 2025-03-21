@@ -1,6 +1,7 @@
 import AdminSidebar from "Components/Admin/Sidebar"
 import CandidateSidebar from "Components/Candidate/Sidebar"
 import EntitySidebar from "Components/Entity/Sidebar"
+import LawyerSidebar from "Components/Lawyer/Sidebar"
 import SocialAssistantSidebar from "Components/SocialAssistant/Sidebar"
 import useAuth from "hooks/useAuth"
 import { memo, useMemo } from "react"
@@ -19,6 +20,8 @@ const SidebarSelection = () => {
                 return EntitySidebar
             case "ADMIN":
                 return AdminSidebar
+            case 'LAWYER':
+                return LawyerSidebar
             default:
                 return null
         }

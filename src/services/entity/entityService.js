@@ -1,17 +1,10 @@
+import GENDER from "utils/enums/gender"
+import findLabel from "utils/enums/helpers/findLabel"
+import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category"
+import METADATA_FILE_TYPE from "utils/file/metadata-file-type"
 import formatDate from "utils/format-date"
 import { api } from "../axios"
 import announcementMapper from "./mappers/announcementMapper"
-import GENDER from "utils/enums/gender"
-import findLabel from "utils/enums/helpers/findLabel"
-import METADATA_FILE_TYPE from "utils/file/metadata-file-type"
-import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category"
-import EDUCATION_STYLES from "utils/enums/education-style-types"
-import { formatCPF } from "utils/format-cpf"
-import moneyInputMask from "Components/MoneyFormInput/money-input-mask"
-import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type"
-import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer"
-import { STUDENT_SCHOLARSHIP_TRANSLATION } from "utils/enums/student-scholarship-status"
-import { STUDENT_RENEW_TRANSLATION } from "utils/enums/student-renew-status"
 
 class EntityService {
 
@@ -177,7 +170,41 @@ class EntityService {
         const response = await api.get(`/entities/dashboard/interest/${announcementId}`)
         return response.data
     }
-
+    async uploadLegalFile(formData, groupId) {
+        const response = await api.post(`/entities/legal/documents${groupId ? `/${groupId}` : ''}`, formData)
+        return response.data
+    }
+    async updateLegalFile(id, formData) {
+        const response = await api.put(`/entities/legal/documents/${id}`, formData)
+        return response.data
+    }
+    async getLegalFiles(type) {
+        const response = await api.get(`/entities/legal/documents/${type}`)
+        return response.data
+    }
+    async getAnnouncementResume(id) {
+        const response = await api.get(`/entities/legal/resume/${id}`)
+        return response.data
+    }
+    async getLegalMonthlyReportResume() {
+        const response = await api.get(`/entities/legal/report`)
+        return response.data
+    }
+    async registerLawyer(data) {
+        const response = await api.post('/entities/lawyer', data)
+        return response.data
+    }
+    async getExpiringDocuments() {
+        const response = await api.get('/entities/legal/expiring')
+        return response.data
+    }
+    async getLawyers() {
+        const response = await api.get('/entities/lawyer')
+        return response.data
+    }
+    async deleteLawyer(id) {
+        return await api.delete(`/entities/lawyer/${id}`)
+    }
 }
 
 export default new EntityService()
