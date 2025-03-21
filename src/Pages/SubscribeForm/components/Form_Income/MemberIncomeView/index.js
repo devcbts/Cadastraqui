@@ -31,7 +31,10 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                         <spam className={styles.valoresRendaMediaFamiliar}>{moneyInputMask(incomeInfo?.data?.averageIncome)}</spam>
                     </div>
                     <FormList.List list={[
-                        { type: 'income', label: 'Cadastro de renda', status: incomeStatus?.income },
+                        {
+                            type: 'income', label: 'Cadastro de renda', status: incomeStatus?.income,
+                            analysisStatus: incomeInfo?.data?.analysisStatus
+                        },
                         { type: 'accounts', label: 'Contas bancárias', status: incomeStatus?.bank },
                         { type: 'report', label: 'Relatórios de contas e relacionamentos (CCS)', status: incomeStatus?.ccs },
                     ]}
@@ -39,6 +42,9 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                             return (
                                 <FormListItem.Root text={item.label}>
                                     <FormListItem.Actions>
+                                        <AIAnalysisIndicator
+                                            status={item.analysisStatus}
+                                        />
                                         <Indicator
                                             status={item.status}
                                         />

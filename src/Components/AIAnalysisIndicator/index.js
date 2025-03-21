@@ -7,13 +7,13 @@ export default function AIAnalysisIndicator({
     const [color, description] = (() => {
         switch (status?.toLowerCase()) {
             case 'approved':
-                return ['green', 'Documentação aprovada']
+                return ['#499468', 'Documentação aprovada']
             case 'declined':
-                return ['red', 'Documentação recusada']
+                return ['#EF3E36', 'Documentação recusada']
             case 'pending':
-                return ['yellow', 'Documentação pendente']
+                return ['#E7A60B', 'Documentação pendente']
             case 'forced':
-                return ['blue', 'Documentação enviada após confirmação do usuário']
+                return ['#6C5CE7', 'Documentação enviada após confirmação do usuário']
             default:
                 return []
         }

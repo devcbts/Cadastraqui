@@ -1,3 +1,4 @@
+import { ReactComponent as Success } from 'Assets/icons/check.svg';
 import { ReactComponent as Error } from 'Assets/icons/error.svg';
 import { ReactComponent as Help } from 'Assets/icons/question-mark.svg';
 import { ReactComponent as Upload } from 'Assets/icons/upload.svg';
@@ -144,7 +145,6 @@ const IncomeMonthSelection = forwardRef(({ data, render = [], viewMode }, ref) =
                         })
                     },
                     onCancel: () => {
-                        console.log('canbcel action')
                         handleUpdateMonth(month, {
                             loading: false,
                             confirmSend: false,
@@ -200,6 +200,14 @@ const IncomeMonthSelection = forwardRef(({ data, render = [], viewMode }, ref) =
                                         && <Tooltip
                                             Icon={Error}
                                             tooltip={months.find(x => x.dateString === month.dateString)?.error}>
+                                        </Tooltip>
+                                    }
+                                    {
+                                        !months.find(x => x.dateString === month.dateString)?.error
+                                        && months.find(x => x.dateString === month.dateString)?.file
+                                        && <Tooltip
+                                            Icon={Success}
+                                            tooltip={'O documento enviado foi aprovado'}>
                                         </Tooltip>
                                     }
                                 </>
