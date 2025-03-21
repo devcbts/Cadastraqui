@@ -198,6 +198,13 @@ class EntityService {
         const response = await api.get('/entities/legal/expiring')
         return response.data
     }
+    async getLawyers() {
+        const response = await api.get('/entities/lawyer')
+        return response.data
+    }
+    async deleteLawyer(id) {
+        return await api.delete(`/entities/lawyer/${id}`)
+    }
 }
 
 export default new EntityService()
