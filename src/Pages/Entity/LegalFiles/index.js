@@ -23,7 +23,9 @@ export default function EntityLegalFiles() {
     const { auth } = useAuth()
     const config = useMemo(() => [
         {
-            title: 'CPF dos responsáveis', Component: <DocumentUpload type="RESPONSIBLE_CPF"
+            title: 'CPF dos responsáveis',
+            type: 'RESPONSIBLE_CPF',
+            Component: <DocumentUpload type="RESPONSIBLE_CPF"
                 gridOptions={{
                     title: 'last',
                     transform: (x) => {
@@ -33,7 +35,9 @@ export default function EntityLegalFiles() {
             />
         },
         {
-            title: 'Cartão do CNPJ', Component: <DocumentUpload type="ID_CARD"
+            title: 'Cartão do CNPJ',
+            type: 'ID_CARD',
+            Component: <DocumentUpload type="ID_CARD"
                 gridOptions={{
                     title: 'CNPJ',
                     columns: 1
@@ -41,7 +45,9 @@ export default function EntityLegalFiles() {
             />
         },
         {
-            title: 'Atas de eleição e posse', Component: <DocumentUpload
+            title: 'Atas de eleição e posse',
+            type: 'ELECTION_RECORD',
+            Component: <DocumentUpload
                 type="ELECTION_RECORD"
                 add="form"
                 form={{
@@ -60,7 +66,9 @@ export default function EntityLegalFiles() {
             />
         },
         {
-            title: 'Procuração', Component: <DocumentUpload
+            title: 'Procuração',
+            type: 'PROCURATION',
+            Component: <DocumentUpload
                 type="PROCURATION"
                 hint="Caso o procurador seja o responsável perante a Receita Federal"
                 add="form"
@@ -80,7 +88,9 @@ export default function EntityLegalFiles() {
             />
         },
         {
-            title: 'Estatuto social', Component: <DocumentUpload
+            title: 'Estatuto social',
+            type: 'SOCIAL_STATUS',
+            Component: <DocumentUpload
                 type="SOCIAL_STATUS"
                 hint={
                     <ol style={{ listStyleType: 'lower-alpha' }}>
@@ -101,7 +111,9 @@ export default function EntityLegalFiles() {
             />
         },
         {
-            title: 'Regimento interno ou estatuto da instituição', Component: <DocumentUpload
+            title: 'Regimento interno ou estatuto da instituição',
+            type: 'INTERNAL_RULES',
+            Component: <DocumentUpload
                 type="INTERNAL_RULES"
                 gridOptions={{
                     title: 'Arquivo',
@@ -111,7 +123,9 @@ export default function EntityLegalFiles() {
             />
         },
         {
-            title: 'Escritura pública', Component: <DocumentUpload
+            title: 'Escritura pública',
+            type: 'PUBLIC_DEED',
+            Component: <DocumentUpload
                 type="PUBLIC_DEED"
                 gridOptions={{
                     title: 'Escritura',
@@ -121,7 +135,9 @@ export default function EntityLegalFiles() {
             />
         },
         {
-            title: 'Certidão de débito', Component: <DocumentUpload
+            title: 'Certidão de débito',
+            type: 'DEBIT_CERTIFICATE',
+            Component: <DocumentUpload
                 details={<strong>
                     Certidão negativa ou certidão positiva com efeito de negativa de débitos relativos aos tributos administrados pela
                     Secretaria Especial da Receita Federal do Brasil e pela Procuradoria-Geral da Fazenda Nacional.
@@ -144,7 +160,9 @@ export default function EntityLegalFiles() {
             />
         },
         {
-            title: 'FGTS', Component: <DocumentUpload type="FGTS"
+            title: 'FGTS',
+            type: 'FGTS',
+            Component: <DocumentUpload type="FGTS"
                 details={<strong>
                     Comprovação de regularidade do Fundo de Garantia do Tempo de Serviço (FGTS).
                 </strong>}
@@ -163,7 +181,9 @@ export default function EntityLegalFiles() {
             />
         },
         {
-            title: 'Documentação contábil', Component: <DocumentUpload type="ACCOUNTING"
+            title: 'Documentação contábil',
+            type: 'ACCOUNTING',
+            Component: <DocumentUpload type="ACCOUNTING"
                 gridOptions={{ year: true }}
                 hint={
                     <>
@@ -189,7 +209,9 @@ export default function EntityLegalFiles() {
             />
         },
         {
-            title: 'Parecer de auditoria', Component: <DocumentUpload gridOptions={{ year: true }} type="AUDIT_OPINION"
+            title: 'Parecer de auditoria',
+            type: 'AUDIT_OPINION',
+            Component: <DocumentUpload gridOptions={{ year: true }} type="AUDIT_OPINION"
                 hint={
                     <p>
                         Apresentar as demonstrações contábeis e financeiras devidamente auditadas por auditor independente legalmente habilitado nos
@@ -201,41 +223,60 @@ export default function EntityLegalFiles() {
         },
         {
             title: 'Ato de credenciamento / Autorização de funcionamento da Instituição de Ensino ',
+            type: 'ACCREDITATION_ACT',
             Component: <AccreditationAct />
         },
         {
-            title: 'Termos de convênio ou parceria', Component: <DocumentUpload gridOptions={{ year: true }} type="PARTNERSHIP_TERM"
+            title: 'Termos de convênio ou parceria',
+            type: 'PARTNERSHIP_TERM',
+            Component: <DocumentUpload gridOptions={{ year: true }} type="PARTNERSHIP_TERM"
                 details={<strong>
                     Termo(s) de convênio/parceria vigente firmado(s) com órgãos ou entidades dos poderes públicos e avaliações periódicas, quando for o caso.
                 </strong>}
             />
         },
         {
-            title: 'Relatório de atividades', Component: <DocumentUpload gridOptions={{ year: true }} type="ACTIVITY_REPORT"
+            title: 'Relatório de atividades',
+            type: 'ACTIVITY_REPORT',
+            Component: <DocumentUpload gridOptions={{ year: true }} type="ACTIVITY_REPORT"
                 hint="Relatório de todas as atividades desempenhadas, incluindo atividades não certificáveis,
          se houver. A entidade deve destacar em seu relatório as atividades desenvolvidas, os seus objetivos, 
          com a identificação clara de cada serviço, programa, projeto ou benefício socioassistencial, a metodologia utilizada, o público alvo atendido, o número de atendidos, 
         sua capacidade de atendimento, os resultados obtidos e recursos humanos envolvidos."
             />
         },
-        { title: 'Relatório nominal de bolsistas', Component: <DocumentUpload gridOptions={{ year: true }} type="NOMINAL_RELATION" /> },
         {
-            title: 'Relação nominal tipo I', Component: <DocumentUpload gridOptions={{ year: true }} type="NOMINAL_RELATION_TYPE_ONE"
+            title: 'Relatório nominal de bolsistas',
+            type: 'NOMINAL_RELATION',
+            Component: <DocumentUpload gridOptions={{ year: true }} type="NOMINAL_RELATION" />
+        },
+        {
+            title: 'Relação nominal - Beneficiários tipo I',
+            type: 'NOMINAL_RELATION_TYPE_ONE',
+            Component: <DocumentUpload gridOptions={{ year: true }} type="NOMINAL_RELATION_TYPE_ONE"
                 details={<strong>
                     Relação nominal com identificação precisa dos beneficiários – Tipo 1: Ações de apoio ao aluno bolsista (quando conceder).
                 </strong>}
             />
         },
         {
-            title: 'Relação nominal tipo II', Component: <DocumentUpload gridOptions={{ year: true }} type="NOMINAL_RELATION_TYPE_TWO"
+            title: 'Relação nominal - Beneficiários tipo II',
+            type: 'NOMINAL_RELATION_TYPE_TWO',
+            Component: <DocumentUpload gridOptions={{ year: true }} type="NOMINAL_RELATION_TYPE_TWO"
                 details={<strong>
                     Relação nominal com identificação precisa dos beneficiários – Tipo 2: Ações e serviços destinados a alunos e seu grupo familiar (quando conceder).
                 </strong>}
             />
         },
-        { title: 'Declaração de análise do perfil socioeconômico', Component: <DocumentUpload gridOptions={{ year: true }} type="PROFILE_ANALYSIS" /> },
         {
-            title: 'Plano de atendimento na área da educação', Component: <DocumentUpload
+            title: 'Declaração de análise do perfil socioeconômico',
+            type: 'PROFILE_ANALYSIS',
+            Component: <DocumentUpload gridOptions={{ year: true }} type="PROFILE_ANALYSIS" />
+        },
+        {
+            title: 'Plano de atendimento na área da educação',
+            type: 'CARE_PLAN',
+            Component: <DocumentUpload
                 add="form"
                 type="CARE_PLAN"
                 form={{
@@ -255,7 +296,9 @@ export default function EntityLegalFiles() {
             />
         },
         {
-            title: 'Identificação do corpo dirigente da instituição de ensino', Component: <DocumentUpload gridOptions={{ year: true }} type="GOVERNING_BODY"
+            title: 'Identificação do corpo dirigente da instituição de ensino',
+            type: 'GOVERNING_BODY',
+            Component: <DocumentUpload gridOptions={{ year: true }} type="GOVERNING_BODY"
                 hint="Encaminhar a relação com identificação dos integrantes do corpo dirigente de cada instituição de ensino vinculada à mantenedora, 
             destacando a experiência acadêmica e administrativa de cada membro.
             A entidade deverá descrever a experiência acadêmica e administrativa dos integrantes do corpo dirigente de cada instituição de ensino 
@@ -263,7 +306,9 @@ export default function EntityLegalFiles() {
             />
         },
         {
-            title: 'Requerimento - Certificado de entidade beneficente de assistência social', Component: <DocumentUpload type="CHARITABLE_CERTIFICATE"
+            title: 'Requerimento - Certificado de entidade beneficente de assistência social',
+            type: 'CHARITABLE_CERTIFICATE',
+            Component: <DocumentUpload type="CHARITABLE_CERTIFICATE"
                 gridOptions={{
                     title: 'Requerimento',
                     columns: 1
@@ -271,7 +316,9 @@ export default function EntityLegalFiles() {
             />
         },
         {
-            title: 'Declaração de cumprimento de requisitos', Component: <DocumentUpload type="REQUIREMENTS_DECLARATION" gridOptions={{
+            title: 'Declaração de cumprimento de requisitos',
+            type: 'REQUIREMENTS_DECLARATION',
+            Component: <DocumentUpload type="REQUIREMENTS_DECLARATION" gridOptions={{
                 title: 'Declaração',
                 columns: 1
             }}
@@ -295,9 +342,15 @@ export default function EntityLegalFiles() {
                 }
             />
         },
-        { title: 'Relatório de monitoramento', Component: <DocumentUpload gridOptions={{ year: true }} type="MONITORING_REPORT" /> },
         {
-            title: 'Declaração de que trata o inciso I do caput do art. 5º', Component: <DocumentUpload type="ART_5_DECLARATION"
+            title: 'Relatório de monitoramento',
+            type: 'MONITORING_REPORT',
+            Component: <DocumentUpload gridOptions={{ year: true }} type="MONITORING_REPORT" />
+        },
+        {
+            title: 'Declaração de que trata o inciso I do caput do art. 5º',
+            type: 'ART_5_DECLARATION',
+            Component: <DocumentUpload type="ART_5_DECLARATION"
                 details={<ButtonBase
                     label={'Baixar modelo e assinar'}
                     onClick={() => {
@@ -315,10 +368,12 @@ export default function EntityLegalFiles() {
         },
         {
             title: 'Documentação de editais',
+            type: 'ANNOUNCEMENT',
             Component: <Announcement />
         },
         {
             title: 'Termo de concessão de benefícios - Tipo 1',
+            type: 'BENEFITS_TYPE_ONE',
             Component: <DocumentUpload
                 details={<strong>Termo de concessão de benefícios – Tipo 1: Ações de apoio ao aluno bolsista (quando conceder).</strong>}
                 type="BENEFITS_TYPE_ONE"
@@ -327,6 +382,7 @@ export default function EntityLegalFiles() {
         },
         {
             title: 'Termo de concessão de benefícios - Tipo 2',
+            type: 'BENEFITS_TYPE_TWO',
             Component: <DocumentUpload
                 details={<strong>Termo de concessão de benefícios – Tipo 2: Ações e serviços destinados a alunos e seu grupo familiar (quando conceder).</strong>}
                 type="BENEFITS_TYPE_TWO"
@@ -335,6 +391,7 @@ export default function EntityLegalFiles() {
         },
         {
             title: 'Termo de parceria para atividades e projetos',
+            type: 'PUBLIC_SCHOLARSHIP_PROJECTS',
             Component: <DocumentUpload
                 details={<strong>Termo de parceria para execução de projetos e atividades de educação em tempo
                     integral para alunos de escola pública (quando aplicável)</strong>}
@@ -344,21 +401,29 @@ export default function EntityLegalFiles() {
         },
         {
             title: 'Certificado de Entidade Beneficente de Assistência Social (CEBAS)',
+            type: 'CEBAS',
             Component: <Cebas />
         },
         {
             title: 'Relatório mensal de acompanhamento',
+            type: 'MONTHLY_REPORT',
             Component: <MonthlyReport />,
             visible: ["ASSISTANT"]
         },
         {
             title: 'Solicitações de esclarecimentos e informações à entidade interessada',
+            type: 'INFORMATION_REQUEST',
             Component: <InformationRequest />
         },
     ].map((x, i) => ({ ...x, id: i })), [auth.role])
+    const [expiring, setExpiring] = useState([])
     useEffect(() => {
         const fetch = async () => {
-            await entityService.getExpiringDocuments()
+            try {
+
+                const response = await entityService.getExpiringDocuments()
+                setExpiring(response.documents)
+            } catch { }
         }
         fetch()
     }, [])
@@ -367,34 +432,49 @@ export default function EntityLegalFiles() {
     const visibleRoles = ["ENTITY", "ENTITY_DIRECTOR", "LAWYER"]
     return (
         <>
-            <h1>Arquivos da Instituição</h1>
+            <h1>Documentação Legal da Instituição</h1>
             <div style={{ display: 'flex', gap: 24, marginTop: 24, flex: 1 }}>
 
                 {selecting && <div style={{
                     display: 'flex', flexDirection: 'column',
                     maxHeight: 'calc(80vh)',
                     overflowY: 'auto',
-                    overflowX: 'hidden'
+                    // width: '80%'
+                    flex: 1
+                    // overflowX: 'hidden'¿
                 }}>
                     {config
                         .filter(x => (visibleRoles.includes(auth?.role) || x.visible?.includes(auth?.role)))
                         .map((x, i) => (
                             <div key={x.title} style={{
-                                backgroundColor: index !== x.id ? 'white' : '#bbb',
-                                padding: '4px 16px',
+                                backgroundColor: index !== x.id ? (
+                                    i % 2 === 0 ? '#fff' : '#ccc'
+                                ) : '#aaa',
+                                color: index !== x.id ? 'white' : 'black',
+                                fontWeight: index !== x.id ? 'normal' : 'bold',
+                                padding: '8px',
                                 cursor: 'pointer',
                                 display: 'flex',
-                                alignItems: 'center'
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
                             }}
                                 onClick={() => {
                                     setSelecting(false)
                                     setIndex(x.id)
                                 }}
                             >
-                                {index === x.id && <Folder height={16} />}
-                                <strong
-                                    style={{ fontSize: 16 }}
-                                >{x.title}</strong>
+                                <span style={{ display: 'flex', cursor: 'pointer' }}>
+                                    {index === x.id && <Folder height={20} />}
+                                    <label
+                                        style={{ fontSize: 16, cursor: 'pointer' }}
+                                    >{x.title}</label>
+                                </span>
+                                {
+                                    expiring?.find(e => e.type === x.type) &&
+                                    <strong
+                                        style={{ color: '#FFA726' }}
+                                    >{expiring?.find(e => e.type === x.type).count} próximo(s) do vencimento</strong>
+                                }
                             </div>
                         ))}
                 </div>

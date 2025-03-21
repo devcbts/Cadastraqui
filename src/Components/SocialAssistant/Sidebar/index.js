@@ -15,7 +15,7 @@ export default function SocialAssistantSidebar() {
             <Sidebar.Item icon={Management} text={'gerencial'} path={'/gerencial'}></Sidebar.Item>
             <Sidebar.Item icon={Profile} text={'perfil'} path={'/profile'}></Sidebar.Item>
             <Sidebar.Item icon={Student} text={'alunos'} path={'/alunos'}></Sidebar.Item>
-            <Sidebar.Item icon={Legal} text={'arquivos legais'} path={'/arquivos'}></Sidebar.Item>
+            <Sidebar.Item icon={Legal} text={'documentação legal'} path={'/arquivos'}></Sidebar.Item>
 
         </Sidebar.Root>
     )
