@@ -115,16 +115,18 @@ export async function checkExpiringEntityDocuments() {
                 groupDocuments
             }
         })
-        Promise.allSettled(singleDocuments.concat(groupDocuments.filter(x => !!x)).map(async x => {
+        Promise.allSettled(singleDocuments
+            .concat(groupDocuments.filter(x => !!x) as typeof singleDocuments)
+            .map(async x => {
 
-            const interval = await needToSendEmail(x)
-            if (interval !== null) {
-                return await sendExpireEmail({
-                    emails: [x.User?.email!],
-                    expiresIn: interval
-                })
-            }
-        }))
+                const interval = await needToSendEmail(x)
+                if (interval !== null) {
+                    return await sendExpireEmail({
+                        emails: [x.User?.email!],
+                        expiresIn: interval
+                    })
+                }
+            }))
     } catch (err) {
         console.log(err)
     }
@@ -195,11 +197,9 @@ const createTemplate = (expiresIn: number) => {
     </table>
         `
 }
-// const CheckExpiringEntityDocuments: Job = scheduleJob("0 0 2 * * *", async () => {
-//     await checkExpiringEntityDocuments();
-// });
-const CheckExpiringEntityDocuments: Job = scheduleJob("*/5 * * * * *", async () => {
+const CheckExpiringEntityDocuments: Job = scheduleJob("0 0 2 * * *", async () => {
     await checkExpiringEntityDocuments();
 });
+
 
 export default CheckExpiringEntityDocuments

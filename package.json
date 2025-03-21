@@ -12,6 +12,7 @@
     "generate:backup": "prisma generate --schema=backup_prisma/backupSchema.prisma",
     "db:push": "prisma db push --schema=backup_prisma/backupSchema.prisma",
     "db:sync": "dotenv -e .env.local -- npx prisma generate && dotenv -e .env.local --  npx prisma db push && dotenv -e .env.local -- npm run generate:backup && dotenv -e .env.local -- npm run db:push",
+    "db:sync:dev": "dotenv -e .env.dev -- npx prisma generate && dotenv -e .env.dev --  npx prisma db push && dotenv -e .env.dev -- npm run generate:backup && dotenv -e .env.dev -- npm run db:push",
     "db:sync:prod": "dotenv -e .env.production -- npx prisma generate && dotenv -e .env.production --  npx prisma db push && dotenv -e .env.production -- npm run generate:backup && dotenv -e .env.production -- npm run db:push"
   },
   "keywords": [],

@@ -42,7 +42,7 @@ export async function uploadEntityDocument(req: FastifyRequest, res: FastifyRepl
                 const mergedFields = !!groupedFileInfo
                     ? { ...groupedFileInfo.fields as Object, ...fields }
                     : { ...(group && { group }), ...fields }
-                let expireAt = undefined;
+                let expireAt: null | Date = null;
                 if (!!fields && "expireAt" in fields) {
                     expireAt = new Date(fields.expireAt as string)
                 }
