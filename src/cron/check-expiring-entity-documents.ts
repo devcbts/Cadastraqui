@@ -128,7 +128,6 @@ export async function checkExpiringEntityDocuments() {
                 }
             }))
     } catch (err) {
-        console.log(err)
     }
 }
 const sendExpireEmail = async ({
