@@ -76,8 +76,11 @@ export async function getEntityLegalDocuments(type: EntityDocumentType, userId: 
     })
     const mappedDocuments = await Promise.all(docs.map(async document => {
         const url = await getSignedUrlForFile(document.path)
-        const { Entity, EntityDirector, EntitySubsidiary, Lawyer, SocialAssistant } = document.User
-        const sentBy = Entity?.socialReason || EntityDirector?.name || EntitySubsidiary?.socialReason || Lawyer?.name || SocialAssistant?.name
+        let sentBy = "";
+        if (document.User) {
+            const { Entity, EntityDirector, EntitySubsidiary, Lawyer, SocialAssistant } = document.User
+            sentBy = Entity?.socialReason || EntityDirector?.name || EntitySubsidiary?.socialReason || Lawyer?.name || SocialAssistant?.name!
+        }
         return ({
             ...document, url, sentBy
         })

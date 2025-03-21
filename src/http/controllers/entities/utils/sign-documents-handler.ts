@@ -48,7 +48,7 @@ export default async function signDocumentsHandler({
                     "Accept": "*/*",
                 }
             })
-            if (doc) {
+            if (doc?.signKey) {
                 const response = await api.get('/docs', {
                     params: {
                         document_key: doc.signKey
@@ -56,6 +56,9 @@ export default async function signDocumentsHandler({
                 })
                 if (response.data?.data?.length === 1) {
                     await api.delete('/docs', { data: { id: response.data.data[0].id } })
+                    await db.signedDocuments.delete({
+                        where: { documentKey: doc.signKey }
+                    })
                 }
             }
             const uploadDocument = await api.post('/files/upload', formData, {
@@ -78,7 +81,7 @@ export default async function signDocumentsHandler({
                 where: { id: userId }, select: { email: true }
             })
             const emailBody = {
-                email: ["gabriel_campista@hotmail.com"],
+                email: [userEmail],
                 document_key: documentKey,
                 message: `Documento de Relatório de Monitoramento para assinar`,
                 width_page: "1000",

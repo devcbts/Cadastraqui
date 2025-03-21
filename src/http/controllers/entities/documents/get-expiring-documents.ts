@@ -7,13 +7,13 @@ export default async function getExpiringDocuments(req: FastifyRequest, res: Fas
     try {
         const { sub, role } = req.user
         const entityId = await getUserEntity(sub, role)
-        const nextThree = new Date()
-        nextThree.setMonth(nextThree.getMonth() + 3)
+        const minExpireDate = new Date()
+        minExpireDate.setMonth(minExpireDate.getMonth() + 1)
         const allTypes = await prisma.entityDocuments.groupBy({
             by: ['type'],
             where: {
                 entity_id: entityId,
-                expireAt: { gte: nextThree },
+                expireAt: { lte: minExpireDate },
             },
             _count: {
                 _all: true
@@ -24,17 +24,16 @@ export default async function getExpiringDocuments(req: FastifyRequest, res: Fas
                 distinct: 'group',
                 where: {
                     entity_id: entityId,
-                    expireAt: { gte: nextThree },
+                    expireAt: { lte: minExpireDate },
                     type: doc.type,
                     group: { not: null }
                 },
-                // distinct: 'group'
             });
 
             const totalWithoutGroup = await prisma.entityDocuments.count({
                 where: {
                     entity_id: entityId,
-                    expireAt: { gte: nextThree },
+                    expireAt: { lte: minExpireDate },
                     type: doc.type,
                     group: null
                 }
