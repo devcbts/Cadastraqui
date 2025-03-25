@@ -1,6 +1,7 @@
 import { ReactComponent as Back } from 'Assets/icons/chevron.svg'
 import ButtonBase from "Components/ButtonBase"
 import Spinner from "Components/Loader/Spinner"
+import useAuth from 'hooks/useAuth'
 import { useState } from "react"
 import { NotificationService } from 'services/notification'
 import { ENTITY_LEGAL_FILE } from "utils/enums/entity-legal-files-type"
@@ -12,6 +13,7 @@ export default function MonthlyReport() {
     const [selectedYear, setSelectedYear] = useState(null)
     const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
     const { loading, documents, handleUploadFile, handleUpdateFile } = useLegalFiles({ type: 'MONTHLY_REPORT' })
+    const { auth } = useAuth()
     const handleUpload = async (files, month, year) => {
         await handleUploadFile({
             files: files,
@@ -54,9 +56,9 @@ export default function MonthlyReport() {
             </ >}
 
             {!generating && <>
-                <ButtonBase label={'Criar relatório'} style={{ placeSelf: 'flex-start' }} onClick={() => {
+                {auth?.role === "ASSISTANT" && <ButtonBase label={'Criar relatório'} style={{ placeSelf: 'flex-start' }} onClick={() => {
                     setGenerating(true)
-                }} />
+                }} />}
                 <YearGrid
                     container={{
                         onClick: (year) => setSelectedYear(year)
