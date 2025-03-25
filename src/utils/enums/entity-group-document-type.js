@@ -14,8 +14,8 @@ export const ENTITY_GROUP_TYPE = {
 }
 
 export const ENTITY_GROUP_TYPE_MAPPER = {
-    INSTITUTION_NAME: 'Nome da unidade educacional',
-    CNPJ: 'CNPJ',
+    INSTITUTION_NAME: 'Autorização de funcionamento',
+    CNPJ: 'Cartão do CNPJ',
     ANNOUNCEMENT: 'Edital',
     DISCLOSURE_PROOF: 'Comprovante(s) de divulgação',
     SOCIAL_ASSISTANT_OPINION: 'Pareceres da assistente social',

@@ -13,14 +13,14 @@ export default function getLegalFields(fields) {
         return ['Documento sem informação adicional']
     }
     const result = []
-    Object.entries(fields).forEach(([k, v]) => {
-        const field = legalFieldsMapper[k]
+    Object.entries(legalFieldsMapper).forEach(([k, v]) => {
+        const field = fields[k]
         if (field) {
-            let newValue = v
-            if (field.type === 'date') {
-                newValue = formatDate(v)
+            let newValue = field
+            if (v.type === 'date') {
+                newValue = formatDate(field)
             }
-            result.push(`${field.translate}: ${newValue}`)
+            result.push(`${v.translate}: ${newValue}`)
         }
     })
     return result

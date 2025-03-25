@@ -178,6 +178,10 @@ class EntityService {
         const response = await api.put(`/entities/legal/documents/${id}`, formData)
         return response.data
     }
+    async updateGroupFields(groupId, fields) {
+        const response = await api.put(`/entities/legal/groups/${groupId}/fields`, { fields })
+        return response.data
+    }
     async getLegalFiles(type) {
         const response = await api.get(`/entities/legal/documents/${type}`)
         return response.data

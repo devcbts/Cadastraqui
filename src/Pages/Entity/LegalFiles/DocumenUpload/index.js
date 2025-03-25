@@ -40,7 +40,7 @@ export default function DocumentUpload({
     metadata,
     gridOptions = {
         columns: 2,
-        title: '',
+        title: 'Arquivo',
         transform: (x) => x,
         year: false
     },
@@ -122,6 +122,7 @@ export default function DocumentUpload({
                 onUpdate={(id, files) => handleUpdateFile({ id: id, files: files })}
                 {...gridOptions}
                 {...((!!gridOptions.year) && {
+                    multiple,
                     onDocumentClick: (
                         add === 'file'
                             ? (files, year) => handleUpload(files, { year })

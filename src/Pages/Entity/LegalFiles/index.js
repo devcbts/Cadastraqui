@@ -1,5 +1,6 @@
 import { ReactComponent as Folder } from 'Assets/icons/folder.svg'
 import DeclaracaoArt5 from 'Assets/templates/declaracao_art_5.docx'
+import BackPageTitle from 'Components/BackPageTitle'
 import ButtonBase from "Components/ButtonBase"
 import InputForm from "Components/InputForm"
 import useAuth from 'hooks/useAuth'
@@ -291,6 +292,9 @@ export default function EntityLegalFiles() {
 
                     ]
                 }}
+                gridOptions={{
+                    title: 'Arquivo'
+                }}
                 hint="Apresentar o plano de atendimento na área de educação, para o período pretendido de vigência da certificação a ser concedida. 
                 Esse plano deve indicar as bolsas de estudo a serem concedidas, bem como eventuais benefícios, ações e serviços."
             />
@@ -316,14 +320,14 @@ export default function EntityLegalFiles() {
             />
         },
         {
-            title: 'Declaração de cumprimento de requisitos',
+            title: 'Declaração referente às instituições mantidas',
             type: 'REQUIREMENTS_DECLARATION',
             Component: <DocumentUpload type="REQUIREMENTS_DECLARATION" gridOptions={{
                 title: 'Declaração',
                 columns: 1
             }}
                 details={<strong>
-                    Declaração de cumprimento dos requisitos listados no inciso II do § 3º do Art. 74 do Decreto 11.791/2023, quando for o caso.
+                    Declaração referente às instituições mantidas, de que tratam as alíneas “a” e “b” do inciso V do Art. 47 do Decreto 11.791/2023.
                 </strong>}
                 hint={
                     <>
@@ -343,14 +347,17 @@ export default function EntityLegalFiles() {
             />
         },
         {
-            title: 'Relatório de monitoramento',
+            title: 'Relatório anual de monitoramento',
             type: 'MONITORING_REPORT',
             Component: <DocumentUpload gridOptions={{ year: true }} type="MONITORING_REPORT" />
         },
         {
-            title: 'Declaração de que trata o inciso I do caput do art. 5º',
+            title: 'Declaração de que trata o inciso I do caput do art. 5º do Decreto 11.791/2023.',
             type: 'ART_5_DECLARATION',
             Component: <DocumentUpload type="ART_5_DECLARATION"
+                gridOptions={{
+                    title: 'Arquivo'
+                }}
                 details={<ButtonBase
                     label={'Baixar modelo e assinar'}
                     onClick={() => {
@@ -375,6 +382,7 @@ export default function EntityLegalFiles() {
             title: 'Termo de concessão de benefícios - Tipo 1',
             type: 'BENEFITS_TYPE_ONE',
             Component: <DocumentUpload
+                gridOptions={{ year: true }}
                 details={<strong>Termo de concessão de benefícios – Tipo 1: Ações de apoio ao aluno bolsista (quando conceder).</strong>}
                 type="BENEFITS_TYPE_ONE"
                 multiple
@@ -384,6 +392,7 @@ export default function EntityLegalFiles() {
             title: 'Termo de concessão de benefícios - Tipo 2',
             type: 'BENEFITS_TYPE_TWO',
             Component: <DocumentUpload
+                gridOptions={{ year: true }}
                 details={<strong>Termo de concessão de benefícios – Tipo 2: Ações e serviços destinados a alunos e seu grupo familiar (quando conceder).</strong>}
                 type="BENEFITS_TYPE_TWO"
                 multiple
@@ -393,6 +402,7 @@ export default function EntityLegalFiles() {
             title: 'Termo de parceria para atividades e projetos',
             type: 'PUBLIC_SCHOLARSHIP_PROJECTS',
             Component: <DocumentUpload
+                gridOptions={{ year: true }}
                 details={<strong>Termo de parceria para execução de projetos e atividades de educação em tempo
                     integral para alunos de escola pública (quando aplicável)</strong>}
                 type="PUBLIC_SCHOLARSHIP_PROJECTS"
@@ -432,7 +442,10 @@ export default function EntityLegalFiles() {
     const visibleRoles = ["ENTITY", "ENTITY_DIRECTOR", "LAWYER"]
     return (
         <>
-            <h1>Documentação Legal da Instituição</h1>
+            {!selecting
+                ? <BackPageTitle onClick={() => setSelecting(true)} title={'Documentação Legal da Instituição'} />
+                : <h1>Documentação Legal da Instituição</h1>
+            }
             <div style={{ display: 'flex', gap: 24, marginTop: 24, flex: 1 }}>
 
                 {selecting && <div style={{

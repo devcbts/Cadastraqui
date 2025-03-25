@@ -102,6 +102,19 @@ export function useLegalFiles({
         }
     }
 
-    return { loading, documents, handleUploadFile, handleUpdateFile }
+    const handleUpdateGroupFields = async (groupId, fields) => {
+        try {
+            await entityService.updateGroupFields(groupId, fields)
+            setDocuments((prev) => ([...prev].map(x => x.group === groupId ? {
+                ...x,
+                fields: { ...x.fields, ...fields }
+            } : x)))
+            NotificationService.success({ type: 'toast', text: 'Documento alterado com sucesso!' })
+        } catch (err) {
+            console.log(err)
+            NotificationService.error({ text: err?.response?.data?.message, type: 'toast' })
+        }
+    }
+    return { loading, documents, handleUploadFile, handleUpdateFile, handleUpdateGroupFields }
 
 }

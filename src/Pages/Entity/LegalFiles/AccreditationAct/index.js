@@ -1,32 +1,48 @@
+import { ReactComponent as Edit } from 'Assets/icons/pencil.svg'
 import ButtonBase from "Components/ButtonBase"
-import FilePreview from "Components/FilePreview"
 import FormFilePicker from "Components/FormFilePicker"
+import InputForm from "Components/InputForm"
 import Spinner from "Components/Loader/Spinner"
 import Modal from "Components/Modal"
 import useControlForm from "hooks/useControlForm"
 import { useState } from "react"
-import { ENTITY_GROUP_TYPE, ENTITY_GROUP_TYPE_MAPPER } from "utils/enums/entity-group-document-type"
+import { ENTITY_GROUP_TYPE } from "utils/enums/entity-group-document-type"
 import { ENTITY_LEGAL_FILE } from "utils/enums/entity-legal-files-type"
+import { formatCNPJ } from "utils/format-cnpj"
 import { z } from "zod"
 import DocumentHint from "../DocumentHint"
 import GroupedDocumentsGrid from "../GroupedDocumentsGrid"
+import DefaultCard from "../GroupedDocumentsGrid/DefaultCard"
 import { useLegalFiles } from "../useLegalFiles"
-
 export default function AccreditationAct() {
-    const { loading, documents, handleUploadFile } = useLegalFiles({ type: "ACCREDITATION_ACT" })
+    const { loading, documents, handleUploadFile, handleUpdateFile, handleUpdateGroupFields } = useLegalFiles({ type: "ACCREDITATION_ACT" })
     const [openModal, setOpenModal] = useState(false)
+    const [editCnpj, setEditCnpj] = useState({
+        group: '',
+        cnpj: ''
+    })
     const { control, handleSubmit, getValues, reset } = useControlForm({
         schema: z.object({
-            name: z.instanceof(File).refine(x => !!x, 'Arquivo obrigatório'),
-            cnpj: z.instanceof(File).refine(x => !!x, 'Arquivo obrigatório'),
+            name: z.instanceof(File).nullish().refine(x => (!!x || editCnpj.cnpj), 'Arquivo obrigatório'),
+            cnpj_file: z.instanceof(File).nullish().refine(x => (!!x || editCnpj.cnpj), 'Arquivo obrigatório'),
+            cnpj: z.string().min(1, 'CNPJ obrigatório')
         }),
         defaultValues: {
             name: null,
-            cnpj: null
+            cnpj_file: null,
+            cnpj: editCnpj.cnpj ?? ''
         }
     })
     const handleModal = () => {
-        setOpenModal((prev) => !prev)
+        setOpenModal((prev) => {
+            if (prev) {
+                setEditCnpj({
+                    cnpj: '',
+                    group: ''
+                })
+            }
+            return !prev
+        })
         reset()
     }
     const handleUpload = async () => {
@@ -34,14 +50,20 @@ export default function AccreditationAct() {
         await handleUploadFile({
             files: [
                 { file: getValues('name'), metadata: { document: ENTITY_GROUP_TYPE.INSTITUTION_NAME } },
-                { file: getValues('cnpj'), metadata: { document: ENTITY_GROUP_TYPE.CNPJ } }
+                { file: getValues('cnpj_file'), metadata: { document: ENTITY_GROUP_TYPE.CNPJ } }
             ],
             metadata: {
                 type: ENTITY_LEGAL_FILE.ACCREDITATION_ACT,
             },
+            fields: {
+                cnpj: getValues('cnpj')
+            },
             type: ENTITY_LEGAL_FILE.ACCREDITATION_ACT,
             group
-        })
+        }).then(_ => handleModal())
+    }
+    const handleGroupFields = async () => {
+        await handleUpdateGroupFields(editCnpj.group, { cnpj: getValues('cnpj') }).then(_ => handleModal())
     }
     if (loading) {
         return <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -70,20 +92,38 @@ export default function AccreditationAct() {
             <GroupedDocumentsGrid
                 documents={documents}
                 separator
-                render={(docs) => (docs.map(doc => (
-                    <div style={{ display: 'flex', flex: 1, flexDirection: "column", alignItems: 'center' }}>
-                        {ENTITY_GROUP_TYPE_MAPPER[doc.metadata?.document]}
-                        <FilePreview text={'visualizar'} url={doc.url} />
-                    </div>)
-                ))}
+                order={[
+                    ENTITY_GROUP_TYPE.INSTITUTION_NAME,
+                    ENTITY_GROUP_TYPE.CNPJ,
+                ]}
+                container={(fields, groupId) => (<div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    {`CNPJ ${fields?.cnpj}`}
+                    <Edit height={20} style={{ cursor: 'pointer' }} onClick={() => {
+                        setEditCnpj({ group: groupId, cnpj: fields.cnpj })
+                        handleModal()
+                    }} />
+                </div>)}
+                render={(docs, groupId, type) =>
+                    <DefaultCard
+                        docs={docs}
+                        type={type}
+                        onUpdate={(id, file) => {
+                            handleUpdateFile({ id, files: file })
+                        }}
+                    />
+                }
             />
 
             <Modal open={openModal}
-                onConfirm={handleSubmit(handleUpload)}
+                onConfirm={handleSubmit(editCnpj ? handleGroupFields : handleUpload)}
                 onClose={handleModal}
             >
-                <FormFilePicker control={control} name={"name"} label={'Nome da unidade educacional'} accept={'application/pdf'} />
-                <FormFilePicker control={control} name={"cnpj"} label={'CNPJ'} accept={'application/pdf'} />
+                <InputForm name={'cnpj'} label={'CNPJ da unidade educacional'} control={control} transform={(e) => formatCNPJ(e.target.value)} />
+                {!editCnpj.cnpj && <>
+                    <FormFilePicker control={control} name={"name"} label={'Autorização de funcionamento'} accept={'application/pdf'} />
+                    <FormFilePicker control={control} name={"cnpj_file"} label={'Cartão do CNPJ'} accept={'application/pdf'} />
+                </>
+                }
             </Modal>
 
         </ >

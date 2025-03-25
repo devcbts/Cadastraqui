@@ -1,5 +1,6 @@
 import FileCard from "../FileCard"
 import YearGrid from "../YearGrid"
+import YearMultipleFile from "../YearMultipleFile"
 
 export default function DocumentGridView({
     columns = 2,
@@ -8,7 +9,8 @@ export default function DocumentGridView({
     title,
     transform = (x) => x,
     year,
-    onDocumentClick
+    onDocumentClick,
+    multiple = false
 }) {
     const getTitle = (i) => {
         if (title === 'last') {
@@ -29,7 +31,7 @@ export default function DocumentGridView({
             <div style={{ display: "grid", gridTemplateColumns: `repeat(${columns},minmax(200px, 1fr))`, gap: 16 }}>
                 {
                     !!year
-                        ? <YearGrid render={(year) => {
+                        ? (!multiple ? <YearGrid render={(year) => {
                             return (
                                 <FileCard label={year} doc={documents.find(x => x.fields.year === year)}
                                     onAdd={(files) => onDocumentClick(files, year)}
@@ -37,8 +39,9 @@ export default function DocumentGridView({
                                 />
                             )
                         }} />
+                            : <YearMultipleFile documents={documents} onUpdate={onUpdate} onAdd={(files, year) => onDocumentClick(files, year)} />)
                         : (transform(documents).length === 0 ? <strong>Nenhum documento</strong> : transform(documents).map((e, i) =>
-                            <FileCard key={e.id} label={getTitle(i)} doc={e} />))
+                            <FileCard key={e.id} label={getTitle(i)} doc={e} onEdit={onUpdate} />))
                 }
             </div>
         </div>

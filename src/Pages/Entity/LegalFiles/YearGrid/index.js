@@ -32,7 +32,7 @@ export default function YearGrid({
                             cursor: container?.onClick ? 'pointer' : 'default',
                             ...container?.style ?? {}
                         }}
-                            onClick={() => container?.onClick(year) ?? undefined}
+                            onClick={() => container?.onClick?.(year) ?? undefined}
                         >
                             {render(year)}
                         </div>
