@@ -54,7 +54,7 @@ export function validateFields(type?: EntityDocumentType, subtype?: ENTITY_SUBTY
             break
         case 'ACCREDITATION_ACT':
             fields = z.object({
-                name: z.string().min(1, 'Nome obrigatório'),
+                // name: z.string().min(1, 'Nome obrigatório'),
                 cnpj: z.string().min(1, 'CNPJ obrigatório'),
             })
             break
@@ -74,6 +74,9 @@ export function validateFields(type?: EntityDocumentType, subtype?: ENTITY_SUBTY
         case 'NOMINAL_RELATION_TYPE_ONE':
         case 'NOMINAL_RELATION_TYPE_TWO':
         case 'GOVERNING_BODY':
+        case 'PUBLIC_SCHOLARSHIP_PROJECTS':
+        case 'BENEFITS_TYPE_ONE':
+        case 'BENEFITS_TYPE_TWO':
         case 'MONITORING_REPORT':
             fields = z.object({
                 year: z.number({ message: 'Ano obrigatório' }),

@@ -5,6 +5,7 @@ import { getEntityDocuments } from "./get-entity-documents";
 import getExpiringDocuments from "./get-expiring-documents";
 import getLegalMonthlyReportResume from "./get-monthly-report-resume";
 import updateEntityDocument from "./update-entity-document";
+import updateCommonGroupFields from "./update-group-fields";
 import { uploadEntityDocument } from "./upload-entity-document";
 
 export default function entityDocumentsRoutes(app: FastifyInstance) {
@@ -14,4 +15,5 @@ export default function entityDocumentsRoutes(app: FastifyInstance) {
     app.get('/legal/resume/:id', { onRequest: verifyJWT }, getAnnouncementResume)
     app.get('/legal/report', { onRequest: verifyJWT }, getLegalMonthlyReportResume)
     app.get('/legal/expiring', { onRequest: verifyJWT }, getExpiringDocuments)
+    app.put('/legal/groups/:groupId/fields', { onRequest: verifyJWT }, updateCommonGroupFields)
 }
