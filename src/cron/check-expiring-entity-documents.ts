@@ -45,6 +45,7 @@ export async function checkExpiringEntityDocuments() {
         const minDeadline = new Date()
         minDeadline.setMonth(minDeadline.getMonth() + 1)
         const { singleDocuments, groupDocuments } = await prisma.$transaction(async tPrisma => {
+
             const singleDocuments = await tPrisma.entityDocuments.findMany({
                 where: {
                     AND: [
@@ -59,6 +60,7 @@ export async function checkExpiringEntityDocuments() {
                     ]
 
                 },
+                distinct: 'type',
                 select: {
                     id: true,
                     type: true,
@@ -67,7 +69,8 @@ export async function checkExpiringEntityDocuments() {
                     EmailsSent: {
                         orderBy: { cycle: 'desc' }
                     }
-                }
+                },
+                orderBy: { createdAt: 'desc' }
             });
             const maxExpirePerGroup = await tPrisma.entityDocuments.groupBy({
                 by: 'group',
@@ -118,7 +121,6 @@ export async function checkExpiringEntityDocuments() {
         Promise.allSettled(singleDocuments
             .concat(groupDocuments.filter(x => !!x) as typeof singleDocuments)
             .map(async x => {
-
                 const interval = await needToSendEmail(x)
                 if (interval !== null) {
                     return await sendExpireEmail({
@@ -126,8 +128,9 @@ export async function checkExpiringEntityDocuments() {
                         expiresIn: interval
                     })
                 }
-            }))
+            })).catch(console.log)
     } catch (err) {
+        console.log(err)
     }
 }
 const sendExpireEmail = async ({

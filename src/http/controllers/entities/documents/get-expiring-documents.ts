@@ -30,18 +30,21 @@ export default async function getExpiringDocuments(req: FastifyRequest, res: Fas
                 },
             });
 
-            const totalWithoutGroup = await prisma.entityDocuments.count({
+            const totalWithoutGroup = await prisma.entityDocuments.findMany({
                 where: {
                     entity_id: entityId,
                     expireAt: { lte: minExpireDate },
                     type: doc.type,
                     group: null
-                }
+                },
+                distinct: 'type',
+                select: { id: true },
+                orderBy: { createdAt: 'desc' }
             });
 
             return {
                 type: doc.type,
-                count: groupCount.length > 0 ? groupCount.length : totalWithoutGroup
+                count: groupCount.length > 0 ? groupCount.length : totalWithoutGroup.length
             };
         }))
         return res.status(200).send({
