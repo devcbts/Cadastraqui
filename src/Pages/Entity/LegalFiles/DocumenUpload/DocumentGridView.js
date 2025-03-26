@@ -10,7 +10,8 @@ export default function DocumentGridView({
     transform = (x) => x,
     year,
     onDocumentClick,
-    multiple = false
+    multiple = false,
+    children,
 }) {
     const getTitle = (i) => {
         if (title === 'last') {
@@ -36,12 +37,13 @@ export default function DocumentGridView({
                                 <FileCard label={year} doc={documents.find(x => x.fields.year === year)}
                                     onAdd={(files) => onDocumentClick(files, year)}
                                     onEdit={(id, files) => onUpdate(id, files)}
+                                    children={children}
                                 />
                             )
                         }} />
                             : <YearMultipleFile documents={documents} onUpdate={onUpdate} onAdd={(files, year) => onDocumentClick(files, year)} />)
                         : (transform(documents).length === 0 ? <strong>Nenhum documento</strong> : transform(documents).map((e, i) =>
-                            <FileCard key={e.id} label={getTitle(i)} doc={e} onEdit={onUpdate} />))
+                            <FileCard key={e.id} label={getTitle(i)} doc={e} onEdit={onUpdate} children={children} />))
                 }
             </div>
         </div>

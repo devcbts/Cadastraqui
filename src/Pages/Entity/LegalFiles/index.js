@@ -27,6 +27,21 @@ export default function EntityLegalFiles() {
             title: 'CPF dos responsáveis',
             type: 'RESPONSIBLE_CPF',
             Component: <DocumentUpload type="RESPONSIBLE_CPF"
+                cardInfo={(fields) => {
+                    if (!fields?.name) {
+                        return null
+                    }
+                    return <label style={{ fontSize: 12, marginTop: '4px' }}>{fields.name}</label>
+                }}
+                form={{
+                    schema: z.object({
+                        name: z.string().min(1, 'Nome obrigatório')
+                    }),
+                    items: [
+                        { Component: InputForm, name: 'name', label: 'Nome' }
+                    ]
+                }}
+                add='form'
                 gridOptions={{
                     title: 'last',
                     transform: (x) => {

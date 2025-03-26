@@ -9,6 +9,7 @@ export default function FileCard({
     onAdd,
     multiple = false,
     onEdit,
+    children,
     ...props
 }) {
 
@@ -27,15 +28,16 @@ export default function FileCard({
             flexDirection: 'column',
             placeSelf: 'center',
             overflow: 'hidden',
-            boxShadow: '0px 0px 8px .1px #999'
+            boxShadow: '0px 0px 8px .1px #999',
         }}
             {...props}
         >
             <div style={{
-                padding: '16px 24px'
+                // padding: '16px 24px'
+                marginTop: '8px'
             }}>
 
-                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center', justifyContent: 'center', height: 'fit-content' }}>
                     <strong >{label}</strong>
                     {(!!doc) ?
                         <>
@@ -51,10 +53,12 @@ export default function FileCard({
                         </>}
                 </div>
             </div>
+            {children?.(doc.fields) ?? children}
             <div style={{
                 minHeight: '30px',
                 width: '100%',
-                display: "flex"
+                display: "flex",
+                marginTop: '12px'
             }}>
                 {
                     doc?.url && (

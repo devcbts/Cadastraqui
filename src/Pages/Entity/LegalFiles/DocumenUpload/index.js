@@ -28,6 +28,7 @@ import FileUploaderButton from './FileUploaderButton'
  * @param {string | React.JSX.Element} [props.hint]
  * @param {React.JSX.Element} [props.details]
  * @param {GridOptions} [props.gridOptions]
+ * @param {React.JSX.Element | (fields)=> React.JSX.Element} [props.cardInfo] - Additional information or children between card title and actions, receive (fields)
  * @param {'file'| 'form'} [props.add] - which way to add a new row - default is file
  * @param {{schema: ZodObject, items: ({Component: React.JSX.Element,label:string,name:string}|React.JSX.Element)[]}} [props.form] - 'file' is a default field if form is present,
  *  each individual field will be passes on
@@ -47,7 +48,8 @@ export default function DocumentUpload({
     details = undefined,
     add = "file",
     form = undefined,
-    hint = null
+    hint = null,
+    cardInfo = null,
 }) {
     const { loading, documents, handleUploadFile, handleUpdateFile } = useLegalFiles({ type: type })
     const { control, getValues, handleSubmit, reset } = useControlForm({
@@ -129,6 +131,7 @@ export default function DocumentUpload({
                             : handleModal
                     ), columns: 4
                 })}
+                children={cardInfo}
             />
             <Modal open={isModalOpen} title={'Adicionar'}
                 onConfirm={handleSubmit(() => handleUpload(getValues('file'),
