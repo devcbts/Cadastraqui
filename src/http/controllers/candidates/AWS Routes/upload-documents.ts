@@ -7,12 +7,12 @@ import getExpireDate from '@/utils/get-expire-date'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import verifyDeclarationRegistration from '@/utils/Trigger-Functions/verify-declaration-registration'
 import { MultipartFile } from '@fastify/multipart'
+import { DocumentAnalysisStatus } from '@prisma/client'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import fs from 'fs'
 import { z } from 'zod'
-import createCandidateDocument from '../Documents Functions/create-candidate-document'
 import { CacheManager } from '../../students/CacheManager'
-import { DocumentAnalysisStatus } from '@prisma/client'
+import createCandidateDocument from '../Documents Functions/create-candidate-document'
 
 const cacheManager = new CacheManager();
 
@@ -58,6 +58,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
         let metadatas: any = {};
         // get all metadata and files separated
         for await (const part of parts) {
+            console.log('PART', part.type)
             if (part.fieldname === 'file_metadatas' && part.type === "field") {
                 metadatas = JSON.parse(part.value as string)
 
@@ -66,29 +67,33 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
                 // read the file before sending to AWS, need to ensure the data needed for file store isn't lost during the process
                 const chunks: any[] = [];
                 let fileSize = 0;
+                await new Promise((resolve, reject) => {
 
-                part.file.on('data', (chunk) => {
-                    fileSize += chunk.length;
-                    chunks.push(chunk);
-                });
-                part.file.on('end', async () => {
-                    if (fileSize >= MAX_FILE_SIZE) {
-                        // if it exceeds 10Mb, throw an error before manipulating it
-                        throw new Error('Arquivo excedente ao limite de 10MB');
-                    }
-                    const fileBuffer = Buffer.concat(chunks)
-                    // // if part is file, save to files array to consume after
-                    files.push({
-                        ...part,
-                        fileBuffer,
-                        metadata: metadatas?.[`metadata_${part.fieldname.split('_')[1]}`] ?? {}
+                    part.file.on('data', (chunk) => {
+                        fileSize += chunk.length;
+                        chunks.push(chunk);
+                    });
+                    part.file.on('end', () => {
+                        if (fileSize >= MAX_FILE_SIZE) {
+                            // if it exceeds 10Mb, throw an error before manipulating it
+                            throw new Error('Arquivo excedente ao limite de 10MB');
+                        }
+                        const fileBuffer = Buffer.concat(chunks)
+                        // // if part is file, save to files array to consume after
+                        files.push({
+                            ...part,
+                            fileBuffer,
+                            metadata: metadatas?.[`metadata_${part.fieldname.split('_')[1]}`] ?? {}
+                        })
+                        resolve(true)
                     })
+                    part.file.on('error', reject)
                 })
             }
         }
         let deleteUrl = '';
+        console.log('FILES', files.length)
         for (const part of files) {
-
             // pump(part.file, fs.createWriteStream(part.filename))
             const fileBuffer = part.fileBuffer;
             const route = `CandidateDocuments/${candidateOrResponsible.UserData.id}/${documentType}/${member_id}/${table_id ? table_id + '/' : ''}${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;
@@ -96,12 +101,12 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             // Inicia transação de envio de documento
             await prisma.$transaction(async (tsPrisma) => {
                 // Cria o registro do documento no banco de dados
-                
+
                 let documentAnalysisStatus: DocumentAnalysisStatus = "NotIncluded";
-                let AiData 
+                let AiData
                 const metadata = part.metadata as object;
                 if (metadata && 'id' in metadata) {
-                    
+
                     const id = metadata.id as string;
                     const cachedInfo: {
                         legibilidade: boolean,
@@ -114,7 +119,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
                     if (cachedInfo !== null && cachedInfo !== undefined && (cachedInfo.legibilidade && cachedInfo.retifiedReceiver && cachedInfo.coherent)) {
                         documentAnalysisStatus = "Approved";
 
-                    }else{
+                    } else {
                         documentAnalysisStatus = "Forced";
                     }
                     AiData = cachedInfo;
@@ -132,8 +137,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
                     table_id,
                     member_id,
                     user_id: candidateOrResponsible.UserData.id
-                });
-
+                })
 
                 if (fs.existsSync(part.filename)) {
                     fs.unlinkSync(part.filename)
