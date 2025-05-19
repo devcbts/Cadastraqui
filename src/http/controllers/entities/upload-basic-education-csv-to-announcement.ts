@@ -2,12 +2,11 @@ import { APIError } from "@/errors/api-error";
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
+import getDelimiter from "@/utils/get-csv-delimiter";
 import { AllEducationType, AllScholarshipsType, SHIFT } from "@prisma/client";
 import csv from 'csv-parser';
 import { FastifyReply, FastifyRequest } from "fastify";
 import fs from 'fs';
-import { decodeStream, encodeStream } from "iconv-lite";
-import { detect } from 'jschardet';
 import pump from "pump";
 import tmp from 'tmp';
 import { EntityNotExistsErrorWithCNPJ } from '../../../errors/entity-not-exists-with-cnpj';
@@ -65,7 +64,7 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
 
         // Save the uploaded file to the temporary file
         await new Promise((resolve, reject) => {
-            pump(csvFile.file, fs.createWriteStream(tempFile.name), (err) => {
+            pump(csvFile.file, fs.createWriteStream(tempFile.name, { encoding: 'utf-8' }), (err) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -73,23 +72,24 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
                 }
             });
         });
-        const detectEncoding = (filePath: any) => {
-            return new Promise((resolve, reject) => {
-                const buffer = fs.readFileSync(filePath);
-                const detection = detect(buffer);
-                resolve(detection.encoding);
-            });
-        };
+        // const detectEncoding = (filePath: any) => {
+        //     return new Promise((resolve, reject) => {
+        //         const buffer = fs.readFileSync(filePath);
+        //         const detection = detect(buffer);
+        //         resolve(detection.encoding);
+        //     });
+        // };
 
-        const detectedEncoding = 'latin1';
+        // const detectedEncoding = 'latin1';
         // const encoding = detectedEncoding === 'windows-1251' ? 'latin1' : (detectedEncoding as string || 'utf8');
+        const separator = await getDelimiter(tempFile.name)
         const results: CSVData[] = [];
         await new Promise((resolve, reject) => {
             fs.createReadStream(tempFile.name)
-                .pipe(decodeStream(detectedEncoding))
-                .pipe(encodeStream('utf8'))
+                // .pipe(decodeStream(detectedEncoding))
+                // .pipe(encodeStream('utf8'))
                 .pipe(csv({
-                    separator: ';'
+                    separator: separator
                     // detectedEncoding === "UTF-8" ? ',' : ';'
                 }))
                 .on('data', (data: CSVData) => {
