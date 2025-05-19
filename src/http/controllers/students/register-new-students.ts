@@ -318,13 +318,16 @@ export default async function registerNewStudents(
         Promise.all(usersToSendEmail.map(async x => {
             return await sendEmail({
                 to: x.email,
-                subject: 'Criação de conta CadastrAqui',
+                subject: 'Conta CadastrAqui',
                 body: `
                 <h1>Você foi registrado no CadastrAqui</h1>
+                <strong>Olá ${x.name},</strong>
                 <p>
-                Olá ${x.name}, você foi cadastrado com sucesso na plataforma do CadastrAqui,
-                para seu primeiro acesso, utilize este e-mail e sua senha são os dígitos de seu CPF (para alterar, vá em Perfil).
-                Depois, é só realizar o cadastro das suas informações para acompanhamento da instituição!
+                sua conta já está ativa no <a href="https://www.cadastraqui.com.br" target="_blank">CadastrAqui</a>. Para utilizá-la, acesse com 
+                este e-mail e utilize os dígitos do seu CPF como senha no primeiro acesso.
+                </p>
+                <p>
+                Depois basta completar seu cadastro para acompanhamento da instituição!
                 </p>
                 `
             })
