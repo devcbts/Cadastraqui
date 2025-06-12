@@ -1,8 +1,10 @@
 // require('module-alias/register');
+import '@/lib/instrument';
 import fastifyCookie from '@fastify/cookie';
 import helmet from '@fastify/helmet';
 import fastifyJwt from '@fastify/jwt';
 import { fastifyMultipart } from '@fastify/multipart';
+import { setupFastifyErrorHandler } from '@sentry/node';
 import fastify from 'fastify';
 import fastifyCors from 'fastify-cors';
 import fastifyMulter from 'fastify-multer';
@@ -10,6 +12,7 @@ import morgan from 'morgan';
 import { ZodError } from 'zod';
 import { env } from './env/index';
 import { adminRoutes } from './http/controllers/admin/routes';
+import { handleFileUpload } from './http/controllers/AI_Validation/runDocumentAnalysis';
 import { applicationRoutes } from './http/controllers/application/routes';
 import { candidateRoutes } from './http/controllers/candidates/routes';
 import { entityRoutes } from './http/controllers/entities/routes';
@@ -34,10 +37,13 @@ import getCnpj from './http/services/get-cnpj';
 import { multerConfig } from './lib/multer';
 import './lib/pg-listener';
 import { prisma } from './lib/prisma';
-import { handleFileUpload } from './http/controllers/AI_Validation/runDocumentAnalysis';
 
 export const app = fastify({
   trustProxy: true
+})
+setupFastifyErrorHandler(app)
+app.get('/test/sentry', () => {
+  throw new Error('Sentry test')
 })
 app.register(fastifyMultipart,
   {
