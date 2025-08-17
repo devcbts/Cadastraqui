@@ -486,6 +486,7 @@ model MonthlyIncome {
 
 model BankAccount {
   id                 String            @id @default(uuid())
+  ISPB               String               @default("0")
   bankName           String
   agencyNumber       String
   accountNumber      String

@@ -35,7 +35,8 @@ import { multerConfig } from './lib/multer';
 import './lib/pg-listener';
 import { prisma } from './lib/prisma';
 import { handleFileUpload } from './http/controllers/AI_Validation/runDocumentAnalysis';
-
+import { processPdf } from './scripts/OCR/extract-info-from-CCS';
+processPdf(__dirname + '/scripts/OCR/CCS.pdf')
 export const app = fastify({
   trustProxy: true
 })

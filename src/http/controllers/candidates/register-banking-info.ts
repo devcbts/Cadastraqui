@@ -15,6 +15,7 @@ export async function registerBankingInfo(
     const BankingInfoDataSchema = z.object({
         agencyNumber: z.string(),
         bankName: z.string(),
+        ISPB: z.string(),
         accountNumber: z.string(),
         accountType: AccountType,
         balances: z.array(z.object({
@@ -42,7 +43,8 @@ export async function registerBankingInfo(
         accountNumber,
         accountType,
         agencyNumber,
-        balances
+        balances,
+        ISPB,
     } = BankingInfoDataSchema.parse(request.body)
 
     try {
@@ -72,6 +74,7 @@ export async function registerBankingInfo(
                     accountNumber,
                     accountType,
                     agencyNumber,
+                    ISPB,
                     ...idField,
                 },
             })
