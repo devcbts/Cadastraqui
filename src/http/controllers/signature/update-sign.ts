@@ -1,4 +1,3 @@
-import { NotAllowedError } from "@/errors/not-allowed-error";
 import getOpenApplications from "@/HistDatabaseFunctions/find-open-applications";
 import { findAWSRouteHDB } from "@/HistDatabaseFunctions/Handle Application/find-AWS-Route";
 import { uploadFile } from "@/http/services/upload-file";
@@ -59,10 +58,23 @@ export default async function updateSign(
                         const fileParecer = Buffer.from(binaryDataParecer.data);
                         await uploadToS3(fileParecer, routeParecer);
                         break;
-                       
+                    case 'legal':
+                        // response is a binary data, must convert into readable file before sending to aws
+                        const doc = await prisma.entityDocuments.findUnique({
+                            where: { signKey: document_key }
+                        });
+                        if (!doc) {
+                            break;
+                        }
+                        const binLegalFile = await api.get(`/files/download/${document_key}`, { responseType: 'arraybuffer', responseEncoding: 'binary' });
+
+                        const file = Buffer.from(binLegalFile.data);
+                        await uploadToS3(file, doc.path);
+                        break;
+
                     default:
                         const documentInAWS = await prisma.signedDocuments.findUnique({
-                            where: {documentKey: document_key}
+                            where: { documentKey: document_key }
                         })
                         if (!documentInAWS) {
                             break;
@@ -75,15 +87,15 @@ export default async function updateSign(
                                 }
                             })
                             const binaryDataParecer = await api.get(`/files/download/${document_key}`, { responseType: 'arraybuffer', responseEncoding: 'binary' });
-                            const metadata = documentInAWS.metadata as Object 
+                            const metadata = documentInAWS.metadata as Object
 
-                            await uploadFile(binaryDataParecer.data, documentInAWS.path,metadata)
+                            await uploadFile(binaryDataParecer.data, documentInAWS.path, metadata)
                             const [, candidateOrResponsibleId, section, memberId, tableIdOrFilename, maybeFilename] = documentInAWS.path.split("/");
 
                             // Verificação condicional para ajustar tableId e filename
                             let tableId = tableIdOrFilename;
                             let filename = maybeFilename;
-                        
+
                             if (!filename) { // Caso não exista o filename, o tableIdOrFilename é o filename
                                 filename = tableIdOrFilename;
                                 tableId = '';

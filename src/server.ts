@@ -1,4 +1,5 @@
 import { app } from './app'
+import CheckExpiringEntityDocuments from './cron/check-expiring-entity-documents'
 import RemoveOutdatedExepenses from './cron/remove-outdated-expenses'
 import RemoveOutdatedIncomes from './cron/remove-outdated-incomes'
 import Selectjob from './cron/select-valid-candidates'
@@ -15,5 +16,6 @@ app
     RemoveOutdatedExepenses
     Selectjob
     sendStudentUpdateEmailJob
+    CheckExpiringEntityDocuments
     console.log(`HTTP Server Running on port ${env.PORT}!`)
   })

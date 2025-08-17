@@ -135,26 +135,25 @@ model LegalResponsible {
 }
 
 model IdentityDetails {
-  id                               String         @id @default(uuid())
-  fullName                         String
-  socialName                       String?
-  main_id                          String?
-  birthDate                        DateTime
-  gender                           GENDER
-  nationality                      String
-  natural_city                     String
-  natural_UF                       COUNTRY
-  CPF                              String?
-  RG                               String
-  rgIssuingAuthority               String
-  rgIssuingState                   String
-  documentType                     DOCUMENT_TYPE?
-  CadUnico                         Boolean        @default(false)
-  hasSevereDeseaseOrUsesMedication Boolean?
-  hasBankAccount                   Boolean?
-  isIncomeUpdated                  Boolean?
-  incomeUpdatedStatus                        DocumentAnalysisStatus  @default(Approved)
-
+  id                                         String                 @id @default(uuid())
+  fullName                                   String
+  socialName                                 String?
+  main_id                                    String?
+  birthDate                                  DateTime
+  gender                                     GENDER
+  nationality                                String
+  natural_city                               String
+  natural_UF                                 COUNTRY
+  CPF                                        String?
+  RG                                         String
+  rgIssuingAuthority                         String
+  rgIssuingState                             String
+  documentType                               DOCUMENT_TYPE?
+  CadUnico                                   Boolean                @default(false)
+  hasSevereDeseaseOrUsesMedication           Boolean?
+  hasBankAccount                             Boolean?
+  isIncomeUpdated                            Boolean?
+  incomeUpdatedStatus                        DocumentAnalysisStatus @default(Pending)
   documentNumber                             String?
   documentValidity                           DateTime?
   maritalStatus                              MARITAL_STATUS
@@ -196,9 +195,9 @@ model IdentityDetails {
   nameOfScholarshipCourse_professional       String?
   candidate_id                               String?
   responsible_id                             String?
-  candidate                                  Candidate?        @relation(fields: [candidate_id], references: [id])
-  responsible                                LegalResponsible? @relation(fields: [responsible_id], references: [id])
-  application_id                             String            @unique
+  candidate                                  Candidate?             @relation(fields: [candidate_id], references: [id])
+  responsible                                LegalResponsible?      @relation(fields: [responsible_id], references: [id])
+  application_id                             String                 @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -258,7 +257,7 @@ model FamilyMember {
   hasSevereDeseaseOrUsesMedication           Boolean?
   hasBankAccount                             Boolean?
   isIncomeUpdated                            Boolean?
-  incomeUpdatedStatus                        DocumentAnalysisStatus  @default(Approved)
+  incomeUpdatedStatus                        DocumentAnalysisStatus @default(Pending)
 
   incomeSource          IncomeSource[]
   CreditCard            CreditCard[]
@@ -335,12 +334,12 @@ model Vehicle {
 }
 
 model FamilyMemberIncome {
-  id             String         @id @default(uuid())
+  id             String                 @id @default(uuid())
   employmentType EmploymentType
   averageIncome  String
   main_id        String?
   isUpdated      Boolean?
-  updatedStatus         DocumentAnalysisStatus @default(Approved)
+  updatedStatus  DocumentAnalysisStatus @default(Pending)
 
   admissionDate         DateTime?
   position              String?
@@ -373,9 +372,9 @@ model FamilyMemberIncome {
 }
 
 model MonthlyIncome {
-  id             String   @id @default(uuid())
-  receivedIncome Boolean? @default(true)
-  analysisStatus            DocumentAnalysisStatus @default(Approved)
+  id             String                 @id @default(uuid())
+  receivedIncome Boolean?               @default(true)
+  analysisStatus DocumentAnalysisStatus @default(Pending)
 
   date                      DateTime?         @default(now())
   main_id                   String?
@@ -761,6 +760,7 @@ enum ROLE {
   ENTITY_SUB
   ENTITY_DIRECTOR
   SELECTION_RESPONSIBLE
+  LAWYER
 }
 
 enum COUNTRY {
