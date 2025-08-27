@@ -9,7 +9,8 @@ export const pdfStyles = StyleSheet.create({
         padding: '12px 24px',
         textOverflow: 'wrap',
         lineHeight: 1.5,
-        fontFamily: 'Poppins'
+        fontFamily: 'Poppins',
+        paddingBottom: 40
     },
     header: {
         textAlign: 'center'

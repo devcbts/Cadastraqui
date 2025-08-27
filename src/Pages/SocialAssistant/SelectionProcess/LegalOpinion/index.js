@@ -1,9 +1,12 @@
+import { BlobProvider } from "@react-pdf/renderer";
+import { ReactComponent as Pdf } from 'Assets/icons/PDF.svg';
 import BackPageTitle from "Components/BackPageTitle";
 import ButtonBase from "Components/ButtonBase";
 import FilePreview from "Components/FilePreview";
 import FormCheckbox from "Components/FormCheckbox";
-import FormFilePicker from "Components/FormFilePicker";
 import FormRadio from "Components/FormRadio";
+import InputForm from "Components/InputForm";
+import Loader from "Components/Loader";
 import Table from "Components/Table";
 import useControlForm from "hooks/useControlForm";
 import { useContext, useEffect, useMemo, useState } from "react";
@@ -17,19 +20,15 @@ import MARITAL_STATUS from "utils/enums/marital-status";
 import NUMBER_ROOMS from "utils/enums/number-rooms";
 import PROPERTY_STATUS from "utils/enums/property-status";
 import TIME_LIVING_PROPERTY from "utils/enums/time-living-property";
-import formatMoney from "utils/format-money";
-import { selectionProcessContext } from "../CandidateInfo/context/SelectionProcessContext";
+import mapMetadatas from "utils/file/map-metadatas";
 import formatDate from "utils/format-date";
-import { BlobProvider } from "@react-pdf/renderer";
+import formatMoney from "utils/format-money";
+import removeObjectFileExtension from "utils/remove-file-ext";
+import { selectionProcessContext } from "../CandidateInfo/context/SelectionProcessContext";
 import LegalOpinionPdf from "./LegalOpinionPdf";
 import legalOpinionSchema from "./schemas/legal-opinion-schema";
 import styles from './styles.module.scss';
 import Vehicles from "./Vehicle";
-import { ReactComponent as Pdf } from 'Assets/icons/PDF.svg'
-import Loader from "Components/Loader";
-import InputForm from "Components/InputForm";
-import removeObjectFileExtension from "utils/remove-file-ext";
-import mapMetadatas from "utils/file/map-metadatas";
 export default function LegalOpinion() {
     const { state } = useLocation()
     const navigate = useNavigate()
@@ -255,7 +254,7 @@ export default function LegalOpinion() {
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '32px' }}>
 
                     <ButtonBase label={'concluir'} onClick={handleSubmit} />
-                    {data?.parecer
+                    {Object.keys(data?.parecer ?? {}).length > 0
                         ? <FilePreview file={data?.file_parecer} url={removeObjectFileExtension(data?.parecer)['url_parecer']} text={'visualizar parecer'} />
                         : <BlobProvider document={
                             <LegalOpinionPdf
