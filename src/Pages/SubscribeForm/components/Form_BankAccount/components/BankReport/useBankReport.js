@@ -26,10 +26,11 @@ export default function useBankReport({ id }) {
         if (!canEdit) { return }
         try {
             const formData = new FormData()
-            const suffix = `${date.getMonth() + 1}-${date.getFullYear()}-${type}`
+            const todayDate = new Date()
+            const currMonth = todayDate.getMonth() + 1
+            const currYear = todayDate.getFullYear()
+            const suffix = `${currMonth}-${currYear}-${type}`
             const fileName = `file_${suffix}`
-            const currMonth = date.getMonth() + 1
-            const currYear = date.getFullYear()
             const date = `${currYear}-${currMonth.toString().padStart(2, '0')}-01T00:00:00`
             const metadata = {
                 [`metadata_${suffix}`]: {
@@ -45,6 +46,7 @@ export default function useBankReport({ id }) {
             NotificationService.success({ text: 'Documento enviado com sucesso' })
             _setNeedReload(prev => !prev)
         } catch (err) {
+            console.log(err)
             NotificationService.error({ text: 'Erro ao enviar documento, tente novamente' })
 
         }
