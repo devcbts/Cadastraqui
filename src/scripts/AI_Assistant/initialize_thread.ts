@@ -155,7 +155,7 @@ async function processFile(outputPath: string) {
     const existingPdfBytes = fs.readFileSync(outputPath);
 
     // Carregar o PDF
-    const pdfDoc = await PDFDocument.load(existingPdfBytes);
+    const pdfDoc = await PDFDocument.load(new Uint8Array(existingPdfBytes));
 
     // Verificar o número de páginas
     const totalPages = pdfDoc.getPageCount();
