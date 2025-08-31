@@ -17,7 +17,8 @@ export async function CalculateMemberAverageIncome(member_id: string, source: In
     const totalIncome = memberIncomes.reduce((acc: number, income: any) => {
         return acc + income.liquidAmount
     }, 0)
-    const averageIncome = '0'
+    console.log(totalIncome)
+    const averageIncome = memberIncomes.length > 0 ? totalIncome / memberIncomes.length : '0'
    
     const updateMember = await prisma.familyMemberIncome.updateMany({
         where: { OR: [
