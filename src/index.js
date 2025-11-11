@@ -15,6 +15,7 @@ import PoppinsBold from './Assets/fonts/poppins/Poppins-Bold.ttf'
 import PoppinsExtraBold from './Assets/fonts/poppins/Poppins-ExtraBold.ttf'
 import PoppinsSemiBold from './Assets/fonts/poppins/Poppins-SemiBold.ttf'
 import PoppinsLight from './Assets/fonts/poppins/Poppins-Light.ttf'
+import { Analytics } from '@vercel/analytics/react';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 Font.register({
   family: 'Poppins',
@@ -46,6 +47,7 @@ root.render(
     <AuthProvider>
       <RecoilRoot>
         <Layout />
+        <Analytics />
       </RecoilRoot>
     </AuthProvider>
     <ToastContainer position='bottom-right' />
