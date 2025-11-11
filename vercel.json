@@ -30,7 +30,7 @@
         },
         {
             "source": "/((?!portal).*)",
-            "destination": "https://cadastraqui-landing-page.vercel.app/$1"
+            "destination": "https://cadastraqui-landing-page.vercel.app/"
         }
     ]
 }
