@@ -21,5 +21,15 @@
                 }
             ]
         }
+    ],
+    "rewrites": [
+        {
+            "source": "/portal/:path*",
+            "destination": "https://prod-cadastraqui.vercel.app/:path*"
+        },
+        {
+            "source": "/:path*",
+            "destination": "https://cadastraqui-landing-page.vercel.app/:path*"
+        }
     ]
 }
