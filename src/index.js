@@ -1,21 +1,19 @@
-import AppRoutes from 'Components/Routes';
+import { Font } from '@react-pdf/renderer';
+import { Analytics } from '@vercel/analytics/react';
+import 'Assets/theme/global.module.scss';
+import Layout from 'Components/Layout';
 import AuthProvider from 'context/AuthProvider';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
-import reportWebVitals from './reportWebVitals';
-import 'Assets/theme/global.module.scss'
 import { ToastContainer } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css"
-import Header from 'Components/Header';
-import Layout from 'Components/Layout';
-import { Font } from '@react-pdf/renderer';
-import PoppinsNormal from './Assets/fonts/poppins/Poppins-Regular.ttf'
-import PoppinsBold from './Assets/fonts/poppins/Poppins-Bold.ttf'
-import PoppinsExtraBold from './Assets/fonts/poppins/Poppins-ExtraBold.ttf'
-import PoppinsSemiBold from './Assets/fonts/poppins/Poppins-SemiBold.ttf'
-import PoppinsLight from './Assets/fonts/poppins/Poppins-Light.ttf'
-import { Analytics } from '@vercel/analytics/react';
+import "react-toastify/dist/ReactToastify.css";
+import { RecoilRoot } from 'recoil';
+import PoppinsBold from './Assets/fonts/poppins/Poppins-Bold.ttf';
+import PoppinsExtraBold from './Assets/fonts/poppins/Poppins-ExtraBold.ttf';
+import PoppinsLight from './Assets/fonts/poppins/Poppins-Light.ttf';
+import PoppinsNormal from './Assets/fonts/poppins/Poppins-Regular.ttf';
+import PoppinsSemiBold from './Assets/fonts/poppins/Poppins-SemiBold.ttf';
+import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 Font.register({
   family: 'Poppins',
@@ -43,7 +41,7 @@ Font.register({
   ]
 })
 root.render(
-  <BrowserRouter>
+  <BrowserRouter basename='/portal' >
     <AuthProvider>
       <RecoilRoot>
         <Layout />

@@ -1,4 +1,5 @@
 {
+    "version": 2,
     "headers": [
         {
             "source": "/",
@@ -25,11 +26,11 @@
     "rewrites": [
         {
             "source": "/portal/:path*",
-            "destination": "/portal/:path*"
+            "destination": "/portal/index.html"
         },
         {
-            "source": "/:path*",
-            "destination": "https://cadastraqui-landing-page.vercel.app/:path*"
+            "source": "/((?!portal).*)",
+            "destination": "https://cadastraqui-landing-page.vercel.app/$1"
         }
     ]
 }
