@@ -131,7 +131,7 @@ export default function SelectedCandidates() {
                                 <Table.Cell >{candidate.candidateName}</Table.Cell>
                                 <Table.Cell >{moneyInputMask(candidate.averageIncome?.toFixed(2)?.toString())}</Table.Cell>
                                 <Table.Cell >{CANDIDATE_APPLICATION_STATUS[candidate.candidateStatus]}</Table.Cell>
-                                <Table.Cell >{candidate.requests.length}</Table.Cell>
+                                <Table.Cell >{candidate.requests?.length ?? 0}</Table.Cell>
                                 <Table.Cell >{findLabel(APPLICATION_STATUS, candidate?.status)}</Table.Cell>
                                 <Table.Cell >
 

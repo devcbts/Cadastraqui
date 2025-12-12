@@ -1,8 +1,8 @@
-import styles from './styles.module.scss'
-import { ReactComponent as Lightbulb } from '../../Assets/icons/lightbulb.svg'
-import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-export default function Tooltip({ tooltip, Icon = Lightbulb, children }) {
+import { useState } from 'react'
+import { ReactComponent as Lightbulb } from '../../Assets/icons/lightbulb.svg'
+import styles from './styles.module.scss'
+export default function Tooltip({ tooltip, Icon = Lightbulb, size = 20, children }) {
     const [show, setShow] = useState(false)
     const handleShow = () => {
         setShow(prev => !prev)
@@ -31,7 +31,7 @@ export default function Tooltip({ tooltip, Icon = Lightbulb, children }) {
 
                 <Icon
                     onMouseEnter={handleShow} onMouseLeave={handleShow}
-                    width={20} height={20} style={{ display: 'flex', flexGrow: '1' }} />
+                    width={size} height={size} style={{ display: 'flex', flexGrow: '1' }} />
             </div>
         </div>
     )

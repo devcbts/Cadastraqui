@@ -1,12 +1,9 @@
 import { flexRender, getCoreRowModel, getExpandedRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import styles from './styles.module.scss'
-import ButtonBase from "Components/ButtonBase";
-import SelectBase from "Components/SelectBase";
-import InputBase from "Components/InputBase";
-import debounce from "lodash.debounce";
-import { ReactComponent as ChevIcon } from 'Assets/icons/chevron.svg'
+import { ReactComponent as ChevIcon } from 'Assets/icons/chevron.svg';
 import { AnimatePresence } from "framer-motion";
+import debounce from "lodash.debounce";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import styles from './styles.module.scss';
 import TableFilters from "./TableFilter";
 import TablePagination from "./TablePagination";
 export default function DataTable({

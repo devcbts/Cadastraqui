@@ -1,9 +1,10 @@
 import SelectBase from "Components/SelectBase";
 import { useState } from "react";
-import Subsidiary from "./components/Subsidiary";
-import Responsible from "./components/Responsible";
-import Assistant from "./components/Assistant";
 import Announcement from "./components/Announcement";
+import Assistant from "./components/Assistant";
+import Lawyer from "./components/Lawyer";
+import Responsible from "./components/Responsible";
+import Subsidiary from "./components/Subsidiary";
 
 export default function EntitySelectRegister() {
     const [selection, setSelection] = useState({ label: 'Filial', value: 'subsidiary' })
@@ -12,6 +13,7 @@ export default function EntitySelectRegister() {
         { label: 'Responsável', value: 'responsible' },
         { label: 'Assistente', value: 'assistant' },
         { label: 'Edital', value: 'announcement' },
+        { label: 'Advogado', value: 'lawyer' },
     ]
     return (
         <>
@@ -23,6 +25,7 @@ export default function EntitySelectRegister() {
             {selection?.value === "responsible" && <Responsible />}
             {selection?.value === "assistant" && <Assistant />}
             {selection?.value === "announcement" && <Announcement />}
+            {selection?.value === "lawyer" && <Lawyer />}
         </>
     )
 }
