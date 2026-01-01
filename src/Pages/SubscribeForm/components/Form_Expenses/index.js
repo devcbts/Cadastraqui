@@ -11,7 +11,7 @@ import { NotificationService } from "services/notification";
 import ExpenseSelection from "./ExpenseSelection";
 import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
 
-export default function FormExpenses() {
+export default function FormExpenses({ onNextMainStep }) {
     const [isLoading, setIsLoading] = useState(true)
     const [renderList, _] = useState([ExpenseSelection])
     const { canEdit, service } = useSubscribeFormPermissions()
@@ -76,6 +76,13 @@ export default function FormExpenses() {
                         </ButtonBase>
                     )
                 }
+                {/* Botão para próxima etapa principal - só aparece na última sub-etapa */}
+                {activeStep === max && onNextMainStep && (
+                    <ButtonBase onClick={onNextMainStep} style={{ marginLeft: '8px' }}>
+                        Próxima Etapa
+                        <Arrow width="30px" style={{ marginLeft: '8px' }} />
+                    </ButtonBase>
+                )}
             </div>}
         </div >
     )
