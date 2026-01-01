@@ -133,11 +133,18 @@ export default function FormHealth({ onNextMainStep }) {
     }, [refresh])
     return (
         <div className={commonStyles.container}>
-            {!hasSelectionOrIsAdding() && <HealthList loading={isLoading} data={members} onSelect={selectDisease} onAdd={addHealthInfo}
+            {!hasSelectionOrIsAdding() && (
+                <>
+                <HealthList loading={isLoading} data={members} onSelect={selectDisease} onAdd={addHealthInfo}
                 onRadioChange={(m) => setMembers(prev => [...prev].map(e => {
                     return e.id !== m.id ? e : m
                 }))}
-            />}
+            />
+            <ButtonBase onClick={onNextMainStep} style={{ marginLeft: '8px' }}>
+                Próxima Etapa
+                <Arrow width="30px" style={{ marginLeft: '8px' }} />
+            </ButtonBase>
+            </>)}
             {hasSelectionOrIsAdding() &&
                 <>
                     <fieldset disabled={!canEdit}>
