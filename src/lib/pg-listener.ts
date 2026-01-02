@@ -86,13 +86,12 @@ const connectClient = async () => {
         await clientBackup.query('LISTEN "channel_bankaccount"');
         await clientBackup.query('LISTEN "channel_candidate_documents"')
         await clientBackup.query('LISTEN "channel_audit"');
-        await clientBackup.query('LISTEN "channel_finished_registration"')
+        //await clientBackup.query('LISTEN "channel_finished_registration"')
         await clientBackup.query('LISTEN "channel_bank_balance"')
         await clientBackup.query('LISTEN "channel_enem_score"')
 
         clientBackup.on('notification', async (msg) => {
             try {
-        
         
                 switch (msg.channel) {
                             case 'channel_enem_score': {
@@ -246,6 +245,7 @@ const connectClient = async () => {
                     }
         
                     case 'channel_familyMemberIncome': {
+                        console.log('Processing familyMemberIncome notification');
                         const familyMemberIncome = JSON.parse(msg.payload!);
                         const income = await prisma.familyMemberIncome.findUnique({
                             where: { id: familyMemberIncome.data.id },
@@ -280,6 +280,8 @@ const connectClient = async () => {
         
         
                     case 'channel_identityDetails': {
+                        
+                        console.log('Processing identityDetails notification');
                         const identityDetails: { operation: string, data: IdentityDetails } = JSON.parse(msg.payload!);
                         if (identityDetails.operation == 'Update') {
                             await updateIdentityDetailsHDB(identityDetails.data.id)
@@ -319,6 +321,7 @@ const connectClient = async () => {
         
                     }
                     case 'channel_monthlyIncome': {
+                        console.log('Processing monthlyIncome notification');
                         const monthlyIncome = JSON.parse(msg.payload!);
                         const income = await prisma.monthlyIncome.findUnique({
                             where: { id: monthlyIncome.data.id },
@@ -548,7 +551,7 @@ const connectClient = async () => {
 
 
 
-//connectClient();
+connectClient();
 
 
 

@@ -19,13 +19,29 @@ export async function CalculateMemberAverageIncome(member_id: string, source: In
     }, 0)
     const averageIncome = memberIncomes.length > 0 ? totalIncome / memberIncomes.length : '0'
    
-    const updateMember = await prisma.familyMemberIncome.updateMany({
-        where: { OR: [
-            { familyMember_id: member_id },
-            { candidate_id: member_id },
-            { legalResponsibleId: member_id },
-        
-        ] , employmentType: source},
-        data: { averageIncome: String(averageIncome)}
+    const currentIncome = await prisma.familyMemberIncome.findFirst({
+        where: {
+            OR: [
+                { familyMember_id: member_id },
+                { candidate_id: member_id },
+                { legalResponsibleId: member_id },
+            ],
+            employmentType: source
+        }
     })
+    
+    // ⚠️ SÓ ATUALIZA SE MUDOU
+    if (currentIncome && currentIncome.averageIncome !== String(averageIncome)) {
+        await prisma.familyMemberIncome.updateMany({
+            where: {
+                OR: [
+                    { familyMember_id: member_id },
+                    { candidate_id: member_id },
+                    { legalResponsibleId: member_id },
+                ],
+                employmentType: source
+            },
+            data: { averageIncome: String(averageIncome) }
+        })
+    }
 }

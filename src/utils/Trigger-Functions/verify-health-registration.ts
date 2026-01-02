@@ -94,5 +94,4 @@ export async function verifyHealthRegistration(CandidateOrResponsibleId: string)
 
 
 
-
 }

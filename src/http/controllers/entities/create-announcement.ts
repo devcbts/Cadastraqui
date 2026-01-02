@@ -57,7 +57,7 @@ export async function CreateAnnoucment(
     description: z.string().optional(),
     types1: z.array(scholarshipGrantedType).optional(),
     type2: z.string().optional(),
-    criteria: z.array(z.enum(["CadUnico", "LeastFamilyIncome", "SeriousIllness", "Draw", "Distance"])),
+    criteria: z.array(z.enum(["CadUnico", "LeastFamilyIncome", "SeriousIllness", "Draw", "Distance", "EnemScore"])),
     waitingList: z.boolean(),
     educationalLevels: z.array(z.object({
       name: z.string(),

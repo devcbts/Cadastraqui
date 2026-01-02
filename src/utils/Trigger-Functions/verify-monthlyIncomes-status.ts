@@ -34,8 +34,10 @@ export async function VerifyMonthlyIncomeStatus(incomeId: string) {
   }
 
   // Atualizar o status do familyMemberIncome
-  await prisma.familyMemberIncome.update({
-    where: { id: incomeId },
-    data: { isUpdated, updatedStatus }
-  })
+ if (income.isUpdated !== isUpdated || income.updatedStatus !== updatedStatus) {
+    await prisma.familyMemberIncome.update({
+      where: { id: incomeId },
+      data: { isUpdated, updatedStatus }
+    })
+  }
 }

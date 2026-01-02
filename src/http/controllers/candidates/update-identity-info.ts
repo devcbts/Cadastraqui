@@ -171,6 +171,14 @@ export async function updateIdentityInfo(
     hasSevereDeseaseOrUsesMedication: z.boolean().nullish(),
     hasBankAccount: z.boolean().nullish(),
     hasMedicalReport: z.boolean().nullish(),
+    enemScore: z.object({
+          linguagens: z.coerce.number().min(0).max(1000),
+          matematica: z.coerce.number().min(0).max(1000),
+          humanas: z.coerce.number().min(0).max(1000),
+          natureza: z.coerce.number().min(0).max(1000),
+          redacao: z.coerce.number().min(0).max(1000),
+          examYear: z.coerce.number().int().min(2009).max(new Date().getFullYear()),
+        }).optional()
 
   }).partial()
 
@@ -227,7 +235,8 @@ export async function updateIdentityInfo(
     hasSevereDeseaseOrUsesMedication,
     hasBankAccount,
     hasMedicalReport,
-    specialNeedsType
+    specialNeedsType,
+    enemScore
 
   } = userDataSchema.parse(request.body)
 
@@ -358,6 +367,31 @@ export async function updateIdentityInfo(
     if (!candidateOrResponsible) {
       throw new ForbiddenError()
     }
+     if(!candidateOrResponsible.IsResponsible){
+          // Atualiza a Application.enemScore (média simples) para candidaturas abertas do candidato
+          if (enemScore) {
+            await prisma.enemScore.upsert({
+              where: { candidate_id: candidateOrResponsible.UserData.id },
+              create: {
+                candidate_id: candidateOrResponsible.UserData.id,
+                linguagens: enemScore.linguagens,
+                matematica: enemScore.matematica,
+                humanas: enemScore.humanas,
+                natureza: enemScore.natureza,
+                redacao: enemScore.redacao,
+                examYear: enemScore.examYear,
+              },
+              update: {
+                linguagens: enemScore.linguagens,
+                matematica: enemScore.matematica,
+                humanas: enemScore.humanas,
+                natureza: enemScore.natureza,
+                redacao: enemScore.redacao,
+                examYear: enemScore.examYear,
+              },
+            })
+          }
+        }
     const idFieldRegistration = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
     await prisma.finishedRegistration.upsert({
       where: idFieldRegistration,

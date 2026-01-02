@@ -83,12 +83,12 @@ export async function registerIdentityInfo(
     hasSevereDeseaseOrUsesMedication: z.boolean().nullish(),
     hasBankAccount: z.boolean().nullish(),
     enemScore: z.object({
-      linguagens: z.number().min(0).max(1000),
-      matematica: z.number().min(0).max(1000),
-      humanas: z.number().min(0).max(1000),
-      natureza: z.number().min(0).max(1000),
-      redacao: z.number().min(0).max(1000),
-      examYear: z.number().int().min(2009).max(new Date().getFullYear()),
+      linguagens: z.coerce.number().min(0).max(1000),
+      matematica: z.coerce.number().min(0).max(1000),
+      humanas: z.coerce.number().min(0).max(1000),
+      natureza: z.coerce.number().min(0).max(1000),
+      redacao: z.coerce.number().min(0).max(1000),
+      examYear: z.coerce.number().int().min(2009).max(new Date().getFullYear()),
     }).optional()
   })
 

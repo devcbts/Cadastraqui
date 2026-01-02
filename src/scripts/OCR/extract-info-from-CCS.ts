@@ -75,4 +75,4 @@ export async function processPdf(pdfPath: string) {
 
 
 // Substitua 'path/to/your/file.pdf' pelo caminho para o seu arquivo PDF
-processPdf(path.join(__dirname, 'CCS.pdf'));
+//processPdf(path.join(__dirname, 'CCS.pdf'));
