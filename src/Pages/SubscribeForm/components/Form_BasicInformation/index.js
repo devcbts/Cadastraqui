@@ -19,6 +19,7 @@ import PersonalData from "../PersonalData";
 import PersonalInformation from "../PersonalInformation";
 import ResidenceProof from '../AddressData/ResidenceProof';
 import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
+import ENEMScore from './ENEMScore';
 export default function FormBasicInformation() {
     const { auth } = useAuth()
     const { canEdit, service } = useSubscribeFormPermissions()
@@ -28,7 +29,7 @@ export default function FormBasicInformation() {
         try {
             const deleteFolder = await uploadService.uploadBySectionAndId({ section: 'identity', id: userId }, formData)
 
-            if (deleteFolder !== basicInfoData?.deleteFolder) {
+            if (deleteFolder !== data?.deleteFolder) {
                 setData(prev => ({ ...prev, deleteFolder }))
             }
         } catch (err) {
@@ -64,7 +65,7 @@ export default function FormBasicInformation() {
         pages: { previous, next },
         actions: { handleEdit },
         max,
-        state: { activeStep, basicInfoData, setData }
+        state: { activeStep, data, setData }
     } = useStepFormHook({
         render: [
             PersonalData,
@@ -73,9 +74,13 @@ export default function FormBasicInformation() {
             AdditionalInfo,
             MaritalStatus,
             PersonalInformation,
+            
             Document,
             AdditionalDocuments,
-            Benefits
+            Benefits,
+                        ENEMScore
+
+            
         ],
         onEdit: handleEditInformation,
         onSave: handleSaveInformation,
