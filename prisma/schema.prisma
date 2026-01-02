@@ -5,15 +5,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-enum TiebreakerCriterias {
-  CadUnico
-  LeastFamilyIncome
-  SeriousIllness
-  Distance
-  Draw
 }
 
 model Candidate {
@@ -21,14 +12,6 @@ model Candidate {
   name                   String
   CPF                    String                @unique
   birthDate              DateTime
-  // phone                  String
-  // address                String
-  // city                   String
-  // UF                     COUNTRY
-  // CEP                    String
-  // neighborhood           String
-  // addressNumber          String
-  // complement             String?
   role                   ROLE                  @default(CANDIDATE)
   createdAt              DateTime              @default(now())
   user_id                String?               @unique
@@ -36,32 +19,47 @@ model Candidate {
   profilePicture         String?
   email                  String?
   finishedapplication    Boolean               @default(false)
-  Application            Application[]
-  CreditCard             CreditCard[]
-  Expense                Expense[]
-  Financing              Financing[]
-  IdentityDetails        IdentityDetails?
-  FamilyMemberIncome     FamilyMemberIncome[]
-  Loan                   Loan[]
-  OtherExpense           OtherExpense[]
-  Vehicle                Vehicle[]
-  responsible            LegalResponsible?     @relation(fields: [responsible_id], references: [id])
-  user                   User?                 @relation(fields: [user_id], references: [id])
-  FamillyMember          FamilyMember[]
-  Housing                Housing?
-  MonthlyIncome          MonthlyIncome[]
-  FamilyMemberDisease    FamilyMemberDisease[]
-  Medication             Medication[]
-  BankAccount            BankAccount[]
-  Declarations           Declarations[]
-  AnnouncementsSeen      AnnouncementsSeen[]
-  FinishedRegistration   FinishedRegistration?
   finishedRegistrationId String?
   updatedAt              DateTime              @default(now()) @updatedAt
+  Application            Application[]
+  BankAccount            BankAccount[]
+  CreditCard             CreditCard[]
+  Declarations           Declarations[]
+  EnemScore              EnemScore?
+  Expense                Expense[]
+  FamilyMemberIncome     FamilyMemberIncome[]
+  Financing              Financing[]
+  IdentityDetails        IdentityDetails?
+  Loan                   Loan[]
+  MonthlyIncome          MonthlyIncome[]
+  OtherExpense           OtherExpense[]
   Student                Student[]
+  Vehicle                Vehicle[]
+  AnnouncementsSeen      AnnouncementsSeen[]
+  responsible            LegalResponsible?     @relation(fields: [responsible_id], references: [id])
+  user                   User?                 @relation(fields: [user_id], references: [id])
+  FamilyMemberDisease    FamilyMemberDisease[]
+  FamillyMember          FamilyMember[]
+  Housing                Housing?
+  Medication             Medication[]
+  FinishedRegistration   FinishedRegistration?
 
   @@unique([id, responsible_id])
   @@map("candidates")
+}
+
+model EnemScore {
+  id           String    @id @default(uuid())
+  candidate_id String    @unique
+  linguagens   Float
+  matematica   Float
+  humanas      Float
+  natureza     Float
+  redacao      Float
+  examYear     Int
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now()) @updatedAt
+  candidate    Candidate @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -71,20 +69,20 @@ model User {
   role             ROLE              @default(CANDIDATE)
   createdAt        DateTime          @default(now())
   profilePicture   String?
-  EntityDirector   EntityDirector?
-  EntitySubsidiary EntitySubsidiary?
-  SocialAssistant  SocialAssistant?
-  Candidate        Candidate?
-  Lawyer           Lawyer?
-  Entity           Entity?
-  LegalResponsible LegalResponsible?
+  isActive         Boolean           @default(true)
+  updatedAt        DateTime          @default(now()) @updatedAt
   createdCalls     Call[]            @relation("Creator")
   repliedCalls     Call[]            @relation("Replyer")
-  loginHistory     LoginHistory[]    @relation("User")
-  updatedAt        DateTime          @default(now()) @updatedAt
-  isActive         Boolean           @default(true)
-  emailsSent       emailsSent[]
+  EntityDirector   EntityDirector?
   EntityDocuments  EntityDocuments[]
+  EntitySubsidiary EntitySubsidiary?
+  Lawyer           Lawyer?
+  loginHistory     LoginHistory[]    @relation("User")
+  SocialAssistant  SocialAssistant?
+  Candidate        Candidate?
+  emailsSent       emailsSent[]
+  Entity           Entity?
+  LegalResponsible LegalResponsible?
 
   @@map("users")
 }
@@ -94,14 +92,6 @@ model LegalResponsible {
   name                            String
   CPF                             String                @unique
   birthDate                       DateTime
-  // phone                           String
-  // address                         String
-  // city                            String
-  // UF                              COUNTRY
-  // CEP                             String
-  // neighborhood                    String
-  // addressNumber                   String
-  // complement                      String?
   livesAtSameAddress              Boolean?
   institutionType                 INSTITUTION_TYPE?
   responsibleEducationLevel       EDUCATION_TYPE?
@@ -114,28 +104,28 @@ model LegalResponsible {
   hasScholarship                  Boolean?
   monthlyAmount                   String?
   percentageOfScholarship         String?
-  IdentityDetails                 IdentityDetails?
-  Candidate                       Candidate[]
-  Housing                         Housing?
-  FamillyMember                   FamilyMember[]
-  CreditCard                      CreditCard[]
-  Expense                         Expense[]
-  Financing                       Financing[]
-  Loan                            Loan[]
-  OtherExpense                    OtherExpense[]
-  Vehicle                         Vehicle[]
-  user                            User                  @relation(fields: [user_id], references: [id])
-  FamilyMemberDisease             FamilyMemberDisease[]
-  Medication                      Medication[]
-  Application                     Application[]
-  FamilyMemberIncome              FamilyMemberIncome[]
-  MonthlyIncome                   MonthlyIncome[]
-  BankAccount                     BankAccount[]
-  Declarations                    Declarations[]
-  AnnouncementsSeen               AnnouncementsSeen[]
-  FinishedRegistration            FinishedRegistration?
   finishedRegistrationId          String?
   updatedAt                       DateTime              @default(now()) @updatedAt
+  Application                     Application[]
+  BankAccount                     BankAccount[]
+  CreditCard                      CreditCard[]
+  Declarations                    Declarations[]
+  Expense                         Expense[]
+  FamilyMemberIncome              FamilyMemberIncome[]
+  Financing                       Financing[]
+  IdentityDetails                 IdentityDetails?
+  Loan                            Loan[]
+  MonthlyIncome                   MonthlyIncome[]
+  OtherExpense                    OtherExpense[]
+  Vehicle                         Vehicle[]
+  AnnouncementsSeen               AnnouncementsSeen[]
+  Candidate                       Candidate[]
+  FamilyMemberDisease             FamilyMemberDisease[]
+  FamillyMember                   FamilyMember[]
+  Housing                         Housing?
+  Medication                      Medication[]
+  FinishedRegistration            FinishedRegistration?
+  user                            User                  @relation(fields: [user_id], references: [id])
 
   @@unique([id, user_id])
   @@map("responsibles")
@@ -150,15 +140,15 @@ model SocialAssistant {
   phone             String
   user_id           String              @unique
   entity_id         String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @default(now()) @updatedAt
   Application       Application[]
+  AssistantSchedule AssistantSchedule[]
+  InterviewSchedule InterviewSchedule[]
   entity            Entity              @relation(fields: [entity_id], references: [id])
   user              User                @relation(fields: [user_id], references: [id])
   Announcement      Announcement[]      @relation("AnnouncementToSocialAssistant")
   entity_subsidiary EntitySubsidiary[]  @relation("EntitySubsidiaryToSocialAssistant")
-  InterviewSchedule InterviewSchedule[]
-  AssistantSchedule AssistantSchedule[]
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @default(now()) @updatedAt
 
   @@map("assistants")
 }
@@ -166,60 +156,59 @@ model SocialAssistant {
 model Entity {
   id                         String             @id @default(uuid())
   name                       String?
-  phone                      String?
   socialReason               String
   logo                       String?
   CNPJ                       String             @unique
-  normalizedCnpj             String             @unique
   CEP                        String
   address                    String             @default("")
+  educationalInstitutionCode String?
+  user_id                    String             @unique
   addressNumber              Int?
+  city                       String             @default("")
   neighborhood               String             @default("")
   UF                         COUNTRY?
-  city                       String             @default("")
-  educationalInstitutionCode String?
+  createdAt                  DateTime           @default(now())
   emec                       String?
-  user_id                    String             @unique
+  normalizedCnpj             String             @unique
+  phone                      String?
+  updatedAt                  DateTime           @default(now()) @updatedAt
   Announcement               Announcement[]
+  EducationLevel             EducationLevel[]
+  EntityCourse               EntityCourse[]
   EntityDirector             EntityDirector[]
+  EntityDocuments            EntityDocuments[]
   EntitySubsidiary           EntitySubsidiary[]
+  Lawyer                     Lawyer[]
   SocialAssistant            SocialAssistant[]
   user                       User               @relation(fields: [user_id], references: [id])
-  createdAt                  DateTime           @default(now())
-  updatedAt                  DateTime           @default(now()) @updatedAt
-  EntityCourse               EntityCourse[]
-  EducationLevel             EducationLevel[]
-  EntityDocuments            EntityDocuments[]
-  Lawyer                     Lawyer[]
 
   @@map("entities")
 }
 
 model EntitySubsidiary {
-  id             String @id @default(uuid())
-  CNPJ           String @unique
-  normalizedCnpj String @unique
-
+  id                         String            @id @default(uuid())
+  CNPJ                       String            @unique
   name                       String
   socialReason               String
   CEP                        String
   address                    String
-  phone                      String?
+  educationalInstitutionCode String?
+  entity_id                  String
+  user_id                    String            @unique
   addressNumber              Int?
   city                       String?           @default("")
   neighborhood               String?           @default("")
   UF                         COUNTRY?
-  educationalInstitutionCode String?
-  entity_id                  String
-  user_id                    String            @unique
-  Announcement               Announcement[]
+  createdAt                  DateTime          @default(now())
+  normalizedCnpj             String            @unique
+  phone                      String?
+  updatedAt                  DateTime          @default(now()) @updatedAt
+  EducationLevel             EducationLevel[]
+  EntityCourse               EntityCourse[]
   entity                     Entity            @relation(fields: [entity_id], references: [id])
   user                       User              @relation(fields: [user_id], references: [id])
+  Announcement               Announcement[]    @relation("AnnouncementToEntitySubsidiary")
   SocialAssistant            SocialAssistant[] @relation("EntitySubsidiaryToSocialAssistant")
-  EducationLevel             EducationLevel[]
-  createdAt                  DateTime          @default(now())
-  updatedAt                  DateTime          @default(now()) @updatedAt
-  EntityCourse               EntityCourse[]
 }
 
 model EntityDirector {
@@ -229,10 +218,10 @@ model EntityDirector {
   phone     String
   user_id   String   @unique
   entity_id String
-  entity    Entity   @relation(fields: [entity_id], references: [id])
-  user      User     @relation(fields: [user_id], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  entity    Entity   @relation(fields: [entity_id], references: [id])
+  user      User     @relation(fields: [user_id], references: [id])
 }
 
 model IdentityDetails {
@@ -244,14 +233,10 @@ model IdentityDetails {
   nationality                                String
   natural_city                               String
   natural_UF                                 COUNTRY
-  CPF                                        String?                @unique
   RG                                         String                 @unique
   rgIssuingAuthority                         String
   rgIssuingState                             String
   documentType                               DOCUMENT_TYPE?
-  CadUnico                                   Boolean                @default(false)
-  hasSevereDeseaseOrUsesMedication           Boolean?
-  hasBankAccount                             Boolean?               @default(true)
   documentNumber                             String?
   documentValidity                           DateTime?
   maritalStatus                              MARITAL_STATUS
@@ -259,17 +244,8 @@ model IdentityDetails {
   religion                                   RELIGION
   educationLevel                             SCHOLARSHIP
   specialNeeds                               Boolean?
-  address                                    String?
-  addressNumber                              String?
-  complement                                 String?
-  neighborhood                               String?
-  city                                       String?
-  UF                                         COUNTRY?
-  CEP                                        String?
   specialNeedsDescription                    String?
-  specialNeedsType                           String?
   hasMedicalReport                           Boolean?
-  email                                      String?
   landlinePhone                              String?
   workPhone                                  String?
   contactNameForMessage                      String?
@@ -293,12 +269,25 @@ model IdentityDetails {
   nameOfScholarshipCourse_professional       String?
   candidate_id                               String?                @unique
   responsible_id                             String?                @unique
+  CadUnico                                   Boolean                @default(false)
+  CEP                                        String?
+  CPF                                        String?                @unique
+  UF                                         COUNTRY?
+  address                                    String?
+  addressNumber                              String?
+  city                                       String?
+  complement                                 String?
+  createdAt                                  DateTime               @default(now())
+  email                                      String?
+  hasBankAccount                             Boolean?               @default(true)
+  hasSevereDeseaseOrUsesMedication           Boolean?
+  incomeUpdatedStatus                        DocumentAnalysisStatus @default(Approved)
+  isIncomeUpdated                            Boolean?
+  neighborhood                               String?
+  specialNeedsType                           String?
+  updatedAt                                  DateTime               @default(now()) @updatedAt
   candidate                                  Candidate?             @relation(fields: [candidate_id], references: [id])
   responsible                                LegalResponsible?      @relation(fields: [responsible_id], references: [id])
-  createdAt                                  DateTime               @default(now())
-  updatedAt                                  DateTime               @default(now()) @updatedAt
-  isIncomeUpdated                            Boolean?
-  incomeUpdatedStatus                        DocumentAnalysisStatus @default(Approved)
 }
 
 model FamilyMember {
@@ -328,7 +317,6 @@ model FamilyMember {
   educationLevel                             SCHOLARSHIP
   specialNeeds                               Boolean?
   specialNeedsDescription                    String?
-  specialNeedsType                           String?
   hasMedicalReport                           Boolean?
   landlinePhone                              String?
   workPhone                                  String?
@@ -346,12 +334,22 @@ model FamilyMember {
   percentageOfScholarship                    String?
   monthlyAmount                              String?
   candidate_id                               String?
+  incomeSource                               IncomeSource[]
+  legalResponsibleId                         String?
+  CadUnico                                   Boolean?
   attendedPublicHighSchool                   Boolean?
   benefitedFromCebasScholarship_basic        Boolean?
   benefitedFromCebasScholarship_professional Boolean?
-  CadUnico                                   Boolean?
-  incomeSource                               IncomeSource[]
+  createdAt                                  DateTime                @default(now())
+  hasBankAccount                             Boolean?                @default(true)
+  hasSevereDeseaseOrUsesMedication           Boolean?
+  incomeUpdatedStatus                        DocumentAnalysisStatus  @default(Approved)
+  isIncomeUpdated                            Boolean?
+  specialNeedsType                           String?
+  updatedAt                                  DateTime                @default(now()) @updatedAt
+  BankAccount                                BankAccount[]
   CreditCard                                 CreditCard[]
+  Declarations                               Declarations[]
   FamilyMemberIncome                         FamilyMemberIncome[]
   Financing                                  Financing[]
   Loan                                       Loan[]
@@ -360,18 +358,8 @@ model FamilyMember {
   FamilyMemberToVehicle                      FamilyMemberToVehicle[]
   FamilyMemberDisease                        FamilyMemberDisease[]
   candidate                                  Candidate?              @relation(fields: [candidate_id], references: [id])
-  Medication                                 Medication[]
   LegalResponsible                           LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
-  legalResponsibleId                         String?
-  BankAccount                                BankAccount[]
-  Declarations                               Declarations[]
-  hasSevereDeseaseOrUsesMedication           Boolean?
-  hasBankAccount                             Boolean?                @default(true)
-  isIncomeUpdated                            Boolean?
-  incomeUpdatedStatus                        DocumentAnalysisStatus  @default(Approved)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  Medication                                 Medication[]
 
   @@map("familyMembers")
 }
@@ -387,11 +375,10 @@ model Housing {
   numberOfBedrooms     Int
   candidate_id         String?              @unique
   responsible_id       String?              @unique
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @default(now()) @updatedAt
   candidate            Candidate?           @relation(fields: [candidate_id], references: [id])
   responsible          LegalResponsible?    @relation(fields: [responsible_id], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
 
   @@map("housing")
 }
@@ -407,24 +394,21 @@ model Vehicle {
   hasInsurance          Boolean                 @default(false)
   insuranceValue        Float?
   usage                 VehicleUsage
-  plate                 String?
+  candidate_id          String?
+  legalResponsibleId    String?
+  createdAt             DateTime                @default(now())
   document              String?
   owners_id             String[]
-  candidate_id          String?
+  plate                 String?
+  updatedAt             DateTime                @default(now()) @updatedAt
   candidate             Candidate?              @relation(fields: [candidate_id], references: [id])
-  FamilyMemberToVehicle FamilyMemberToVehicle[]
   LegalResponsible      LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
-  legalResponsibleId    String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  FamilyMemberToVehicle FamilyMemberToVehicle[]
 }
 
 model FamilyMemberIncome {
   id                    String                 @id @default(uuid())
   employmentType        EmploymentType
-  isUpdated             Boolean?               @default(true)
-  updatedStatus         DocumentAnalysisStatus @default(Approved)
   averageIncome         String
   admissionDate         DateTime?
   position              String?
@@ -441,23 +425,21 @@ model FamilyMemberIncome {
   firstParcelDate       DateTime?
   parcelValue           Float?
   familyMember_id       String?
-  quantity              Int                    @default(3)
-  familyMember          FamilyMember?          @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
-  candidate             Candidate?             @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id          String?
-  LegalResponsible      LegalResponsible?      @relation(fields: [legalResponsibleId], references: [id])
+  quantity              Int                    @default(3)
+  createdAt             DateTime               @default(now())
+  isUpdated             Boolean?               @default(true)
   legalResponsibleId    String?
-
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @default(now()) @updatedAt
-  MonthlyIncomes MonthlyIncome[]
+  updatedAt             DateTime               @default(now()) @updatedAt
+  updatedStatus         DocumentAnalysisStatus @default(Approved)
+  candidate             Candidate?             @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  familyMember          FamilyMember?          @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  LegalResponsible      LegalResponsible?      @relation(fields: [legalResponsibleId], references: [id])
+  MonthlyIncomes        MonthlyIncome[]
 }
 
 model MonthlyIncome {
   id                        String                 @id @default(uuid())
-  receivedIncome            Boolean?               @default(true)
-  date                      DateTime?              @default(now())
-  analysisStatus            DocumentAnalysisStatus @default(Approved)
   grossAmount               Float?
   liquidAmount              Float?
   proLabore                 Float?
@@ -475,16 +457,19 @@ model MonthlyIncome {
   compensationValue         Decimal?
   judicialPensionValue      Decimal?
   familyMember_id           String?
-  familyMember              FamilyMember?          @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
-  candidate                 Candidate?             @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id              String?
   incomeSource              IncomeSource
-  LegalResponsible          LegalResponsible?      @relation(fields: [legalResponsibleId], references: [id])
-  legalResponsibleId        String?
-  income_id                 String?
-  income                    FamilyMemberIncome?    @relation(fields: [income_id], references: [id], onDelete: Cascade)
+  date                      DateTime?              @default(now())
+  analysisStatus            DocumentAnalysisStatus @default(Approved)
   createdAt                 DateTime               @default(now())
+  income_id                 String?
+  legalResponsibleId        String?
+  receivedIncome            Boolean?               @default(true)
   updatedAt                 DateTime               @default(now()) @updatedAt
+  candidate                 Candidate?             @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  familyMember              FamilyMember?          @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  income                    FamilyMemberIncome?    @relation(fields: [income_id], references: [id], onDelete: Cascade)
+  LegalResponsible          LegalResponsible?      @relation(fields: [legalResponsibleId], references: [id])
 }
 
 model BankAccount {
@@ -494,16 +479,16 @@ model BankAccount {
   agencyNumber       String
   accountNumber      String
   accountType        AccountType
-  balances           BankBalance[]
   familyMember_id    String?
-  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
   candidate_id       String?
-  candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
-  LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?
   isUpdated          Boolean           @default(true)
   createdAt          DateTime          @default(now())
   updatedAt          DateTime          @default(now()) @updatedAt
+  candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
+  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
+  LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  balances           BankBalance[]
 }
 
 model BankBalance {
@@ -521,7 +506,6 @@ model BankBalance {
 
 model Expense {
   id                        String            @id @default(uuid())
-  date                      DateTime          @default(now())
   waterSewage               Float?
   electricity               Float?
   landlinePhone             Float?
@@ -555,39 +539,39 @@ model Expense {
   installmentValueIPVA      Float?
   installmentValueIR        Float?
   installmentValueITR       Float?
-  financing                 Float?
-  creditCard                Float?
   optedForInstallmentIPTU   Boolean?
   optedForInstallmentIPVA   Boolean?
   optedForInstallmentIR     Boolean?
   optedForInstallmentITR    Boolean?
-  justifywaterSewage        String?
-  justifyelectricity        String?
-  justifylandlinePhone      String?
-  justifyfood               String?
-  justifyrent               String?
-  justifycondominium        String?
-  justifycableTV            String?
-  justifystreamingServices  String?
-  justifyfuel               String?
-  justifyannualIPVA         String?
-  justifyannualIPTU         String?
-  justifyfinancing          String?
-  justifyannualIR           String?
-  justifyschoolTransport    String?
-  justifycreditCard         String?
-  justifyinternet           String?
-  justifycourses            String?
-  justifyhealthPlan         String?
-  justifymedicationExpenses String?
   otherExpensesDescription  String[]
   otherExpensesValue        Float[]
+  legalResponsibleId        String?
+  createdAt                 DateTime          @default(now())
+  creditCard                Float?
+  date                      DateTime          @default(now())
+  financing                 Float?
+  justifyannualIPTU         String?
+  justifyannualIPVA         String?
+  justifyannualIR           String?
+  justifycableTV            String?
+  justifycondominium        String?
+  justifycourses            String?
+  justifycreditCard         String?
+  justifyelectricity        String?
+  justifyfinancing          String?
+  justifyfood               String?
+  justifyfuel               String?
+  justifyhealthPlan         String?
+  justifyinternet           String?
+  justifylandlinePhone      String?
+  justifymedicationExpenses String?
+  justifyrent               String?
+  justifyschoolTransport    String?
+  justifystreamingServices  String?
+  justifywaterSewage        String?
+  updatedAt                 DateTime          @default(now()) @updatedAt
   candidate                 Candidate?        @relation(fields: [candidate_id], references: [id])
   LegalResponsible          LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
-  legalResponsibleId        String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Loan {
@@ -599,13 +583,12 @@ model Loan {
   bankName           String
   familyMember_id    String?
   candidate_id       String?
+  legalResponsibleId String?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @default(now()) @updatedAt
   candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
   familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
-  legalResponsibleId String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Financing {
@@ -619,13 +602,12 @@ model Financing {
   candidate_id       String?
   otherFinancing     String?
   financingType      FinancingType
+  legalResponsibleId String?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @default(now()) @updatedAt
   candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
   familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
-  legalResponsibleId String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model CreditCard {
@@ -638,13 +620,12 @@ model CreditCard {
   invoiceValue       Float
   familyMember_id    String?
   candidate_id       String?
+  legalResponsibleId String?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @default(now()) @updatedAt
   candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
   familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
-  legalResponsibleId String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model OtherExpense {
@@ -653,30 +634,29 @@ model OtherExpense {
   value              Float
   familyMember_id    String?
   candidate_id       String?
+  legalResponsibleId String?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @default(now()) @updatedAt
   candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
   familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
-  legalResponsibleId String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model FamilyMemberDisease {
   id                 String            @id @default(uuid())
   disease            Disease?
-  diseases           Disease[]
   specificDisease    String?
   hasMedicalReport   Boolean
   familyMember_id    String?
-  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
-  candidate          Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id       String?
-  legalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
+  diseases           Disease[]
   legalResponsibleId String?
-  medications        Medication[]
   createdAt          DateTime          @default(now())
   updatedAt          DateTime          @default(now()) @updatedAt
+  candidate          Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  legalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
+  medications        Medication[]
 
   @@map("familyMemberDiseases")
 }
@@ -687,16 +667,15 @@ model Medication {
   obtainedPublicly           Boolean
   specificMedicationPublicly String?
   familyMember_id            String?
-  familyMember               FamilyMember?        @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
-  candidate                  Candidate?           @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id               String?
-  legalResponsible           LegalResponsible?    @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
   legalResponsibleId         String?
-  FamilyMemberDisease        FamilyMemberDisease? @relation(fields: [familyMemberDiseaseId], references: [id], onDelete: Cascade)
+  createdAt                  DateTime             @default(now())
   familyMemberDiseaseId      String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  updatedAt                  DateTime             @default(now()) @updatedAt
+  candidate                  Candidate?           @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  FamilyMemberDisease        FamilyMemberDisease? @relation(fields: [familyMemberDiseaseId], references: [id], onDelete: Cascade)
+  familyMember               FamilyMember?        @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  legalResponsible           LegalResponsible?    @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
 
   @@map("medications")
 }
@@ -708,25 +687,25 @@ model Declarations {
   text               String?
   familyMember_id    String?
   candidate_id       String?
-  candidate          Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
-  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
-  LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
   legalResponsibleId String?
   documentKey        String?           @unique
   createdAt          DateTime          @default(now())
   updatedAt          DateTime          @default(now()) @updatedAt
+  candidate          Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
 
   @@unique([familyMember_id, candidate_id, legalResponsibleId, declarationType])
 }
 
 model SignedDocuments {
-  documentKey     String            @id @unique
+  documentKey     String           @id @unique
   path            String
   emails          String[]
   metadata        Json
-  status          DocumentStatus    @default(Open)
-  createdAt       DateTime          @default(now())
-  EntityDocuments EntityDocuments[]
+  status          DocumentStatus   @default(Open)
+  createdAt       DateTime         @default(now())
+  EntityDocuments EntityDocuments?
 }
 
 model FinishedRegistration {
@@ -740,14 +719,13 @@ model FinishedRegistration {
   saude              Boolean           @default(false)
   declaracoes        Boolean           @default(false)
   documentos         Boolean           @default(false)
-  candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
   candidate_id       String?           @unique
-  legalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?           @unique
   rendaMensalStatus  sectionStatus     @default(Pending)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @default(now()) @updatedAt
+  candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
+  legalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
 
   @@unique([candidate_id, legalResponsibleId])
   @@map("registration")
@@ -760,11 +738,10 @@ model AnnouncementInterview {
   interval        Int          @default(5)
   endHour         DateTime     @db.Time(0)
   duration        Int          @default(20)
-  announcement    Announcement @relation(fields: [announcement_id], references: [id])
   announcement_id String       @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @default(now()) @updatedAt
+  announcement    Announcement @relation(fields: [announcement_id], references: [id])
 }
 
 model Announcement {
@@ -774,10 +751,6 @@ model Announcement {
   announcementType     AnnouncementType
   announcementNumber   String?
   announcementDate     DateTime?
-  announcementBegin    DateTime?              @default(now())
-  openDate             DateTime?
-  closeDate            DateTime?
-  waitingList          Boolean?               @default(false)
   offeredVacancies     Int?
   verifiedScholarships Int                    @default(0)
   description          String?
@@ -785,28 +758,31 @@ model Announcement {
   announcementName     String?
   announcementLogo     String?
   type2                String?
-  sorted               Boolean?               @default(false)
-  interview            AnnouncementInterview?
+  announcementBegin    DateTime?              @default(now())
+  closeDate            DateTime?
   criteria             TiebreakerCriterias[]  @default([CadUnico, LeastFamilyIncome, SeriousIllness, Draw, Distance])
+  openDate             DateTime?
+  waitingList          Boolean?               @default(false)
+  createdAt            DateTime               @default(now())
+  sorted               Boolean?               @default(false)
+  updatedAt            DateTime               @default(now()) @updatedAt
   types1               type1Benefits[]
   entity               Entity                 @relation(fields: [entity_id], references: [id])
-  entity_subsidiary    EntitySubsidiary[]
+  interview            AnnouncementInterview?
   Application          Application[]
+  AssistantSchedule    AssistantSchedule[]
   educationLevels      EducationLevel[]
+  InterviewSchedule    InterviewSchedule[]
   ScholarshipGranted   ScholarshipGranted[]
   timelines            Timeline[]
-  socialAssistant      SocialAssistant[]      @relation("AnnouncementToSocialAssistant")
   AnnouncementsSeen    AnnouncementsSeen[]
-  InterviewSchedule    InterviewSchedule[]
-  AssistantSchedule    AssistantSchedule[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  entity_subsidiary    EntitySubsidiary[]     @relation("AnnouncementToEntitySubsidiary")
+  socialAssistant      SocialAssistant[]      @relation("AnnouncementToSocialAssistant")
 }
 
 model InterviewSchedule {
   id                            String             @id @default(uuid())
-  date                          DateTime           @db.Timestamp()
+  date                          DateTime           @db.Timestamp(6)
   accepted                      Boolean            @default(true)
   rejectReason                  String?
   rejectComentary               String?
@@ -816,17 +792,16 @@ model InterviewSchedule {
   InterviewNotRealizedComentary String?
   interviewLink                 String?
   interviewType                 InterviewType?
-  announcement                  Announcement       @relation(fields: [announcement_id], references: [id])
   announcement_id               String
-  assistant                     SocialAssistant    @relation(fields: [assistant_id], references: [id])
   assistant_id                  String
-  application                   Application?       @relation(fields: [application_id], references: [id])
   application_id                String?
-  assistantSchedule             AssistantSchedule? @relation(fields: [assistantSchedule_id], references: [id], onDelete: Cascade)
   assistantSchedule_id          String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt                     DateTime           @default(now())
+  updatedAt                     DateTime           @default(now()) @updatedAt
+  announcement                  Announcement       @relation(fields: [announcement_id], references: [id])
+  application                   Application?       @relation(fields: [application_id], references: [id])
+  assistantSchedule             AssistantSchedule? @relation(fields: [assistantSchedule_id], references: [id], onDelete: Cascade)
+  assistant                     SocialAssistant    @relation(fields: [assistant_id], references: [id])
 }
 
 model AssistantSchedule {
@@ -837,27 +812,26 @@ model AssistantSchedule {
   interval          Int                 @default(5)
   endHour           DateTime            @db.Time(0)
   duration          Int                 @default(20)
-  announcement      Announcement        @relation(fields: [announcement_id], references: [id])
   announcement_id   String
-  assistant         SocialAssistant     @relation(fields: [assistant_id], references: [id])
   assistant_id      String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @default(now()) @updatedAt
+  announcement      Announcement        @relation(fields: [announcement_id], references: [id])
+  assistant         SocialAssistant     @relation(fields: [assistant_id], references: [id])
   InterviewSchedule InterviewSchedule[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model AnnouncementsSeen {
   id              String            @id @default(uuid())
-  announcement    Announcement      @relation(fields: [announcement_id], references: [id])
   announcement_id String
   candidate_id    String?
-  candidate       Candidate?        @relation(fields: [candidate_id], references: [id])
   responsible_id  String?
-  responsible     LegalResponsible? @relation(fields: [responsible_id], references: [id])
   percentage      Int               @default(0)
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @default(now()) @updatedAt
+  announcement    Announcement      @relation(fields: [announcement_id], references: [id])
+  candidate       Candidate?        @relation(fields: [candidate_id], references: [id])
+  responsible     LegalResponsible? @relation(fields: [responsible_id], references: [id])
 
   @@map("announcementsSeen")
 }
@@ -868,45 +842,43 @@ model Timeline {
   stage          String
   deadline       DateTime
   announcementId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now()) @updatedAt
   announcement   Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model EducationLevel {
   id                   String              @id @default(uuid())
-  level                LevelType // Nível de escolaridade
-  typeOfScholarship    AllScholarshipsType // tipo de bolsa
-  course               Course              @relation(fields: [courseId], references: [id])
-  courseId             Int
-  verifiedScholarships Int // Número de vagas
+  level                LevelType
+  verifiedScholarships Int
   shift                SHIFT
-  semester             Int? // para educação superior
+  semester             Int?
   announcementId       String
-  Application          Application[]
-  announcement         Announcement        @relation(fields: [announcementId], references: [id], onDelete: Cascade)
-  entitySubsidiary     EntitySubsidiary?   @relation(fields: [entitySubsidiaryId], references: [id])
   entitySubsidiaryId   String?
-  entity               Entity?             @relation(fields: [entityId], references: [id])
+  courseId             Int
+  createdAt            DateTime            @default(now())
   entityId             String?
   type1Benefit         type1Benefits[]
-  createdAt            DateTime            @default(now())
+  typeOfScholarship    AllScholarshipsType
   updatedAt            DateTime            @default(now()) @updatedAt
-
-  Type1Benefit Type1Benefit[] @relation("Type1Benefits")
+  Application          Application[]
+  announcement         Announcement        @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+  course               Course              @relation(fields: [courseId], references: [id])
+  entity               Entity?             @relation(fields: [entityId], references: [id])
+  entitySubsidiary     EntitySubsidiary?   @relation(fields: [entitySubsidiaryId], references: [id])
+  Type1Benefit         Type1Benefit[]      @relation("Type1Benefits")
 }
 
 model Type1Benefit {
   id                String          @id @default(uuid())
   educationLevel_id String?
-  educationLevel    EducationLevel? @relation("Type1Benefits", fields: [educationLevel_id], references: [id], onDelete: Cascade)
-  benefitType       type1Benefits // tipo de bolsa fornecida
+  benefitType       type1Benefits
   value             Float
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @default(now()) @updatedAt
-  Student           Student?        @relation(fields: [studentId], references: [id])
   studentId         String?
+  educationLevel    EducationLevel? @relation("Type1Benefits", fields: [educationLevel_id], references: [id], onDelete: Cascade)
+  Student           Student?        @relation(fields: [studentId], references: [id])
 
   @@unique([educationLevel_id, benefitType])
 }
@@ -917,10 +889,10 @@ model Type2Benefit {
   description          String
   createdAt            DateTime            @default(now())
   updatedAt            DateTime            @default(now()) @updatedAt
-  ScholarshipGranted   ScholarshipGranted? @relation(fields: [scholarshipGrantedId], references: [id])
   scholarshipGrantedId String?             @unique
-  Student              Student?            @relation(fields: [studentId], references: [id])
   studentId            String?
+  ScholarshipGranted   ScholarshipGranted? @relation(fields: [scholarshipGrantedId], references: [id])
+  Student              Student?            @relation(fields: [studentId], references: [id])
 }
 
 model Application {
@@ -928,37 +900,37 @@ model Application {
   candidate_id         String
   announcement_id      String
   status               ApplicationStatus
-  candidateStatus      CandidateApplicationStatus?
   socialAssistant_id   String?
   educationLevel_id    String
   candidateName        String
   SocialAssistantName  String?
+  number               Int                         @default(1)
   CadUnico             Boolean?
   hasSevereDesease     Boolean?
+  position             Int?
   averageIncome        Float?
   perCapita            Float?
-  position             Int?
-  distance             Float                       @default(100)
   CPFCNPJ              Boolean?
   InformedCNPJ         Boolean?
   ScholarshipPartial   Boolean?
-  number               Int                         @default(1)
-  parecerDocumentKey   String?                     @unique
-  parecerAditionalInfo String?
+  candidateStatus      CandidateApplicationStatus?
   createdAt            DateTime                    @default(now())
+  distance             Float                       @default(100)
+  enemScore            Float?
+  parecerAditionalInfo String?
+  parecerDocumentKey   String?                     @unique
+  responsible_id       String?
+  updatedAt            DateTime                    @default(now()) @updatedAt
+  AIAssistant          AIAssistant[]
   announcement         Announcement                @relation(fields: [announcement_id], references: [id], onDelete: Cascade)
   candidate            Candidate                   @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   EducationLevel       EducationLevel              @relation(fields: [educationLevel_id], references: [id])
+  responsible          LegalResponsible?           @relation(fields: [responsible_id], references: [id])
   SocialAssistant      SocialAssistant?            @relation(fields: [socialAssistant_id], references: [id])
   applicationHistories ApplicationHistory[]
+  InterviewSchedule    InterviewSchedule[]
   requests             Requests[]
   ScholarshipGranted   ScholarshipGranted?
-  responsible_id       String?
-  responsible          LegalResponsible?           @relation(fields: [responsible_id], references: [id])
-  InterviewSchedule    InterviewSchedule[]
-
-  updatedAt   DateTime      @default(now()) @updatedAt
-  AIAssistant AIAssistant[]
 
   @@unique([candidate_id, announcement_id])
 }
@@ -966,13 +938,13 @@ model Application {
 model Requests {
   id             String           @id @default(uuid())
   application_id String
-  application    Application      @relation(fields: [application_id], references: [id], onDelete: Cascade)
   answered       Boolean          @default(false)
   type           SolicitationType
   description    String
   deadLine       DateTime?
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @default(now()) @updatedAt
+  application    Application      @relation(fields: [application_id], references: [id], onDelete: Cascade)
 }
 
 model ApplicationHistory {
@@ -982,28 +954,28 @@ model ApplicationHistory {
   report         String?
   createdAt      DateTime         @default(now())
   createdBy      HistoryRequester @default(System)
-  application    Application      @relation(fields: [application_id], references: [id], onDelete: Cascade)
   updatedAt      DateTime         @default(now()) @updatedAt
+  application    Application      @relation(fields: [application_id], references: [id], onDelete: Cascade)
 }
 
 model ScholarshipGranted {
   id                    String                   @id @default(uuid())
   ScholarshipCode       String?
-  candidateName         String
-  candidateCPF          String
-  types1Benefits        type1Benefits[]
-  type1TermAccepted     Boolean                  @default(false)
-  type1DocumentReceived Boolean                  @default(false)
-  status                ScholarshipGrantedStatus @default(SELECTED)
-  type2Benefits         Type2Benefit[]
-  type2TermAccepted     Boolean                  @default(false)
-  type2DocumentReceived Boolean                  @default(false)
   application_id        String                   @unique
   announcement_id       String
+  candidateCPF          String
+  candidateName         String
+  createdAt             DateTime                 @default(now())
+  status                ScholarshipGrantedStatus @default(SELECTED)
+  type1DocumentReceived Boolean                  @default(false)
+  type1TermAccepted     Boolean                  @default(false)
+  type2DocumentReceived Boolean                  @default(false)
+  type2TermAccepted     Boolean                  @default(false)
+  types1Benefits        type1Benefits[]
+  updatedAt             DateTime                 @default(now()) @updatedAt
   announcement          Announcement             @relation(fields: [announcement_id], references: [id])
   application           Application              @relation(fields: [application_id], references: [id])
-  createdAt             DateTime                 @default(now())
-  updatedAt             DateTime                 @default(now()) @updatedAt
+  type2Benefits         Type2Benefit?
 }
 
 model FamilyMemberToVehicle {
@@ -1018,12 +990,11 @@ model FamilyMemberToVehicle {
 }
 
 model DeletedFamilyMembers {
-  id                       String @id @default(uuid())
-  familyMember_id          String @unique
+  id                       String   @id @default(uuid())
+  familyMember_id          String   @unique
   candidateOrResponsibleId String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @default(now()) @updatedAt
 }
 
 model Call {
@@ -1034,23 +1005,22 @@ model Call {
   replyer_id  String?
   number      Int            @default(autoincrement())
   status      CallStatus     @default(OPEN)
-  Messages    CallMessages[]
   CreatedAt   DateTime       @default(now())
   UpdatedAt   DateTime       @default(now()) @updatedAt
   creator     User           @relation("Creator", fields: [creator_id], references: [id], onDelete: Cascade)
-  replyer     User?          @relation("Replyer", fields: [replyer_id], references: [id], onDelete: SetNull)
+  replyer     User?          @relation("Replyer", fields: [replyer_id], references: [id])
+  Messages    CallMessages[]
 }
 
 model CallMessages {
   id        String   @id @default(uuid())
   message   String
   filePath  String?
-  call      Call     @relation(fields: [call_id], references: [id])
   call_id   String
   user_id   String
   CreatedAt DateTime @default(now())
-
   updatedAt DateTime @default(now()) @updatedAt
+  call      Call     @relation(fields: [call_id], references: [id])
 }
 
 model LoginHistory {
@@ -1076,31 +1046,28 @@ model AuditLog {
   createdAt DateTime @default(now())
 }
 
-// Tabela dos cursos genéricos
 model Course {
   id             Int              @id @default(autoincrement())
-  name           String // Nome do curso (1º ano / Engenharia Elétrica / Química / 5º ano )
-  normalizedName String //Nome normalizado 
-  Type           AllEducationType // Tipo do curso (Pré-Escola,Ensino Fundamental,Ensino Médio, Técnico, Graduação,Licenciatura,Tecnólogo, Pós-Graduação)
-  EntityCourse   EntityCourse[]
+  name           String
+  normalizedName String
+  Type           AllEducationType
   EducationLevel EducationLevel[]
+  EntityCourse   EntityCourse[]
 
   @@unique([normalizedName, Type])
 }
 
-//Cursos da entidade
 model EntityCourse {
-  id                  String  @id @default(uuid())
+  id                  String            @id @default(uuid())
   entity_id           String?
   entitySubsidiary_id String?
-
-  course_id        Int
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @default(now()) @updatedAt
-  entitySubsidiary EntitySubsidiary? @relation(fields: [entitySubsidiary_id], references: [id])
-  entity           Entity?           @relation(fields: [entity_id], references: [id])
-  course           Course            @relation(fields: [course_id], references: [id])
-  Student          Student[]
+  course_id           Int
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @default(now()) @updatedAt
+  course              Course            @relation(fields: [course_id], references: [id])
+  entitySubsidiary    EntitySubsidiary? @relation(fields: [entitySubsidiary_id], references: [id])
+  entity              Entity?           @relation(fields: [entity_id], references: [id])
+  Student             Student[]
 }
 
 model Student {
@@ -1108,27 +1075,27 @@ model Student {
   name                String
   admissionDate       DateTime
   scholarshipDeadline DateTime
-  scholarshipType     AllScholarshipsType // Tipos de bolsa (todas possíveis)
+  scholarshipType     AllScholarshipsType
   isPartial           Boolean
-  semester            Int? // Semestre caso exista
+  semester            Int?
   shift               SHIFT
   candidate_id        String
-  candidate           Candidate                @relation(fields: [candidate_id], references: [id])
-  status              StudentStatus // Será um enum (ATIVO, INATIVO, FORMADO)
+  status              StudentStatus
   scholarshipStatus   StudentScholarshipStatus @default(Active)
   renewStatus         StudentRenewStatus       @default(Done)
   entityCourse_id     String
-  entityCourse        EntityCourse             @relation(fields: [entityCourse_id], references: [id])
-  educationStyle      EducationStyle // Presencial, Remoto, Híbrido
+  educationStyle      EducationStyle
   cameFromCSV         Boolean                  @default(false)
-  type1Benefits       Type1Benefit[]
-  type2Benefits       Type2Benefit[]
   announcement_id     String?
-  StudentDocuments    StudentDocuments[]
-  Observation         StudentObservation?
-  EmailsSent          StudentEmail[]
   createdAt           DateTime                 @default(now())
   updatedAt           DateTime                 @default(now()) @updatedAt
+  candidate           Candidate                @relation(fields: [candidate_id], references: [id])
+  entityCourse        EntityCourse             @relation(fields: [entityCourse_id], references: [id])
+  StudentDocuments    StudentDocuments[]
+  EmailsSent          StudentEmail[]
+  Observation         StudentObservation?
+  type1Benefits       Type1Benefit[]
+  type2Benefits       Type2Benefit[]
 }
 
 model StudentObservation {
@@ -1136,18 +1103,18 @@ model StudentObservation {
   richText   String
   plainText  String
   student_id String   @unique
-  student    Student  @relation(fields: [student_id], references: [id])
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now()) @updatedAt
+  student    Student  @relation(fields: [student_id], references: [id])
 }
 
 model StudentEmail {
   id         String           @id @default(cuid())
   type       StudentEmailType
   student_id String
-  student    Student          @relation(fields: [student_id], references: [id])
   createdAt  DateTime         @default(now())
   updatedAt  DateTime         @default(now()) @updatedAt
+  student    Student          @relation(fields: [student_id], references: [id])
 }
 
 model emailsSent {
@@ -1158,9 +1125,119 @@ model emailsSent {
   deadline  DateTime?
   createdBy HistoryRequester @default(System)
   user_id   String?
-  user      User?            @relation(fields: [user_id], references: [id], onDelete: SetNull)
   createdAt DateTime         @default(now())
   updatedAt DateTime         @default(now()) @updatedAt
+  user      User?            @relation(fields: [user_id], references: [id])
+}
+
+model CandidateDocuments {
+  id             String                  @id @default(uuid())
+  status         CandidateDocumentStatus @default(UPDATED)
+  path           String                  @unique
+  metadata       Json
+  tableName      String
+  analysisStatus DocumentAnalysisStatus  @default(NotIncluded)
+  AiData         Json?
+  tries          Int                     @default(0)
+  tableId        String
+  memberId       String?
+  expiresAt      DateTime?
+  createdAt      DateTime                @default(now())
+  updatedAt      DateTime                @default(now()) @updatedAt
+
+  @@index([tableName, tableId], map: "tableName_tableId")
+}
+
+model StudentDocuments {
+  id           String  @id @default(uuid())
+  path         String  @unique
+  metadata     Json
+  documentName String
+  student_id   String
+  student      Student @relation(fields: [student_id], references: [id])
+}
+
+model AIAssistant {
+  id             String            @id @default(uuid())
+  AIassistant_id String
+  thread_id      String
+  member_id      String
+  table_id       String?
+  section        Section
+  application_id String
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @default(now()) @updatedAt
+  status         AIAssistantStatus @default(INCONCLUSIVE)
+  inconsistences Int               @default(0)
+  analysis       String?
+  filePaths      String[]
+  aIFeedBackId   String?
+  application    Application       @relation(fields: [application_id], references: [id], onDelete: Cascade)
+  AIFeedBack     AIFeedBack?
+
+  @@unique([application_id, section, member_id, table_id], name: "application_id_section_member_table")
+  @@index([application_id], map: "application_id")
+}
+
+model EntityDocuments {
+  id              String               @id @default(cuid())
+  entity_id       String
+  user_id         String?
+  metadata        Json
+  fields          Json?
+  type            EntityDocumentType
+  name            String?
+  path            String
+  group           String?
+  signKey         String?              @unique
+  expireAt        DateTime?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  Entity          Entity               @relation(fields: [entity_id], references: [id], onDelete: Cascade)
+  SignedDocuments SignedDocuments?     @relation(fields: [signKey], references: [documentKey])
+  User            User?                @relation(fields: [user_id], references: [id])
+  EmailsSent      LegalDocumentEmail[]
+}
+
+model LegalDocumentEmail {
+  id             String          @id @default(cuid())
+  emails         String[]
+  document_id    String
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  cycle          Int
+  EntityDocument EntityDocuments @relation(fields: [document_id], references: [id], onDelete: Cascade)
+}
+
+model Lawyer {
+  id        String   @id @default(cuid())
+  name      String
+  CPF       String
+  entity_id String
+  user_id   String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Entity    Entity   @relation(fields: [entity_id], references: [id], onDelete: Cascade)
+  User      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model AIFeedBack {
+  id           String       @id @default(uuid())
+  feedback     String?
+  feedbackType FeedbackType
+  problem      String?
+  AI_id        String       @unique
+  createdAt    DateTime     @default(now())
+  AIAssistant  AIAssistant  @relation(fields: [AI_id], references: [id])
+}
+
+enum TiebreakerCriterias {
+  CadUnico
+  LeastFamilyIncome
+  SeriousIllness
+  Draw
+  Distance
+  EnemScore
 }
 
 enum StudentEmailType {
@@ -1184,97 +1261,6 @@ enum StudentRenewStatus {
   Done
   Pending
   Late
-}
-
-model CandidateDocuments {
-  id             String                  @id @default(uuid())
-  status         CandidateDocumentStatus @default(UPDATED)
-  path           String                  @unique
-  metadata       Json
-  tableName      String
-  analysisStatus DocumentAnalysisStatus  @default(NotIncluded)
-  AiData         Json?
-  tries          Int                     @default(0)
-  tableId        String
-  memberId       String?
-  expiresAt      DateTime?
-  createdAt      DateTime                @default(now())
-  updatedAt      DateTime                @default(now()) @updatedAt
-
-  @@index([tableName, tableId], name: "tableName_tableId")
-}
-
-model StudentDocuments {
-  id           String  @id @default(uuid())
-  path         String  @unique
-  metadata     Json
-  documentName String
-  student      Student @relation(fields: [student_id], references: [id])
-  student_id   String
-}
-
-model AIAssistant {
-  id             String            @id @default(uuid())
-  AIassistant_id String // id do modelo IA na OPEN AI
-  thread_id      String
-  member_id      String
-  table_id       String?
-  section        Section
-  application_id String
-  application    Application       @relation(fields: [application_id], references: [id], onDelete: Cascade)
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @default(now()) @updatedAt
-  status         AIAssistantStatus @default(INCONCLUSIVE)
-  inconsistences Int               @default(0)
-  analysis       String?
-  filePaths      String[]
-  AIFeedBack     AIFeedBack?
-  aIFeedBackId   String?
-
-  @@unique([application_id, section, member_id, table_id], name: "application_id_section_member_table")
-  @@index([application_id], name: "application_id")
-}
-
-model EntityDocuments {
-  id              String               @id @default(cuid())
-  entity_id       String
-  user_id         String?
-  metadata        Json
-  fields          Json?
-  type            EntityDocumentType
-  name            String?
-  path            String
-  group           String?
-  signKey         String?              @unique
-  expireAt        DateTime?
-  createdAt       DateTime             @default(now())
-  updatedAt       DateTime             @updatedAt
-  Entity          Entity               @relation(fields: [entity_id], references: [id], onDelete: Cascade)
-  User            User?                @relation(fields: [user_id], references: [id], onDelete: SetNull)
-  SignedDocuments SignedDocuments?     @relation(fields: [signKey], references: [documentKey], onDelete: SetNull)
-  EmailsSent      LegalDocumentEmail[]
-}
-
-model LegalDocumentEmail {
-  id             String          @id @default(cuid())
-  emails         String[]
-  document_id    String
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  cycle          Int //Current notification cycle
-  EntityDocument EntityDocuments @relation(fields: [document_id], references: [id], onDelete: Cascade)
-}
-
-model Lawyer {
-  id        String   @id @default(cuid())
-  name      String
-  CPF       String
-  entity_id String
-  Entity    Entity   @relation(fields: [entity_id], references: [id], onDelete: Cascade)
-  user_id   String   @unique
-  User      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 enum EntityDocumentType {
@@ -1315,18 +1301,6 @@ enum EntityDocumentType {
 enum AIAssistantStatus {
   CONCLUSIVE
   INCONCLUSIVE
-}
-
-model AIFeedBack {
-  id String @id @default(uuid())
-
-  feedback     String?
-  feedbackType FeedbackType
-  problem      String?
-
-  AI_id       String      @unique
-  AIAssistant AIAssistant @relation(fields: [AI_id], references: [id])
-  createdAt   DateTime    @default(now())
 }
 
 enum FeedbackType {
@@ -1666,33 +1640,31 @@ enum BasicEducationType {
   ProfessionalEducation
 }
 
-// Todas as bolsas de educação básica
 enum ScholarshipOfferType {
-  Law187ScholarshipPartial
   Law187Scholarship
-  StudentWithDisabilityPartial
   StudentWithDisability
-  FullTimePartial
   FullTime
-  EntityWorkersPartial
   EntityWorkers
+  Law187ScholarshipPartial
+  StudentWithDisabilityPartial
+  FullTimePartial
+  EntityWorkersPartial
 }
 
-// todas as bolsas de eduicação superior
 enum HigherEducationScholarshipType {
   PROUNIFull
   PROUNIPartial
   StateGovernment
-  StateGovernmentPartial
   CityGovernment
-  CityGovernmentPartial
   ExternalEntities
-  ExternalEntitiesPartial
   HigherEduInstitutionFull
   HigherEduInstitutionPartial
   HigherEduInstitutionWorkers
-  HigherEduInstitutionWorkersPartial
   PostgraduateStrictoSensu
+  StateGovernmentPartial
+  CityGovernmentPartial
+  ExternalEntitiesPartial
+  HigherEduInstitutionWorkersPartial
   PostgraduateStrictoSensuPartial
 }
 
@@ -1703,7 +1675,6 @@ enum OfferedCourseType {
   Postgraduate
 }
 
-// Todos os tipos de bolsa existentes
 enum AllScholarshipsType {
   PROUNIFull
   PROUNIPartial
@@ -1729,7 +1700,6 @@ enum AllScholarshipsType {
   EntityWorkers
 }
 
-// todos os níveis de educação existentes
 enum AllEducationType {
   Preschool
   Elementary

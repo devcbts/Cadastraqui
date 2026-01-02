@@ -38,8 +38,21 @@ import { createBankBalanceHDB, deleteBankBalanceHDB, updateBankBalanceHDB } from
 import { runBackgroundDocumentAnalysis } from "@/utils/AI Assistant/runBackgroundDocumentAnalysis";
 import { CandidateDocuments } from "@prisma/client";
 import { VerifyMonthlyIncomeStatus } from "@/utils/Trigger-Functions/verify-monthlyIncomes-status";
+import { updateEnemScoreForCandidate } from "@/HistDatabaseFunctions/update-enem-score";
+import dotenv from 'dotenv'
 
-const pool = new Pool({connectionString: env.DATABASE_URL});
+if (!process.env.DATABASE_URL) {
+  dotenv.config()
+}
+
+const databaseUrl = process.env.DATABASE_URL
+if (typeof databaseUrl !== 'string' || databaseUrl.length === 0) {
+  console.error('DATABASE_URL is missing or invalid. Check your .env and prisma.config.ts.')
+  // Evita inicializar o pool com valor incorreto
+  throw new Error('Invalid DATABASE_URL')
+}
+
+const pool = new Pool({ connectionString: databaseUrl })
 let isConnected = false;
 
 const connectClient = async () => {
@@ -48,8 +61,8 @@ const connectClient = async () => {
             console.log('Already connected to the database');
             return;
         }
-        
-        console.log('Connected to the database');
+        console.log('Connecting to the database...');
+        console.log(databaseUrl)
         const clientBackup =await pool.connect();
         isConnected = true;
         console.log('Connected to the database');
@@ -75,12 +88,22 @@ const connectClient = async () => {
         await clientBackup.query('LISTEN "channel_audit"');
         await clientBackup.query('LISTEN "channel_finished_registration"')
         await clientBackup.query('LISTEN "channel_bank_balance"')
+        await clientBackup.query('LISTEN "channel_enem_score"')
 
         clientBackup.on('notification', async (msg) => {
             try {
         
         
                 switch (msg.channel) {
+                            case 'channel_enem_score': {
+                                const candidateId = msg.payload!;
+                                try {
+                                    await updateEnemScoreForCandidate(candidateId);
+                                } catch (err) {
+                                    console.error('Failed to update ENEM score for candidate', candidateId, err);
+                                }
+                                break;
+                            }
         
         
         
@@ -525,7 +548,7 @@ const connectClient = async () => {
 
 
 
-connectClient();
+//connectClient();
 
 
 

@@ -82,6 +82,14 @@ export async function registerIdentityInfo(
     city: z.string().nullish(),
     hasSevereDeseaseOrUsesMedication: z.boolean().nullish(),
     hasBankAccount: z.boolean().nullish(),
+    enemScore: z.object({
+      linguagens: z.number().min(0).max(1000),
+      matematica: z.number().min(0).max(1000),
+      humanas: z.number().min(0).max(1000),
+      natureza: z.number().min(0).max(1000),
+      redacao: z.number().min(0).max(1000),
+      examYear: z.number().int().min(2009).max(new Date().getFullYear()),
+    }).optional()
   })
 
   const {
@@ -136,8 +144,8 @@ export async function registerIdentityInfo(
     hasSevereDeseaseOrUsesMedication,
     hasBankAccount,
     hasMedicalReport,
-    specialNeedsType
-
+    specialNeedsType,
+    enemScore
   } = userDataSchema.parse(request.body)
 
   try {
@@ -233,6 +241,33 @@ export async function registerIdentityInfo(
       },
     })
     const idFieldRegistration = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
+    
+    if(!candidateOrResponsible.IsResponsible){
+      // Atualiza a Application.enemScore (média simples) para candidaturas abertas do candidato
+      if (enemScore) {
+        await prisma.enemScore.upsert({
+          where: { candidate_id: candidateOrResponsible.UserData.id },
+          create: {
+            candidate_id: candidateOrResponsible.UserData.id,
+            linguagens: enemScore.linguagens,
+            matematica: enemScore.matematica,
+            humanas: enemScore.humanas,
+            natureza: enemScore.natureza,
+            redacao: enemScore.redacao,
+            examYear: enemScore.examYear,
+          },
+          update: {
+            linguagens: enemScore.linguagens,
+            matematica: enemScore.matematica,
+            humanas: enemScore.humanas,
+            natureza: enemScore.natureza,
+            redacao: enemScore.redacao,
+            examYear: enemScore.examYear,
+          },
+        })
+      }
+    }
+    
     await prisma.finishedRegistration.upsert({
       where: idFieldRegistration,
       create: {

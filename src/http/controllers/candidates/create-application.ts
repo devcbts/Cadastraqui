@@ -147,7 +147,23 @@ export async function subscribeAnnouncement(
 
     const entityLocation = entityInfo.address ? `${entityInfo.address}, ${entityInfo.addressNumber}, ${entityInfo.neighborhood}, ${entityInfo.city}, ${entityInfo.UF}, ${entityInfo.CEP}` : ''
     const distance = await calculateDistance(candidateLocation, entityLocation)
-    console.log(distance)
+
+
+    const enemScore = await prisma.enemScore.findUnique({
+      where: {
+        candidate_id: candidate.id
+      }
+    })
+
+    let composite = null 
+    
+    // Atualiza a Application.enemScore (média simples) para candidaturas abertas do candidato
+    
+    if (enemScore) {
+
+      composite = (enemScore.linguagens + enemScore.matematica + enemScore.humanas + enemScore.natureza + enemScore.redacao) / 5
+    }
+        
     const application = await prisma.application.create({
       data: {
         candidate_id: candidate.id,
@@ -160,6 +176,7 @@ export async function subscribeAnnouncement(
         CadUnico: hasCadUnico?.CadUnico,
         hasSevereDesease: severeDisease ? severeDisease.length > 0 : false,
         distance,
+        enemScore: composite,
         ...idField
       },
     })

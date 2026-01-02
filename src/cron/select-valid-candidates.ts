@@ -33,6 +33,7 @@ const selectValidCandidates = async () => {
                         { field: 'distance', value: TiebreakerCriterias.Distance, order: 'ASC' },
                         { field: 'averageIncome', value: TiebreakerCriterias.LeastFamilyIncome, order: 'ASC' },
                         { field: 'hasSevereDesease', value: TiebreakerCriterias.SeriousIllness, order: 'DESC' },
+                        { field: 'enemScore', value: TiebreakerCriterias.EnemScore, order: 'DESC' },
                         { field: 'RANDOM()', value: TiebreakerCriterias.Draw, order: '' },
                     ]
                     let fields = currentCriteria.map((e) => {

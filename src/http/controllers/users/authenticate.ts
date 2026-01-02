@@ -14,7 +14,7 @@ export async function authenticate(
     email: z.string().email(),
     password: z.string().min(6),
   })
-
+  console.log('Autenticando usuário...')
   const { email, password } = authenticateBodySchema.parse(request.body)
   try {
     const user = await prisma.user.findUnique({

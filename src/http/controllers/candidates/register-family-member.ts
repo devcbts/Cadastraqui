@@ -83,6 +83,14 @@ export async function registerFamilyMemberInfo(
     incomeSource: z.array(IncomeSource).optional(),
     hasSevereDeseaseOrUsesMedication: z.boolean().nullish(),
     hasBankAccount: z.boolean().nullish(),
+    enemScore: z.object({
+      linguagens: z.number().min(0).max(1000),
+      matematica: z.number().min(0).max(1000),
+      humanas: z.number().min(0).max(1000),
+      natureza: z.number().min(0).max(1000),
+      redacao: z.number().min(0).max(1000),
+      examYear: z.number().int().min(2009).max(new Date().getFullYear()),
+    }).optional(),
   })
   console.log('====================================')
   console.log(request.body)
@@ -137,6 +145,7 @@ export async function registerFamilyMemberInfo(
     hasSevereDeseaseOrUsesMedication,
     hasBankAccount,
     specialNeedsType
+    , enemScore
   } = familyMemberDataSchema.parse(request.body)
 
   try {
@@ -245,6 +254,32 @@ export async function registerFamilyMemberInfo(
         isDependent
       ) {
         await createLegalDependent(fullName, CPF, birthDate, candidateOrResponsible.UserData.id, tPrisma)
+      }
+
+      // Opcional: se informado, salva/atualiza nota do ENEM vinculada ao candidato
+      if (enemScore && !candidateOrResponsible.IsResponsible) {
+        await tPrisma.enemScore.upsert({
+          where: { candidate_id: candidateOrResponsible.UserData.id },
+          create: {
+            candidate_id: candidateOrResponsible.UserData.id,
+            linguagens: enemScore.linguagens,
+            matematica: enemScore.matematica,
+            humanas: enemScore.humanas,
+            natureza: enemScore.natureza,
+            redacao: enemScore.redacao,
+           examYear: enemScore.examYear 
+          },
+          update: {
+            linguagens: enemScore.linguagens,
+            matematica: enemScore.matematica,
+            humanas: enemScore.humanas,
+            natureza: enemScore.natureza,
+            redacao: enemScore.redacao,
+            examYear: enemScore.examYear
+          }
+        })
+
+       
       }
 
       await tPrisma.finishedRegistration.upsert({
