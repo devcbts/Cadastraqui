@@ -19,7 +19,7 @@ import PersonalData from "../PersonalData";
 import PersonalInformation from "../PersonalInformation";
 import ResidenceProof from '../AddressData/ResidenceProof';
 import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
-export default function FormBasicInformation() {
+export default function FormBasicInformation({ onNextMainStep }) {
     const { auth } = useAuth()
     const { canEdit, service } = useSubscribeFormPermissions()
 
@@ -137,6 +137,13 @@ export default function FormBasicInformation() {
                         </ButtonBase>
                     )
                 }
+                {/* Botão para próxima etapa principal - só aparece na última sub-etapa */}
+                {activeStep === max && onNextMainStep && enableEditing && (
+                    <ButtonBase onClick={onNextMainStep} style={{ marginLeft: '8px' }}>
+                        Próxima Etapa
+                        <Arrow width="30px" style={{ marginLeft: '8px' }} />
+                    </ButtonBase>
+                )}
 
             </div>
         </div >
