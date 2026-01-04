@@ -50,7 +50,7 @@ export default function InterestCards({
                     { value: 20, color: '#55F43E', legend: 'Bom - 61% à 80%' },
                     { value: 20, color: '#26C90C', legend: 'Excelente - 81% à 100%' },
                 ]}
-                value={(data.rate) * 100}
+                value={data.numberOfInterested === 0 ? (data.numberOfApplications / 1) * 100 : (data.numberOfApplications / data.numberOfInterested) * 100}
             />
             {
                 children && (

@@ -1,4 +1,3 @@
-import moneyInputMask from "Components/MoneyFormInput/money-input-mask"
 import { api } from "services/axios"
 import EDUCATION_STYLES from "utils/enums/education-style-types"
 import GENDER from "utils/enums/gender"
@@ -70,8 +69,8 @@ class StudentService {
             familyInfo,
             incomeInfo: {
                 ...incomeInfo,
-                expenses: moneyInputMask(incomeInfo.expenses),
-                averageIncome: moneyInputMask(incomeInfo.averageIncome),
+                expenses: Number(incomeInfo.expenses).toLocaleString('pt-BR', { style: "currency", currency: 'BRL' }),
+                averageIncome: Number(incomeInfo.averageIncome).toLocaleString('pt-BR', { style: "currency", currency: 'BRL' }),
                 status: incomeInfo.status === null ? 'Desatualizada' : (incomeInfo.status ? 'Atualizada' : 'Pendente'),
             }
         }

@@ -2,6 +2,7 @@
   "name": "views",
   "version": "2.16.4",
   "private": true,
+  "homepage": "/portal",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/runtime": "^7.25.0",
@@ -21,6 +22,7 @@
     "@testing-library/user-event": "13.5.0",
     "@tinymce/tinymce-react": "^5.1.1",
     "@types/react-big-calendar": "^1.8.9",
+    "@vercel/analytics": "^1.5.0",
     "api": "^6.1.1",
     "axios": "^1.5.1",
     "classnames": "^2.3.2",
@@ -76,7 +78,7 @@
   "scripts": {
     "local": "dotenv -e .env.local -- npx react-scripts start",
     "start": "dotenv -e .env.dev -- npx react-scripts start",
-    "build": "react-scripts build",
+    "build": "BUILD_PATH='./build/portal' react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -1,4 +1,4 @@
-import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, Text } from "recharts";
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { needle } from "./Needle";
 
 export default function IndicatorChart({ data, value }) {
@@ -6,7 +6,6 @@ export default function IndicatorChart({ data, value }) {
     const cy = 200;
     const iR = 50;
     const oR = 100;
-
     return (
         <ResponsiveContainer height={250} style={{ padding: 0 }}>
             <PieChart >
