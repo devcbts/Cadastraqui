@@ -11,7 +11,7 @@ import VehicleInsurance from "./components/VehicleInsurance";
 import VehicleList from "./components/VehicleList";
 import VehicleSituation from "./components/VehicleSituation";
 import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
-export default function FormVehicle() {
+export default function FormVehicle({ onNextMainStep }) {
     const { canEdit, service } = useSubscribeFormPermissions()
     const handleEditVehicle = async (data, updated) => {
         setIsLoading(true)
@@ -85,7 +85,14 @@ export default function FormVehicle() {
     return (
         <div className={commonStyles.container}>
             <Loader loading={isLoading} />
-            {!hasSelectionOrIsAdding() && <VehicleList onSelect={handleSelectVehicle} onAdd={handleAddVehicle} onDelete={handleDeleteVehicle} />}
+            {!hasSelectionOrIsAdding() && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <VehicleList onSelect={handleSelectVehicle} onAdd={handleAddVehicle} onDelete={handleDeleteVehicle} />
+                    <ButtonBase onClick={onNextMainStep} style={{ marginLeft: '8px' }}>
+                        Próxima Etapa
+                        <Arrow width="30px" style={{ marginLeft: '8px' }} />
+                    </ButtonBase>
+                </div>)}
             {hasSelectionOrIsAdding() &&
                 <>
                     <fieldset disabled={!canEdit}>
@@ -111,6 +118,13 @@ export default function FormVehicle() {
                                 </ButtonBase>
                             )
                         }
+                        {/* Botão para próxima etapa principal - só aparece na última sub-etapa quando não está adicionando */}
+                        {activeStep === max && onNextMainStep && !isAdding && data && (
+                            <ButtonBase onClick={onNextMainStep} style={{ marginLeft: '8px' }}>
+                                Próxima Etapa
+                                <Arrow width="30px" style={{ marginLeft: '8px' }} />
+                            </ButtonBase>
+                        )}
                     </div>
                 </>
             }

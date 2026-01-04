@@ -18,7 +18,7 @@ import PersonalInformation from "../PersonalInformation";
 import FamilyRelation from "./components/FamilyRelation";
 import MembersList from "./components/MembersList";
 import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
-export default function FormFamilyGroup() {
+export default function FormFamilyGroup({ onNextMainStep }) {
     const [isAdding, setIsAdding] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const { canEdit, service } = useSubscribeFormPermissions()
@@ -114,7 +114,15 @@ export default function FormFamilyGroup() {
     return (
         <div className={commonStyles.container}>
             <Loader loading={isLoading} />
-            {!hasSelectionOrIsAdding() && <MembersList onSelect={handleSelectMember} onAdd={handleAddMember} />}
+            {!hasSelectionOrIsAdding() && (
+                <>
+                    <MembersList onSelect={handleSelectMember} onAdd={handleAddMember} />
+                    <ButtonBase onClick={onNextMainStep} style={{ marginLeft: '8px' }}>
+                        Próxima Etapa
+                        <Arrow width="30px" style={{ marginLeft: '8px' }} />
+                    </ButtonBase>
+                </>
+            )}
             {hasSelectionOrIsAdding() && (
                 <>
                     <fieldset disabled={!canEdit}>
@@ -139,6 +147,13 @@ export default function FormFamilyGroup() {
                                 </ButtonBase>
                             )
                         }
+                        {/* Botão para próxima etapa principal - só aparece na última sub-etapa quando não está adicionando */}
+                        {activeStep === max && onNextMainStep && (
+                            <ButtonBase onClick={onNextMainStep} style={{ marginLeft: '8px' }}>
+                                Próxima Etapa
+                                <Arrow width="30px" style={{ marginLeft: '8px' }} />
+                            </ButtonBase>
+                        )}
                     </div>
                 </>
             )}

@@ -25,12 +25,13 @@ export default function useBankReport({ id }) {
     const handleUploadFile = async (type, file) => {
         if (!canEdit) { return }
         try {
+            
             const formData = new FormData()
             const suffix = `${date.getMonth() + 1}-${date.getFullYear()}-${type}`
+            const date = `${currYear}-${currMonth.toString().padStart(2, '0')}-01T00:00:00`
             const fileName = `file_${suffix}`
             const currMonth = date.getMonth() + 1
             const currYear = date.getFullYear()
-            const date = `${currYear}-${currMonth.toString().padStart(2, '0')}-01T00:00:00`
             const metadata = {
                 [`metadata_${suffix}`]: {
                     type: type === "registrato" ? METADATA_FILE_TYPE.BANK.REGISTRATO : METADATA_FILE_TYPE.BANK.PIX,
@@ -45,6 +46,7 @@ export default function useBankReport({ id }) {
             NotificationService.success({ text: 'Documento enviado com sucesso' })
             _setNeedReload(prev => !prev)
         } catch (err) {
+            console.log(err)
             NotificationService.error({ text: 'Erro ao enviar documento, tente novamente' })
 
         }

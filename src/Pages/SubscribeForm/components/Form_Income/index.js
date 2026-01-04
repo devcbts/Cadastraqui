@@ -22,7 +22,7 @@ import IncomeFormModelD from "./ModelD";
 import FinancialHelp from "./ModelD/components/FinancialHelp";
 import InformationModelD from "./ModelD/components/InformationModelC";
 import UnemployementInsurance from "./Unemployed/components/UnemployementInsurance";
-export default function FormIncome() {
+export default function FormIncome({ onNextMainStep }) {
     // Keep track of incomes created/updated by user
     const hasIncomeSelected = useRecoilValue(monthAtom)
     const { canEdit } = useSubscribeFormPermissions()
@@ -161,7 +161,13 @@ export default function FormIncome() {
 
     return (
         <div className={commonStyles.container}>
-            {!hasSelectionOrIsAdding() && <IncomeList onSelect={handleSpecificSelection} onAdd={handleAdd} initialMember={currentMember} />}
+            {!hasSelectionOrIsAdding() && (<>
+                <IncomeList onSelect={handleSpecificSelection} onAdd={handleAdd} initialMember={currentMember} />
+                <ButtonBase onClick={onNextMainStep} style={{ marginLeft: '8px' }}>
+                            Próxima Etapa
+                            <Arrow width="30px" style={{ marginLeft: '8px' }} />
+                        </ButtonBase>
+            </>)}
             {hasSelectionOrIsAdding() && <>
                 <Steps />
                 {!hasIncomeSelected && <div className={commonStyles.actions}>
@@ -184,6 +190,13 @@ export default function FormIncome() {
                             </ButtonBase>
                         )
                     }
+                    {/* Botão para próxima etapa principal - só aparece na última sub-etapa quando não está adicionando */}
+                    {activeStep === max && onNextMainStep && !isAdding && (
+                        <ButtonBase onClick={onNextMainStep} style={{ marginLeft: '8px' }}>
+                            Próxima Etapa
+                            <Arrow width="30px" style={{ marginLeft: '8px' }} />
+                        </ButtonBase>
+                    )}
 
                 </div>}
             </>}
