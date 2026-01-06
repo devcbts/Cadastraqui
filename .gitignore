@@ -7,3 +7,4 @@ docker-compose.yml
 .env.*
 .vscode
 ./backup_prisma/generated
+IntegracaoEnem

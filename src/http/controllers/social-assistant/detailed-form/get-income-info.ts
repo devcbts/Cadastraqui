@@ -26,7 +26,26 @@ export async function getIncomeInfoHDB(
     const idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
     const familyMembers = await historyDatabase.familyMember.findMany({
       where: idField,
-      include: { BankAccount: true }
+      include: {
+        BankAccount: {
+          select: {
+            application_id: true,
+            candidate_id: true,
+            legalResponsibleId: true,
+            id: true,
+            main_id: true,
+            createdAt: true,
+            updatedAt: true,
+            bankName: true,
+            agencyNumber: true,
+            accountNumber: true,
+            accountType: true,
+            familyMember_id: true,
+            isUpdated: true,
+            ISPB: true, // Ensure ISPB is included
+          },
+        },
+      },
     })
     async function fetchData(familyMembers: (FamilyMember & { BankAccount: BankAccount[] })[]) {
       const incomeInfoResults = []
