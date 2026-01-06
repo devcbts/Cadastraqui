@@ -23,7 +23,7 @@ export default async function verifyIncomesCompletion(candidateOrResponsibleId: 
             ]
         }
     });
-
+    console.log({ identityDetails });
     if (!identityDetails) {
         return null;
     }
@@ -43,10 +43,12 @@ export default async function verifyIncomesCompletion(candidateOrResponsibleId: 
     if (familyMembers.some((familyMember) => familyMember.incomeUpdatedStatus === 'Declined')) updatedStatus = 'Declined'
 
 
-
+    console.log({ update, updatedStatus });
     await prisma.finishedRegistration.upsert({
         where: idField,
-        update: { rendaMensal: update },
+        update: { rendaMensal: update,
+            rendaMensalStatus: updatedStatus
+         },
         create: {
             ...idField, rendaMensal: update,
             rendaMensalStatus: updatedStatus
