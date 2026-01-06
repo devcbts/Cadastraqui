@@ -40,6 +40,7 @@ import { CandidateDocuments } from "@prisma/client";
 import { VerifyMonthlyIncomeStatus } from "@/utils/Trigger-Functions/verify-monthlyIncomes-status";
 import { updateEnemScoreForCandidate } from "@/HistDatabaseFunctions/update-enem-score";
 import dotenv from 'dotenv'
+import calculateRegistrationPercentage from "@/utils/dashboard/calculate-registration-percentage";
 
 if (!process.env.DATABASE_URL) {
   dotenv.config()
@@ -86,14 +87,23 @@ const connectClient = async () => {
         await clientBackup.query('LISTEN "channel_bankaccount"');
         await clientBackup.query('LISTEN "channel_candidate_documents"')
         await clientBackup.query('LISTEN "channel_audit"');
-        //await clientBackup.query('LISTEN "channel_finished_registration"')
+        await clientBackup.query('LISTEN "channel_finished_registration"')
         await clientBackup.query('LISTEN "channel_bank_balance"')
         await clientBackup.query('LISTEN "channel_enem_score"')
 
         clientBackup.on('notification', async (msg) => {
             try {
         
+
+
+
                 switch (msg.channel) {
+
+                            case 'channel_finished_registration': {
+                                const finishedRegistration = JSON.parse(msg.payload!);
+                                calculateRegistrationPercentage(finishedRegistration.data.candidate_id || finishedRegistration.data.legalResponsibleId, finishedRegistration.data.announcement_id)
+                            }
+
                             case 'channel_enem_score': {
                                 const candidateId = msg.payload!;
                                 try {
