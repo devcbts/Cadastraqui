@@ -30,9 +30,9 @@ const announcementInfoSchema = z.object({
             path: ['closeDate']
         })
     }
-    if (new Date(data.closeDate.split('-')).getDate() <= 10) {
+    if (new Date(data.closeDate.split('-')).getDate() <= 5) {
         ctx.addIssue({
-            message: 'Término de inscrições deve ser após o dia 10 do mês',
+            message: 'Término de inscrições deve ser após o dia 5 do mês',
             path: ['closeDate']
         })
     }
