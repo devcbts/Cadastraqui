@@ -2,7 +2,7 @@
     "version": 2,
     "headers": [
         {
-            "source": "/",
+            "source": "/portal/:path*",
             "headers": [
                 {
                     "key": "Referrer-Policy",
@@ -23,14 +23,22 @@
             ]
         }
     ],
+    "redirects": [
+        {
+            "source": "/",
+            "destination": "https://cadastraqui-landing-page.vercel.app/",
+            "permanent": false
+        },
+        {
+            "source": "/index.html",
+            "destination": "https://cadastraqui-landing-page.vercel.app/",
+            "permanent": false
+        }
+    ],
     "rewrites": [
         {
             "source": "/portal/:path*",
             "destination": "/portal/index.html"
-        },
-        {
-            "source": "/((?!portal).*)",
-            "destination": "https://cadastraqui-landing-page.vercel.app/"
         }
     ]
 }
