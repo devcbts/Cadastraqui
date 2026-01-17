@@ -145,6 +145,22 @@ exports.Prisma.CandidateScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.EnemScoreScalarFieldEnum = {
+  id: 'id',
+  main_id: 'main_id',
+  linguagens: 'linguagens',
+  matematica: 'matematica',
+  humanas: 'humanas',
+  natureza: 'natureza',
+  redacao: 'redacao',
+  examYear: 'examYear',
+  isValidated: 'isValidated',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  candidate_id: 'candidate_id',
+  application_id: 'application_id'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -1019,6 +1035,7 @@ exports.CandidateDocumentStatus = exports.$Enums.CandidateDocumentStatus = {
 exports.Prisma.ModelName = {
   IdMapping: 'IdMapping',
   Candidate: 'Candidate',
+  EnemScore: 'EnemScore',
   User: 'User',
   LegalResponsible: 'LegalResponsible',
   IdentityDetails: 'IdentityDetails',

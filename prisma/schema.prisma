@@ -26,7 +26,6 @@ model Candidate {
   BankAccount            BankAccount[]
   CreditCard             CreditCard[]
   Declarations           Declarations[]
-  EnemScore              EnemScore?
   Expense                Expense[]
   FamilyMemberIncome     FamilyMemberIncome[]
   Financing              Financing[]
@@ -44,23 +43,25 @@ model Candidate {
   Housing                Housing?
   Medication             Medication[]
   FinishedRegistration   FinishedRegistration?
+  EnemScore              EnemScore?
 
   @@unique([id, responsible_id])
   @@map("candidates")
 }
 
 model EnemScore {
-  id           String    @id @default(uuid())
-  candidate_id String    @unique
+  id           String   @id @default(uuid())
   linguagens   Float
   matematica   Float
   humanas      Float
   natureza     Float
   redacao      Float
   examYear     Int
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @default(now()) @updatedAt
-  candidate    Candidate @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  isValidated  Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+  candidate_id String   @unique
+  candidate    Candidate @relation(fields: [candidate_id], references: [id])
 }
 
 model User {
@@ -475,7 +476,6 @@ model MonthlyIncome {
 
 model BankAccount {
   id                 String            @id @default(uuid())
-  ISPB               String               @default("0")
   bankName           String
   agencyNumber       String
   accountNumber      String
@@ -486,6 +486,7 @@ model BankAccount {
   isUpdated          Boolean           @default(true)
   createdAt          DateTime          @default(now())
   updatedAt          DateTime          @default(now()) @updatedAt
+  ISPB               String            @default("0")
   candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
   familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
@@ -917,11 +918,11 @@ model Application {
   candidateStatus      CandidateApplicationStatus?
   createdAt            DateTime                    @default(now())
   distance             Float                       @default(100)
-  enemScore            Float?
   parecerAditionalInfo String?
   parecerDocumentKey   String?                     @unique
   responsible_id       String?
   updatedAt            DateTime                    @default(now()) @updatedAt
+  enemScore            Float?
   AIAssistant          AIAssistant[]
   announcement         Announcement                @relation(fields: [announcement_id], references: [id], onDelete: Cascade)
   candidate            Candidate                   @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
@@ -1236,8 +1237,8 @@ enum TiebreakerCriterias {
   CadUnico
   LeastFamilyIncome
   SeriousIllness
-  Draw
   Distance
+  Draw
   EnemScore
 }
 

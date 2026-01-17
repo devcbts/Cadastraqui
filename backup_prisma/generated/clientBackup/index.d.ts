@@ -24,6 +24,11 @@ export type IdMapping = $Result.DefaultSelection<Prisma.$IdMappingPayload>
  */
 export type Candidate = $Result.DefaultSelection<Prisma.$CandidatePayload>
 /**
+ * Model EnemScore
+ * 
+ */
+export type EnemScore = $Result.DefaultSelection<Prisma.$EnemScorePayload>
+/**
  * Model User
  * 
  */
@@ -987,6 +992,16 @@ export class PrismaClient<
   get candidate(): Prisma.CandidateDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.enemScore`: Exposes CRUD operations for the **EnemScore** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EnemScores
+    * const enemScores = await prisma.enemScore.findMany()
+    * ```
+    */
+  get enemScore(): Prisma.EnemScoreDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
     * Example usage:
     * ```ts
@@ -1648,6 +1663,7 @@ export namespace Prisma {
   export const ModelName: {
     IdMapping: 'IdMapping',
     Candidate: 'Candidate',
+    EnemScore: 'EnemScore',
     User: 'User',
     LegalResponsible: 'LegalResponsible',
     IdentityDetails: 'IdentityDetails',
@@ -1688,7 +1704,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "idMapping" | "candidate" | "user" | "legalResponsible" | "identityDetails" | "familyMember" | "housing" | "vehicle" | "familyMemberIncome" | "monthlyIncome" | "bankAccount" | "bankBalance" | "expense" | "loan" | "financing" | "creditCard" | "otherExpense" | "familyMemberDisease" | "medication" | "declarations" | "familyMemberToVehicle" | "candidateDocuments" | "applicationMembersCNPJ" | "foundApplicationCNPJ"
+      modelProps: "idMapping" | "candidate" | "enemScore" | "user" | "legalResponsible" | "identityDetails" | "familyMember" | "housing" | "vehicle" | "familyMemberIncome" | "monthlyIncome" | "bankAccount" | "bankBalance" | "expense" | "loan" | "financing" | "creditCard" | "otherExpense" | "familyMemberDisease" | "medication" | "declarations" | "familyMemberToVehicle" | "candidateDocuments" | "applicationMembersCNPJ" | "foundApplicationCNPJ"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1837,6 +1853,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CandidateCountArgs<ExtArgs>
             result: $Utils.Optional<CandidateCountAggregateOutputType> | number
+          }
+        }
+      }
+      EnemScore: {
+        payload: Prisma.$EnemScorePayload<ExtArgs>
+        fields: Prisma.EnemScoreFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EnemScoreFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnemScorePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EnemScoreFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnemScorePayload>
+          }
+          findFirst: {
+            args: Prisma.EnemScoreFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnemScorePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EnemScoreFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnemScorePayload>
+          }
+          findMany: {
+            args: Prisma.EnemScoreFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnemScorePayload>[]
+          }
+          create: {
+            args: Prisma.EnemScoreCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnemScorePayload>
+          }
+          createMany: {
+            args: Prisma.EnemScoreCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EnemScoreCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnemScorePayload>[]
+          }
+          delete: {
+            args: Prisma.EnemScoreDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnemScorePayload>
+          }
+          update: {
+            args: Prisma.EnemScoreUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnemScorePayload>
+          }
+          deleteMany: {
+            args: Prisma.EnemScoreDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EnemScoreUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EnemScoreUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnemScorePayload>[]
+          }
+          upsert: {
+            args: Prisma.EnemScoreUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EnemScorePayload>
+          }
+          aggregate: {
+            args: Prisma.EnemScoreAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEnemScore>
+          }
+          groupBy: {
+            args: Prisma.EnemScoreGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EnemScoreGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EnemScoreCountArgs<ExtArgs>
+            result: $Utils.Optional<EnemScoreCountAggregateOutputType> | number
           }
         }
       }
@@ -3566,6 +3656,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     idMapping?: IdMappingOmit
     candidate?: CandidateOmit
+    enemScore?: EnemScoreOmit
     user?: UserOmit
     legalResponsible?: LegalResponsibleOmit
     identityDetails?: IdentityDetailsOmit
@@ -5500,6 +5591,7 @@ export namespace Prisma {
     Medication?: boolean | Candidate$MedicationArgs<ExtArgs>
     BankAccount?: boolean | Candidate$BankAccountArgs<ExtArgs>
     Declarations?: boolean | Candidate$DeclarationsArgs<ExtArgs>
+    EnemScore?: boolean | Candidate$EnemScoreArgs<ExtArgs>
     _count?: boolean | CandidateCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["candidate"]>
 
@@ -5574,6 +5666,7 @@ export namespace Prisma {
     Medication?: boolean | Candidate$MedicationArgs<ExtArgs>
     BankAccount?: boolean | Candidate$BankAccountArgs<ExtArgs>
     Declarations?: boolean | Candidate$DeclarationsArgs<ExtArgs>
+    EnemScore?: boolean | Candidate$EnemScoreArgs<ExtArgs>
     _count?: boolean | CandidateCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CandidateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5602,6 +5695,7 @@ export namespace Prisma {
       Medication: Prisma.$MedicationPayload<ExtArgs>[]
       BankAccount: Prisma.$BankAccountPayload<ExtArgs>[]
       Declarations: Prisma.$DeclarationsPayload<ExtArgs>[]
+      EnemScore: Prisma.$EnemScorePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6028,6 +6122,7 @@ export namespace Prisma {
     Medication<T extends Candidate$MedicationArgs<ExtArgs> = {}>(args?: Subset<T, Candidate$MedicationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MedicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     BankAccount<T extends Candidate$BankAccountArgs<ExtArgs> = {}>(args?: Subset<T, Candidate$BankAccountArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Declarations<T extends Candidate$DeclarationsArgs<ExtArgs> = {}>(args?: Subset<T, Candidate$DeclarationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeclarationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    EnemScore<T extends Candidate$EnemScoreArgs<ExtArgs> = {}>(args?: Subset<T, Candidate$EnemScoreArgs<ExtArgs>>): Prisma__EnemScoreClient<$Result.GetResult<Prisma.$EnemScorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6846,6 +6941,25 @@ export namespace Prisma {
   }
 
   /**
+   * Candidate.EnemScore
+   */
+  export type Candidate$EnemScoreArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnemScore
+     */
+    select?: EnemScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnemScore
+     */
+    omit?: EnemScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnemScoreInclude<ExtArgs> | null
+    where?: EnemScoreWhereInput
+  }
+
+  /**
    * Candidate without action
    */
   export type CandidateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6861,6 +6975,1222 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CandidateInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model EnemScore
+   */
+
+  export type AggregateEnemScore = {
+    _count: EnemScoreCountAggregateOutputType | null
+    _avg: EnemScoreAvgAggregateOutputType | null
+    _sum: EnemScoreSumAggregateOutputType | null
+    _min: EnemScoreMinAggregateOutputType | null
+    _max: EnemScoreMaxAggregateOutputType | null
+  }
+
+  export type EnemScoreAvgAggregateOutputType = {
+    linguagens: number | null
+    matematica: number | null
+    humanas: number | null
+    natureza: number | null
+    redacao: number | null
+    examYear: number | null
+  }
+
+  export type EnemScoreSumAggregateOutputType = {
+    linguagens: number | null
+    matematica: number | null
+    humanas: number | null
+    natureza: number | null
+    redacao: number | null
+    examYear: number | null
+  }
+
+  export type EnemScoreMinAggregateOutputType = {
+    id: string | null
+    main_id: string | null
+    linguagens: number | null
+    matematica: number | null
+    humanas: number | null
+    natureza: number | null
+    redacao: number | null
+    examYear: number | null
+    isValidated: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    candidate_id: string | null
+    application_id: string | null
+  }
+
+  export type EnemScoreMaxAggregateOutputType = {
+    id: string | null
+    main_id: string | null
+    linguagens: number | null
+    matematica: number | null
+    humanas: number | null
+    natureza: number | null
+    redacao: number | null
+    examYear: number | null
+    isValidated: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    candidate_id: string | null
+    application_id: string | null
+  }
+
+  export type EnemScoreCountAggregateOutputType = {
+    id: number
+    main_id: number
+    linguagens: number
+    matematica: number
+    humanas: number
+    natureza: number
+    redacao: number
+    examYear: number
+    isValidated: number
+    createdAt: number
+    updatedAt: number
+    candidate_id: number
+    application_id: number
+    _all: number
+  }
+
+
+  export type EnemScoreAvgAggregateInputType = {
+    linguagens?: true
+    matematica?: true
+    humanas?: true
+    natureza?: true
+    redacao?: true
+    examYear?: true
+  }
+
+  export type EnemScoreSumAggregateInputType = {
+    linguagens?: true
+    matematica?: true
+    humanas?: true
+    natureza?: true
+    redacao?: true
+    examYear?: true
+  }
+
+  export type EnemScoreMinAggregateInputType = {
+    id?: true
+    main_id?: true
+    linguagens?: true
+    matematica?: true
+    humanas?: true
+    natureza?: true
+    redacao?: true
+    examYear?: true
+    isValidated?: true
+    createdAt?: true
+    updatedAt?: true
+    candidate_id?: true
+    application_id?: true
+  }
+
+  export type EnemScoreMaxAggregateInputType = {
+    id?: true
+    main_id?: true
+    linguagens?: true
+    matematica?: true
+    humanas?: true
+    natureza?: true
+    redacao?: true
+    examYear?: true
+    isValidated?: true
+    createdAt?: true
+    updatedAt?: true
+    candidate_id?: true
+    application_id?: true
+  }
+
+  export type EnemScoreCountAggregateInputType = {
+    id?: true
+    main_id?: true
+    linguagens?: true
+    matematica?: true
+    humanas?: true
+    natureza?: true
+    redacao?: true
+    examYear?: true
+    isValidated?: true
+    createdAt?: true
+    updatedAt?: true
+    candidate_id?: true
+    application_id?: true
+    _all?: true
+  }
+
+  export type EnemScoreAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EnemScore to aggregate.
+     */
+    where?: EnemScoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EnemScores to fetch.
+     */
+    orderBy?: EnemScoreOrderByWithRelationInput | EnemScoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EnemScoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EnemScores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EnemScores.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EnemScores
+    **/
+    _count?: true | EnemScoreCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: EnemScoreAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: EnemScoreSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EnemScoreMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EnemScoreMaxAggregateInputType
+  }
+
+  export type GetEnemScoreAggregateType<T extends EnemScoreAggregateArgs> = {
+        [P in keyof T & keyof AggregateEnemScore]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEnemScore[P]>
+      : GetScalarType<T[P], AggregateEnemScore[P]>
+  }
+
+
+
+
+  export type EnemScoreGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EnemScoreWhereInput
+    orderBy?: EnemScoreOrderByWithAggregationInput | EnemScoreOrderByWithAggregationInput[]
+    by: EnemScoreScalarFieldEnum[] | EnemScoreScalarFieldEnum
+    having?: EnemScoreScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EnemScoreCountAggregateInputType | true
+    _avg?: EnemScoreAvgAggregateInputType
+    _sum?: EnemScoreSumAggregateInputType
+    _min?: EnemScoreMinAggregateInputType
+    _max?: EnemScoreMaxAggregateInputType
+  }
+
+  export type EnemScoreGroupByOutputType = {
+    id: string
+    main_id: string | null
+    linguagens: number
+    matematica: number
+    humanas: number
+    natureza: number
+    redacao: number
+    examYear: number
+    isValidated: boolean
+    createdAt: Date
+    updatedAt: Date
+    candidate_id: string
+    application_id: string
+    _count: EnemScoreCountAggregateOutputType | null
+    _avg: EnemScoreAvgAggregateOutputType | null
+    _sum: EnemScoreSumAggregateOutputType | null
+    _min: EnemScoreMinAggregateOutputType | null
+    _max: EnemScoreMaxAggregateOutputType | null
+  }
+
+  type GetEnemScoreGroupByPayload<T extends EnemScoreGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EnemScoreGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EnemScoreGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EnemScoreGroupByOutputType[P]>
+            : GetScalarType<T[P], EnemScoreGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EnemScoreSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    main_id?: boolean
+    linguagens?: boolean
+    matematica?: boolean
+    humanas?: boolean
+    natureza?: boolean
+    redacao?: boolean
+    examYear?: boolean
+    isValidated?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    candidate_id?: boolean
+    application_id?: boolean
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["enemScore"]>
+
+  export type EnemScoreSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    main_id?: boolean
+    linguagens?: boolean
+    matematica?: boolean
+    humanas?: boolean
+    natureza?: boolean
+    redacao?: boolean
+    examYear?: boolean
+    isValidated?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    candidate_id?: boolean
+    application_id?: boolean
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["enemScore"]>
+
+  export type EnemScoreSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    main_id?: boolean
+    linguagens?: boolean
+    matematica?: boolean
+    humanas?: boolean
+    natureza?: boolean
+    redacao?: boolean
+    examYear?: boolean
+    isValidated?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    candidate_id?: boolean
+    application_id?: boolean
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["enemScore"]>
+
+  export type EnemScoreSelectScalar = {
+    id?: boolean
+    main_id?: boolean
+    linguagens?: boolean
+    matematica?: boolean
+    humanas?: boolean
+    natureza?: boolean
+    redacao?: boolean
+    examYear?: boolean
+    isValidated?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    candidate_id?: boolean
+    application_id?: boolean
+  }
+
+  export type EnemScoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "main_id" | "linguagens" | "matematica" | "humanas" | "natureza" | "redacao" | "examYear" | "isValidated" | "createdAt" | "updatedAt" | "candidate_id" | "application_id", ExtArgs["result"]["enemScore"]>
+  export type EnemScoreInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+  }
+  export type EnemScoreIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+  }
+  export type EnemScoreIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+  }
+
+  export type $EnemScorePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EnemScore"
+    objects: {
+      candidate: Prisma.$CandidatePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      main_id: string | null
+      linguagens: number
+      matematica: number
+      humanas: number
+      natureza: number
+      redacao: number
+      examYear: number
+      isValidated: boolean
+      createdAt: Date
+      updatedAt: Date
+      candidate_id: string
+      application_id: string
+    }, ExtArgs["result"]["enemScore"]>
+    composites: {}
+  }
+
+  type EnemScoreGetPayload<S extends boolean | null | undefined | EnemScoreDefaultArgs> = $Result.GetResult<Prisma.$EnemScorePayload, S>
+
+  type EnemScoreCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EnemScoreFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EnemScoreCountAggregateInputType | true
+    }
+
+  export interface EnemScoreDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EnemScore'], meta: { name: 'EnemScore' } }
+    /**
+     * Find zero or one EnemScore that matches the filter.
+     * @param {EnemScoreFindUniqueArgs} args - Arguments to find a EnemScore
+     * @example
+     * // Get one EnemScore
+     * const enemScore = await prisma.enemScore.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EnemScoreFindUniqueArgs>(args: SelectSubset<T, EnemScoreFindUniqueArgs<ExtArgs>>): Prisma__EnemScoreClient<$Result.GetResult<Prisma.$EnemScorePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EnemScore that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EnemScoreFindUniqueOrThrowArgs} args - Arguments to find a EnemScore
+     * @example
+     * // Get one EnemScore
+     * const enemScore = await prisma.enemScore.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EnemScoreFindUniqueOrThrowArgs>(args: SelectSubset<T, EnemScoreFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EnemScoreClient<$Result.GetResult<Prisma.$EnemScorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EnemScore that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EnemScoreFindFirstArgs} args - Arguments to find a EnemScore
+     * @example
+     * // Get one EnemScore
+     * const enemScore = await prisma.enemScore.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EnemScoreFindFirstArgs>(args?: SelectSubset<T, EnemScoreFindFirstArgs<ExtArgs>>): Prisma__EnemScoreClient<$Result.GetResult<Prisma.$EnemScorePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EnemScore that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EnemScoreFindFirstOrThrowArgs} args - Arguments to find a EnemScore
+     * @example
+     * // Get one EnemScore
+     * const enemScore = await prisma.enemScore.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EnemScoreFindFirstOrThrowArgs>(args?: SelectSubset<T, EnemScoreFindFirstOrThrowArgs<ExtArgs>>): Prisma__EnemScoreClient<$Result.GetResult<Prisma.$EnemScorePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EnemScores that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EnemScoreFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EnemScores
+     * const enemScores = await prisma.enemScore.findMany()
+     * 
+     * // Get first 10 EnemScores
+     * const enemScores = await prisma.enemScore.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const enemScoreWithIdOnly = await prisma.enemScore.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EnemScoreFindManyArgs>(args?: SelectSubset<T, EnemScoreFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnemScorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EnemScore.
+     * @param {EnemScoreCreateArgs} args - Arguments to create a EnemScore.
+     * @example
+     * // Create one EnemScore
+     * const EnemScore = await prisma.enemScore.create({
+     *   data: {
+     *     // ... data to create a EnemScore
+     *   }
+     * })
+     * 
+     */
+    create<T extends EnemScoreCreateArgs>(args: SelectSubset<T, EnemScoreCreateArgs<ExtArgs>>): Prisma__EnemScoreClient<$Result.GetResult<Prisma.$EnemScorePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EnemScores.
+     * @param {EnemScoreCreateManyArgs} args - Arguments to create many EnemScores.
+     * @example
+     * // Create many EnemScores
+     * const enemScore = await prisma.enemScore.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EnemScoreCreateManyArgs>(args?: SelectSubset<T, EnemScoreCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EnemScores and returns the data saved in the database.
+     * @param {EnemScoreCreateManyAndReturnArgs} args - Arguments to create many EnemScores.
+     * @example
+     * // Create many EnemScores
+     * const enemScore = await prisma.enemScore.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EnemScores and only return the `id`
+     * const enemScoreWithIdOnly = await prisma.enemScore.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EnemScoreCreateManyAndReturnArgs>(args?: SelectSubset<T, EnemScoreCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnemScorePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EnemScore.
+     * @param {EnemScoreDeleteArgs} args - Arguments to delete one EnemScore.
+     * @example
+     * // Delete one EnemScore
+     * const EnemScore = await prisma.enemScore.delete({
+     *   where: {
+     *     // ... filter to delete one EnemScore
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EnemScoreDeleteArgs>(args: SelectSubset<T, EnemScoreDeleteArgs<ExtArgs>>): Prisma__EnemScoreClient<$Result.GetResult<Prisma.$EnemScorePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EnemScore.
+     * @param {EnemScoreUpdateArgs} args - Arguments to update one EnemScore.
+     * @example
+     * // Update one EnemScore
+     * const enemScore = await prisma.enemScore.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EnemScoreUpdateArgs>(args: SelectSubset<T, EnemScoreUpdateArgs<ExtArgs>>): Prisma__EnemScoreClient<$Result.GetResult<Prisma.$EnemScorePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EnemScores.
+     * @param {EnemScoreDeleteManyArgs} args - Arguments to filter EnemScores to delete.
+     * @example
+     * // Delete a few EnemScores
+     * const { count } = await prisma.enemScore.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EnemScoreDeleteManyArgs>(args?: SelectSubset<T, EnemScoreDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EnemScores.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EnemScoreUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EnemScores
+     * const enemScore = await prisma.enemScore.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EnemScoreUpdateManyArgs>(args: SelectSubset<T, EnemScoreUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EnemScores and returns the data updated in the database.
+     * @param {EnemScoreUpdateManyAndReturnArgs} args - Arguments to update many EnemScores.
+     * @example
+     * // Update many EnemScores
+     * const enemScore = await prisma.enemScore.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EnemScores and only return the `id`
+     * const enemScoreWithIdOnly = await prisma.enemScore.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EnemScoreUpdateManyAndReturnArgs>(args: SelectSubset<T, EnemScoreUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnemScorePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EnemScore.
+     * @param {EnemScoreUpsertArgs} args - Arguments to update or create a EnemScore.
+     * @example
+     * // Update or create a EnemScore
+     * const enemScore = await prisma.enemScore.upsert({
+     *   create: {
+     *     // ... data to create a EnemScore
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EnemScore we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EnemScoreUpsertArgs>(args: SelectSubset<T, EnemScoreUpsertArgs<ExtArgs>>): Prisma__EnemScoreClient<$Result.GetResult<Prisma.$EnemScorePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EnemScores.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EnemScoreCountArgs} args - Arguments to filter EnemScores to count.
+     * @example
+     * // Count the number of EnemScores
+     * const count = await prisma.enemScore.count({
+     *   where: {
+     *     // ... the filter for the EnemScores we want to count
+     *   }
+     * })
+    **/
+    count<T extends EnemScoreCountArgs>(
+      args?: Subset<T, EnemScoreCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EnemScoreCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EnemScore.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EnemScoreAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EnemScoreAggregateArgs>(args: Subset<T, EnemScoreAggregateArgs>): Prisma.PrismaPromise<GetEnemScoreAggregateType<T>>
+
+    /**
+     * Group by EnemScore.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EnemScoreGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EnemScoreGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EnemScoreGroupByArgs['orderBy'] }
+        : { orderBy?: EnemScoreGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EnemScoreGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEnemScoreGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EnemScore model
+   */
+  readonly fields: EnemScoreFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EnemScore.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EnemScoreClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    candidate<T extends CandidateDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CandidateDefaultArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EnemScore model
+   */
+  interface EnemScoreFieldRefs {
+    readonly id: FieldRef<"EnemScore", 'String'>
+    readonly main_id: FieldRef<"EnemScore", 'String'>
+    readonly linguagens: FieldRef<"EnemScore", 'Float'>
+    readonly matematica: FieldRef<"EnemScore", 'Float'>
+    readonly humanas: FieldRef<"EnemScore", 'Float'>
+    readonly natureza: FieldRef<"EnemScore", 'Float'>
+    readonly redacao: FieldRef<"EnemScore", 'Float'>
+    readonly examYear: FieldRef<"EnemScore", 'Int'>
+    readonly isValidated: FieldRef<"EnemScore", 'Boolean'>
+    readonly createdAt: FieldRef<"EnemScore", 'DateTime'>
+    readonly updatedAt: FieldRef<"EnemScore", 'DateTime'>
+    readonly candidate_id: FieldRef<"EnemScore", 'String'>
+    readonly application_id: FieldRef<"EnemScore", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EnemScore findUnique
+   */
+  export type EnemScoreFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnemScore
+     */
+    select?: EnemScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnemScore
+     */
+    omit?: EnemScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnemScoreInclude<ExtArgs> | null
+    /**
+     * Filter, which EnemScore to fetch.
+     */
+    where: EnemScoreWhereUniqueInput
+  }
+
+  /**
+   * EnemScore findUniqueOrThrow
+   */
+  export type EnemScoreFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnemScore
+     */
+    select?: EnemScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnemScore
+     */
+    omit?: EnemScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnemScoreInclude<ExtArgs> | null
+    /**
+     * Filter, which EnemScore to fetch.
+     */
+    where: EnemScoreWhereUniqueInput
+  }
+
+  /**
+   * EnemScore findFirst
+   */
+  export type EnemScoreFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnemScore
+     */
+    select?: EnemScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnemScore
+     */
+    omit?: EnemScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnemScoreInclude<ExtArgs> | null
+    /**
+     * Filter, which EnemScore to fetch.
+     */
+    where?: EnemScoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EnemScores to fetch.
+     */
+    orderBy?: EnemScoreOrderByWithRelationInput | EnemScoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EnemScores.
+     */
+    cursor?: EnemScoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EnemScores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EnemScores.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EnemScores.
+     */
+    distinct?: EnemScoreScalarFieldEnum | EnemScoreScalarFieldEnum[]
+  }
+
+  /**
+   * EnemScore findFirstOrThrow
+   */
+  export type EnemScoreFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnemScore
+     */
+    select?: EnemScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnemScore
+     */
+    omit?: EnemScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnemScoreInclude<ExtArgs> | null
+    /**
+     * Filter, which EnemScore to fetch.
+     */
+    where?: EnemScoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EnemScores to fetch.
+     */
+    orderBy?: EnemScoreOrderByWithRelationInput | EnemScoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EnemScores.
+     */
+    cursor?: EnemScoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EnemScores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EnemScores.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EnemScores.
+     */
+    distinct?: EnemScoreScalarFieldEnum | EnemScoreScalarFieldEnum[]
+  }
+
+  /**
+   * EnemScore findMany
+   */
+  export type EnemScoreFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnemScore
+     */
+    select?: EnemScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnemScore
+     */
+    omit?: EnemScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnemScoreInclude<ExtArgs> | null
+    /**
+     * Filter, which EnemScores to fetch.
+     */
+    where?: EnemScoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EnemScores to fetch.
+     */
+    orderBy?: EnemScoreOrderByWithRelationInput | EnemScoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EnemScores.
+     */
+    cursor?: EnemScoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EnemScores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EnemScores.
+     */
+    skip?: number
+    distinct?: EnemScoreScalarFieldEnum | EnemScoreScalarFieldEnum[]
+  }
+
+  /**
+   * EnemScore create
+   */
+  export type EnemScoreCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnemScore
+     */
+    select?: EnemScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnemScore
+     */
+    omit?: EnemScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnemScoreInclude<ExtArgs> | null
+    /**
+     * The data needed to create a EnemScore.
+     */
+    data: XOR<EnemScoreCreateInput, EnemScoreUncheckedCreateInput>
+  }
+
+  /**
+   * EnemScore createMany
+   */
+  export type EnemScoreCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EnemScores.
+     */
+    data: EnemScoreCreateManyInput | EnemScoreCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EnemScore createManyAndReturn
+   */
+  export type EnemScoreCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnemScore
+     */
+    select?: EnemScoreSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnemScore
+     */
+    omit?: EnemScoreOmit<ExtArgs> | null
+    /**
+     * The data used to create many EnemScores.
+     */
+    data: EnemScoreCreateManyInput | EnemScoreCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnemScoreIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EnemScore update
+   */
+  export type EnemScoreUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnemScore
+     */
+    select?: EnemScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnemScore
+     */
+    omit?: EnemScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnemScoreInclude<ExtArgs> | null
+    /**
+     * The data needed to update a EnemScore.
+     */
+    data: XOR<EnemScoreUpdateInput, EnemScoreUncheckedUpdateInput>
+    /**
+     * Choose, which EnemScore to update.
+     */
+    where: EnemScoreWhereUniqueInput
+  }
+
+  /**
+   * EnemScore updateMany
+   */
+  export type EnemScoreUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EnemScores.
+     */
+    data: XOR<EnemScoreUpdateManyMutationInput, EnemScoreUncheckedUpdateManyInput>
+    /**
+     * Filter which EnemScores to update
+     */
+    where?: EnemScoreWhereInput
+    /**
+     * Limit how many EnemScores to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EnemScore updateManyAndReturn
+   */
+  export type EnemScoreUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnemScore
+     */
+    select?: EnemScoreSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnemScore
+     */
+    omit?: EnemScoreOmit<ExtArgs> | null
+    /**
+     * The data used to update EnemScores.
+     */
+    data: XOR<EnemScoreUpdateManyMutationInput, EnemScoreUncheckedUpdateManyInput>
+    /**
+     * Filter which EnemScores to update
+     */
+    where?: EnemScoreWhereInput
+    /**
+     * Limit how many EnemScores to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnemScoreIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EnemScore upsert
+   */
+  export type EnemScoreUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnemScore
+     */
+    select?: EnemScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnemScore
+     */
+    omit?: EnemScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnemScoreInclude<ExtArgs> | null
+    /**
+     * The filter to search for the EnemScore to update in case it exists.
+     */
+    where: EnemScoreWhereUniqueInput
+    /**
+     * In case the EnemScore found by the `where` argument doesn't exist, create a new EnemScore with this data.
+     */
+    create: XOR<EnemScoreCreateInput, EnemScoreUncheckedCreateInput>
+    /**
+     * In case the EnemScore was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EnemScoreUpdateInput, EnemScoreUncheckedUpdateInput>
+  }
+
+  /**
+   * EnemScore delete
+   */
+  export type EnemScoreDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnemScore
+     */
+    select?: EnemScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnemScore
+     */
+    omit?: EnemScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnemScoreInclude<ExtArgs> | null
+    /**
+     * Filter which EnemScore to delete.
+     */
+    where: EnemScoreWhereUniqueInput
+  }
+
+  /**
+   * EnemScore deleteMany
+   */
+  export type EnemScoreDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EnemScores to delete
+     */
+    where?: EnemScoreWhereInput
+    /**
+     * Limit how many EnemScores to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EnemScore without action
+   */
+  export type EnemScoreDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EnemScore
+     */
+    select?: EnemScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EnemScore
+     */
+    omit?: EnemScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EnemScoreInclude<ExtArgs> | null
   }
 
 
@@ -36966,6 +38296,25 @@ export namespace Prisma {
   export type CandidateScalarFieldEnum = (typeof CandidateScalarFieldEnum)[keyof typeof CandidateScalarFieldEnum]
 
 
+  export const EnemScoreScalarFieldEnum: {
+    id: 'id',
+    main_id: 'main_id',
+    linguagens: 'linguagens',
+    matematica: 'matematica',
+    humanas: 'humanas',
+    natureza: 'natureza',
+    redacao: 'redacao',
+    examYear: 'examYear',
+    isValidated: 'isValidated',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    candidate_id: 'candidate_id',
+    application_id: 'application_id'
+  };
+
+  export type EnemScoreScalarFieldEnum = (typeof EnemScoreScalarFieldEnum)[keyof typeof EnemScoreScalarFieldEnum]
+
+
   export const UserScalarFieldEnum: {
     id: 'id',
     email: 'email',
@@ -37650,6 +38999,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'INSTITUTION_TYPE'
    */
   export type EnumINSTITUTION_TYPEFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'INSTITUTION_TYPE'>
@@ -37916,20 +39293,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
    * Reference to a field of type 'VehicleType'
    */
   export type EnumVehicleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VehicleType'>
@@ -37954,20 +39317,6 @@ export namespace Prisma {
    * Reference to a field of type 'VehicleSituation[]'
    */
   export type ListEnumVehicleSituationFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VehicleSituation[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 
@@ -38181,6 +39530,7 @@ export namespace Prisma {
     Medication?: MedicationListRelationFilter
     BankAccount?: BankAccountListRelationFilter
     Declarations?: DeclarationsListRelationFilter
+    EnemScore?: XOR<EnemScoreNullableScalarRelationFilter, EnemScoreWhereInput> | null
   }
 
   export type CandidateOrderByWithRelationInput = {
@@ -38214,6 +39564,7 @@ export namespace Prisma {
     Medication?: MedicationOrderByRelationAggregateInput
     BankAccount?: BankAccountOrderByRelationAggregateInput
     Declarations?: DeclarationsOrderByRelationAggregateInput
+    EnemScore?: EnemScoreOrderByWithRelationInput
   }
 
   export type CandidateWhereUniqueInput = Prisma.AtLeast<{
@@ -38251,6 +39602,7 @@ export namespace Prisma {
     Medication?: MedicationListRelationFilter
     BankAccount?: BankAccountListRelationFilter
     Declarations?: DeclarationsListRelationFilter
+    EnemScore?: XOR<EnemScoreNullableScalarRelationFilter, EnemScoreWhereInput> | null
   }, "id" | "application_id" | "id_responsible_id">
 
   export type CandidateOrderByWithAggregationInput = {
@@ -38291,6 +39643,104 @@ export namespace Prisma {
     finishedapplication?: BoolWithAggregatesFilter<"Candidate"> | boolean
     application_id?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
     updatedAt?: DateTimeWithAggregatesFilter<"Candidate"> | Date | string
+  }
+
+  export type EnemScoreWhereInput = {
+    AND?: EnemScoreWhereInput | EnemScoreWhereInput[]
+    OR?: EnemScoreWhereInput[]
+    NOT?: EnemScoreWhereInput | EnemScoreWhereInput[]
+    id?: StringFilter<"EnemScore"> | string
+    main_id?: StringNullableFilter<"EnemScore"> | string | null
+    linguagens?: FloatFilter<"EnemScore"> | number
+    matematica?: FloatFilter<"EnemScore"> | number
+    humanas?: FloatFilter<"EnemScore"> | number
+    natureza?: FloatFilter<"EnemScore"> | number
+    redacao?: FloatFilter<"EnemScore"> | number
+    examYear?: IntFilter<"EnemScore"> | number
+    isValidated?: BoolFilter<"EnemScore"> | boolean
+    createdAt?: DateTimeFilter<"EnemScore"> | Date | string
+    updatedAt?: DateTimeFilter<"EnemScore"> | Date | string
+    candidate_id?: StringFilter<"EnemScore"> | string
+    application_id?: StringFilter<"EnemScore"> | string
+    candidate?: XOR<CandidateScalarRelationFilter, CandidateWhereInput>
+  }
+
+  export type EnemScoreOrderByWithRelationInput = {
+    id?: SortOrder
+    main_id?: SortOrderInput | SortOrder
+    linguagens?: SortOrder
+    matematica?: SortOrder
+    humanas?: SortOrder
+    natureza?: SortOrder
+    redacao?: SortOrder
+    examYear?: SortOrder
+    isValidated?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    candidate_id?: SortOrder
+    application_id?: SortOrder
+    candidate?: CandidateOrderByWithRelationInput
+  }
+
+  export type EnemScoreWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    candidate_id?: string
+    application_id_main_id?: EnemScoreApplication_idMain_idCompoundUniqueInput
+    AND?: EnemScoreWhereInput | EnemScoreWhereInput[]
+    OR?: EnemScoreWhereInput[]
+    NOT?: EnemScoreWhereInput | EnemScoreWhereInput[]
+    main_id?: StringNullableFilter<"EnemScore"> | string | null
+    linguagens?: FloatFilter<"EnemScore"> | number
+    matematica?: FloatFilter<"EnemScore"> | number
+    humanas?: FloatFilter<"EnemScore"> | number
+    natureza?: FloatFilter<"EnemScore"> | number
+    redacao?: FloatFilter<"EnemScore"> | number
+    examYear?: IntFilter<"EnemScore"> | number
+    isValidated?: BoolFilter<"EnemScore"> | boolean
+    createdAt?: DateTimeFilter<"EnemScore"> | Date | string
+    updatedAt?: DateTimeFilter<"EnemScore"> | Date | string
+    application_id?: StringFilter<"EnemScore"> | string
+    candidate?: XOR<CandidateScalarRelationFilter, CandidateWhereInput>
+  }, "id" | "candidate_id" | "application_id_main_id">
+
+  export type EnemScoreOrderByWithAggregationInput = {
+    id?: SortOrder
+    main_id?: SortOrderInput | SortOrder
+    linguagens?: SortOrder
+    matematica?: SortOrder
+    humanas?: SortOrder
+    natureza?: SortOrder
+    redacao?: SortOrder
+    examYear?: SortOrder
+    isValidated?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    candidate_id?: SortOrder
+    application_id?: SortOrder
+    _count?: EnemScoreCountOrderByAggregateInput
+    _avg?: EnemScoreAvgOrderByAggregateInput
+    _max?: EnemScoreMaxOrderByAggregateInput
+    _min?: EnemScoreMinOrderByAggregateInput
+    _sum?: EnemScoreSumOrderByAggregateInput
+  }
+
+  export type EnemScoreScalarWhereWithAggregatesInput = {
+    AND?: EnemScoreScalarWhereWithAggregatesInput | EnemScoreScalarWhereWithAggregatesInput[]
+    OR?: EnemScoreScalarWhereWithAggregatesInput[]
+    NOT?: EnemScoreScalarWhereWithAggregatesInput | EnemScoreScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"EnemScore"> | string
+    main_id?: StringNullableWithAggregatesFilter<"EnemScore"> | string | null
+    linguagens?: FloatWithAggregatesFilter<"EnemScore"> | number
+    matematica?: FloatWithAggregatesFilter<"EnemScore"> | number
+    humanas?: FloatWithAggregatesFilter<"EnemScore"> | number
+    natureza?: FloatWithAggregatesFilter<"EnemScore"> | number
+    redacao?: FloatWithAggregatesFilter<"EnemScore"> | number
+    examYear?: IntWithAggregatesFilter<"EnemScore"> | number
+    isValidated?: BoolWithAggregatesFilter<"EnemScore"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"EnemScore"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"EnemScore"> | Date | string
+    candidate_id?: StringWithAggregatesFilter<"EnemScore"> | string
+    application_id?: StringWithAggregatesFilter<"EnemScore"> | string
   }
 
   export type UserWhereInput = {
@@ -41482,6 +42932,7 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateInput = {
@@ -41514,6 +42965,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUpdateInput = {
@@ -41546,6 +42998,7 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateInput = {
@@ -41578,6 +43031,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateCreateManyInput = {
@@ -41628,6 +43082,117 @@ export namespace Prisma {
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EnemScoreCreateInput = {
+    id?: string
+    main_id?: string | null
+    linguagens: number
+    matematica: number
+    humanas: number
+    natureza: number
+    redacao: number
+    examYear: number
+    isValidated?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    application_id: string
+    candidate: CandidateCreateNestedOneWithoutEnemScoreInput
+  }
+
+  export type EnemScoreUncheckedCreateInput = {
+    id?: string
+    main_id?: string | null
+    linguagens: number
+    matematica: number
+    humanas: number
+    natureza: number
+    redacao: number
+    examYear: number
+    isValidated?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    candidate_id: string
+    application_id: string
+  }
+
+  export type EnemScoreUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    linguagens?: FloatFieldUpdateOperationsInput | number
+    matematica?: FloatFieldUpdateOperationsInput | number
+    humanas?: FloatFieldUpdateOperationsInput | number
+    natureza?: FloatFieldUpdateOperationsInput | number
+    redacao?: FloatFieldUpdateOperationsInput | number
+    examYear?: IntFieldUpdateOperationsInput | number
+    isValidated?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    application_id?: StringFieldUpdateOperationsInput | string
+    candidate?: CandidateUpdateOneRequiredWithoutEnemScoreNestedInput
+  }
+
+  export type EnemScoreUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    linguagens?: FloatFieldUpdateOperationsInput | number
+    matematica?: FloatFieldUpdateOperationsInput | number
+    humanas?: FloatFieldUpdateOperationsInput | number
+    natureza?: FloatFieldUpdateOperationsInput | number
+    redacao?: FloatFieldUpdateOperationsInput | number
+    examYear?: IntFieldUpdateOperationsInput | number
+    isValidated?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    candidate_id?: StringFieldUpdateOperationsInput | string
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type EnemScoreCreateManyInput = {
+    id?: string
+    main_id?: string | null
+    linguagens: number
+    matematica: number
+    humanas: number
+    natureza: number
+    redacao: number
+    examYear: number
+    isValidated?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    candidate_id: string
+    application_id: string
+  }
+
+  export type EnemScoreUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    linguagens?: FloatFieldUpdateOperationsInput | number
+    matematica?: FloatFieldUpdateOperationsInput | number
+    humanas?: FloatFieldUpdateOperationsInput | number
+    natureza?: FloatFieldUpdateOperationsInput | number
+    redacao?: FloatFieldUpdateOperationsInput | number
+    examYear?: IntFieldUpdateOperationsInput | number
+    isValidated?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type EnemScoreUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    linguagens?: FloatFieldUpdateOperationsInput | number
+    matematica?: FloatFieldUpdateOperationsInput | number
+    humanas?: FloatFieldUpdateOperationsInput | number
+    natureza?: FloatFieldUpdateOperationsInput | number
+    redacao?: FloatFieldUpdateOperationsInput | number
+    examYear?: IntFieldUpdateOperationsInput | number
+    isValidated?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    candidate_id?: StringFieldUpdateOperationsInput | string
+    application_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserCreateInput = {
@@ -45504,6 +47069,11 @@ export namespace Prisma {
     none?: DeclarationsWhereInput
   }
 
+  export type EnemScoreNullableScalarRelationFilter = {
+    is?: EnemScoreWhereInput | null
+    isNot?: EnemScoreWhereInput | null
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -45673,6 +47243,136 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type CandidateScalarRelationFilter = {
+    is?: CandidateWhereInput
+    isNot?: CandidateWhereInput
+  }
+
+  export type EnemScoreApplication_idMain_idCompoundUniqueInput = {
+    application_id: string
+    main_id: string
+  }
+
+  export type EnemScoreCountOrderByAggregateInput = {
+    id?: SortOrder
+    main_id?: SortOrder
+    linguagens?: SortOrder
+    matematica?: SortOrder
+    humanas?: SortOrder
+    natureza?: SortOrder
+    redacao?: SortOrder
+    examYear?: SortOrder
+    isValidated?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    candidate_id?: SortOrder
+    application_id?: SortOrder
+  }
+
+  export type EnemScoreAvgOrderByAggregateInput = {
+    linguagens?: SortOrder
+    matematica?: SortOrder
+    humanas?: SortOrder
+    natureza?: SortOrder
+    redacao?: SortOrder
+    examYear?: SortOrder
+  }
+
+  export type EnemScoreMaxOrderByAggregateInput = {
+    id?: SortOrder
+    main_id?: SortOrder
+    linguagens?: SortOrder
+    matematica?: SortOrder
+    humanas?: SortOrder
+    natureza?: SortOrder
+    redacao?: SortOrder
+    examYear?: SortOrder
+    isValidated?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    candidate_id?: SortOrder
+    application_id?: SortOrder
+  }
+
+  export type EnemScoreMinOrderByAggregateInput = {
+    id?: SortOrder
+    main_id?: SortOrder
+    linguagens?: SortOrder
+    matematica?: SortOrder
+    humanas?: SortOrder
+    natureza?: SortOrder
+    redacao?: SortOrder
+    examYear?: SortOrder
+    isValidated?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    candidate_id?: SortOrder
+    application_id?: SortOrder
+  }
+
+  export type EnemScoreSumOrderByAggregateInput = {
+    linguagens?: SortOrder
+    matematica?: SortOrder
+    humanas?: SortOrder
+    natureza?: SortOrder
+    redacao?: SortOrder
+    examYear?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -46508,17 +48208,6 @@ export namespace Prisma {
     not?: NestedEnumNumberOfRoomsFilter<$PrismaModel> | $Enums.NumberOfRooms
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type HousingApplication_idMain_idCompoundUniqueInput = {
     application_id: string
     main_id: string
@@ -46631,22 +48320,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumNumberOfRoomsFilter<$PrismaModel>
     _max?: NestedEnumNumberOfRoomsFilter<$PrismaModel>
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type EnumVehicleTypeFilter<$PrismaModel = never> = {
@@ -47232,17 +48905,6 @@ export namespace Prisma {
     _max?: NestedEnumAccountTypeFilter<$PrismaModel>
   }
 
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
   export type BankAccountScalarRelationFilter = {
     is?: BankAccountWhereInput
     isNot?: BankAccountWhereInput
@@ -47302,22 +48964,6 @@ export namespace Prisma {
     outflowBalance?: SortOrder
     entryBalance?: SortOrder
     totalBalance?: SortOrder
-  }
-
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type FloatNullableListFilter<$PrismaModel = never> = {
@@ -48480,6 +50126,12 @@ export namespace Prisma {
     connect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
   }
 
+  export type EnemScoreCreateNestedOneWithoutCandidateInput = {
+    create?: XOR<EnemScoreCreateWithoutCandidateInput, EnemScoreUncheckedCreateWithoutCandidateInput>
+    connectOrCreate?: EnemScoreCreateOrConnectWithoutCandidateInput
+    connect?: EnemScoreWhereUniqueInput
+  }
+
   export type CreditCardUncheckedCreateNestedManyWithoutCandidateInput = {
     create?: XOR<CreditCardCreateWithoutCandidateInput, CreditCardUncheckedCreateWithoutCandidateInput> | CreditCardCreateWithoutCandidateInput[] | CreditCardUncheckedCreateWithoutCandidateInput[]
     connectOrCreate?: CreditCardCreateOrConnectWithoutCandidateInput | CreditCardCreateOrConnectWithoutCandidateInput[]
@@ -48583,6 +50235,12 @@ export namespace Prisma {
     connectOrCreate?: DeclarationsCreateOrConnectWithoutCandidateInput | DeclarationsCreateOrConnectWithoutCandidateInput[]
     createMany?: DeclarationsCreateManyCandidateInputEnvelope
     connect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+  }
+
+  export type EnemScoreUncheckedCreateNestedOneWithoutCandidateInput = {
+    create?: XOR<EnemScoreCreateWithoutCandidateInput, EnemScoreUncheckedCreateWithoutCandidateInput>
+    connectOrCreate?: EnemScoreCreateOrConnectWithoutCandidateInput
+    connect?: EnemScoreWhereUniqueInput
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -48821,6 +50479,16 @@ export namespace Prisma {
     deleteMany?: DeclarationsScalarWhereInput | DeclarationsScalarWhereInput[]
   }
 
+  export type EnemScoreUpdateOneWithoutCandidateNestedInput = {
+    create?: XOR<EnemScoreCreateWithoutCandidateInput, EnemScoreUncheckedCreateWithoutCandidateInput>
+    connectOrCreate?: EnemScoreCreateOrConnectWithoutCandidateInput
+    upsert?: EnemScoreUpsertWithoutCandidateInput
+    disconnect?: EnemScoreWhereInput | boolean
+    delete?: EnemScoreWhereInput | boolean
+    connect?: EnemScoreWhereUniqueInput
+    update?: XOR<XOR<EnemScoreUpdateToOneWithWhereWithoutCandidateInput, EnemScoreUpdateWithoutCandidateInput>, EnemScoreUncheckedUpdateWithoutCandidateInput>
+  }
+
   export type CreditCardUncheckedUpdateManyWithoutCandidateNestedInput = {
     create?: XOR<CreditCardCreateWithoutCandidateInput, CreditCardUncheckedCreateWithoutCandidateInput> | CreditCardCreateWithoutCandidateInput[] | CreditCardUncheckedCreateWithoutCandidateInput[]
     connectOrCreate?: CreditCardCreateOrConnectWithoutCandidateInput | CreditCardCreateOrConnectWithoutCandidateInput[]
@@ -49029,6 +50697,46 @@ export namespace Prisma {
     update?: DeclarationsUpdateWithWhereUniqueWithoutCandidateInput | DeclarationsUpdateWithWhereUniqueWithoutCandidateInput[]
     updateMany?: DeclarationsUpdateManyWithWhereWithoutCandidateInput | DeclarationsUpdateManyWithWhereWithoutCandidateInput[]
     deleteMany?: DeclarationsScalarWhereInput | DeclarationsScalarWhereInput[]
+  }
+
+  export type EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput = {
+    create?: XOR<EnemScoreCreateWithoutCandidateInput, EnemScoreUncheckedCreateWithoutCandidateInput>
+    connectOrCreate?: EnemScoreCreateOrConnectWithoutCandidateInput
+    upsert?: EnemScoreUpsertWithoutCandidateInput
+    disconnect?: EnemScoreWhereInput | boolean
+    delete?: EnemScoreWhereInput | boolean
+    connect?: EnemScoreWhereUniqueInput
+    update?: XOR<XOR<EnemScoreUpdateToOneWithWhereWithoutCandidateInput, EnemScoreUpdateWithoutCandidateInput>, EnemScoreUncheckedUpdateWithoutCandidateInput>
+  }
+
+  export type CandidateCreateNestedOneWithoutEnemScoreInput = {
+    create?: XOR<CandidateCreateWithoutEnemScoreInput, CandidateUncheckedCreateWithoutEnemScoreInput>
+    connectOrCreate?: CandidateCreateOrConnectWithoutEnemScoreInput
+    connect?: CandidateWhereUniqueInput
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type CandidateUpdateOneRequiredWithoutEnemScoreNestedInput = {
+    create?: XOR<CandidateCreateWithoutEnemScoreInput, CandidateUncheckedCreateWithoutEnemScoreInput>
+    connectOrCreate?: CandidateCreateOrConnectWithoutEnemScoreInput
+    upsert?: CandidateUpsertWithoutEnemScoreInput
+    connect?: CandidateWhereUniqueInput
+    update?: XOR<XOR<CandidateUpdateToOneWithWhereWithoutEnemScoreInput, CandidateUpdateWithoutEnemScoreInput>, CandidateUncheckedUpdateWithoutEnemScoreInput>
   }
 
   export type IdentityDetailsCreateNestedManyWithoutResponsibleInput = {
@@ -50352,14 +52060,6 @@ export namespace Prisma {
     set?: $Enums.NumberOfRooms
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type CandidateUpdateOneWithoutHousingNestedInput = {
     create?: XOR<CandidateCreateWithoutHousingInput, CandidateUncheckedCreateWithoutHousingInput>
     connectOrCreate?: CandidateCreateOrConnectWithoutHousingInput
@@ -50759,14 +52459,6 @@ export namespace Prisma {
     create?: XOR<BankAccountCreateWithoutBalancesInput, BankAccountUncheckedCreateWithoutBalancesInput>
     connectOrCreate?: BankAccountCreateOrConnectWithoutBalancesInput
     connect?: BankAccountWhereUniqueInput
-  }
-
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type BankAccountUpdateOneRequiredWithoutBalancesNestedInput = {
@@ -51471,6 +53163,49 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type NestedBoolNullableFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
@@ -51832,33 +53567,6 @@ export namespace Prisma {
     _max?: NestedEnumNumberOfRoomsFilter<$PrismaModel>
   }
 
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
   export type NestedEnumVehicleTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.VehicleType | EnumVehicleTypeFieldRefInput<$PrismaModel>
     in?: $Enums.VehicleType[] | ListEnumVehicleTypeFieldRefInput<$PrismaModel>
@@ -52029,22 +53737,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAccountTypeFilter<$PrismaModel>
     _max?: NestedEnumAccountTypeFilter<$PrismaModel>
-  }
-
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type NestedEnumFinancingTypeFilter<$PrismaModel = never> = {
@@ -53232,6 +54924,41 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type EnemScoreCreateWithoutCandidateInput = {
+    id?: string
+    main_id?: string | null
+    linguagens: number
+    matematica: number
+    humanas: number
+    natureza: number
+    redacao: number
+    examYear: number
+    isValidated?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    application_id: string
+  }
+
+  export type EnemScoreUncheckedCreateWithoutCandidateInput = {
+    id?: string
+    main_id?: string | null
+    linguagens: number
+    matematica: number
+    humanas: number
+    natureza: number
+    redacao: number
+    examYear: number
+    isValidated?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    application_id: string
+  }
+
+  export type EnemScoreCreateOrConnectWithoutCandidateInput = {
+    where: EnemScoreWhereUniqueInput
+    create: XOR<EnemScoreCreateWithoutCandidateInput, EnemScoreUncheckedCreateWithoutCandidateInput>
+  }
+
   export type CreditCardUpsertWithWhereUniqueWithoutCandidateInput = {
     where: CreditCardWhereUniqueInput
     update: XOR<CreditCardUpdateWithoutCandidateInput, CreditCardUncheckedUpdateWithoutCandidateInput>
@@ -54023,6 +55750,191 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Declarations"> | Date | string
   }
 
+  export type EnemScoreUpsertWithoutCandidateInput = {
+    update: XOR<EnemScoreUpdateWithoutCandidateInput, EnemScoreUncheckedUpdateWithoutCandidateInput>
+    create: XOR<EnemScoreCreateWithoutCandidateInput, EnemScoreUncheckedCreateWithoutCandidateInput>
+    where?: EnemScoreWhereInput
+  }
+
+  export type EnemScoreUpdateToOneWithWhereWithoutCandidateInput = {
+    where?: EnemScoreWhereInput
+    data: XOR<EnemScoreUpdateWithoutCandidateInput, EnemScoreUncheckedUpdateWithoutCandidateInput>
+  }
+
+  export type EnemScoreUpdateWithoutCandidateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    linguagens?: FloatFieldUpdateOperationsInput | number
+    matematica?: FloatFieldUpdateOperationsInput | number
+    humanas?: FloatFieldUpdateOperationsInput | number
+    natureza?: FloatFieldUpdateOperationsInput | number
+    redacao?: FloatFieldUpdateOperationsInput | number
+    examYear?: IntFieldUpdateOperationsInput | number
+    isValidated?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type EnemScoreUncheckedUpdateWithoutCandidateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    linguagens?: FloatFieldUpdateOperationsInput | number
+    matematica?: FloatFieldUpdateOperationsInput | number
+    humanas?: FloatFieldUpdateOperationsInput | number
+    natureza?: FloatFieldUpdateOperationsInput | number
+    redacao?: FloatFieldUpdateOperationsInput | number
+    examYear?: IntFieldUpdateOperationsInput | number
+    isValidated?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CandidateCreateWithoutEnemScoreInput = {
+    id?: string
+    name: string
+    CPF: string
+    main_id?: string | null
+    birthDate: Date | string
+    role?: $Enums.ROLE
+    createdAt?: Date | string
+    user_id?: string | null
+    profilePicture?: string | null
+    email?: string | null
+    finishedapplication?: boolean
+    application_id?: string | null
+    updatedAt?: Date | string
+    CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
+    Expense?: ExpenseCreateNestedManyWithoutCandidateInput
+    Financing?: FinancingCreateNestedManyWithoutCandidateInput
+    IdentityDetails?: IdentityDetailsCreateNestedManyWithoutCandidateInput
+    FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutCandidateInput
+    Loan?: LoanCreateNestedManyWithoutCandidateInput
+    OtherExpense?: OtherExpenseCreateNestedManyWithoutCandidateInput
+    Vehicle?: VehicleCreateNestedManyWithoutCandidateInput
+    responsible?: LegalResponsibleCreateNestedOneWithoutCandidateInput
+    FamillyMember?: FamilyMemberCreateNestedManyWithoutCandidateInput
+    Housing?: HousingCreateNestedManyWithoutCandidateInput
+    MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
+    FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
+    Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+  }
+
+  export type CandidateUncheckedCreateWithoutEnemScoreInput = {
+    id?: string
+    name: string
+    CPF: string
+    main_id?: string | null
+    birthDate: Date | string
+    role?: $Enums.ROLE
+    createdAt?: Date | string
+    user_id?: string | null
+    responsible_id?: string | null
+    profilePicture?: string | null
+    email?: string | null
+    finishedapplication?: boolean
+    application_id?: string | null
+    updatedAt?: Date | string
+    CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
+    Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
+    Financing?: FinancingUncheckedCreateNestedManyWithoutCandidateInput
+    IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutCandidateInput
+    FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutCandidateInput
+    Loan?: LoanUncheckedCreateNestedManyWithoutCandidateInput
+    OtherExpense?: OtherExpenseUncheckedCreateNestedManyWithoutCandidateInput
+    Vehicle?: VehicleUncheckedCreateNestedManyWithoutCandidateInput
+    FamillyMember?: FamilyMemberUncheckedCreateNestedManyWithoutCandidateInput
+    Housing?: HousingUncheckedCreateNestedManyWithoutCandidateInput
+    MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
+    Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+  }
+
+  export type CandidateCreateOrConnectWithoutEnemScoreInput = {
+    where: CandidateWhereUniqueInput
+    create: XOR<CandidateCreateWithoutEnemScoreInput, CandidateUncheckedCreateWithoutEnemScoreInput>
+  }
+
+  export type CandidateUpsertWithoutEnemScoreInput = {
+    update: XOR<CandidateUpdateWithoutEnemScoreInput, CandidateUncheckedUpdateWithoutEnemScoreInput>
+    create: XOR<CandidateCreateWithoutEnemScoreInput, CandidateUncheckedCreateWithoutEnemScoreInput>
+    where?: CandidateWhereInput
+  }
+
+  export type CandidateUpdateToOneWithWhereWithoutEnemScoreInput = {
+    where?: CandidateWhereInput
+    data: XOR<CandidateUpdateWithoutEnemScoreInput, CandidateUncheckedUpdateWithoutEnemScoreInput>
+  }
+
+  export type CandidateUpdateWithoutEnemScoreInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    CPF?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    finishedapplication?: BoolFieldUpdateOperationsInput | boolean
+    application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
+    Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
+    Financing?: FinancingUpdateManyWithoutCandidateNestedInput
+    IdentityDetails?: IdentityDetailsUpdateManyWithoutCandidateNestedInput
+    FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutCandidateNestedInput
+    Loan?: LoanUpdateManyWithoutCandidateNestedInput
+    OtherExpense?: OtherExpenseUpdateManyWithoutCandidateNestedInput
+    Vehicle?: VehicleUpdateManyWithoutCandidateNestedInput
+    responsible?: LegalResponsibleUpdateOneWithoutCandidateNestedInput
+    FamillyMember?: FamilyMemberUpdateManyWithoutCandidateNestedInput
+    Housing?: HousingUpdateManyWithoutCandidateNestedInput
+    MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
+    Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+  }
+
+  export type CandidateUncheckedUpdateWithoutEnemScoreInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    CPF?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    responsible_id?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    finishedapplication?: BoolFieldUpdateOperationsInput | boolean
+    application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
+    Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
+    Financing?: FinancingUncheckedUpdateManyWithoutCandidateNestedInput
+    IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutCandidateNestedInput
+    FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutCandidateNestedInput
+    Loan?: LoanUncheckedUpdateManyWithoutCandidateNestedInput
+    OtherExpense?: OtherExpenseUncheckedUpdateManyWithoutCandidateNestedInput
+    Vehicle?: VehicleUncheckedUpdateManyWithoutCandidateNestedInput
+    FamillyMember?: FamilyMemberUncheckedUpdateManyWithoutCandidateNestedInput
+    Housing?: HousingUncheckedUpdateManyWithoutCandidateNestedInput
+    MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
+    Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+  }
+
   export type IdentityDetailsCreateWithoutResponsibleInput = {
     id?: string
     fullName: string
@@ -54192,6 +56104,7 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutResponsibleInput = {
@@ -54223,6 +56136,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutResponsibleInput = {
@@ -55392,6 +57306,7 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutIdentityDetailsInput = {
@@ -55423,6 +57338,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutIdentityDetailsInput = {
@@ -55549,6 +57465,7 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutIdentityDetailsInput = {
@@ -55580,6 +57497,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutIdentityDetailsInput = {
@@ -56060,6 +57978,7 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutFamillyMemberInput = {
@@ -56091,6 +58010,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutFamillyMemberInput = {
@@ -56469,6 +58389,7 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutFamillyMemberInput = {
@@ -56500,6 +58421,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type MedicationUpsertWithWhereUniqueWithoutFamilyMemberInput = {
@@ -56664,6 +58586,7 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutHousingInput = {
@@ -56695,6 +58618,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutHousingInput = {
@@ -56821,6 +58745,7 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutHousingInput = {
@@ -56852,6 +58777,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutHousingInput = {
@@ -56968,6 +58894,7 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutVehicleInput = {
@@ -56999,6 +58926,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutVehicleInput = {
@@ -57147,6 +59075,7 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutVehicleInput = {
@@ -57178,6 +59107,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type FamilyMemberToVehicleUpsertWithWhereUniqueWithoutVehicleInput = {
@@ -57457,6 +59387,7 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutFamilyMemberIncomeInput = {
@@ -57488,6 +59419,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutFamilyMemberIncomeInput = {
@@ -57839,6 +59771,7 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutFamilyMemberIncomeInput = {
@@ -57870,6 +59803,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutFamilyMemberIncomeInput = {
@@ -58149,6 +60083,7 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutMonthlyIncomeInput = {
@@ -58180,6 +60115,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutMonthlyIncomeInput = {
@@ -58524,6 +60460,7 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutMonthlyIncomeInput = {
@@ -58555,6 +60492,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutMonthlyIncomeInput = {
@@ -58925,6 +60863,7 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutBankAccountInput = {
@@ -58956,6 +60895,7 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutBankAccountInput = {
@@ -59268,6 +61208,7 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutBankAccountInput = {
@@ -59299,6 +61240,7 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutBankAccountInput = {
@@ -59499,6 +61441,7 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutExpenseInput = {
@@ -59530,6 +61473,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutExpenseInput = {
@@ -59656,6 +61600,7 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutExpenseInput = {
@@ -59687,6 +61632,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutExpenseInput = {
@@ -59803,6 +61749,7 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutLoanInput = {
@@ -59834,6 +61781,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutLoanInput = {
@@ -60107,6 +62055,7 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutLoanInput = {
@@ -60138,6 +62087,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type FamilyMemberUpsertWithoutLoanInput = {
@@ -60407,6 +62357,7 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutFinancingInput = {
@@ -60438,6 +62389,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutFinancingInput = {
@@ -60711,6 +62663,7 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutFinancingInput = {
@@ -60742,6 +62695,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type FamilyMemberUpsertWithoutFinancingInput = {
@@ -61011,6 +62965,7 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutCreditCardInput = {
@@ -61042,6 +62997,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutCreditCardInput = {
@@ -61315,6 +63271,7 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutCreditCardInput = {
@@ -61346,6 +63303,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type FamilyMemberUpsertWithoutCreditCardInput = {
@@ -61615,6 +63573,7 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutOtherExpenseInput = {
@@ -61646,6 +63605,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutOtherExpenseInput = {
@@ -61919,6 +63879,7 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutOtherExpenseInput = {
@@ -61950,6 +63911,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type FamilyMemberUpsertWithoutOtherExpenseInput = {
@@ -62366,6 +64328,7 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutFamilyMemberDiseaseInput = {
@@ -62397,6 +64360,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutFamilyMemberDiseaseInput = {
@@ -62714,6 +64678,7 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutFamilyMemberDiseaseInput = {
@@ -62745,6 +64710,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutFamilyMemberDiseaseInput = {
@@ -63024,6 +64990,7 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutMedicationInput = {
@@ -63055,6 +65022,7 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
     Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutMedicationInput = {
@@ -63369,6 +65337,7 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutMedicationInput = {
@@ -63400,6 +65369,7 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutMedicationInput = {
@@ -63557,6 +65527,7 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutDeclarationsInput = {
@@ -63588,6 +65559,7 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
     BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    EnemScore?: EnemScoreUncheckedCreateNestedOneWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutDeclarationsInput = {
@@ -63861,6 +65833,7 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutDeclarationsInput = {
@@ -63892,6 +65865,7 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type FamilyMemberUpsertWithoutDeclarationsInput = {
@@ -66958,6 +68932,7 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutResponsibleInput = {
@@ -66989,6 +68964,7 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+    EnemScore?: EnemScoreUncheckedUpdateOneWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateManyWithoutResponsibleInput = {

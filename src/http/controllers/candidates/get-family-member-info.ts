@@ -2,6 +2,8 @@ import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
+import { calculateAge } from '@/utils/calculate-age'
+import { normalizeString } from '../entities/utils/normalize-string'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { getSectionDocumentsPDF } from './AWS Routes/get-pdf-documents-by-section'
@@ -52,9 +54,46 @@ export async function getFamilyMemberInfo(
         urls: Object.fromEntries(documents),
       }
     })
+
+    // Para cada membro da família, tenta buscar o enemScore quando for dependente candidato
+    const familyMembersWithEnem = await Promise.all(
+      familyMembersWithUrls.map(async (familyMember) => {
+        let enemScore: any = null
+
+        if (candidateOrResponsible.IsResponsible && familyMember.birthDate) {
+          const age = calculateAge(new Date(familyMember.birthDate))
+
+          if (age < 18 && familyMember.CPF) {
+            const dependentCandidate = await prisma.candidate.findFirst({
+              where: {
+                AND: [
+                  { CPF: normalizeString(familyMember.CPF) },
+                  { responsible_id: candidateOrResponsible.UserData.id },
+                ],
+              },
+            })
+
+            if (dependentCandidate) {
+              enemScore = await prisma.enemScore.findUnique({
+                where: { candidate_id: dependentCandidate.id },
+              })
+            }
+          }
+        }
+
+        return {
+          ...familyMember,
+          enemScore,
+        }
+      }),
+    )
+
     // includeSelf on query = true means the candidate will be included on the result
     const { includeSelf } = JSON.parse(JSON.stringify(request.query)) as { includeSelf: string }
-    const result = includeSelf === "true" ? [...familyMembersWithUrls, candidateOrResponsible.UserData] : familyMembersWithUrls
+    const result = includeSelf === "true"
+      ? [...familyMembersWithEnem, candidateOrResponsible.UserData]
+      : familyMembersWithEnem
+
     return reply.status(200).send({ familyMembers: result, livesAlone: user?.livesAlone })
 
   } catch (err: any) {

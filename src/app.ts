@@ -17,6 +17,7 @@ import { legalResponsibleRoutes } from './http/controllers/legal-responsible/rou
 import { signatureRoutes } from './http/controllers/signature/routes';
 import { assistantRoutes } from './http/controllers/social-assistant/routes';
 import studentsRoutes from './http/controllers/students/routes';
+import { enemRoutes } from './http/controllers/enem/routes';
 import subscriptionRoutes from './http/controllers/subscriptions/routes';
 import { authenticate } from './http/controllers/users/authenticate';
 import changePassword from './http/controllers/users/change_password';
@@ -98,6 +99,7 @@ app.register(userRoutes, { prefix: '/user' })
 app.register(applicationRoutes, { prefix: '/application' })
 app.register(subscriptionRoutes, { prefix: '/subscription' })
 app.register(studentsRoutes, { prefix: '/students' })
+app.register(enemRoutes, { prefix: '/enem' })
 app.post('/session', authenticate)
 app.post('/forgot_password', forgotPassword)
 app.post('/reset_password', resetPassword)

@@ -33,13 +33,11 @@ export async function getIdentityInfo(
     const uid = identityInfo?.candidate ? identityInfo?.candidate_id : identityInfo?.responsible_id
     const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'identity')
     let enemScore = null
-    console.log(candidateOrResponsible.IsResponsible)
     if (!candidateOrResponsible.IsResponsible) {
       enemScore = await prisma.enemScore.findUnique({
         where: { candidate_id: candidateOrResponsible.UserData.id }
       })
     }
-    console.log(enemScore)
     return reply.status(200).send({ identityInfo: !!identityInfo ? { ...(identityInfo?.candidate || identityInfo?.responsible), ...identityInfo, uid } : null, urls, enemScore })
   } catch (err: any) {
     console.log(err)

@@ -6,5 +6,5 @@ docker-compose.yml
 .vercel
 .env.*
 .vscode
-./backup_prisma/generated
+/backup_prisma/generated
 IntegracaoEnem

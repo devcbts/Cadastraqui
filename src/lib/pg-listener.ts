@@ -35,6 +35,7 @@ import { IdentityDetails, FamilyMember } from '../../backup_prisma/generated/cli
 import { prisma } from './prisma';
 import verifyDeclarationRegistration from "@/utils/Trigger-Functions/verify-declaration-registration";
 import { createBankBalanceHDB, deleteBankBalanceHDB, updateBankBalanceHDB } from "@/HistDatabaseFunctions/handle-bank-balance";
+import { createEnemScoreHDB, deleteEnemScoreHDB, updateEnemScoreHDB } from "@/HistDatabaseFunctions/handle-enem-score";
 import { runBackgroundDocumentAnalysis } from "@/utils/AI Assistant/runBackgroundDocumentAnalysis";
 import { CandidateDocuments } from "@prisma/client";
 import { VerifyMonthlyIncomeStatus } from "@/utils/Trigger-Functions/verify-monthlyIncomes-status";
@@ -105,11 +106,24 @@ const connectClient = async () => {
                             }
 
                             case 'channel_enem_score': {
-                                const candidateId = msg.payload!;
+                                const enemPayload = JSON.parse(msg.payload!);
+                                const candidateId = enemPayload.data.candidate_id as string;
                                 try {
                                     await updateEnemScoreForCandidate(candidateId);
                                 } catch (err) {
                                     console.error('Failed to update ENEM score for candidate', candidateId, err);
+                                }
+
+                                try {
+                                    if (enemPayload.operation === 'INSERT') {
+                                        await createEnemScoreHDB(enemPayload.data.id, candidateId);
+                                    } else if (enemPayload.operation === 'UPDATE') {
+                                        await updateEnemScoreHDB(enemPayload.data.id, candidateId);
+                                    } else if (enemPayload.operation === 'DELETE') {
+                                        await deleteEnemScoreHDB(enemPayload.data.id, candidateId);
+                                    }
+                                } catch (err) {
+                                    console.error('Failed to sync EnemScore to history DB for candidate', candidateId, err);
                                 }
                                 break;
                             }

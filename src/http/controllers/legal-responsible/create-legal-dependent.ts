@@ -23,7 +23,7 @@ export async function createLegalDependent(
       throw new UserAlreadyExistsError()
     }
 
-    await db.candidate.create({
+   const cantidate =  await db.candidate.create({
       data: {
         CPF,
         birthDate: new Date(birthDate),
@@ -33,6 +33,8 @@ export async function createLegalDependent(
       },
     })
 
+
+    return cantidate
   } catch (err: any) {
     throw err
   }

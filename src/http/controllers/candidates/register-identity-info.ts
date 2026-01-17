@@ -14,6 +14,7 @@ import { RELIGION } from './enums/Religion'
 import { SCHOLARSHIP } from './enums/Scholarship'
 import { ScholarshipType } from './enums/Scholaship_Type'
 import { SkinColor } from './enums/SkinColor'
+import { validateEnemScoreOnCsv } from '@/utils/validate-enem-score'
 
 export async function registerIdentityInfo(
   request: FastifyRequest,
@@ -89,7 +90,7 @@ export async function registerIdentityInfo(
       natureza: z.coerce.number().min(0).max(1000),
       redacao: z.coerce.number().min(0).max(1000),
       examYear: z.coerce.number().int().min(2009).max(new Date().getFullYear()),
-    }).optional()
+    }).optional(),
   })
 
   const {
@@ -240,34 +241,55 @@ export async function registerIdentityInfo(
         hasMedicalReport
       },
     })
-    const idFieldRegistration = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
-    
-    if(!candidateOrResponsible.IsResponsible){
-      // Atualiza a Application.enemScore (média simples) para candidaturas abertas do candidato
-      if (enemScore) {
-        await prisma.enemScore.upsert({
-          where: { candidate_id: candidateOrResponsible.UserData.id },
-          create: {
-            candidate_id: candidateOrResponsible.UserData.id,
-            linguagens: enemScore.linguagens,
-            matematica: enemScore.matematica,
-            humanas: enemScore.humanas,
-            natureza: enemScore.natureza,
-            redacao: enemScore.redacao,
-            examYear: enemScore.examYear,
-          },
-          update: {
-            linguagens: enemScore.linguagens,
-            matematica: enemScore.matematica,
-            humanas: enemScore.humanas,
-            natureza: enemScore.natureza,
-            redacao: enemScore.redacao,
-            examYear: enemScore.examYear,
-          },
+    const idFieldRegistration = candidateOrResponsible.IsResponsible
+      ? { legalResponsibleId: candidateOrResponsible.UserData.id }
+      : { candidate_id: candidateOrResponsible.UserData.id }
+
+    // ENEM ao registrar identidade: mesmo comportamento de update-identity-info
+    if (!candidateOrResponsible.IsResponsible && enemScore) {
+      const nomeAluno =
+        (candidateOrResponsible.UserData.name as string | undefined) ||
+        fullName ||
+        ''
+
+      const { isValidated, csvPath, outputPath, matchCount, totalLines } =
+        await validateEnemScoreOnCsv({
+          enemScore,
+          candidateName: nomeAluno,
+          cpf: candidateOrResponsible.UserData.CPF,
         })
-      }
+
+      console.log('Resultado da busca ENEM no CSV (register-identity-info):', {
+        totalLines,
+        matchCount,
+        outputPath,
+        csvPath,
+      })
+
+      await prisma.enemScore.upsert({
+        where: { candidate_id: candidateOrResponsible.UserData.id },
+        create: {
+          candidate_id: candidateOrResponsible.UserData.id,
+          linguagens: enemScore.linguagens,
+          matematica: enemScore.matematica,
+          humanas: enemScore.humanas,
+          natureza: enemScore.natureza,
+          redacao: enemScore.redacao,
+          examYear: enemScore.examYear,
+          isValidated,
+        },
+        update: {
+          linguagens: enemScore.linguagens,
+          matematica: enemScore.matematica,
+          humanas: enemScore.humanas,
+          natureza: enemScore.natureza,
+          redacao: enemScore.redacao,
+          examYear: enemScore.examYear,
+          isValidated,
+        },
+      })
     }
-    
+
     await prisma.finishedRegistration.upsert({
       where: idFieldRegistration,
       create: {
