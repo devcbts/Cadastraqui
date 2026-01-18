@@ -60,6 +60,20 @@ export default function FormBasicInformation({ onNextMainStep }) {
         }
         setIsLoading(false)
     }
+    const [enableEditing, setEnableEditing] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
+    const [renderComponents, setRenderComponents] = useState([
+        PersonalData,
+        AddressData,
+        ResidenceProof,
+        AdditionalInfo,
+        MaritalStatus,
+        PersonalInformation,
+        Document,
+        AdditionalDocuments,
+        Benefits,
+    ])
+
     const {
         Steps,
         pages: { previous, next },
@@ -67,28 +81,11 @@ export default function FormBasicInformation({ onNextMainStep }) {
         max,
         state: { activeStep, data, setData }
     } = useStepFormHook({
-        render: [
-            PersonalData,
-            AddressData,
-            ResidenceProof,
-            AdditionalInfo,
-            MaritalStatus,
-            PersonalInformation,
-            
-            Document,
-            AdditionalDocuments,
-            Benefits,
-                        ENEMScore
-
-            
-        ],
+        render: renderComponents,
         onEdit: handleEditInformation,
         onSave: handleSaveInformation,
         viewMode: !canEdit,
     })
-
-    const [enableEditing, setEnableEditing] = useState(false)
-    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         const fetchBasic = async () => {
@@ -102,6 +99,12 @@ export default function FormBasicInformation({ onNextMainStep }) {
                 const information = await service?.getIdentityInfo()
                 setData(information)
                 if (information) {
+                    if (information?.candidate_id) {
+                        setRenderComponents((prev) => {
+                            if (prev.includes(ENEMScore)) return prev
+                            return [...prev, ENEMScore]
+                        })
+                    }
                     setEnableEditing(true)
                 } else {
                     const basic = await fetchBasic()

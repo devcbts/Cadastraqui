@@ -3,7 +3,7 @@ import ButtonBase from "Components/ButtonBase";
 import Loader from "Components/Loader";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
 import uploadService from "services/upload/uploadService";
@@ -18,10 +18,15 @@ import PersonalInformation from "../PersonalInformation";
 import FamilyRelation from "./components/FamilyRelation";
 import MembersList from "./components/MembersList";
 import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
+import useAuth from "hooks/useAuth";
+import { calculateAge } from "utils/calculate-age";
+import FamilyMemberENEMScore from "./components/FamilyMemberENEMScore";
+
 export default function FormFamilyGroup({ onNextMainStep }) {
     const [isAdding, setIsAdding] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const { canEdit, service } = useSubscribeFormPermissions()
+    const { auth } = useAuth()
 
     const uploadMemberDocument = async (data, memberId) => {
         try {
@@ -58,6 +63,20 @@ export default function FormFamilyGroup({ onNextMainStep }) {
         }
     }
 
+    const [renderComponents, setRenderComponents] = useState([
+        FamilyRelation,
+        <PersonalData tooltips={{
+            landlinePhone: 'Caso seja menor de idade, utilize o telefone do responsável',
+            email: 'Caso seja menor de idade, utilize o email do responsável',
+        }} />,
+        AdditionalInfo,
+        MaritalStatus,
+        PersonalInformation,
+        Document,
+        AdditionalDocuments,
+        Benefits
+    ])
+
     const {
         Steps,
         max,
@@ -65,29 +84,33 @@ export default function FormFamilyGroup({ onNextMainStep }) {
         state: { activeStep, setData, setActiveStep, data },
         pages: { previous, next }
     } = useStepFormHook({
-        render: [
-            FamilyRelation,
-            <PersonalData tooltips={{
-                landlinePhone: 'Caso seja menor de idade, utilize o telefone do responsável',
-                email: 'Caso seja menor de idade, utilize o email do responsável',
-            }} />,
-            AdditionalInfo,
-            MaritalStatus,
-            PersonalInformation,
-            Document,
-            AdditionalDocuments,
-            Benefits
-        ],
+        render: renderComponents,
         onEdit: handleEditFamilyMember,
         onSave: handleSaveFamilyMember,
         viewMode: !canEdit,
-        // tooltips: {
-        //     1: {
-        //         landlinePhone: 'Caso seja menor de idade, utilize o telefone do responsável',
-        //         email: 'Caso seja menor de idade, utilize o email do responsável',
-        //     }
-        // }
     })
+
+    useEffect(() => {
+        const isResponsible = auth?.role === "RESPONSIBLE"
+        const birthDate = data?.birthDate
+
+        if (!data || !birthDate) {
+            setRenderComponents(prev => prev.filter(c => c !== FamilyMemberENEMScore))
+            return
+        }
+
+        const [year, month, day] = birthDate.split('-').map(Number)
+        const age = calculateAge(new Date(year, (month || 1) - 1, day || 1))
+
+        if (isResponsible && age < 18) {
+            setRenderComponents(prev => {
+                if (prev.includes(FamilyMemberENEMScore)) return prev
+                return [...prev, FamilyMemberENEMScore]
+            })
+        } else {
+            setRenderComponents(prev => prev.filter(c => c !== FamilyMemberENEMScore))
+        }
+    }, [auth?.role, data])
 
 
 

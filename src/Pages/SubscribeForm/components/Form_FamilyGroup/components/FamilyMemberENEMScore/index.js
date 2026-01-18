@@ -3,8 +3,8 @@ import InputForm from 'Components/InputForm'
 import ButtonBase from 'Components/ButtonBase'
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import useControlForm from 'hooks/useControlForm'
-import { enemScoreSchema } from './schemas/enem-score-schema'
-import styles from './styles.module.scss'
+import { enemScoreSchema } from 'Pages/SubscribeForm/components/Form_BasicInformation/ENEMScore/schemas/enem-score-schema'
+import styles from 'Pages/SubscribeForm/components/Form_BasicInformation/ENEMScore/styles.module.scss'
 import CustomFilePicker from 'Components/CustomFilePicker'
 import Tooltip from 'Components/Tooltip'
 import { ReactComponent as Help } from 'Assets/icons/question-mark.svg'
@@ -12,9 +12,9 @@ import enemService from 'services/enem/enemService'
 import { NotificationService } from 'services/notification'
 import FormCheckbox from 'Components/FormCheckbox'
 
-const ENEMScore = forwardRef(({ data, defaultValues = {}, viewMode }, ref) => {
+const FamilyMemberENEMScore = forwardRef(({ data, viewMode }, ref) => {
   const [isAnalyzing, setIsAnalyzing] = useState(false)
-  const initial = useMemo(() => data?.enemScore ?? defaultValues?.enemScore ?? {}, [data?.enemScore, defaultValues?.enemScore])
+  const initial = useMemo(() => data?.enemScore ?? {}, [data?.enemScore])
   const hasInitialEnemScoreRef = useRef(!!(initial && Object.keys(initial).length))
   const { control, setValue, watch } = useControlForm(
     {
@@ -30,7 +30,7 @@ const ENEMScore = forwardRef(({ data, defaultValues = {}, viewMode }, ref) => {
           examYear: initial.examYear ?? String(new Date().getFullYear() - 1),
         },
       },
-      initialData: data,
+      initialData: { enemScore: initial, hasEnemLastYear: hasInitialEnemScoreRef.current },
     },
     ref
   )
@@ -68,13 +68,13 @@ const ENEMScore = forwardRef(({ data, defaultValues = {}, viewMode }, ref) => {
       }
 
       NotificationService.confirm({
-        title: 'Remover nota do ENEM?',
-        text: 'Ao continuar, as notas do ENEM serão apagadas e não poderão ser recuperadas.',
+        title: 'Remover nota do ENEM deste membro?',
+        text: 'Ao continuar, as notas do ENEM deste membro serão apagadas e não poderão ser recuperadas.',
         confirm: 'Remover',
         cancel: 'Cancelar',
         onConfirm: async () => {
           try {
-            await enemService.deleteEnemScore()
+            await enemService.deleteEnemScore(data?.id)
             setValue('enemScore.linguagens', '')
             setValue('enemScore.matematica', '')
             setValue('enemScore.humanas', '')
@@ -82,12 +82,12 @@ const ENEMScore = forwardRef(({ data, defaultValues = {}, viewMode }, ref) => {
             setValue('enemScore.redacao', '')
             setValue('enemScore.examYear', '')
             hasInitialEnemScoreRef.current = false
-            NotificationService.success({ text: 'Dados do ENEM atualizados.', type: 'toast' })
+            NotificationService.success({ text: 'Dados do ENEM do membro atualizados.', type: 'toast' })
             prevHasEnemLastYearRef.current = false
           } catch (error) {
             setValue('hasEnemLastYear', true)
             prevHasEnemLastYearRef.current = true
-            NotificationService.error({ text: 'Não foi possível remover as notas do ENEM.', type: 'toast' })
+            NotificationService.error({ text: 'Não foi possível remover as notas do ENEM deste membro.', type: 'toast' })
           }
         },
         onCancel: () => {
@@ -99,7 +99,7 @@ const ENEMScore = forwardRef(({ data, defaultValues = {}, viewMode }, ref) => {
     }
 
     prevHasEnemLastYearRef.current = current
-  }, [hasEnemLastYear, viewMode, setValue])
+  }, [hasEnemLastYear, viewMode, setValue, data?.id])
 
   const handleUpload = async (files) => {
     if (!files || !files.length || viewMode) return
@@ -108,7 +108,6 @@ const ENEMScore = forwardRef(({ data, defaultValues = {}, viewMode }, ref) => {
 
     if (!file) return
 
-    // validação simples: apenas PDF e até 10MB
     if (file.type !== 'application/pdf') {
       NotificationService.error({ text: 'Envie um arquivo PDF do boletim do ENEM.', type: 'toast' })
       return
@@ -144,9 +143,7 @@ const ENEMScore = forwardRef(({ data, defaultValues = {}, viewMode }, ref) => {
   return (
     <div className={commonStyles.formcontainer}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
-
-        <h1 className={commonStyles.title}>Nota do ENEM</h1>
-
+        <h1 className={commonStyles.title}>Nota do ENEM do membro</h1>
       </div>
       <h4 className={commonStyles.subTitle}>{data?.fullName}</h4>
 
@@ -154,7 +151,7 @@ const ENEMScore = forwardRef(({ data, defaultValues = {}, viewMode }, ref) => {
         <FormCheckbox
           control={control}
           name={'hasEnemLastYear'}
-          label={'Você fez o ENEM no último ano?'}
+          label={'Este membro fez o ENEM no último ano?'}
           disabled={viewMode}
         />
       </div>
@@ -170,7 +167,7 @@ const ENEMScore = forwardRef(({ data, defaultValues = {}, viewMode }, ref) => {
             <InputForm name={'enemScore.examYear'} control={control} label={'Ano do exame'} type={'number'} />
           </div>
           <Tooltip
-            tooltip="Envie o boletim do ENEM em PDF para que o sistema leia automaticamente suas notas e preencha os campos abaixo."
+            tooltip="Envie o boletim do ENEM em PDF para que o sistema leia automaticamente as notas deste membro e preencha os campos abaixo."
             Icon={Help}
           >
             {!viewMode && (
@@ -183,8 +180,8 @@ const ENEMScore = forwardRef(({ data, defaultValues = {}, viewMode }, ref) => {
           </Tooltip>
         </>
       )}
-    </div >
+    </div>
   )
 })
 
-export default ENEMScore
+export default FamilyMemberENEMScore
