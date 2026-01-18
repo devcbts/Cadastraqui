@@ -8,6 +8,14 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { getSectionDocumentsPDF } from './AWS Routes/get-pdf-documents-by-section'
 
+// Define o tipo para candidateOrResponsible
+interface CandidateOrResponsible {
+  IsResponsible: boolean
+  UserData: {
+    id: string
+  }
+}
+
 export async function getFamilyMemberInfo(
   request: FastifyRequest,
   reply: FastifyReply,
@@ -21,17 +29,17 @@ export async function getFamilyMemberInfo(
 
   try {
     const user_id = request.user.sub
-    let candidateOrResponsible
+    let candidateOrResponsible: CandidateOrResponsible
     let idField
     if (_id) {
-      candidateOrResponsible = await ChooseCandidateResponsible(_id)
+      candidateOrResponsible = await ChooseCandidateResponsible(_id) as CandidateOrResponsible
       if (!candidateOrResponsible) {
         throw new ResourceNotFoundError()
       }
       idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
     } else {
       // Verifica se existe um candidato associado ao user_id
-      candidateOrResponsible = await SelectCandidateResponsible(user_id)
+      candidateOrResponsible = await SelectCandidateResponsible(user_id) as CandidateOrResponsible
       if (!candidateOrResponsible) {
         throw new ResourceNotFoundError()
       }
