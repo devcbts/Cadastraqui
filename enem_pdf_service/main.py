@@ -12,12 +12,14 @@ app = FastAPI(title="ENEM PDF Extractor Service")
 
 @app.get("/status")
 async def status():
+    print("Status check received")
     """Verifica se o serviço está no ar."""
     return {"status": "ok"}
 
 
 @app.post("/extract-pdf")
 async def extract_pdf(req: ExtractRequest):
+    print(f"Extract PDF request received for path: {req.pdf_path}")
     """Recebe o caminho de um PDF no servidor e devolve o texto extraído."""
     result = extract_text_from_pdf(req.pdf_path)
     return result
