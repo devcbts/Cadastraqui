@@ -9,7 +9,14 @@ class ExtractRequest(BaseModel):
 
 app = FastAPI(title="ENEM PDF Extractor Service")
 
+import os
 
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 8000))  # Usa a porta definida pela variável de ambiente ou 8000 como padrão
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=port)
+    
+    
 @app.get("/status")
 async def status():
     print("Status check received")
