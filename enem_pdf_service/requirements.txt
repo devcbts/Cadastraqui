@@ -4,3 +4,4 @@ pymupdf
 pillow
 pytesseract
 django
+python-multipart

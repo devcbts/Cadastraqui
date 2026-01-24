@@ -2,6 +2,8 @@ import { FastifyInstance } from 'fastify';
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
+import axios from 'axios';
+import FormData from 'form-data';
 import { buscadorENEM } from '@/lib/enem/enem-service';
 import { verifyJWT } from '@/http/middlewares/verify-jwt';
 
@@ -84,31 +86,29 @@ export async function enemRoutes(app: FastifyInstance) {
     }
 
     const buffer = await data.toBuffer();
-    const pdfPath = path.join(uploadDir, data.filename || data.fieldname + '-' + Date.now());
-    fs.writeFileSync(pdfPath, buffer as unknown as NodeJS.ArrayBufferView);
+    const filename = (data.filename || data.fieldname || 'upload') + '.pdf';
+
+    // Opcional: salvar localmente se desejar manter cópia
+    // const pdfPath = path.join(uploadDir, filename);
+    // fs.writeFileSync(pdfPath, buffer as unknown as NodeJS.ArrayBufferView);
 
     buscadorENEM.clearLogs();
 
     try {
       const serviceUrl = process.env.ENEM_PDF_SERVICE_URL || 'http://localhost:8000';
 
-      const response = await fetch(`${serviceUrl}/extract-pdf`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pdf_path: pdfPath }),
+      // Envia o arquivo diretamente para o serviço Python via multipart/form-data usando axios + form-data
+      const form = new FormData();
+      form.append('file', buffer, { filename, contentType: 'application/pdf' });
+
+      const headers = form.getHeaders();
+      const axiosResp = await axios.post(`${serviceUrl}/extract-pdf`, form, {
+        headers,
+        maxBodyLength: Infinity,
+        timeout: 120000,
       });
 
-      if (!response.ok) {
-        const text = await response.text();
-        console.log(`❌ Erro ao chamar microserviço Python: ${text}`);
-        return reply.status(500).send({
-          success: false,
-          error: 'Falha ao comunicar com serviço de extração de PDF',
-          logs: buscadorENEM.getLogs(),
-        });
-      }
-
-      const pythonResult = await response.json() as { success: boolean; text: string; method: string; error: string | null };
+      const pythonResult = axiosResp.data as { success: boolean; text: string; method: string; error: string | null };
 
       if (!pythonResult.success) {
         return reply.send({
