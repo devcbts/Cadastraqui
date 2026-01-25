@@ -87,11 +87,15 @@ button:focus {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-bottom: 20px;
+    overflow-x: hidden;
+    box-sizing: border-box;
 
     p {
         margin-top: 10px;
         /* margin-bottom: 50px; */
         line-height: 150%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
 }
 
@@ -112,14 +116,25 @@ button:focus {
     color: #333;
     margin: 20px 0px;
     text-align: justify;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    width: 100%;
+    max-width: 100%;
 }
 
 .declarationContent span {
     font-weight: bold;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: inline;
 }
 
 .declarationContent p {
     margin-bottom: 20px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
 }
 
 .radioGroup {
@@ -181,6 +196,20 @@ button:focus {
 
     .declarationContent {
         padding: 10px 0px;
+        font-size: 13px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    .declarationContent p {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        line-height: 1.5;
+    }
+    
+    .declarationContent span {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
 
     h1,
@@ -222,10 +251,16 @@ button:focus {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     text-align: justify;
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 .declarationContent {
     margin-bottom: 20px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    max-width: 100%;
 }
 
 .fieldGroup {
