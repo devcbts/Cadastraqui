@@ -16,7 +16,6 @@ import Benefits from "../Benefits";
 import Document from "../Document";
 import MaritalStatus from "../MaritalStatus";
 import PersonalData from "../PersonalData";
-import PersonalInformation from "../PersonalInformation";
 import ResidenceProof from '../AddressData/ResidenceProof';
 import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
 export default function FormBasicInformation() {
@@ -72,7 +71,6 @@ export default function FormBasicInformation() {
             ResidenceProof,
             AdditionalInfo,
             MaritalStatus,
-            PersonalInformation,
             Document,
             AdditionalDocuments,
             Benefits
