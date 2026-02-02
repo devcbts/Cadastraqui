@@ -20,6 +20,7 @@ import { SCHOLARSHIP } from './enums/Scholarship'
 import { SHIFT } from './enums/Shift'
 import { SkinColor } from './enums/SkinColor'
 import { UF } from './enums/UF'
+import { validateEnemScoreOnCsv } from '@/utils/validate-enem-score'
 
 export async function registerFamilyMemberInfo(
   request: FastifyRequest,
@@ -83,6 +84,14 @@ export async function registerFamilyMemberInfo(
     incomeSource: z.array(IncomeSource).optional(),
     hasSevereDeseaseOrUsesMedication: z.boolean().nullish(),
     hasBankAccount: z.boolean().nullish(),
+    enemScore: z.object({
+            linguagens: z.coerce.number().min(0).max(1000),
+            matematica: z.coerce.number().min(0).max(1000),
+            humanas: z.coerce.number().min(0).max(1000),
+            natureza: z.coerce.number().min(0).max(1000),
+            redacao: z.coerce.number().min(0).max(1000),
+            examYear: z.coerce.number().int().min(2009).max(new Date().getFullYear()),
+          }).optional().nullish(),
   })
   console.log('====================================')
   console.log(request.body)
@@ -137,6 +146,7 @@ export async function registerFamilyMemberInfo(
     hasSevereDeseaseOrUsesMedication,
     hasBankAccount,
     specialNeedsType
+    , enemScore
   } = familyMemberDataSchema.parse(request.body)
 
   try {
@@ -241,12 +251,57 @@ export async function registerFamilyMemberInfo(
         where: { AND: [{ CPF: normalizeString(CPF) }, { responsible_id: candidateOrResponsible.UserData.id }] }
       })
       const isDependent = age < 18 && candidateOrResponsible.IsResponsible && !previouslyRegistered
+
       if (
         isDependent
       ) {
-        await createLegalDependent(fullName, CPF, birthDate, candidateOrResponsible.UserData.id, tPrisma)
-      }
+       const candidateFamilyMember = await createLegalDependent(fullName, CPF, birthDate, candidateOrResponsible.UserData.id, tPrisma)
 
+
+        // Opcional: se informado, valida e salva/atualiza nota do ENEM vinculada ao candidato
+        if (enemScore) {
+          const nomeAluno =
+
+            fullName
+
+          const { isValidated, csvPath, outputPath, matchCount, totalLines } =
+            await validateEnemScoreOnCsv({
+              enemScore,
+              candidateName: nomeAluno,
+              cpf: CPF,
+            })
+
+          console.log('Resultado da busca ENEM no CSV (register-family-member):', {
+            totalLines,
+            matchCount,
+            outputPath,
+            csvPath,
+          })
+
+          await tPrisma.enemScore.upsert({
+            where: { candidate_id: candidateFamilyMember.id },
+            create: {
+              candidate_id: candidateFamilyMember.id,
+              linguagens: enemScore.linguagens,
+              matematica: enemScore.matematica,
+              humanas: enemScore.humanas,
+              natureza: enemScore.natureza,
+              redacao: enemScore.redacao,
+              examYear: enemScore.examYear,
+              isValidated,
+            },
+            update: {
+              linguagens: enemScore.linguagens,
+              matematica: enemScore.matematica,
+              humanas: enemScore.humanas,
+              natureza: enemScore.natureza,
+              redacao: enemScore.redacao,
+              examYear: enemScore.examYear,
+              isValidated,
+            },
+          })
+        }
+      }
       await tPrisma.finishedRegistration.upsert({
         where: idField,
         create: { grupoFamiliar: true, ...idField },

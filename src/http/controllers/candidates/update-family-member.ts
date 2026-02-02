@@ -3,6 +3,8 @@ import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { calculateAge } from '@/utils/calculate-age'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
+import { validateEnemScoreOnCsv } from '@/utils/validate-enem-score'
+import { normalizeString } from '../entities/utils/normalize-string'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { updateLegalDependent } from '../legal-responsible/update-legal-dependent'
@@ -83,6 +85,14 @@ export async function updateFamilyMemberInfo(
     incomeSource: z.array(IncomeSource).optional().nullable(),
     hasSevereDeseaseOrUsesMedication: z.boolean().nullish(),
     hasBankAccount: z.boolean().nullish(),
+    enemScore: z.object({
+      linguagens: z.coerce.number().min(0).max(1000),
+      matematica: z.coerce.number().min(0).max(1000),
+      humanas: z.coerce.number().min(0).max(1000),
+      natureza: z.coerce.number().min(0).max(1000),
+      redacao: z.coerce.number().min(0).max(1000),
+      examYear: z.coerce.number().int().min(2009).max(new Date().getFullYear()),
+    }).optional().nullish()
   }).partial()
 
   const {
@@ -135,7 +145,8 @@ export async function updateFamilyMemberInfo(
     CadUnico,
     hasSevereDeseaseOrUsesMedication,
     hasBankAccount,
-    specialNeedsType
+    specialNeedsType,
+    enemScore,
   } = familyMemberDataSchema.parse(request.body)
 
   try {
@@ -264,6 +275,59 @@ export async function updateFamilyMemberInfo(
 
     if (age < 18 && CandidateOrResponsible.IsResponsible) {
       await updateLegalDependent(memberUpdated.fullName, memberUpdated.CPF, familyMember.CPF, memberUpdated.birthDate.toString(), CandidateOrResponsible.UserData.id)
+
+      // Se houver enemScore informado para o dependente, valida no CSV e atualiza/insere o EnemScore
+      if (enemScore) {
+        const dependentCandidate = await prisma.candidate.findFirst({
+          where: {
+            AND: [
+              { CPF: normalizeString(memberUpdated.CPF || familyMember.CPF) },
+              { responsible_id: CandidateOrResponsible.UserData.id },
+            ],
+          },
+        })
+
+        if (dependentCandidate) {
+          const nomeAluno = memberUpdated.fullName || ''
+
+          const { isValidated, csvPath, outputPath, matchCount, totalLines } =
+            await validateEnemScoreOnCsv({
+              enemScore,
+              candidateName: nomeAluno,
+              cpf: memberUpdated.CPF || familyMember.CPF,
+            })
+
+          console.log('Resultado da busca ENEM no CSV (update-family-member):', {
+            totalLines,
+            matchCount,
+            outputPath,
+            csvPath,
+          })
+
+          await prisma.enemScore.upsert({
+            where: { candidate_id: dependentCandidate.id },
+            create: {
+              candidate_id: dependentCandidate.id,
+              linguagens: enemScore.linguagens,
+              matematica: enemScore.matematica,
+              humanas: enemScore.humanas,
+              natureza: enemScore.natureza,
+              redacao: enemScore.redacao,
+              examYear: enemScore.examYear,
+              isValidated,
+            },
+            update: {
+              linguagens: enemScore.linguagens,
+              matematica: enemScore.matematica,
+              humanas: enemScore.humanas,
+              natureza: enemScore.natureza,
+              redacao: enemScore.redacao,
+              examYear: enemScore.examYear,
+              isValidated,
+            },
+          })
+        }
+      }
     }
 
     return reply.status(201).send()

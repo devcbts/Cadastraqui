@@ -33,6 +33,7 @@ const selectValidCandidates = async () => {
                         { field: 'distance', value: TiebreakerCriterias.Distance, order: 'ASC' },
                         { field: 'averageIncome', value: TiebreakerCriterias.LeastFamilyIncome, order: 'ASC' },
                         { field: 'hasSevereDesease', value: TiebreakerCriterias.SeriousIllness, order: 'DESC' },
+                        { field: 'enemScore', value: TiebreakerCriterias.EnemScore, order: 'DESC' },
                         { field: 'RANDOM()', value: TiebreakerCriterias.Draw, order: '' },
                     ]
                     let fields = currentCriteria.map((e) => {
@@ -76,8 +77,8 @@ const selectValidCandidates = async () => {
                                 candidateStatus: currentStatus
                             }
                         });
-                        await addAnalysisTask(application.id)   
-                        await addCNPJTask(application.id)
+                        //await addAnalysisTask(application.id)   
+                        //await addCNPJTask(application.id)
                     }));
 
 
@@ -102,7 +103,7 @@ const selectValidCandidates = async () => {
     }
 }
 // Schedule the selectValidCandidates function to run every 15 minutes
-const Selectjob: nodeSchedule.Job = nodeSchedule.scheduleJob("0 */45 * * * *", async () => {
+const Selectjob: nodeSchedule.Job = nodeSchedule.scheduleJob("0 */1 * * * *", async () => {
     const deletedIncomes = await selectValidCandidates();
 })
 export default Selectjob

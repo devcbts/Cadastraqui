@@ -1,6 +1,7 @@
 import { ForbiddenError } from "@/errors/forbidden-error"
 import { prisma } from "@/lib/prisma"
 import { SelectCandidateResponsible } from "@/utils/select-candidate-responsible"
+import { isValidPlate, isValidRenavam } from "@/utils/vehicle-validation"
 import { FastifyReply, FastifyRequest } from "fastify"
 import { z } from "zod"
 
@@ -22,12 +23,22 @@ export async function updateVehicleInfo(
   const vehicleDataSchema = z.object({
     vehicleType: VehicleType,
     modelAndBrand: z.string(),
-    manufacturingYear: z.number(),
+    manufacturingYear: z.number().min(1950).max(new Date().getFullYear()),
     situation: VehicleSituation,
     financedMonths: z.number().nullish(),
     monthsToPayOff: z.number().nullish(),
-    plate: z.string().nullish(),
-    document: z.string().nullish(),
+    plate: z
+      .string()
+      .nullish()
+      .refine((val) => val == null || isValidPlate(val), {
+        message: "Placa inválida",
+      }),
+    document: z
+      .string()
+      .nullish()
+      .refine((val) => val == null || isValidRenavam(val), {
+        message: "Renavam inválido",
+      }),
     hasInsurance: z.boolean(),
     insuranceValue: z.number(),
     usage: VehicleUsage,

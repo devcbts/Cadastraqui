@@ -1,0 +1,1 @@
+# Mark enem_pdf_service as a Python package for Django imports.

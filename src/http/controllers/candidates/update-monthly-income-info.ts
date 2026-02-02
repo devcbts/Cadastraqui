@@ -58,7 +58,7 @@ export default async function updateMonthlyIncome(
         const { id, incomes, quantity, incomeSource, ...rest } = schema.parse(request.body)
         const isCandidateOrResponsible = await SelectCandidateResponsible(memberId)
         let monthlyIncomesId: string[] = []
-        let incomeSourceNotGrossIncome : IncomeSourceClient[] = ['BusinessOwner', 'BusinessOwnerSimplifiedTax', 'IndividualEntrepreneur']
+        let incomeSourceNotGrossIncome : IncomeSourceClient[] = ['BusinessOwner', 'BusinessOwnerSimplifiedTax']
         // Verifica se existe um familiar cadastrado com o owner_id
         const idField = isCandidateOrResponsible ? (isCandidateOrResponsible.IsResponsible ? { legalResponsibleId: memberId } : { candidate_id: memberId }) : { familyMember_id: memberId };
         await prisma.$transaction(async (tsPrisma) => {

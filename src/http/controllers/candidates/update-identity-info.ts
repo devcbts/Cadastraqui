@@ -6,6 +6,7 @@ import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { ScholarshipType } from './enums/Scholaship_Type'
+import { validateEnemScoreOnCsv } from '@/utils/validate-enem-score'
 
 export async function updateIdentityInfo(
   request: FastifyRequest,
@@ -171,6 +172,14 @@ export async function updateIdentityInfo(
     hasSevereDeseaseOrUsesMedication: z.boolean().nullish(),
     hasBankAccount: z.boolean().nullish(),
     hasMedicalReport: z.boolean().nullish(),
+    enemScore: z.object({
+          linguagens: z.coerce.number().min(0).max(1000),
+          matematica: z.coerce.number().min(0).max(1000),
+          humanas: z.coerce.number().min(0).max(1000),
+          natureza: z.coerce.number().min(0).max(1000),
+          redacao: z.coerce.number().min(0).max(1000),
+          examYear: z.coerce.number().int().min(2009).max(new Date().getFullYear()),
+        }).optional().nullish()
 
   }).partial()
 
@@ -227,7 +236,8 @@ export async function updateIdentityInfo(
     hasSevereDeseaseOrUsesMedication,
     hasBankAccount,
     hasMedicalReport,
-    specialNeedsType
+    specialNeedsType,
+    enemScore
 
   } = userDataSchema.parse(request.body)
 
@@ -365,6 +375,54 @@ export async function updateIdentityInfo(
       create: { cadastrante: true, ...idFieldRegistration },
       update: { cadastrante: true },
     })
+
+    // Ação do ENEM: última etapa. Valida notas no CSV e marca isValidated
+    if (!candidateOrResponsible.IsResponsible && enemScore) {
+      const nomeAluno =
+        (candidateOrResponsible.UserData.name as string | undefined) ||
+        (fullName as string | undefined) ||
+        ''
+
+      const { isValidated, csvPath, outputPath, matchCount, totalLines } =
+        await validateEnemScoreOnCsv({
+          enemScore,
+          candidateName: nomeAluno,
+          cpf: CPF || candidateOrResponsible.UserData.CPF,
+        })
+
+      console.log('Resultado da busca ENEM no CSV:', {
+        totalLines,
+        matchCount,
+        outputPath,
+        csvPath,
+      })
+
+      console.log('Atualizando enem score via update-identity-info:', enemScore)
+      console.log('Candidate ID:', candidateOrResponsible.UserData.id)
+
+      await prisma.enemScore.upsert({
+        where: { candidate_id: candidateOrResponsible.UserData.id },
+        create: {
+          candidate_id: candidateOrResponsible.UserData.id,
+          linguagens: enemScore.linguagens,
+          matematica: enemScore.matematica,
+          humanas: enemScore.humanas,
+          natureza: enemScore.natureza,
+          redacao: enemScore.redacao,
+          examYear: enemScore.examYear,
+          isValidated,
+        },
+        update: {
+          linguagens: enemScore.linguagens,
+          matematica: enemScore.matematica,
+          humanas: enemScore.humanas,
+          natureza: enemScore.natureza,
+          redacao: enemScore.redacao,
+          examYear: enemScore.examYear,
+          isValidated,
+        },
+      })
+    }
     return reply.status(201).send()
   } catch (err: any) {
     console.log(err)

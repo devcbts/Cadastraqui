@@ -26,7 +26,7 @@ export async function verifyIncomeBankRegistration(id: string) {
         isResponsible = candidateOrResponsible.IsResponsible;
     }
 
-  let updatedStatus : DocumentAnalysisStatus = 'Approved'
+    let updatedStatus: DocumentAnalysisStatus = 'Approved'
 
     let update;
     update = true;
@@ -43,7 +43,7 @@ export async function verifyIncomeBankRegistration(id: string) {
             updatedStatus = 'Forced'
         }
         if (hasIncome.some(income => income.updatedStatus === 'Declined')) {
-            update= false;
+            update = false;
             updatedStatus = 'Declined'
         }
 
@@ -121,7 +121,7 @@ export async function verifyIncomeBankRegistration(id: string) {
             updatedStatus = 'Forced'
         }
         if (hasIncome.some(income => income.updatedStatus === 'Declined')) {
-            update= false;
+            update = false;
             updatedStatus = 'Declined'
         }
 
@@ -163,15 +163,18 @@ export async function verifyIncomeBankRegistration(id: string) {
         if (!hasIncome) {
             update = null;
         }
-        await prisma.identityDetails.update({
-            where: {
-                id: identityDetails.id
-            },
-            data: {
-                isIncomeUpdated: update,
-                incomeUpdatedStatus: updatedStatus
-            }   
-        })
+        if (identityDetails.isIncomeUpdated !== update || identityDetails.incomeUpdatedStatus !== updatedStatus) {
+
+            await prisma.identityDetails.update({
+                where: {
+                    id: identityDetails.id
+                },
+                data: {
+                    isIncomeUpdated: update,
+                    incomeUpdatedStatus: updatedStatus
+                }
+            })
+        }
 
 
     }

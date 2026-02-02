@@ -35,11 +35,26 @@ import { IdentityDetails, FamilyMember } from '../../backup_prisma/generated/cli
 import { prisma } from './prisma';
 import verifyDeclarationRegistration from "@/utils/Trigger-Functions/verify-declaration-registration";
 import { createBankBalanceHDB, deleteBankBalanceHDB, updateBankBalanceHDB } from "@/HistDatabaseFunctions/handle-bank-balance";
+import { createEnemScoreHDB, deleteEnemScoreHDB, updateEnemScoreHDB } from "@/HistDatabaseFunctions/handle-enem-score";
 import { runBackgroundDocumentAnalysis } from "@/utils/AI Assistant/runBackgroundDocumentAnalysis";
 import { CandidateDocuments } from "@prisma/client";
 import { VerifyMonthlyIncomeStatus } from "@/utils/Trigger-Functions/verify-monthlyIncomes-status";
+import { updateEnemScoreForCandidate } from "@/HistDatabaseFunctions/update-enem-score";
+import dotenv from 'dotenv'
+import calculateRegistrationPercentage from "@/utils/dashboard/calculate-registration-percentage";
 
-const pool = new Pool({connectionString: env.DATABASE_URL});
+if (!process.env.DATABASE_URL) {
+  dotenv.config()
+}
+
+const databaseUrl = process.env.DATABASE_URL
+if (typeof databaseUrl !== 'string' || databaseUrl.length === 0) {
+  console.error('DATABASE_URL is missing or invalid. Check your .env and prisma.config.ts.')
+  // Evita inicializar o pool com valor incorreto
+  throw new Error('Invalid DATABASE_URL')
+}
+
+const pool = new Pool({ connectionString: databaseUrl })
 let isConnected = false;
 
 const connectClient = async () => {
@@ -48,8 +63,8 @@ const connectClient = async () => {
             console.log('Already connected to the database');
             return;
         }
-        
-        console.log('Connected to the database');
+        console.log('Connecting to the database...');
+        console.log(databaseUrl)
         const clientBackup =await pool.connect();
         isConnected = true;
         console.log('Connected to the database');
@@ -75,12 +90,43 @@ const connectClient = async () => {
         await clientBackup.query('LISTEN "channel_audit"');
         await clientBackup.query('LISTEN "channel_finished_registration"')
         await clientBackup.query('LISTEN "channel_bank_balance"')
+        await clientBackup.query('LISTEN "channel_enem_score"')
 
         clientBackup.on('notification', async (msg) => {
             try {
         
-        
+
+
+
                 switch (msg.channel) {
+
+                            case 'channel_finished_registration': {
+                                const finishedRegistration = JSON.parse(msg.payload!);
+                                calculateRegistrationPercentage(finishedRegistration.data.candidate_id || finishedRegistration.data.legalResponsibleId, finishedRegistration.data.announcement_id)
+                            }
+
+                            case 'channel_enem_score': {
+                                const enemPayload = JSON.parse(msg.payload!);
+                                const candidateId = enemPayload.data.candidate_id as string;
+                                try {
+                                    await updateEnemScoreForCandidate(candidateId);
+                                } catch (err) {
+                                    console.error('Failed to update ENEM score for candidate', candidateId, err);
+                                }
+
+                                try {
+                                    if (enemPayload.operation === 'INSERT') {
+                                        await createEnemScoreHDB(enemPayload.data.id, candidateId);
+                                    } else if (enemPayload.operation === 'UPDATE') {
+                                        await updateEnemScoreHDB(enemPayload.data.id, candidateId);
+                                    } else if (enemPayload.operation === 'DELETE') {
+                                        await deleteEnemScoreHDB(enemPayload.data.id, candidateId);
+                                    }
+                                } catch (err) {
+                                    console.error('Failed to sync EnemScore to history DB for candidate', candidateId, err);
+                                }
+                                break;
+                            }
         
         
         
@@ -223,6 +269,7 @@ const connectClient = async () => {
                     }
         
                     case 'channel_familyMemberIncome': {
+                        console.log('Processing familyMemberIncome notification');
                         const familyMemberIncome = JSON.parse(msg.payload!);
                         const income = await prisma.familyMemberIncome.findUnique({
                             where: { id: familyMemberIncome.data.id },
@@ -257,6 +304,8 @@ const connectClient = async () => {
         
         
                     case 'channel_identityDetails': {
+                        
+                        console.log('Processing identityDetails notification');
                         const identityDetails: { operation: string, data: IdentityDetails } = JSON.parse(msg.payload!);
                         if (identityDetails.operation == 'Update') {
                             await updateIdentityDetailsHDB(identityDetails.data.id)
@@ -296,6 +345,7 @@ const connectClient = async () => {
         
                     }
                     case 'channel_monthlyIncome': {
+                        console.log('Processing monthlyIncome notification');
                         const monthlyIncome = JSON.parse(msg.payload!);
                         const income = await prisma.monthlyIncome.findUnique({
                             where: { id: monthlyIncome.data.id },

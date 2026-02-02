@@ -32,7 +32,13 @@ export async function getIdentityInfo(
     })
     const uid = identityInfo?.candidate ? identityInfo?.candidate_id : identityInfo?.responsible_id
     const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'identity')
-    return reply.status(200).send({ identityInfo: !!identityInfo ? { ...(identityInfo?.candidate || identityInfo?.responsible), ...identityInfo, uid } : null, urls })
+    let enemScore = null
+    if (!candidateOrResponsible.IsResponsible) {
+      enemScore = await prisma.enemScore.findUnique({
+        where: { candidate_id: candidateOrResponsible.UserData.id }
+      })
+    }
+    return reply.status(200).send({ identityInfo: !!identityInfo ? { ...(identityInfo?.candidate || identityInfo?.responsible), ...identityInfo, uid } : null, urls, enemScore })
   } catch (err: any) {
     console.log(err)
     if (err instanceof ResourceNotFoundError) {

@@ -2,6 +2,7 @@ import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
+import { isValidPlate, isValidRenavam } from '@/utils/vehicle-validation'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -20,9 +21,9 @@ export async function registerVehicleInfo(
   const vehicleDataSchema = z.object({
     vehicleType: VehicleType,
     modelAndBrand: z.string(),
-    plate: z.string(),
-    document: z.string(),
-    manufacturingYear: z.number(),
+    plate: z.string().refine(isValidPlate, { message: 'Placa inválida' }),
+    document: z.string().refine(isValidRenavam, { message: 'Renavam inválido' }),
+    manufacturingYear: z.number().min(1950).max(new Date().getFullYear()),
     situation: VehicleSituation,
     financedMonths: z.number().nullish(),
     monthsToPayOff: z.number().nullish(),

@@ -89,6 +89,7 @@ import { updateMedicationInfo } from './update-medication-info'
 import updateMonthlyIncome from './update-monthly-income-info'
 import { updateRegistrationInfo } from './update-registration-info'
 import { updateVehicleInfo } from './update-vehicle-info'
+import { deleteEnemScore } from './delete-enem-score'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT] }, uploadDocument)
@@ -109,6 +110,9 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.get('/identity-info/:_id?', { onRequest: [verifyJWT, getCandidateOnParam] }, getIdentityInfo)
   app.post('/identity-info', { onRequest: [verifyJWT] }, registerIdentityInfo)
   app.patch('/identity-info', { onRequest: [verifyJWT] }, updateIdentityInfo)
+
+  // ENEM Score
+  app.delete('/enem-score/:family_member_id?', { onRequest: [verifyJWT] }, deleteEnemScore)
 
   /** Housing Info */
   app.get('/housing-info/:_id?', { onRequest: [verifyJWT, getCandidateOnParam] }, getHousingInfo)
