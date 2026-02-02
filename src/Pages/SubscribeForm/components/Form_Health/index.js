@@ -12,7 +12,7 @@ import HealthMedication from "./components/HealthMedication";
 import METADATA_FILE_TYPE from 'utils/file/metadata-file-type';
 import METADATA_FILE_CATEGORY from 'utils/file/metadata-file-category';
 import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
-export default function FormHealth() {
+export default function FormHealth({ onNextMainStep }) {
     const [isLoading, setIsLoading] = useState(true)
     const { canEdit, service } = useSubscribeFormPermissions()
 
@@ -133,11 +133,18 @@ export default function FormHealth() {
     }, [refresh])
     return (
         <div className={commonStyles.container}>
-            {!hasSelectionOrIsAdding() && <HealthList loading={isLoading} data={members} onSelect={selectDisease} onAdd={addHealthInfo}
+            {!hasSelectionOrIsAdding() && (
+                <>
+                <HealthList loading={isLoading} data={members} onSelect={selectDisease} onAdd={addHealthInfo}
                 onRadioChange={(m) => setMembers(prev => [...prev].map(e => {
                     return e.id !== m.id ? e : m
                 }))}
-            />}
+            />
+            <ButtonBase onClick={onNextMainStep} style={{ marginLeft: '8px' }}>
+                Próxima Etapa
+                <Arrow width="30px" style={{ marginLeft: '8px' }} />
+            </ButtonBase>
+            </>)}
             {hasSelectionOrIsAdding() &&
                 <>
                     <fieldset disabled={!canEdit}>
@@ -165,6 +172,13 @@ export default function FormHealth() {
                                 </ButtonBase>
                             )
                         }
+                        {/* Botão para próxima etapa principal - só aparece na última sub-etapa quando não está adicionando */}
+                        {activeStep === max && onNextMainStep && !isAdding && data && (
+                            <ButtonBase onClick={onNextMainStep} style={{ marginLeft: '8px' }}>
+                                Próxima Etapa
+                                <Arrow width="30px" style={{ marginLeft: '8px' }} />
+                            </ButtonBase>
+                        )}
 
 
                     </div>

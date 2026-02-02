@@ -41,7 +41,7 @@ api.interceptors.response.use(
         if (refreshError.response.status === 400) {
           await NotificationService.error({ text: 'Seu acesso expirou, faça login novamente' })
           localStorage.clear();
-          window.location.href = '/';
+          window.location.href = '/portal';
           return Promise.reject(refreshError)
         }
         // }

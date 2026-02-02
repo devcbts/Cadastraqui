@@ -10,7 +10,7 @@ import candidateService from "services/candidate/candidateService";
 import vehicleDataSchema from "./schemas/vehicle-data-schema";
 import useControlForm from "hooks/useControlForm";
 
-const { forwardRef, useImperativeHandle, useEffect, useState } = require("react");
+const { forwardRef, useImperativeHandle, useEffect, useState, useMemo } = require("react");
 
 const VehicleData = forwardRef(({ data }, ref) => {
     const { control, watch, setValue } = useControlForm({
@@ -33,10 +33,24 @@ const VehicleData = forwardRef(({ data }, ref) => {
     const watchUsage = watch("usage")
     const watchOwners = watch("owners_id")
     const watchMembers = watch("members")
+    const watchManufacturingYear = watch("manufacturingYear")
 
 
     const needFetching = data?.members ? data.members.length === 0 : true
     const [isLoading, setIsLoading] = useState(needFetching)
+
+    const manufacturingYearOptions = useMemo(() => {
+        const currentYear = new Date().getFullYear()
+        const minYear = 1950
+        const maxYear = currentYear
+        const options = []
+
+        for (let year = maxYear; year >= minYear; year--) {
+            options.push({ value: year, label: String(year) })
+        }
+
+        return options
+    }, [])
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
@@ -65,14 +79,29 @@ const VehicleData = forwardRef(({ data }, ref) => {
             <FormSelect name="owners_id" label="proprietários" control={control} options={watchMembers} value={watchOwners} multiple />
             <FormSelect name="vehicleType" label="tipo de veículo" control={control} options={VEHICLE_TYPE} value={watchVehicleType} />
             <InputForm control={control} name="modelAndBrand" label="marca e modelo" />
-            <InputForm control={control} name="plate" label="Placa" />
-            <InputForm control={control} name="document" label="Renavam" maxlength={11} />
-            <InputForm control={control} name="manufacturingYear" label="ano de fabricação" transform={(e) => {
-                if (!isNaN(parseInt(e.target.value))) {
-                    return parseInt(e.target.value, 10)
-                }
-                return 0
-            }} />
+            <InputForm
+                control={control}
+                name="plate"
+                label="Placa"
+                maxLength={8}
+                transform={(e) => e.target.value.toUpperCase().trim()}
+            />
+            <InputForm
+                control={control}
+                name="document"
+                label="Renavam"
+                maxLength={11}
+                inputMode="numeric"
+                pattern="\\d*"
+                transform={(e) => e.target.value.replace(/\D/g, '')}
+            />
+            <FormSelect
+                name="manufacturingYear"
+                label="ano de fabricação"
+                control={control}
+                options={manufacturingYearOptions}
+                value={watchManufacturingYear}
+            />
             <FormSelect name="usage" label="tipo de veículo" control={control} options={VEHICLE_USAGE} value={watchUsage} />
 
 

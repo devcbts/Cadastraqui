@@ -68,6 +68,12 @@ export default function SubscribeForm({ backButtonText = "" }) {
         if (!candidateType) { return }
         candidateService.getProgress().then(setCompleted).catch(_ => { })
     }, [activeStep])
+
+    const handleNextMainStep = () => {
+        if (activeStep < steps.length) {
+            setActiveStep(activeStep + 1)
+        }
+    }
     return (
         <FormStepper.Root vertical activeStep={activeStep}>
             <FormStepper.Stepper>
@@ -86,9 +92,10 @@ export default function SubscribeForm({ backButtonText = "" }) {
             {
                 steps.map((e, i) => {
                     const Component = e.component
+                    const isLastStep = i+1 === steps.length
                     return (
                         <FormStepper.View key={e.label} index={i + 1}>
-                            <Component />
+                            <Component onNextMainStep={!isLastStep ? handleNextMainStep : undefined}/>
                         </FormStepper.View>
                     )
                 })
