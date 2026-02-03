@@ -6,6 +6,8 @@ import { section, toDbSection } from "@/http/controllers/social-assistant/enums/
 import { getDocumentsUrls } from "@/utils/assistant/get-documents-urls";
 import { extractText, buildIndex, checkFormAgainstDocs } from './rag'
 import { EventEmitter } from "stream";
+import { PDFDocument } from "pdf-lib";
+import { openAi } from "@/lib/openAi";
 
 // Aumentar o limite de listeners para evitar o aviso
 EventEmitter.defaultMaxListeners = 20;

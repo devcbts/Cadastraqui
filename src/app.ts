@@ -12,7 +12,6 @@ import morgan from 'morgan';
 import { ZodError } from 'zod';
 import { env } from './env/index';
 import { adminRoutes } from './http/controllers/admin/routes';
-import { handleFileUpload } from './http/controllers/AI_Validation/runDocumentAnalysis';
 import { applicationRoutes } from './http/controllers/application/routes';
 import { candidateRoutes } from './http/controllers/candidates/routes';
 import { entityRoutes } from './http/controllers/entities/routes';
