@@ -1,0 +1,71 @@
+@import '../../../../Assets/theme/colors.module.scss';
+
+.card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px 6px 6px;
+    border-radius: 12px;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid $lightgrey;
+    min-height: 44px;
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    &:focus-visible {
+        outline: 2px solid $primary;
+        outline-offset: 2px;
+    }
+}
+
+.cardDark {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+
+    .label {
+        color: white;
+    }
+
+    .placeholder {
+        color: white;
+    }
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+}
+
+.avatar {
+    flex-shrink: 0;
+
+    .profilepicture {
+        object-fit: cover;
+        clip-path: circle();
+        height: 36px;
+        width: 36px;
+    }
+
+    .placeholder {
+        color: $primary;
+        height: 36px;
+        width: 36px;
+        display: block;
+    }
+}
+
+.label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: $primaryblack;
+    white-space: nowrap;
+
+    @media (max-width: 390px) {
+        font-size: 0.8rem;
+    }
+}

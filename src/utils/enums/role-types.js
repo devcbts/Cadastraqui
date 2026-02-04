@@ -5,5 +5,6 @@ const ROLES = {
     ASSISTANT: "Assistente",
     ENTITY_DIRECTOR: "Responsável de entidade",
     LAWYER: "Advogado",
+    ADMIN: "Administrador",
 }
 export default ROLES

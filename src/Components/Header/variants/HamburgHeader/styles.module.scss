@@ -30,6 +30,14 @@
             border-color: white;
         }
     }
+
+    .right {
+        margin-left: auto;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+    }
 }
 
 @media(max-width: 600px) {
@@ -41,6 +49,10 @@
 
         .hamburger {
             margin-right: 0%;
+        }
+
+        .right {
+            gap: 8px;
         }
     }
 }
