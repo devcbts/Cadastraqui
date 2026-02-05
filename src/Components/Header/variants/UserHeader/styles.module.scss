@@ -6,24 +6,28 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
     padding: 0px 40px;
     margin: 0;
 
-    img {
+    .left {
+        flex: 1;
+    }
+
+    .logo {
         -webkit-user-drag: none;
         width: auto;
         height: 70px;
         @media(max-width:390px) {
-            width: auto;
             height: 60px;
         }
     }
 
     .right {
+        flex: 1;
         display: flex;
         flex-direction: row;
+        justify-content: flex-end;
         align-items: center;
         gap: 16px;
 

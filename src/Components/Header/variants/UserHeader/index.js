@@ -6,7 +6,8 @@ import HeaderProfileCard from '../../components/HeaderProfileCard'
 export default function UserHeader() {
     return (
         <header className={styles.container}>
-            <img alt="Cadastraqui" src={Logo} draggable={false} />
+            <div className={styles.left} />
+            <img className={styles.logo} alt="Cadastraqui" src={Logo} draggable={false} />
             <div className={styles.right}>
                 <Tutorial />
                 <HeaderProfileCard />

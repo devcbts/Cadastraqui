@@ -21,23 +21,25 @@ export default function HamburgHeader() {
     return (
         <>
             <header className={styles.container} style={{ height: '80px' }}>
-                <motion.i
-                    role='button'
-                    tabIndex={0}
-                    alt='menu lateral'
-                    onClick={handleMenuChange}
-                    aria-label={label}
-                    onKeyDown={(e) => {
-                        if (e.code === "Enter") {
-                            handleMenuChange()
-                        }
-                    }}
-                    initial={{ rotate: 0 }}
-                    animate={{ rotate: isMenuOpen ? 90 : 0 }}
-                >
-                    <MenuIcon className={styles.hamburger}></MenuIcon>
-                </motion.i>
-                <img className={styles.logo} alt='logo' src={LogoWhite}></img>
+                <div className={styles.left}>
+                    <motion.i
+                        role='button'
+                        tabIndex={0}
+                        alt='menu lateral'
+                        onClick={handleMenuChange}
+                        aria-label={label}
+                        onKeyDown={(e) => {
+                            if (e.code === "Enter") {
+                                handleMenuChange()
+                            }
+                        }}
+                        initial={{ rotate: 0 }}
+                        animate={{ rotate: isMenuOpen ? 90 : 0 }}
+                    >
+                        <MenuIcon className={styles.hamburger}></MenuIcon>
+                    </motion.i>
+                </div>
+                <img className={styles.logo} alt='Cadastraqui' src={LogoWhite}></img>
                 <div className={styles.right}>
                     <Tutorial />
                     <HeaderProfileCard variant="dark" />
