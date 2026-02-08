@@ -13,7 +13,6 @@ import AdditionalDocuments from "../AdditionalDocuments";
 import AdditionalInfo from "../AdditionalInfo";
 import AddressData from "../AddressData";
 import Benefits from "../Benefits";
-import Document from "../Document";
 import MaritalStatus from "../MaritalStatus";
 import PersonalData from "../PersonalData";
 import PersonalInformation from "../PersonalInformation";

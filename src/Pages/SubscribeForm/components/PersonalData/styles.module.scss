@@ -1,0 +1,19 @@
+.container {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    gap: 0px 40px;
+}
+
+@media(max-width: 770px) {
+    .container {
+        gap: 0px 10px;
+    }
+}
+
+@media(max-width: 600px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+}
