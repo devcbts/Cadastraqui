@@ -18,7 +18,8 @@ import PersonalData from "../PersonalData";
 import PersonalInformation from "../PersonalInformation";
 import ResidenceProof from '../AddressData/ResidenceProof';
 import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
-export default function FormBasicInformation() {
+import ENEMScore from './ENEMScore';
+export default function FormBasicInformation({ onNextMainStep }) {
     const { auth } = useAuth()
     const { canEdit, service } = useSubscribeFormPermissions()
 
@@ -27,7 +28,7 @@ export default function FormBasicInformation() {
         try {
             const deleteFolder = await uploadService.uploadBySectionAndId({ section: 'identity', id: userId }, formData)
 
-            if (deleteFolder !== basicInfoData?.deleteFolder) {
+            if (deleteFolder !== data?.deleteFolder) {
                 setData(prev => ({ ...prev, deleteFolder }))
             }
         } catch (err) {
@@ -58,30 +59,32 @@ export default function FormBasicInformation() {
         }
         setIsLoading(false)
     }
+    const [enableEditing, setEnableEditing] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
+    const [renderComponents, setRenderComponents] = useState([
+        PersonalData,
+        AddressData,
+        ResidenceProof,
+        AdditionalInfo,
+        MaritalStatus,
+        PersonalInformation,
+        Document,
+        AdditionalDocuments,
+        Benefits,
+    ])
+
     const {
         Steps,
         pages: { previous, next },
         actions: { handleEdit },
         max,
-        state: { activeStep, basicInfoData, setData }
+        state: { activeStep, data, setData }
     } = useStepFormHook({
-        render: [
-            PersonalData,
-            AddressData,
-            ResidenceProof,
-            AdditionalInfo,
-            MaritalStatus,
-            PersonalInformation,
-            AdditionalDocuments,
-            Benefits
-        ],
+        render: renderComponents,
         onEdit: handleEditInformation,
         onSave: handleSaveInformation,
         viewMode: !canEdit,
     })
-
-    const [enableEditing, setEnableEditing] = useState(false)
-    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         const fetchBasic = async () => {
@@ -95,6 +98,12 @@ export default function FormBasicInformation() {
                 const information = await service?.getIdentityInfo()
                 setData(information)
                 if (information) {
+                    if (information?.candidate_id) {
+                        setRenderComponents((prev) => {
+                            if (prev.includes(ENEMScore)) return prev
+                            return [...prev, ENEMScore]
+                        })
+                    }
                     setEnableEditing(true)
                 } else {
                     const basic = await fetchBasic()
@@ -135,6 +144,13 @@ export default function FormBasicInformation() {
                         </ButtonBase>
                     )
                 }
+                {/* Botão para próxima etapa principal - só aparece na última sub-etapa */}
+                {activeStep === max && onNextMainStep && enableEditing && (
+                    <ButtonBase onClick={onNextMainStep} style={{ marginLeft: '8px' }}>
+                        Próxima Etapa
+                        <Arrow width="30px" style={{ marginLeft: '8px' }} />
+                    </ButtonBase>
+                )}
 
             </div>
         </div >

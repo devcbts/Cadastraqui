@@ -13,7 +13,7 @@ import PropertyInfo from './components/PropertyInfo';
 import PropertyStatus from './components/PropertyStatus';
 import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
 
-export default function FormHabitation() {
+export default function FormHabitation({ onNextMainStep }) {
     const [isLoading, setIsLoading] = useState(false)
     const [enableEditing, setEnableEditing] = useState(false)
     const { canEdit, service } = useSubscribeFormPermissions()
@@ -114,6 +114,13 @@ export default function FormHabitation() {
                         </ButtonBase>
                     )
                 }
+                {/* Botão para próxima etapa principal - só aparece na última sub-etapa */}
+                {activeStep === max && onNextMainStep && enableEditing && (
+                    <ButtonBase onClick={onNextMainStep} style={{ marginLeft: '8px' }}>
+                        Próxima Etapa
+                        <Arrow width="30px" style={{ marginLeft: '8px' }} />
+                    </ButtonBase>
+                )}
             </div>
         </div >
     )

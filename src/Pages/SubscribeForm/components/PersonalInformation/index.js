@@ -39,7 +39,7 @@ const PersonalInformation = forwardRef(({ data }, ref) => {
             <h1 className={commonStyles.title}>Informações Pessoais</h1>
             <h4 className={commonStyles.subTitle}>{fullName}</h4>
             <div className={styles.grid}>
-                <FormSelect name="skinColor" label="cor de pele" control={control} options={SKINCOLOR} value={watchSkinColor} />
+                <FormSelect name="skinColor" label="cor e raça" control={control} options={SKINCOLOR} value={watchSkinColor} />
                 <FormSelect name="educationLevel" label="escolaridade" control={control} options={SCHOLARSHIP} value={watchScholarship} />
                 <FormSelect name="religion" label="religião" control={control} options={RELIGION} value={watchReligion} />
             </div>

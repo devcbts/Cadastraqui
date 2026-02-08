@@ -8,7 +8,7 @@ class IdentityInfoMapper {
 
     fromPersistence(data) {
 
-        const { identityInfo } = data
+        const { identityInfo,enemScore } = data
         if (!identityInfo) return null
         let documentValidity = null;
         if (identityInfo?.documentValidity) {
@@ -20,6 +20,7 @@ class IdentityInfoMapper {
         return {
             ...identityInfo, CPF: formatCPF(identityInfo.CPF),
             birthDate: identityInfo.birthDate?.split('T')?.[0],
+            enemScore: enemScore ?? null,
             ...urls,
             deleteFolder,
             hasResidenceProof,

@@ -25,6 +25,7 @@ export default function useBankReport({ id }) {
     const handleUploadFile = async (type, file) => {
         if (!canEdit) { return }
         try {
+            
             const formData = new FormData()
             const todayDate = new Date()
             const currMonth = todayDate.getMonth() + 1
