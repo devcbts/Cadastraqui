@@ -6,6 +6,7 @@ import styles from './styles.module.scss'
 import useOutsideClick from 'hooks/useOutsideClick'
 import Tutorial from 'Components/Tutorial'
 import SidebarSelection from 'Components/Sidebar/SidebarSelection'
+import HeaderProfileCard from '../../components/HeaderProfileCard'
 import { AnimatePresence, motion } from 'framer-motion'
 export default function HamburgHeader() {
     // TODO: control sidebar effect
@@ -20,24 +21,29 @@ export default function HamburgHeader() {
     return (
         <>
             <header className={styles.container} style={{ height: '80px' }}>
-                <motion.i
-                    role='button'
-                    tabIndex={0}
-                    alt='menu lateral'
-                    onClick={handleMenuChange}
-                    aria-label={label}
-                    onKeyDown={(e) => {
-                        if (e.code === "Enter") {
-                            handleMenuChange()
-                        }
-                    }}
-                    initial={{ rotate: 0 }}
-                    animate={{ rotate: isMenuOpen ? 90 : 0 }}
-                >
-                    <MenuIcon className={styles.hamburger}></MenuIcon>
-                </motion.i>
-                <img className={styles.logo} alt='logo' src={LogoWhite}></img>
-                <Tutorial />
+                <div className={styles.left}>
+                    <motion.i
+                        role='button'
+                        tabIndex={0}
+                        alt='menu lateral'
+                        onClick={handleMenuChange}
+                        aria-label={label}
+                        onKeyDown={(e) => {
+                            if (e.code === "Enter") {
+                                handleMenuChange()
+                            }
+                        }}
+                        initial={{ rotate: 0 }}
+                        animate={{ rotate: isMenuOpen ? 90 : 0 }}
+                    >
+                        <MenuIcon className={styles.hamburger}></MenuIcon>
+                    </motion.i>
+                </div>
+                <img className={styles.logo} alt='Cadastraqui' src={LogoWhite}></img>
+                <div className={styles.right}>
+                    <Tutorial />
+                    <HeaderProfileCard variant="dark" />
+                </div>
                 <AnimatePresence>
                     {isMenuOpen && <motion.div
                         initial={{ transform: 'translateX(-100%)' }}

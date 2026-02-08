@@ -6,62 +6,33 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
     padding: 0px 40px;
     margin: 0;
 
-    img {
+    .left {
+        flex: 1;
+    }
+
+    .logo {
         -webkit-user-drag: none;
         width: auto;
         height: 70px;
         @media(max-width:390px) {
-            width: auto;
             height: 60px;
         }
     }
 
-    .picture {
-        cursor: pointer;
-        position: relative;
-        // height: inherit;
-        .profilepicture {
-            object-fit: initial;
-            clip-path: circle();
-            height: 60px;
-            width: 60px;
-            // aspect-ratio: 16/9;
-        }
-        .title{
-            z-index: 999;
-            position: absolute;
-            width: 100%;
-            text-align: center;
-            background-color: $primary;
-            color: white;
-            font-size: .8rem;
-            border-radius: 10px;
-            border: 2px solid white;
-        }
-        // &::before{
-        //     content: '';
-        //     position: absolute;
-        //     height: 64px;
-        //     width: 64px;
-        //     transform: translateX(-2px) translateY(-2px);
-        //     border-radius: 50%;
-        //     background-color: $primary;
-        // }
+    .right {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 16px;
 
-        .placeholder {
-            color: $primary;
-            height: 50px;
-            width: 50px;
-
-            @media(max-width:390px) {
-                height: 40px;
-                width: 40px;
-            }
+        @media (max-width: 390px) {
+            gap: 10px;
         }
     }
 }
