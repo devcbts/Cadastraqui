@@ -68,7 +68,6 @@ export default function FormBasicInformation({ onNextMainStep }) {
         AdditionalInfo,
         MaritalStatus,
         PersonalInformation,
-        Document,
         AdditionalDocuments,
         Benefits,
     ])
