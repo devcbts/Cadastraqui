@@ -44,6 +44,7 @@ model Candidate {
   Medication             Medication[]
   FinishedRegistration   FinishedRegistration?
   EnemScore              EnemScore?
+  StudentImportBatchItem StudentImportBatchItem[]
 
   @@unique([id, responsible_id])
   @@map("candidates")
@@ -85,6 +86,7 @@ model User {
   emailsSent       emailsSent[]
   Entity           Entity?
   LegalResponsible LegalResponsible?
+  StudentImportBatch StudentImportBatch[]
 
   @@map("users")
 }
@@ -183,6 +185,7 @@ model Entity {
   Lawyer                     Lawyer[]
   SocialAssistant            SocialAssistant[]
   user                       User               @relation(fields: [user_id], references: [id])
+  StudentImportBatch         StudentImportBatch[]
 
   @@map("entities")
 }
@@ -1098,6 +1101,56 @@ model Student {
   Observation         StudentObservation?
   type1Benefits       Type1Benefit[]
   type2Benefits       Type2Benefit[]
+  StudentImportBatchItem StudentImportBatchItem[]
+}
+
+model StudentImportBatch {
+  id              String                   @id @default(uuid())
+  fileName        String?
+  delimiter       String?
+  status          StudentImportBatchStatus @default(PROCESSING)
+  totalRows       Int                      @default(0)
+  processedRows   Int                      @default(0)
+  successRows     Int                      @default(0)
+  errorRows       Int                      @default(0)
+  startedAt       DateTime                 @default(now())
+  finishedAt      DateTime?
+  metadata        Json?
+  createdByUserId String
+  entity_id       String
+  createdAt       DateTime                 @default(now())
+  updatedAt       DateTime                 @default(now()) @updatedAt
+  createdByUser   User                     @relation(fields: [createdByUserId], references: [id])
+  entity          Entity                   @relation(fields: [entity_id], references: [id])
+  items           StudentImportBatchItem[]
+
+  @@index([entity_id, createdAt])
+  @@index([createdByUserId, createdAt])
+  @@index([status, createdAt])
+  @@map("import_batch_students")
+}
+
+model StudentImportBatchItem {
+  id             String                   @id @default(uuid())
+  batch_id       String
+  lineNumber     Int
+  status         StudentImportItemStatus
+  errorMessage   String?
+  rawData        Json?
+  candidateCpf   String?
+  candidateEmail String?
+  candidate_id   String?
+  student_id     String?
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime                 @default(now()) @updatedAt
+  batch          StudentImportBatch       @relation(fields: [batch_id], references: [id], onDelete: Cascade)
+  candidate      Candidate?               @relation(fields: [candidate_id], references: [id])
+  student        Student?                 @relation(fields: [student_id], references: [id])
+
+  @@unique([batch_id, lineNumber])
+  @@index([batch_id, status])
+  @@index([candidateCpf])
+  @@map("import_batch_items_students")
 }
 
 model StudentObservation {
@@ -1244,6 +1297,19 @@ enum TiebreakerCriterias {
 
 enum StudentEmailType {
   RegisterUpdate
+}
+
+enum StudentImportBatchStatus {
+  PROCESSING
+  SUCCESS
+  PARTIAL
+  FAILED
+}
+
+enum StudentImportItemStatus {
+  CREATED
+  SKIPPED
+  ERROR
 }
 
 enum StudentStatus {

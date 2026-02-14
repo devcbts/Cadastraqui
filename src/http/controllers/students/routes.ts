@@ -3,6 +3,8 @@ import { verifyRole } from "@/http/middlewares/verify-role"
 import { FastifyInstance } from "fastify"
 import createOrUpdateStudentObservation from "./create-or-update-observation"
 import getAllStudents from "./get-all-students"
+import getStudentImportBatchItems from "./get-student-import-batch-items"
+import getStudentImportBatches from "./get-student-import-batches"
 import getRenewCourses from "./get-renew-courses"
 import getRenewDashboard from "./get-renew-dashboard"
 import getStudentInformation from "./get-student-information"
@@ -18,6 +20,8 @@ export default async function studentsRoutes(app: FastifyInstance) {
   )
   app.get('/dashboard', { onRequest: [verifyJWT] }, getStudentsDashboard)
   app.post('/register', { onRequest: [verifyJWT] }, registerNewStudents)
+  app.get('/import-batches', { onRequest: [verifyJWT] }, getStudentImportBatches)
+  app.get('/import-batches/:batch_id/items', { onRequest: [verifyJWT] }, getStudentImportBatchItems)
   app.get('/all', { onRequest: [verifyJWT] }, getAllStudents)
   app.get('/renew/dashbaord', { onRequest: [verifyJWT] }, getRenewDashboard)
   app.get('/renew/courses', { onRequest: [verifyJWT] }, getRenewCourses)
