@@ -18,6 +18,26 @@ class StudentService {
         const response = await api.post('/students/register', file)
         return response.data.students
     }
+    async getImportBatches({ page = 1, size = 20, status } = {}) {
+        const response = await api.get('/students/import-batches', {
+            params: {
+                page,
+                size,
+                ...(status ? { status } : {})
+            }
+        })
+        return response.data
+    }
+    async getImportBatchItems(batchId, { page = 1, size = 50, onlyErrors = false } = {}) {
+        const response = await api.get(`/students/import-batches/${batchId}/items`, {
+            params: {
+                page,
+                size,
+                onlyErrors
+            }
+        })
+        return response.data
+    }
     async getAllStudents() {
         const response = await api.get(`/students/all`)
         return response.data

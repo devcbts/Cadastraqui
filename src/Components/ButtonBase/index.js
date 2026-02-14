@@ -11,6 +11,7 @@ export default function ButtonBase({
 }) {
     const dangerStyle = danger ? styles.danger : ''
     const [isLoading, setLoading] = useState(false)
+    const isDisabled = isLoading || props.disabled
     const handleClick = async (e) => {
         // Check if current called onClick is one of 'AsyncFunction'
         if (!onClick) {
@@ -29,9 +30,9 @@ export default function ButtonBase({
     }
     return (
         <button
-            disabled={isLoading}
+            disabled={isDisabled}
             className={[styles.button, dangerStyle].join(' ')}
-            onClick={!isLoading ? handleClick : null}
+            onClick={!isDisabled ? handleClick : null}
             {...props}
             type={props.type ?? "button"}
         >
