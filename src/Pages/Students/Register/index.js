@@ -659,11 +659,10 @@ export default function RegisterStudents() {
                     </div>
                     {!selectedBatchId && <span>Selecione um lote para visualizar os itens.</span>}
                     {isLoadingItems && selectedBatchId && <Loader loading={isLoadingItems} text={"Carregando itens do lote"} />}
-                    <Table.Root headers={['linha', 'status', 'erro', 'cpf', 'email', 'student_id']}>
+                    <Table.Root headers={['linha', 'status', 'erro', 'cpf', 'email']}>
                         {(selectedBatchId && batchItems.length === 0 && !isLoadingItems) && (
                             <Table.Row>
                                 <Table.Cell>Nenhum item encontrado</Table.Cell>
-                                <Table.Cell>-</Table.Cell>
                                 <Table.Cell>-</Table.Cell>
                                 <Table.Cell>-</Table.Cell>
                                 <Table.Cell>-</Table.Cell>
@@ -677,7 +676,6 @@ export default function RegisterStudents() {
                                 <Table.Cell>{item.errorMessage || '-'}</Table.Cell>
                                 <Table.Cell>{item.candidateCpf || '-'}</Table.Cell>
                                 <Table.Cell>{item.candidateEmail || '-'}</Table.Cell>
-                                <Table.Cell>{item.student_id || '-'}</Table.Cell>
                             </Table.Row>
                         ))}
                     </Table.Root>
